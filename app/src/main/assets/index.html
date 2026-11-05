@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eaf3ff"><title>Kalkulator Dosis Anak</title>
+<style>
+:root{--ink:#14284d;--muted:#61718b;--blue:#1769e8;--line:#dce7f5;--bg:#f3f7fd}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,sans-serif}
+header{padding:25px 18px 20px;background:linear-gradient(135deg,#d9eaff,#f7faff);border-radius:0 0 25px 25px}
+.brand{font-weight:800;display:flex;justify-content:space-between}.tag{background:#d8f4e5;color:#167447;border-radius:30px;padding:6px 11px;font-size:12px}
+h1{font-size:27px;margin:18px 0 5px;line-height:1.15}.muted{color:var(--muted);margin:0}
+main{max-width:720px;margin:auto;padding:14px 14px 35px}.panel,.drug{background:white;border:1px solid var(--line);border-radius:19px;padding:15px;margin-bottom:12px;box-shadow:0 5px 18px #193e6809}
+h2{font-size:17px;margin:0 0 12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{font-size:13px;font-weight:700;color:#4c5f7a;display:block;margin-bottom:5px}
+input{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px;font:inherit;background:#fbfdff;color:var(--ink);min-width:0}
+.summary{font-size:13px;color:var(--muted);margin:10px 0 0}
+.search{margin:10px 0 12px}.filters{display:flex;gap:7px;overflow:auto;padding-bottom:10px}
+button{border:1px solid var(--line);background:#fff;border-radius:30px;padding:9px 13px;white-space:nowrap;color:var(--ink);font-weight:650}
+button.active{background:var(--blue);color:white;border-color:var(--blue)}
+.drug{display:flex;align-items:center;gap:12px;padding:13px}.ico{width:42px;height:42px;display:grid;place-items:center;background:#eaf2ff;border-radius:14px;font-size:20px}
+.drug h3{font-size:16px;margin:0}.drug p{font-size:13px;color:var(--muted);margin:3px 0 0}.detail{margin-left:auto;color:var(--blue);font-size:13px;font-weight:700}
+.notice{background:#fff8e8;border:1px solid #f2dfad;color:#77520a;border-radius:14px;padding:12px;font-size:13px;margin-top:14px}
+@media(max-width:380px){h1{font-size:24px}.grid{gap:8px}}
+</style></head><body>
+<header><div class="brand"><span>Dokter Tege</span><span class="tag">● OFFLINE</span></div><h1>Kalkulator Dosis Anak</h1><p class="muted">Masukkan data anak sekali, lalu cari obat yang dibutuhkan.</p></header>
+<main><section class="panel"><h2>Data anak</h2><div class="grid">
+<div><label for="bb">Berat badan (kg)</label><input id="bb" type="number" min=".1" max="100" step=".1" placeholder="Contoh: 14"></div>
+<div><label for="th">Usia (tahun)</label><input id="th" type="number" min="0" max="18" placeholder="Contoh: 4"></div>
+<div><label for="bl">Usia tambahan (bulan)</label><input id="bl" type="number" min="0" max="11" placeholder="0"></div></div>
+<p class="summary" id="summary">Isi berat badan dan usia anak.</p></section>
+<input class="search" id="q" type="search" placeholder="⌕ Cari obat, contoh: amoxicillin, CTM">
+<div class="filters" id="filters"><button class="active" data-c="Semua">Semua</button><button data-c="Demam & nyeri">Demam & nyeri</button><button data-c="Antibiotik">Antibiotik</button><button data-c="Alergi">Alergi</button><button data-c="Mata & telinga">Mata & telinga</button><button data-c="Lainnya">Lainnya</button></div>
+<p class="summary" id="count"></p><div id="list"></div>
+<div class="notice"><b>Versi prototipe.</b> Daftar obat dan tampilan sudah tersedia, tetapi dosis klinis belum diaktifkan. Jangan gunakan untuk menentukan terapi pasien sebelum seluruh regimen, konsentrasi sediaan, batas dosis, dan referensi divalidasi.</div></main>
+<script>
+const data=[
+["Paracetamol","Demam & nyeri","Antipiretik / analgesik","🧴"],["Ibuprofen","Demam & nyeri","Antipiretik / antiinflamasi","🧴"],["Metamizole","Demam & nyeri","Tablet • sirup • injeksi","💊"],
+["Amoxicillin","Antibiotik","Kapsul • tablet • sirup","💊"],["Cefadroxil","Antibiotik","Kapsul • sirup","💊"],["Cefixime","Antibiotik","Kapsul • sirup","💊"],["Ceftriaxone","Antibiotik","Injeksi IV / IM","💉"],["Cefotaxime","Antibiotik","Injeksi IV / IM","💉"],["Gentamicin","Antibiotik","Injeksi","💉"],["Metronidazole","Antibiotik","Tablet • suspensi • infus","💊"],
+["CTM (Chlorpheniramine)","Alergi","Tablet • sirup","🧴"],["Cetirizine","Alergi","Tablet • sirup","🧴"],["Loratadine","Alergi","Tablet • sirup","🧴"],
+["Oralit","Lainnya","Sachet • larutkan sesuai petunjuk kemasan","🥤"],["Zinc","Lainnya","Tablet dispersibel • sirup","💊"],["Ambroxol","Lainnya","Tablet • sirup","🧴"],
+["Cendo Xitrol","Mata & telinga","Tetes mata • salep mata","👁️"],["Erlamycetin","Mata & telinga","Tetes mata • tetes telinga • salep mata","👁️"],
+["Salbutamol","Lainnya","Sirup • tablet • inhalasi","🫁"],["Dexamethasone","Lainnya","Tablet • injeksi","💊"],["Prednisone","Lainnya","Tablet","💊"],["Methylprednisolone","Lainnya","Tablet • injeksi","💊"],["Diazepam","Lainnya","Rektal • injeksi • tablet","💊"],["Ondansetron","Lainnya","Tablet • sirup • injeksi","💊"],["Domperidone","Lainnya","Tablet • suspensi","💊"],["Omeprazole","Lainnya","Kapsul","💊"],["Lansoprazole","Lainnya","Kapsul • dispersibel","💊"],["Furosemide","Lainnya","Tablet • injeksi","💊"],["Adrenaline","Lainnya","Injeksi","💉"]];
+let cat="Semua";const $=x=>document.getElementById(x);
+function draw(){let q=$("q").value.toLowerCase().trim();let a=data.filter(d=>(cat==="Semua"||d[1]===cat)&&d.join(" ").toLowerCase().includes(q));$("count").textContent=a.length+" obat";$("list").innerHTML=a.map(d=>'<article class="drug"><div class="ico">'+d[3]+'</div><div><h3>'+d[0]+'</h3><p>'+d[2]+'</p><p>'+d[1]+'</p></div><span class="detail">Detail</span></article>').join("")||'<p class="summary">Obat tidak ditemukan.</p>'}
+["bb","th","bl"].forEach(id=>$(id).addEventListener("input",()=>{let w=$("bb").value,y=$("th").value||0,m=$("bl").value||0;$("summary").textContent=(w?"BB "+w+" kg • ":"")+"Usia "+y+" tahun "+m+" bulan."}));
+$("q").addEventListener("input",draw);$("filters").addEventListener("click",e=>{if(e.target.dataset.c){cat=e.target.dataset.c;document.querySelectorAll(".filters button").forEach(b=>b.classList.toggle("active",b===e.target));draw()}});draw();
+</script></body></html>

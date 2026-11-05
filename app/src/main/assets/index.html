@@ -101,8 +101,62 @@ body.medical-mode #medicalPanel{display:block}
 .medicalBack{margin-bottom:12px}
 .medicalHint{font-size:12px;color:#52627d;margin-top:5px}
 @media(max-width:390px){.medicalGrid{gap:8px}}
+
+/* Reference-inspired MEDORA visual system */
+:root{--ink:#09285f;--muted:#334d75;--blue:#0878dc;--line:#c9efff}
+body{background:radial-gradient(ellipse at 50% 12%,#79eaff 0%,#28c5ec 35%,#0789d0 70%,#0757a9 100%);color:#09285f;padding-bottom:94px}
+body:before{content:"";position:fixed;z-index:-1;inset:0;pointer-events:none;background:
+radial-gradient(ellipse at -5% 28%,#c5ffff88 0 16%,transparent 17%),
+radial-gradient(ellipse at 105% 45%,#b3ffff66 0 19%,transparent 20%),
+radial-gradient(ellipse at 48% 100%,#16e3d288 0 18%,transparent 19%),
+linear-gradient(145deg,transparent 0 70%,#a8ffff30 70.2% 73%,transparent 73.2%)}
+header.medoraHero{min-height:285px;padding:20px 18px 34px;text-align:center;border-radius:0 0 36px 36px;background:linear-gradient(160deg,#087bd6 0%,#19c7ed 58%,#83f4e5 100%);overflow:hidden}
+header.medoraHero:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 8% 10%,#b8ffff88,transparent 36%),radial-gradient(ellipse at 90% 5%,#143eb755,transparent 42%);pointer-events:none}
+header.medoraHero:after{width:290px;height:150px;right:-70px;bottom:-85px;background:#b8ffff55;box-shadow:-390px -5px 0 0 #d4ffff2c}
+header.medoraHero .brand{display:flex;flex-direction:column;gap:7px;align-items:center}
+header.medoraHero .brandMain{display:flex;align-items:center;justify-content:center;gap:8px}
+header.medoraHero .heroLogo{width:112px;height:102px;filter:drop-shadow(0 5px 5px #003b8650)}
+header.medoraHero .brandName{font-size:clamp(36px,9vw,54px);letter-spacing:2px;color:#062b69;font-weight:1000;line-height:1}
+header.medoraHero .brandSub{font-size:17px;color:#092d65;font-weight:750;text-align:left}
+header.medoraHero .tag{position:absolute;top:16px;right:14px;background:#079c70;color:#fff;font-size:11px;padding:7px 12px}
+header.medoraHero .heroLine{display:inline-block;margin-top:17px;padding:9px 19px;border-radius:30px;background:linear-gradient(90deg,#087dbd,#075da9);color:white;font-size:13px;letter-spacing:.1px;text-transform:none;font-weight:850;box-shadow:0 4px 12px #004b8b45}
+header.medoraHero h1,header.medoraHero .muted{display:none}
+main{max-width:760px;margin:12px auto 0;padding:0 12px 28px}
+#homeDashboard .welcome{color:#073d75;font-size:14px;font-weight:650;margin:0 0 14px}
+.moduleGrid{gap:9px}
+.moduleCard{min-height:152px;height:100%;border-radius:24px;padding:12px 10px;gap:9px;background:linear-gradient(145deg,#fff 0%,#e9f6ff 100%);border:1px solid #ffffffd9;box-shadow:0 7px 18px #003b752c,inset 0 1px 0 #fff;position:relative}
+.moduleIcon{width:76px;height:76px;border-radius:20px;background:linear-gradient(145deg,#d5f4ff,#f8fdff);font-size:43px;box-shadow:inset 0 1px 4px #fff,0 3px 8px #0879bb18}
+.moduleText .miniBrand{font-size:10px;color:#073d7d;margin-bottom:6px;letter-spacing:.4px}
+.moduleText strong{font-size:15px;line-height:1.12;color:#071f50;font-weight:900}
+.moduleText small{font-size:11px;line-height:1.2;color:#344b6d;margin-top:6px}
+.moduleArrow{font-size:28px;color:#092e70;font-weight:700}
+.homeNote{background:#e8fbffdc;color:#16466d}
+.bottomNav{background:#ffffffed;border-top:1px solid #c4f1ff;box-shadow:0 -5px 20px #003f7b25;backdrop-filter:blur(16px);padding:8px 8px max(10px,env(safe-area-inset-bottom))}
+.bottomNav a{font-size:12px;border-radius:18px;padding:6px 2px}
+.bottomNav a span{font-size:25px}
+.bottomNav a small{font-size:9px;color:#067e8c}
+.bottomNav a.active{background:linear-gradient(145deg,#168bf0,#0758ce);box-shadow:0 5px 13px #0052b955}
+.bottomNav a.active small{color:#fff}
+@media(max-width:390px){header.medoraHero{min-height:260px;padding-top:23px}.moduleCard{min-height:138px;padding:9px 7px;gap:6px}.moduleIcon{width:58px;height:58px;font-size:34px}.moduleText strong{font-size:13px}.moduleText small{font-size:10px}.moduleArrow{font-size:24px}}
 </style></head><body>
-<header><div class="brand"><div class="brandMain"><svg class="medora-symbol" viewBox="0 0 64 64" aria-label="MEDORA"><path d="M8 52V12l16 22 8-12 8 12 16-22v40H44V34L32 49 20 34v18z" fill="#087edc"/><path d="M45 5h8v8h8v8h-8v8h-8v-8h-8v-8h8z" fill="#00bba9"/><path d="M4 42h13l6-9 6 16 7-13h10" fill="none" stroke="#ff9d22" stroke-width="3" stroke-linecap="round"/></svg><div><div class="brandName">MEDORA</div><span class="brandSub">by Dokter Tege</span></div></div><span class="tag">◉ OFFLINE</span></div><div class="heroLine">YOUR CLINICAL INTELLIGENCE COMPANION</div><h1>Your Clinical Intelligence Companion</h1><p class="muted">Clinical tools untuk praktik sehari-hari</p></header>
+<header class="medoraHero">
+<div class="brand">
+ <div class="brandMain">
+  <svg class="medora-symbol heroLogo" viewBox="0 0 180 150" role="img" aria-label="MEDORA">
+   <defs><linearGradient id="mblue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#42d8ff"/><stop offset=".55" stop-color="#087bdc"/><stop offset="1" stop-color="#123d91"/></linearGradient><linearGradient id="mgreen" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#37e8bd"/><stop offset="1" stop-color="#00a58e"/></linearGradient></defs>
+   <path d="M24 118V43Q24 23 43 23h10l36 48 35-48h10q19 0 19 20v75h-34V70L89 104 58 70v48z" fill="url(#mblue)"/>
+   <path d="M117 8h15v17h17v15h-17v17h-15V40h-17V25h17z" fill="url(#mgreen)" stroke="#fff" stroke-width="3"/>
+   <path d="M8 97h28l12-18 13 34 13-25h23" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+   <path d="M9 97h23" stroke="#ffad25" stroke-width="6" stroke-linecap="round"/>
+   <path d="M20 23C-1 31 3 65 22 73" fill="none" stroke="#123d91" stroke-width="7" stroke-linecap="round"/>
+   <circle cx="23" cy="77" r="11" fill="#e8f8ff" stroke="#123d91" stroke-width="5"/>
+  </svg>
+  <div><div class="brandName">MEDORA</div><span class="brandSub">by Dokter Tege</span></div>
+ </div>
+ <span class="tag">◉ OFFLINE</span>
+</div>
+<div class="heroLine">Your Clinical Intelligence Companion</div>
+</header>
 <main>
 <section id="homeDashboard">
 <p class="welcome">Pilih modul klinis untuk mulai bekerja</p>

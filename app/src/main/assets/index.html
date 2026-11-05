@@ -63,6 +63,15 @@ button.active{background:linear-gradient(135deg,#2481f0,#1260d5);color:white;bor
 .bottomNav a span{display:block;font-size:22px;line-height:1.2;margin-bottom:3px}
 .bottomNav a:first-child{background:linear-gradient(135deg,#2584f4,#1260d5);color:#fff}
 @media(max-width:390px){header{min-height:176px;padding:18px 16px 24px}.patientTop{gap:8px}.avatar{width:48px;height:48px;font-size:27px}.patientTitle{font-size:16px}.patientStats{gap:5px}.stat{padding:8px}.stat strong{font-size:16px}.drug{grid-template-columns:54px minmax(0,1fr) auto;gap:8px;padding:11px 10px;min-height:100px}.ico{width:50px;height:50px;font-size:26px}.drug h3{font-size:16px}.drugDose{min-width:90px;padding-left:8px}.drugDose strong{font-size:18px}.drugDose span{font-size:11px}.drugDose em{font-size:10px}}
+/* MEDORA audience selection */
+.modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.modeCard{min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;white-space:normal;border:1px solid #ffffffed;border-radius:26px;padding:16px 12px;background:linear-gradient(145deg,#fff,#e5f5ff);box-shadow:0 8px 22px #003b752c;color:#09285f}
+.modeCard.publicMode{background:linear-gradient(145deg,#fff,#e1fbf3)}
+.modeIcon{width:68px;height:68px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(145deg,#d6f1ff,#fff);font-size:38px;color:#0878dc;box-shadow:0 4px 12px #0879bb20}
+.publicMode .modeIcon{background:linear-gradient(145deg,#c9f5e8,#fff);color:#079b83}
+.modeCard strong{font-size:15px;font-weight:950;letter-spacing:.3px}
+.modeCard small{font-size:11px;line-height:1.35;color:#405879;white-space:normal}
+@media(max-width:390px){.modeGrid{gap:8px}.modeCard{min-height:170px;padding:12px 8px}.modeIcon{width:58px;height:58px;font-size:32px}.modeCard strong{font-size:13px}.modeCard small{font-size:10px}}
 /* MEDORA dashboard */
 body.home-mode main> :not(#homeDashboard){display:none}
 #homeDashboard{display:none;margin:0 auto 18px}
@@ -169,7 +178,16 @@ body.icd-mode #icdPanel{display:block}
 </header>
 <main>
 <section id="homeDashboard">
-<p class="welcome">Pilih modul klinis untuk mulai bekerja</p>
+<div id="modeChooser">
+<p class="welcome">Selamat datang di MEDORA. Pilih area sesuai kebutuhan Anda.</p>
+<div class="modeGrid">
+<button class="modeCard" id="chooseClinical"><span class="modeIcon">⚕</span><strong>TENAGA MEDIS</strong><small>Clinical tools, kalkulator, dosis obat, ICD-10, dan panduan klinis.</small></button>
+<button class="modeCard publicMode" id="choosePublic"><span class="modeIcon">♥</span><strong>UNTUK UMUM</strong><small>Edukasi kesehatan, informasi penyakit, obat, dan gaya hidup sehat.</small></button>
+</div>
+</div>
+<div id="clinicalDashboard" style="display:none">
+<button class="medicalBack" id="modeBack">‹ Pilih area lain</button>
+<p class="welcome">Modul untuk tenaga medis</p>
 <div class="moduleGrid">
 <button class="moduleCard" data-module="calculator"><span class="moduleIcon">🧴</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Kalkulator Dosis Obat</strong><small>Anak dan dewasa</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="medical"><span class="moduleIcon">▦</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Kalkulator Medis</strong><small>BMI, eGFR, GCS, MAP, dan lainnya</small></span><span class="moduleArrow">›</span></button>
@@ -179,7 +197,22 @@ body.icd-mode #icdPanel{display:block}
 <button class="moduleCard" data-module="drugs"><span class="moduleIcon">💊</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Database Obat</strong><small>Informasi, dosis, interaksi, peringatan</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="ai"><span class="moduleIcon">🤖</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Asisten Medis AI</strong><small>Tanya klinis berbasis evidence</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="references"><span class="moduleIcon">📚</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Referensi Medis</strong><small>Buku, jurnal, dan regulasi</small></span><span class="moduleArrow">›</span></button>
-</div><div class="homeNote"><b>MEDORA by Dokter Tege</b><br>Modul yang belum tersedia masih dalam tahap pengembangan dan validasi klinis.</div></section>
+</div><div class="homeNote"><b>MEDORA by Dokter Tege</b><br>Modul yang belum tersedia masih dalam tahap pengembangan dan validasi klinis.</div>
+</div>
+<div id="publicDashboard" style="display:none">
+<button class="medicalBack" id="publicBack">‹ Pilih area lain</button>
+<p class="welcome">Informasi kesehatan yang mudah dipahami untuk penggunaan sehari-hari.</p>
+<div class="moduleGrid">
+<button class="moduleCard" data-public="education"><span class="moduleIcon">📘</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Edukasi Kesehatan</strong><small>Kenali tubuh dan jaga kesehatan</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-public="disease"><span class="moduleIcon">🩺</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Informasi Penyakit</strong><small>Gejala umum dan kapan perlu berobat</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-public="medicine"><span class="moduleIcon">💊</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Kenali Obat</strong><small>Penggunaan obat secara bijak</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-public="lifestyle"><span class="moduleIcon">🥗</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Gaya Hidup Sehat</strong><small>Nutrisi, aktivitas, dan tidur</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-public="firstaid"><span class="moduleIcon">🧰</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Pertolongan Pertama</strong><small>Langkah awal dalam kondisi darurat</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-public="consult"><span class="moduleIcon">🗓</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Persiapan Konsultasi</strong><small>Hal yang perlu disampaikan ke dokter</small></span><span class="moduleArrow">›</span></button>
+</div>
+<div class="notice"><b>Catatan:</b> Informasi di MEDORA untuk umum bersifat edukasi dan tidak menggantikan pemeriksaan, diagnosis, atau konsultasi langsung dengan tenaga kesehatan. Jika mengalami kondisi gawat darurat, segera cari pertolongan medis.</div>
+</div>
+</section>
 
 <section class="panel" id="medicalPanel">
 <button class="medicalBack" id="medicalBack">‹ Kembali ke Beranda</button>
@@ -335,7 +368,14 @@ $("close").addEventListener("click",()=>$("detail").classList.remove("open"));
 ["bb","th","bl"].forEach(id=>$(id).addEventListener("input",()=>{updateSummary();if($("detail").classList.contains("open"))openDrug($("drugName").textContent)}));
 $("q").addEventListener("input",draw);$("filters").addEventListener("click",e=>{if(e.target.dataset.c){cat=e.target.dataset.c;document.querySelectorAll(".filters button").forEach(b=>b.classList.toggle("active",b===e.target));draw()}});$("editPatient").addEventListener("click",()=> $("patientFields").classList.toggle("open"));
 function setNavActive(id){document.querySelectorAll(".bottomNav a").forEach(a=>a.classList.toggle("active",a.id===id))}
-function showHome(){document.body.classList.remove("medical-mode","icd-mode");document.body.classList.add("home-mode");setNavActive("navHome");window.scrollTo(0,0)}
+function showHome(){document.body.classList.remove("medical-mode","icd-mode");document.body.classList.add("home-mode");$("modeChooser").style.display="block";$("clinicalDashboard").style.display="none";$("publicDashboard").style.display="none";setNavActive("navHome");window.scrollTo(0,0)}
+function showClinicalHome(){$("modeChooser").style.display="none";$("clinicalDashboard").style.display="block";$("publicDashboard").style.display="none";window.scrollTo(0,0)}
+function showPublicHome(){$("modeChooser").style.display="none";$("clinicalDashboard").style.display="none";$("publicDashboard").style.display="block";window.scrollTo(0,0)}
+$("chooseClinical").addEventListener("click",showClinicalHome);
+$("choosePublic").addEventListener("click",showPublicHome);
+$("modeBack").addEventListener("click",showHome);
+$("publicBack").addEventListener("click",showHome);
+document.querySelectorAll("[data-public]").forEach(b=>b.addEventListener("click",()=>{const labels={education:"Edukasi Kesehatan",disease:"Informasi Penyakit",medicine:"Kenali Obat",lifestyle:"Gaya Hidup Sehat",firstaid:"Pertolongan Pertama",consult:"Persiapan Konsultasi"};alert(labels[b.dataset.public]+" sedang disiapkan. Konten akan ditambahkan setelah melalui peninjauan medis.")}));
 function showMedical(){document.body.classList.remove("home-mode","icd-mode");document.body.classList.add("medical-mode");setNavActive("navSearch");window.scrollTo(0,0)}
 function showIcd(){document.body.classList.remove("home-mode","medical-mode");document.body.classList.add("icd-mode");setNavActive("navSearch");drawIcd();window.scrollTo(0,0)}
 function showCalculator(){document.body.classList.remove("home-mode");setNavActive("navSearch");showFavorites=false;draw();window.scrollTo(0,0)}

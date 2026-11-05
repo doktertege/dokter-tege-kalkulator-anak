@@ -63,9 +63,47 @@ button.active{background:linear-gradient(135deg,#2481f0,#1260d5);color:white;bor
 .bottomNav a span{display:block;font-size:22px;line-height:1.2;margin-bottom:3px}
 .bottomNav a:first-child{background:linear-gradient(135deg,#2584f4,#1260d5);color:#fff}
 @media(max-width:390px){header{min-height:176px;padding:18px 16px 24px}.patientTop{gap:8px}.avatar{width:48px;height:48px;font-size:27px}.patientTitle{font-size:16px}.patientStats{gap:5px}.stat{padding:8px}.stat strong{font-size:16px}.drug{grid-template-columns:54px minmax(0,1fr) auto;gap:8px;padding:11px 10px;min-height:100px}.ico{width:50px;height:50px;font-size:26px}.drug h3{font-size:16px}.drugDose{min-width:90px;padding-left:8px}.drugDose strong{font-size:18px}.drugDose span{font-size:11px}.drugDose em{font-size:10px}}
+/* MEDORA dashboard */
+body.home-mode main> :not(#homeDashboard){display:none}
+#homeDashboard{display:none;margin:0 auto 18px}
+body.home-mode #homeDashboard{display:block}
+header .brand{justify-content:center}header .brandMain{gap:12px}
+header .medora-symbol{width:54px;height:54px}
+header .brandName{font-size:30px;letter-spacing:1.8px}
+header .brandSub{font-size:12px}
+header .heroLine{text-align:center;font-size:11px;margin-top:12px}
+header h1{font-size:24px;text-align:center;max-width:none;margin:12px 0 4px}
+header .muted{text-align:center;font-size:13px}
+#homeDashboard .welcome{text-align:center;margin:0 0 14px;color:#52627d;font-size:13px}
+.moduleGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.moduleCard{min-height:132px;display:flex;align-items:center;gap:9px;text-align:left;white-space:normal;border:1px solid #fff;border-radius:23px;padding:12px 9px;background:linear-gradient(145deg,#fff,#eaf5ff);box-shadow:0 5px 16px #244b8020;color:#102653}
+.moduleIcon{width:54px;height:54px;flex:none;border-radius:17px;display:grid;place-items:center;background:linear-gradient(145deg,#d8efff,#fff);font-size:31px}
+.moduleText{min-width:0;flex:1}.moduleText .miniBrand{font-size:9px;margin-bottom:5px}
+.moduleText strong{display:block;font-size:13px;line-height:1.15;font-weight:850}
+.moduleText small{display:block;font-size:10px;line-height:1.25;color:#52627d;margin-top:5px}
+.moduleArrow{font-size:22px;color:#163d7b}
+.homeNote{margin-top:14px;padding:12px 14px;border-radius:16px;background:#eaf6ff;color:#315779;font-size:11px}
+.bottomNav{grid-template-columns:repeat(5,1fr);padding-left:7px;padding-right:7px}
+.bottomNav a small{display:block;font-size:8px;letter-spacing:.4px;color:#168e9d;font-weight:900}
+.bottomNav a span{font-size:21px}
+.bottomNav a.active{background:linear-gradient(135deg,#2584f4,#1260d5);color:#fff}
+.bottomNav a.active small{color:#fff}
+@media(max-width:390px){.moduleCard{min-height:118px;padding:9px 7px;gap:6px}.moduleIcon{width:46px;height:46px;font-size:27px}.moduleText strong{font-size:12px}.moduleText small{font-size:9px}}
 </style></head><body>
-<header><div class="brand"><div class="brandMain"><svg class="medora-symbol" viewBox="0 0 64 64" aria-label="MEDORA"><path d="M8 52V12l16 22 8-12 8 12 16-22v40H44V34L32 49 20 34v18z" fill="#087edc"/><path d="M45 5h8v8h8v8h-8v8h-8v-8h-8v-8h8z" fill="#00bba9"/><path d="M4 42h13l6-9 6 16 7-13h10" fill="none" stroke="#ff9d22" stroke-width="3" stroke-linecap="round"/></svg><div><div class="brandName">MEDORA</div><span class="brandSub">by Dokter Tege</span></div></div><span class="tag">◉ OFFLINE</span></div><div class="heroLine">YOUR CLINICAL INTELLIGENCE COMPANION</div><h1>Kalkulator Dosis Anak</h1><p class="muted">Bagian dari MEDORA Clinical Tools</p></header>
+<header><div class="brand"><div class="brandMain"><svg class="medora-symbol" viewBox="0 0 64 64" aria-label="MEDORA"><path d="M8 52V12l16 22 8-12 8 12 16-22v40H44V34L32 49 20 34v18z" fill="#087edc"/><path d="M45 5h8v8h8v8h-8v8h-8v-8h-8v-8h8z" fill="#00bba9"/><path d="M4 42h13l6-9 6 16 7-13h10" fill="none" stroke="#ff9d22" stroke-width="3" stroke-linecap="round"/></svg><div><div class="brandName">MEDORA</div><span class="brandSub">by Dokter Tege</span></div></div><span class="tag">◉ OFFLINE</span></div><div class="heroLine">YOUR CLINICAL INTELLIGENCE COMPANION</div><h1>Your Clinical Intelligence Companion</h1><p class="muted">Clinical tools untuk praktik sehari-hari</p></header>
 <main>
+<section id="homeDashboard">
+<p class="welcome">Pilih modul klinis untuk mulai bekerja</p>
+<div class="moduleGrid">
+<button class="moduleCard" data-module="calculator"><span class="moduleIcon">🧴</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Kalkulator Dosis Obat</strong><small>Anak dan dewasa</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="medical"><span class="moduleIcon">▦</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Kalkulator Medis</strong><small>BMI, eGFR, GCS, MAP, dan lainnya</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="icd"><span class="moduleIcon">📋</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>ICD-10 & Diagnosis</strong><small>Kode, diagnosis, dan rujukan</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="guides"><span class="moduleIcon">📖</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Panduan Klinis</strong><small>Algoritma, protokol, dan terapi</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="emergency"><span class="moduleIcon">🚨</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>IGD & Emergency</strong><small>Tatalaksana gawat darurat</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="drugs"><span class="moduleIcon">💊</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Database Obat</strong><small>Informasi, dosis, interaksi, peringatan</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="ai"><span class="moduleIcon">🤖</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Asisten Medis AI</strong><small>Tanya klinis berbasis evidence</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="references"><span class="moduleIcon">📚</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Referensi Medis</strong><small>Buku, jurnal, dan regulasi</small></span><span class="moduleArrow">›</span></button>
+</div><div class="homeNote"><b>MEDORA by Dokter Tege</b><br>Modul yang belum tersedia masih dalam tahap pengembangan dan validasi klinis.</div></section>
 <section class="panel" id="patientPanel"><div class="patientTop"><div class="avatar">👦🏻</div><div class="patientTitle">Data Anak <button class="editBtn" id="editPatient" aria-label="Edit data anak">✎</button></div><div class="patientStats"><div class="stat"><small>Berat badan</small><strong id="weightBadge">— kg</strong></div><div class="stat"><small>Usia</small><strong id="ageBadge">— tahun</strong></div></div></div><div id="patientFields"><div class="grid"><div><label for="bb">Berat badan (kg)</label><input id="bb" type="number" min=".1" max="100" step=".1" placeholder="Contoh: 12"></div><div><label for="th">Usia (tahun)</label><input id="th" type="number" min="0" max="18" step="1" placeholder="Contoh: 2"></div><div><label for="bl">Usia tambahan (bulan)</label><input id="bl" type="number" min="0" max="11" step="1" placeholder="0"></div></div><p class="summary" id="summary">Isi berat badan dan usia anak untuk memulai.</p></div></section>
 <input class="search" id="q" type="search" placeholder="⌕ Cari obat, contoh: paracetamol, CTM">
 <div class="filters" id="filters"><button class="active" data-c="Semua">Semua</button><button data-c="Demam & nyeri">Demam & nyeri</button><button data-c="Antibiotik">Antibiotik</button><button data-c="Alergi">Alergi</button><button data-c="Mata & telinga">Mata & telinga</button><button data-c="Lainnya">Lainnya</button></div>
@@ -73,7 +111,7 @@ button.active{background:linear-gradient(135deg,#2481f0,#1260d5);color:white;bor
 <section class="panel modal" id="detail" aria-live="polite"><div style="display:flex;justify-content:space-between;align-items:center"><h2 id="drugName">Detail obat</h2><button id="close">Tutup</button></div><p class="summary" id="drugDesc"></p><div id="doseArea"></div></section>
 <div class="notice" id="safety"><b>Catatan keselamatan:</b> Kalkulasi aktif untuk paracetamol, ibuprofen, amoxicillin, cefadroxil, cefixime (suspensi, usia 6 bulan–<12 tahun), salbutamol nebulisasi (usia ≥1 tahun, untuk bronkospasme/asma sesuai penilaian klinis), cetirizine, ambroxol (usia 2–<12 tahun), dan zinc sebagai terapi tambahan diare. Hasil adalah alat bantu hitung, bukan pengganti penilaian klinis. Periksa indikasi, kondisi pasien, alergi, fungsi organ, obat kombinasi, konsentrasi pada kemasan, dan dosis yang sudah diberikan. Obat lain masih berupa katalog dan belum boleh dipakai untuk menentukan dosis.</div>
 <p class="summary">Versi 0.2 • Database tersimpan di perangkat • Tidak memerlukan internet.</p>
-</main><nav class="bottomNav"><a href="#list"><span>⌂</span><small>MEDORA</small>Dosis Obat</a><a href="#safety"><span>▤</span><small>MEDORA</small>Referensi</a><a href="#favorites" id="navFavorites"><span>☆</span><small>MEDORA</small>Favorit</a><a href="#patientPanel" id="navCalc"><span>▦</span><small>MEDORA</small>Kalkulator</a></nav>
+</main><nav class="bottomNav"><a href="#homeDashboard" id="navHome" class="active"><span>⌂</span><small>MEDORA</small>Beranda</a><a href="#list" id="navSearch"><span>⌕</span><small>MEDORA</small>Cari</a><a href="#favorites" id="navFavorites"><span>☆</span><small>MEDORA</small>Favorit</a><a href="#history" id="navHistory"><span>◷</span><small>MEDORA</small>Riwayat</a><a href="#settings" id="navSettings"><span>⚙</span><small>MEDORA</small>Pengaturan</a></nav>
 <script>
 const data=[
 ["Paracetamol","Demam & nyeri","Antipiretik / analgesik","🧴","active"],
@@ -173,5 +211,14 @@ $("list").addEventListener("click",e=>{const fav=e.target.closest("button[data-f
 $("close").addEventListener("click",()=>$("detail").classList.remove("open"));
 ["bb","th","bl"].forEach(id=>$(id).addEventListener("input",()=>{updateSummary();if($("detail").classList.contains("open"))openDrug($("drugName").textContent)}));
 $("q").addEventListener("input",draw);$("filters").addEventListener("click",e=>{if(e.target.dataset.c){cat=e.target.dataset.c;document.querySelectorAll(".filters button").forEach(b=>b.classList.toggle("active",b===e.target));draw()}});$("editPatient").addEventListener("click",()=> $("patientFields").classList.toggle("open"));
-$("navFavorites").addEventListener("click",()=>{showFavorites=true;draw()});$("navCalc").addEventListener("click",()=>{showFavorites=false;$("patientFields").classList.add("open");draw()});document.querySelector(".bottomNav a[href=\"#list\"]").addEventListener("click",()=>{showFavorites=false;draw()});draw();updateSummary();
+function setNavActive(id){document.querySelectorAll(".bottomNav a").forEach(a=>a.classList.toggle("active",a.id===id))}
+function showHome(){document.body.classList.add("home-mode");setNavActive("navHome");window.scrollTo(0,0)}
+function showCalculator(){document.body.classList.remove("home-mode");setNavActive("navSearch");showFavorites=false;draw();window.scrollTo(0,0)}
+$("homeDashboard").addEventListener("click",e=>{const b=e.target.closest("[data-module]");if(!b)return;const key=b.dataset.module;if(key==="calculator"){showCalculator();$("patientFields").classList.add("open");return}const names={medical:"Kalkulator Medis",icd:"ICD-10 & Diagnosis",guides:"Panduan Klinis",emergency:"IGD & Emergency",drugs:"Database Obat",ai:"Asisten Medis AI",references:"Referensi Medis"};alert(names[key]+" sedang dalam tahap pengembangan dan validasi klinis.")});
+$("navHome").addEventListener("click",e=>{e.preventDefault();showHome()});
+$("navSearch").addEventListener("click",e=>{e.preventDefault();showCalculator();$("q").focus()});
+$("navFavorites").addEventListener("click",e=>{e.preventDefault();showCalculator();showFavorites=true;draw()});
+$("navHistory").addEventListener("click",e=>{e.preventDefault();alert("Riwayat penggunaan sedang dalam tahap pengembangan.")});
+$("navSettings").addEventListener("click",e=>{e.preventDefault();alert("Pengaturan MEDORA sedang dalam tahap pengembangan.")});
+draw();updateSummary();document.body.classList.add("home-mode");
 </script></body></html>

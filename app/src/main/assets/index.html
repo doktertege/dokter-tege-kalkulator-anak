@@ -138,6 +138,16 @@ main{max-width:760px;margin:12px auto 0;padding:0 12px 28px}
 .bottomNav a.active{background:linear-gradient(145deg,#168bf0,#0758ce);box-shadow:0 5px 13px #0052b955}
 .bottomNav a.active small{color:#fff}
 @media(max-width:390px){header.medoraHero{min-height:260px;padding-top:23px}.moduleCard{min-height:138px;padding:9px 7px;gap:6px}.moduleIcon{width:58px;height:58px;font-size:34px}.moduleText strong{font-size:13px}.moduleText small{font-size:10px}.moduleArrow{font-size:24px}}
+
+#icdPanel{display:none}
+body.icd-mode main> :not(#icdPanel){display:none}
+body.icd-mode #icdPanel{display:block}
+.icdList{display:grid;gap:9px;margin-top:10px}
+.icdItem{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:12px;border-radius:15px;border:1px solid #d7eaff;background:linear-gradient(145deg,#fff,#edf7ff);color:#102653;box-shadow:0 3px 10px #244b8010}
+.icdCode{font-size:15px;font-weight:900;color:#0878c9;min-width:58px}
+.icdName{font-size:13px;font-weight:750;line-height:1.25}
+.icdMeta{font-size:10px;color:#52627d;margin-top:4px}
+.icdEmpty{padding:18px;text-align:center;color:#52627d;background:#edf6ff;border-radius:14px}
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">
@@ -196,6 +206,25 @@ main{max-width:760px;margin:12px auto 0;padding:0 12px 28px}
 </div>
 </div>
 <div class="warn"><b>Batasan klinis:</b> eGFR menggunakan CKD-EPI 2021 berbasis kreatinin untuk dewasa. Tidak ditujukan untuk anak, kehamilan, perubahan kreatinin akut/AKI, atau kondisi massa otot ekstrem. eGFR tunggal tidak cukup untuk mendiagnosis penyakit ginjal kronis; perlu persistensi ≥3 bulan dan/atau penanda kerusakan ginjal. MAP adalah estimasi, bukan pengganti evaluasi perfusi. GCS harus dinilai dari respons terbaik dan dicatat per komponen; faktor intubasi, sedasi, afasia, atau hambatan pemeriksaan harus dicatat.</div>
+</section>
+
+<section class="panel" id="icdPanel">
+<button class="medicalBack" id="icdBack">‹ Kembali ke Beranda</button>
+<h2>ICD-10 & Diagnosis</h2>
+<p class="medicalHint">Pencarian kode diagnosis umum (referensi awal ICD-10 WHO).</p>
+<input class="search" id="icdSearch" type="search" placeholder="Cari diagnosis atau kode, mis. demam, J06.9">
+<div class="filters" id="icdFilters">
+<button class="active" data-icd-cat="Semua">Semua</button>
+<button data-icd-cat="Infeksi">Infeksi</button>
+<button data-icd-cat="Respirasi">Respirasi</button>
+<button data-icd-cat="Penyakit dalam">Penyakit dalam</button>
+<button data-icd-cat="Gejala">Gejala</button>
+<button data-icd-cat="Lainnya">Lainnya</button>
+</div>
+<p class="summary" id="icdCount">20 kode referensi awal</p>
+<div id="icdList" class="icdList"></div>
+<div class="warn"><b>Penting:</b> Ini adalah daftar referensi awal, bukan database ICD-10 lengkap dan bukan penentu diagnosis. Pilih kode berdasarkan diagnosis yang sudah ditegakkan, dokumentasi klinis, tingkat spesifisitas, dan ketentuan coding yang berlaku. Jangan memilih kode penyakit definitif hanya dari gejala. Verifikasi pada indeks alfabetik dan tabular resmi sebelum klaim/rujukan.</div>
+<p class="medicalHint">Referensi: <a href="https://icd.who.int/browse10/2019/en" target="_blank" rel="noreferrer">WHO ICD-10 Browser 2019</a>.</p>
 </section>
 <section class="panel" id="patientPanel"><div class="patientTop"><div class="avatar">👦🏻</div><div class="patientTitle">Data Anak <button class="editBtn" id="editPatient" aria-label="Edit data anak">✎</button></div><div class="patientStats"><div class="stat"><small>Berat badan</small><strong id="weightBadge">— kg</strong></div><div class="stat"><small>Usia</small><strong id="ageBadge">— tahun</strong></div></div></div><div id="patientFields"><div class="grid"><div><label for="bb">Berat badan (kg)</label><input id="bb" type="number" min=".1" max="100" step=".1" placeholder="Contoh: 12"></div><div><label for="th">Usia (tahun)</label><input id="th" type="number" min="0" max="18" step="1" placeholder="Contoh: 2"></div><div><label for="bl">Usia tambahan (bulan)</label><input id="bl" type="number" min="0" max="11" step="1" placeholder="0"></div></div><p class="summary" id="summary">Isi berat badan dan usia anak untuk memulai.</p></div></section>
 <input class="search" id="q" type="search" placeholder="⌕ Cari obat, contoh: paracetamol, CTM">
@@ -305,10 +334,49 @@ $("close").addEventListener("click",()=>$("detail").classList.remove("open"));
 ["bb","th","bl"].forEach(id=>$(id).addEventListener("input",()=>{updateSummary();if($("detail").classList.contains("open"))openDrug($("drugName").textContent)}));
 $("q").addEventListener("input",draw);$("filters").addEventListener("click",e=>{if(e.target.dataset.c){cat=e.target.dataset.c;document.querySelectorAll(".filters button").forEach(b=>b.classList.toggle("active",b===e.target));draw()}});$("editPatient").addEventListener("click",()=> $("patientFields").classList.toggle("open"));
 function setNavActive(id){document.querySelectorAll(".bottomNav a").forEach(a=>a.classList.toggle("active",a.id===id))}
-function showHome(){document.body.classList.remove("medical-mode");document.body.classList.add("home-mode");setNavActive("navHome");window.scrollTo(0,0)}
-function showMedical(){document.body.classList.remove("home-mode");document.body.classList.add("medical-mode");setNavActive("navSearch");window.scrollTo(0,0)}
+function showHome(){document.body.classList.remove("medical-mode","icd-mode");document.body.classList.add("home-mode");setNavActive("navHome");window.scrollTo(0,0)}
+function showMedical(){document.body.classList.remove("home-mode","icd-mode");document.body.classList.add("medical-mode");setNavActive("navSearch");window.scrollTo(0,0)}
+function showIcd(){document.body.classList.remove("home-mode","medical-mode");document.body.classList.add("icd-mode");setNavActive("navSearch");drawIcd();window.scrollTo(0,0)}
 function showCalculator(){document.body.classList.remove("home-mode");setNavActive("navSearch");showFavorites=false;draw();window.scrollTo(0,0)}
-$("homeDashboard").addEventListener("click",e=>{const b=e.target.closest("[data-module]");if(!b)return;const key=b.dataset.module;if(key==="calculator"){showCalculator();$("patientFields").classList.add("open");return}if(key==="medical"){showMedical();return}const names={medical:"Kalkulator Medis",icd:"ICD-10 & Diagnosis",guides:"Panduan Klinis",emergency:"IGD & Emergency",drugs:"Database Obat",ai:"Asisten Medis AI",references:"Referensi Medis"};alert(names[key]+" sedang dalam tahap pengembangan dan validasi klinis.")});
+$("homeDashboard").addEventListener("click",e=>{const b=e.target.closest("[data-module]");if(!b)return;const key=b.dataset.module;if(key==="calculator"){showCalculator();$("patientFields").classList.add("open");return}if(key==="medical"){showMedical();return}if(key==="icd"){showIcd();return}const names={guides:"Panduan Klinis",emergency:"IGD & Emergency",drugs:"Database Obat",ai:"Asisten Medis AI",references:"Referensi Medis"};alert(names[key]+" sedang dalam tahap pengembangan dan validasi klinis.")});
+
+
+const icdData=[
+["A09","Diare dan gastroenteritis yang diduga berasal dari infeksi","Infeksi"],
+["B34.9","Infeksi virus, tidak spesifik","Infeksi"],
+["J00","Nasofaringitis akut (common cold)","Respirasi"],
+["J02.9","Faringitis akut, tidak spesifik","Respirasi"],
+["J03.9","Tonsilitis akut, tidak spesifik","Respirasi"],
+["J06.9","Infeksi saluran napas atas akut, tidak spesifik","Respirasi"],
+["J18.9","Pneumonia, organisme tidak spesifik","Respirasi"],
+["J45.9","Asma, tidak spesifik","Respirasi"],
+["I10","Hipertensi esensial (primer)","Penyakit dalam"],
+["E11.9","Diabetes melitus tipe 2 tanpa komplikasi","Penyakit dalam"],
+["K29.7","Gastritis, tidak spesifik","Penyakit dalam"],
+["K30","Dispepsia","Penyakit dalam"],
+["K21.9","Penyakit refluks gastroesofageal tanpa esofagitis","Penyakit dalam"],
+["N39.0","Infeksi saluran kemih, lokasi tidak spesifik","Penyakit dalam"],
+["R05","Batuk","Gejala"],
+["R50.9","Demam, tidak spesifik","Gejala"],
+["R10.9","Nyeri abdomen, tidak spesifik","Gejala"],
+["R42","Pusing dan vertigo","Gejala"],
+["R51.9","Sakit kepala","Gejala"],
+["M54.5","Nyeri punggung bawah","Lainnya"],
+["M79.1","Mialgia","Lainnya"],
+["L30.9","Dermatitis, tidak spesifik","Lainnya"],
+["H66.9","Otitis media, tidak spesifik","Lainnya"],
+["G43.9","Migrain, tidak spesifik","Lainnya"]
+];
+let icdCategory="Semua";
+function drawIcd(){
+ const q=($("icdSearch").value||"").trim().toLowerCase();
+ const rows=icdData.filter(x=>(icdCategory==="Semua"||x[2]===icdCategory)&&x.join(" ").toLowerCase().includes(q));
+ $("icdCount").textContent=rows.length+" kode ditemukan dari "+icdData.length+" kode referensi";
+ $("icdList").innerHTML=rows.length?rows.map(x=>'<div class="icdItem"><span class="icdCode">'+x[0]+'</span><span><span class="icdName">'+x[1]+'</span><div class="icdMeta">'+x[2]+'</div></span></div>').join(""):'<div class="icdEmpty">Tidak ada kode yang cocok. Coba kata kunci atau kode lain.</div>';
+}
+$("icdBack").addEventListener("click",showHome);
+$("icdSearch").addEventListener("input",drawIcd);
+$("icdFilters").addEventListener("click",e=>{const b=e.target.closest("[data-icd-cat]");if(!b)return;icdCategory=b.dataset.icdCat;document.querySelectorAll("#icdFilters button").forEach(x=>x.classList.toggle("active",x===b));drawIcd()});
 
 $("medicalBack").addEventListener("click",showHome);
 $("calcMedical").addEventListener("click",()=>{

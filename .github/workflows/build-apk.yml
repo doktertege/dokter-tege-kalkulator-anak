@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build MEDORA Android APK
 on:
   workflow_dispatch:
   push:
@@ -25,6 +25,6 @@ jobs:
         run: gradle --no-daemon assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: Dokter-Tege-Kalkulator-Anak-APK
+          name: MEDORA-Android-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error

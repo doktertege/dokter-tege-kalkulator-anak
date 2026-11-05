@@ -89,6 +89,18 @@ header .muted{text-align:center;font-size:13px}
 .bottomNav a.active{background:linear-gradient(135deg,#2584f4,#1260d5);color:#fff}
 .bottomNav a.active small{color:#fff}
 @media(max-width:390px){.moduleCard{min-height:118px;padding:9px 7px;gap:6px}.moduleIcon{width:46px;height:46px;font-size:27px}.moduleText strong{font-size:12px}.moduleText small{font-size:9px}}
+
+#medicalPanel{display:none}
+body.medical-mode main> :not(#medicalPanel){display:none}
+body.medical-mode #medicalPanel{display:block}
+.medicalGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.medicalGrid .full{grid-column:1/-1}
+.medicalResult{background:#edf6ff;border:1px solid #cfe2ff;border-radius:17px;padding:13px;margin-top:14px}
+.medicalResult .resultgrid{margin-bottom:0}
+.medicalResult strong{color:#123d83}
+.medicalBack{margin-bottom:12px}
+.medicalHint{font-size:12px;color:#52627d;margin-top:5px}
+@media(max-width:390px){.medicalGrid{gap:8px}}
 </style></head><body>
 <header><div class="brand"><div class="brandMain"><svg class="medora-symbol" viewBox="0 0 64 64" aria-label="MEDORA"><path d="M8 52V12l16 22 8-12 8 12 16-22v40H44V34L32 49 20 34v18z" fill="#087edc"/><path d="M45 5h8v8h8v8h-8v8h-8v-8h-8v-8h8z" fill="#00bba9"/><path d="M4 42h13l6-9 6 16 7-13h10" fill="none" stroke="#ff9d22" stroke-width="3" stroke-linecap="round"/></svg><div><div class="brandName">MEDORA</div><span class="brandSub">by Dokter Tege</span></div></div><span class="tag">◉ OFFLINE</span></div><div class="heroLine">YOUR CLINICAL INTELLIGENCE COMPANION</div><h1>Your Clinical Intelligence Companion</h1><p class="muted">Clinical tools untuk praktik sehari-hari</p></header>
 <main>
@@ -104,6 +116,33 @@ header .muted{text-align:center;font-size:13px}
 <button class="moduleCard" data-module="ai"><span class="moduleIcon">🤖</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Asisten Medis AI</strong><small>Tanya klinis berbasis evidence</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="references"><span class="moduleIcon">📚</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Referensi Medis</strong><small>Buku, jurnal, dan regulasi</small></span><span class="moduleArrow">›</span></button>
 </div><div class="homeNote"><b>MEDORA by Dokter Tege</b><br>Modul yang belum tersedia masih dalam tahap pengembangan dan validasi klinis.</div></section>
+
+<section class="panel" id="medicalPanel">
+<button class="medicalBack" id="medicalBack">‹ Kembali ke Beranda</button>
+<h2>Kalkulator Medis</h2>
+<p class="medicalHint">Perhitungan antropometri dan parameter klinis dewasa.</p>
+<div class="medicalGrid">
+<div><label for="medAge">Usia (tahun)</label><input id="medAge" type="number" min="18" max="120" value="35"></div>
+<div><label for="medSex">Jenis kelamin</label><select id="medSex"><option value="female">Perempuan</option><option value="male">Laki-laki</option></select></div>
+<div><label for="medWeight">Berat badan (kg)</label><input id="medWeight" type="number" min="1" step="0.1" placeholder="Contoh: 65"></div>
+<div><label for="medHeight">Tinggi badan (cm)</label><input id="medHeight" type="number" min="50" step="0.1" placeholder="Contoh: 165"></div>
+<div><label for="medScr">Kreatinin serum (mg/dL)</label><input id="medScr" type="number" min="0.1" step="0.01" placeholder="Contoh: 1.0"></div>
+<div><label for="medSbp">Tekanan sistolik (mmHg)</label><input id="medSbp" type="number" min="1" placeholder="Contoh: 120"></div>
+<div><label for="medDbp">Tekanan diastolik (mmHg)</label><input id="medDbp" type="number" min="1" placeholder="Contoh: 80"></div>
+<div class="full"><button id="calcMedical" class="active" style="width:100%">Hitung parameter</button></div>
+</div>
+<div id="medicalOutput" class="medicalResult"><span class="medicalHint">Masukkan data yang tersedia, lalu tekan Hitung parameter.</span></div>
+<div class="panel" style="margin:14px 0 0;padding:13px">
+<h2>Glasgow Coma Scale (GCS)</h2>
+<div class="medicalGrid">
+<div><label for="gcsEye">Respons mata (E)</label><select id="gcsEye"><option value="4">4 - Spontan</option><option value="3">3 - Terhadap suara</option><option value="2">2 - Terhadap nyeri</option><option value="1">1 - Tidak ada</option></select></div>
+<div><label for="gcsVerbal">Respons verbal (V)</label><select id="gcsVerbal"><option value="5">5 - Orientasi baik</option><option value="4">4 - Bingung</option><option value="3">3 - Kata tidak sesuai</option><option value="2">2 - Suara tidak jelas</option><option value="1">1 - Tidak ada</option></select></div>
+<div><label for="gcsMotor">Respons motorik (M)</label><select id="gcsMotor"><option value="6">6 - Mengikuti perintah</option><option value="5">5 - Melokalisasi nyeri</option><option value="4">4 - Fleksi normal</option><option value="3">3 - Fleksi abnormal</option><option value="2">2 - Ekstensi</option><option value="1">1 - Tidak ada</option></select></div>
+<div class="full"><div id="gcsOutput" class="result"><b>GCS 15/15</b><br><small>E4 V5 M6</small></div></div>
+</div>
+</div>
+<div class="warn"><b>Batasan klinis:</b> eGFR menggunakan CKD-EPI 2021 berbasis kreatinin untuk dewasa. Tidak ditujukan untuk anak, kehamilan, perubahan kreatinin akut/AKI, atau kondisi massa otot ekstrem. eGFR tunggal tidak cukup untuk mendiagnosis penyakit ginjal kronis; perlu persistensi ≥3 bulan dan/atau penanda kerusakan ginjal. MAP adalah estimasi, bukan pengganti evaluasi perfusi. GCS harus dinilai dari respons terbaik dan dicatat per komponen; faktor intubasi, sedasi, afasia, atau hambatan pemeriksaan harus dicatat.</div>
+</section>
 <section class="panel" id="patientPanel"><div class="patientTop"><div class="avatar">👦🏻</div><div class="patientTitle">Data Anak <button class="editBtn" id="editPatient" aria-label="Edit data anak">✎</button></div><div class="patientStats"><div class="stat"><small>Berat badan</small><strong id="weightBadge">— kg</strong></div><div class="stat"><small>Usia</small><strong id="ageBadge">— tahun</strong></div></div></div><div id="patientFields"><div class="grid"><div><label for="bb">Berat badan (kg)</label><input id="bb" type="number" min=".1" max="100" step=".1" placeholder="Contoh: 12"></div><div><label for="th">Usia (tahun)</label><input id="th" type="number" min="0" max="18" step="1" placeholder="Contoh: 2"></div><div><label for="bl">Usia tambahan (bulan)</label><input id="bl" type="number" min="0" max="11" step="1" placeholder="0"></div></div><p class="summary" id="summary">Isi berat badan dan usia anak untuk memulai.</p></div></section>
 <input class="search" id="q" type="search" placeholder="⌕ Cari obat, contoh: paracetamol, CTM">
 <div class="filters" id="filters"><button class="active" data-c="Semua">Semua</button><button data-c="Demam & nyeri">Demam & nyeri</button><button data-c="Antibiotik">Antibiotik</button><button data-c="Alergi">Alergi</button><button data-c="Mata & telinga">Mata & telinga</button><button data-c="Lainnya">Lainnya</button></div>
@@ -212,9 +251,23 @@ $("close").addEventListener("click",()=>$("detail").classList.remove("open"));
 ["bb","th","bl"].forEach(id=>$(id).addEventListener("input",()=>{updateSummary();if($("detail").classList.contains("open"))openDrug($("drugName").textContent)}));
 $("q").addEventListener("input",draw);$("filters").addEventListener("click",e=>{if(e.target.dataset.c){cat=e.target.dataset.c;document.querySelectorAll(".filters button").forEach(b=>b.classList.toggle("active",b===e.target));draw()}});$("editPatient").addEventListener("click",()=> $("patientFields").classList.toggle("open"));
 function setNavActive(id){document.querySelectorAll(".bottomNav a").forEach(a=>a.classList.toggle("active",a.id===id))}
-function showHome(){document.body.classList.add("home-mode");setNavActive("navHome");window.scrollTo(0,0)}
+function showHome(){document.body.classList.remove("medical-mode");document.body.classList.add("home-mode");setNavActive("navHome");window.scrollTo(0,0)}
+function showMedical(){document.body.classList.remove("home-mode");document.body.classList.add("medical-mode");setNavActive("navSearch");window.scrollTo(0,0)}
 function showCalculator(){document.body.classList.remove("home-mode");setNavActive("navSearch");showFavorites=false;draw();window.scrollTo(0,0)}
-$("homeDashboard").addEventListener("click",e=>{const b=e.target.closest("[data-module]");if(!b)return;const key=b.dataset.module;if(key==="calculator"){showCalculator();$("patientFields").classList.add("open");return}const names={medical:"Kalkulator Medis",icd:"ICD-10 & Diagnosis",guides:"Panduan Klinis",emergency:"IGD & Emergency",drugs:"Database Obat",ai:"Asisten Medis AI",references:"Referensi Medis"};alert(names[key]+" sedang dalam tahap pengembangan dan validasi klinis.")});
+$("homeDashboard").addEventListener("click",e=>{const b=e.target.closest("[data-module]");if(!b)return;const key=b.dataset.module;if(key==="calculator"){showCalculator();$("patientFields").classList.add("open");return}if(key==="medical"){showMedical();return}const names={medical:"Kalkulator Medis",icd:"ICD-10 & Diagnosis",guides:"Panduan Klinis",emergency:"IGD & Emergency",drugs:"Database Obat",ai:"Asisten Medis AI",references:"Referensi Medis"};alert(names[key]+" sedang dalam tahap pengembangan dan validasi klinis.")});
+
+$("medicalBack").addEventListener("click",showHome);
+$("calcMedical").addEventListener("click",()=>{
+ const age=Number($("medAge").value),sex=$("medSex").value,w=Number($("medWeight").value),ht=Number($("medHeight").value),scr=Number($("medScr").value),sbp=Number($("medSbp").value),dbp=Number($("medDbp").value);
+ let out=[];
+ if(w>0&&ht>0){const hm=ht/100,bmi=w/(hm*hm),bsa=Math.sqrt(ht*w/3600);out.push(["BMI",fmt(bmi)+" kg/m²"],["BSA (Mosteller)",fmt(bsa)+" m²"])}
+ if(age>=18&&age<=120&&scr>0){const k=sex==="female"?.7:.9,alpha=sex==="female"?-.241:-.302,ratio=scr/k,egfr=142*Math.pow(Math.min(ratio,1),alpha)*Math.pow(Math.max(ratio,1),-1.2)*Math.pow(.9938,age)*(sex==="female"?1.012:1);out.push(["eGFR CKD-EPI 2021",Math.round(egfr)+" mL/min/1.73 m²"])}
+ if(sbp>0&&dbp>0&&sbp>=dbp){const map=(sbp+2*dbp)/3;out.push(["MAP",fmt(map)+" mmHg"])}
+ if(!out.length){$("medicalOutput").innerHTML='<span class="medicalHint">Masukkan setidaknya data BB dan TB, kreatinin + usia, atau sistolik + diastolik yang valid.</span>';return}
+ $("medicalOutput").innerHTML='<div class="resultgrid">'+out.map(x=>'<div class="metric"><small>'+x[0]+'</small><strong>'+x[1]+'</strong></div>').join("")+'</div>';
+});
+function updateGcs(){const e=Number($("gcsEye").value),v=Number($("gcsVerbal").value),m=Number($("gcsMotor").value),total=e+v+m;$("gcsOutput").innerHTML='<b>GCS '+total+'/15</b><br><small>E'+e+' V'+v+' M'+m+'</small>'}
+["gcsEye","gcsVerbal","gcsMotor"].forEach(id=>$(id).addEventListener("change",updateGcs));
 $("navHome").addEventListener("click",e=>{e.preventDefault();showHome()});
 $("navSearch").addEventListener("click",e=>{e.preventDefault();showCalculator();$("q").focus()});
 $("navFavorites").addEventListener("click",e=>{e.preventDefault();showCalculator();showFavorites=true;draw()});

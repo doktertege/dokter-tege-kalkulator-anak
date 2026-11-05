@@ -1,45 +1,89 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#eaf3ff"><title>Kalkulator Dosis Anak</title>
+<meta name="theme-color" content="#eaf3ff"><title>Dokter Tege | Kalkulator Dosis Anak</title>
 <style>
-:root{--ink:#14284d;--muted:#61718b;--blue:#1769e8;--line:#dce7f5;--bg:#f3f7fd}
+:root{--ink:#14284d;--muted:#61718b;--blue:#1769e8;--line:#dce7f5;--bg:#f3f7fd;--green:#167447;--warn:#77520a}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,sans-serif}
-header{padding:25px 18px 20px;background:linear-gradient(135deg,#d9eaff,#f7faff);border-radius:0 0 25px 25px}
-.brand{font-weight:800;display:flex;justify-content:space-between}.tag{background:#d8f4e5;color:#167447;border-radius:30px;padding:6px 11px;font-size:12px}
+header{padding:24px 18px 22px;background:linear-gradient(135deg,#d9eaff,#f7faff);border-radius:0 0 25px 25px}
+.brand{font-weight:800;display:flex;justify-content:space-between;align-items:center}.tag{background:#d8f4e5;color:var(--green);border-radius:30px;padding:6px 11px;font-size:12px}
 h1{font-size:27px;margin:18px 0 5px;line-height:1.15}.muted{color:var(--muted);margin:0}
 main{max-width:720px;margin:auto;padding:14px 14px 35px}.panel,.drug{background:white;border:1px solid var(--line);border-radius:19px;padding:15px;margin-bottom:12px;box-shadow:0 5px 18px #193e6809}
 h2{font-size:17px;margin:0 0 12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 label{font-size:13px;font-weight:700;color:#4c5f7a;display:block;margin-bottom:5px}
-input{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px;font:inherit;background:#fbfdff;color:var(--ink);min-width:0}
+input,select{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px;font:inherit;background:#fbfdff;color:var(--ink);min-width:0}
 .summary{font-size:13px;color:var(--muted);margin:10px 0 0}
 .search{margin:10px 0 12px}.filters{display:flex;gap:7px;overflow:auto;padding-bottom:10px}
-button{border:1px solid var(--line);background:#fff;border-radius:30px;padding:9px 13px;white-space:nowrap;color:var(--ink);font-weight:650}
+button{border:1px solid var(--line);background:#fff;border-radius:30px;padding:9px 13px;white-space:nowrap;color:var(--ink);font-weight:650;cursor:pointer}
 button.active{background:var(--blue);color:white;border-color:var(--blue)}
-.drug{display:flex;align-items:center;gap:12px;padding:13px}.ico{width:42px;height:42px;display:grid;place-items:center;background:#eaf2ff;border-radius:14px;font-size:20px}
-.drug h3{font-size:16px;margin:0}.drug p{font-size:13px;color:var(--muted);margin:3px 0 0}.detail{margin-left:auto;color:var(--blue);font-size:13px;font-weight:700}
-.notice{background:#fff8e8;border:1px solid #f2dfad;color:#77520a;border-radius:14px;padding:12px;font-size:13px;margin-top:14px}
+.drug{display:flex;align-items:center;gap:12px;padding:13px}.ico{width:42px;height:42px;display:grid;place-items:center;background:#eaf2ff;border-radius:14px;font-size:20px;flex-shrink:0}
+.drug h3{font-size:16px;margin:0}.drug p{font-size:13px;color:var(--muted);margin:3px 0 0}.detail{margin-left:auto;color:var(--blue);font-size:13px;font-weight:700;border:0;background:transparent}
+.notice{background:#fff8e8;border:1px solid #f2dfad;color:var(--warn);border-radius:14px;padding:12px;font-size:13px;margin-top:14px}
+.result{background:#edf6ff;border:1px solid #cfe2ff;border-radius:16px;padding:14px;margin-top:12px}
+.resultgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:10px 0}
+.metric{background:#fff;border-radius:12px;padding:11px}.metric small{display:block;color:var(--muted);font-size:12px}.metric strong{font-size:21px}
+.warn{background:#fff8e8;border:1px solid #f2dfad;border-radius:12px;padding:11px;color:#77520a;font-size:13px;margin-top:10px}
+.modal{display:none}.modal.open{display:block}.pill{display:inline-block;background:#eaf2ff;color:#245aab;padding:4px 9px;border-radius:20px;font-size:12px}
 @media(max-width:380px){h1{font-size:24px}.grid{gap:8px}}
 </style></head><body>
-<header><div class="brand"><span>Dokter Tege</span><span class="tag">● OFFLINE</span></div><h1>Kalkulator Dosis Anak</h1><p class="muted">Masukkan data anak sekali, lalu cari obat yang dibutuhkan.</p></header>
-<main><section class="panel"><h2>Data anak</h2><div class="grid">
-<div><label for="bb">Berat badan (kg)</label><input id="bb" type="number" min=".1" max="100" step=".1" placeholder="Contoh: 14"></div>
-<div><label for="th">Usia (tahun)</label><input id="th" type="number" min="0" max="18" placeholder="Contoh: 4"></div>
-<div><label for="bl">Usia tambahan (bulan)</label><input id="bl" type="number" min="0" max="11" placeholder="0"></div></div>
-<p class="summary" id="summary">Isi berat badan dan usia anak.</p></section>
-<input class="search" id="q" type="search" placeholder="⌕ Cari obat, contoh: amoxicillin, CTM">
+<header><div class="brand"><span>Dokter Tege</span><span class="tag">● OFFLINE</span></div><h1>Kalkulator Dosis Anak</h1><p class="muted">Masukkan data anak sekali, pilih obat, lalu lihat perhitungan dosis.</p></header>
+<main>
+<section class="panel"><h2>Data anak</h2><div class="grid">
+<div><label for="bb">Berat badan (kg)</label><input id="bb" type="number" min=".1" max="100" step=".1" placeholder="Contoh: 12"></div>
+<div><label for="th">Usia (tahun)</label><input id="th" type="number" min="0" max="18" step="1" placeholder="Contoh: 2"></div>
+<div><label for="bl">Usia tambahan (bulan)</label><input id="bl" type="number" min="0" max="11" step="1" placeholder="0"></div></div>
+<p class="summary" id="summary">Isi berat badan dan usia anak untuk memulai.</p></section>
+<input class="search" id="q" type="search" placeholder="⌕ Cari obat, contoh: paracetamol, CTM">
 <div class="filters" id="filters"><button class="active" data-c="Semua">Semua</button><button data-c="Demam & nyeri">Demam & nyeri</button><button data-c="Antibiotik">Antibiotik</button><button data-c="Alergi">Alergi</button><button data-c="Mata & telinga">Mata & telinga</button><button data-c="Lainnya">Lainnya</button></div>
 <p class="summary" id="count"></p><div id="list"></div>
-<div class="notice"><b>Versi prototipe.</b> Daftar obat dan tampilan sudah tersedia, tetapi dosis klinis belum diaktifkan. Jangan gunakan untuk menentukan terapi pasien sebelum seluruh regimen, konsentrasi sediaan, batas dosis, dan referensi divalidasi.</div></main>
+<section class="panel modal" id="detail" aria-live="polite"><div style="display:flex;justify-content:space-between;align-items:center"><h2 id="drugName">Detail obat</h2><button id="close">Tutup</button></div><p class="summary" id="drugDesc"></p><div id="doseArea"></div></section>
+<div class="notice"><b>Catatan keselamatan:</b> Kalkulasi aktif pada versi ini hanya untuk paracetamol oral dan ibuprofen oral dengan rentang dosis umum. Hasil adalah alat bantu hitung, bukan pengganti penilaian klinis. Periksa indikasi, kondisi pasien, alergi, fungsi organ, obat kombinasi, konsentrasi pada kemasan, dan dosis yang sudah diberikan. Obat lain masih berupa katalog dan belum boleh dipakai untuk menentukan dosis.</div>
+<p class="summary">Versi 0.2 • Database tersimpan di perangkat • Tidak memerlukan internet.</p>
+</main>
 <script>
 const data=[
-["Paracetamol","Demam & nyeri","Antipiretik / analgesik","🧴"],["Ibuprofen","Demam & nyeri","Antipiretik / antiinflamasi","🧴"],["Metamizole","Demam & nyeri","Tablet • sirup • injeksi","💊"],
-["Amoxicillin","Antibiotik","Kapsul • tablet • sirup","💊"],["Cefadroxil","Antibiotik","Kapsul • sirup","💊"],["Cefixime","Antibiotik","Kapsul • sirup","💊"],["Ceftriaxone","Antibiotik","Injeksi IV / IM","💉"],["Cefotaxime","Antibiotik","Injeksi IV / IM","💉"],["Gentamicin","Antibiotik","Injeksi","💉"],["Metronidazole","Antibiotik","Tablet • suspensi • infus","💊"],
-["CTM (Chlorpheniramine)","Alergi","Tablet • sirup","🧴"],["Cetirizine","Alergi","Tablet • sirup","🧴"],["Loratadine","Alergi","Tablet • sirup","🧴"],
-["Oralit","Lainnya","Sachet • larutkan sesuai petunjuk kemasan","🥤"],["Zinc","Lainnya","Tablet dispersibel • sirup","💊"],["Ambroxol","Lainnya","Tablet • sirup","🧴"],
-["Cendo Xitrol","Mata & telinga","Tetes mata • salep mata","👁️"],["Erlamycetin","Mata & telinga","Tetes mata • tetes telinga • salep mata","👁️"],
-["Salbutamol","Lainnya","Sirup • tablet • inhalasi","🫁"],["Dexamethasone","Lainnya","Tablet • injeksi","💊"],["Prednisone","Lainnya","Tablet","💊"],["Methylprednisolone","Lainnya","Tablet • injeksi","💊"],["Diazepam","Lainnya","Rektal • injeksi • tablet","💊"],["Ondansetron","Lainnya","Tablet • sirup • injeksi","💊"],["Domperidone","Lainnya","Tablet • suspensi","💊"],["Omeprazole","Lainnya","Kapsul","💊"],["Lansoprazole","Lainnya","Kapsul • dispersibel","💊"],["Furosemide","Lainnya","Tablet • injeksi","💊"],["Adrenaline","Lainnya","Injeksi","💉"]];
-let cat="Semua";const $=x=>document.getElementById(x);
-function draw(){let q=$("q").value.toLowerCase().trim();let a=data.filter(d=>(cat==="Semua"||d[1]===cat)&&d.join(" ").toLowerCase().includes(q));$("count").textContent=a.length+" obat";$("list").innerHTML=a.map(d=>'<article class="drug"><div class="ico">'+d[3]+'</div><div><h3>'+d[0]+'</h3><p>'+d[2]+'</p><p>'+d[1]+'</p></div><span class="detail">Detail</span></article>').join("")||'<p class="summary">Obat tidak ditemukan.</p>'}
-["bb","th","bl"].forEach(id=>$(id).addEventListener("input",()=>{let w=$("bb").value,y=$("th").value||0,m=$("bl").value||0;$("summary").textContent=(w?"BB "+w+" kg • ":"")+"Usia "+y+" tahun "+m+" bulan."}));
+["Paracetamol","Demam & nyeri","Antipiretik / analgesik","🧴","active"],
+["Ibuprofen","Demam & nyeri","Antipiretik / antiinflamasi","🧴","active"],
+["Metamizole","Demam & nyeri","Tablet • sirup • injeksi","💊","pending"],
+["Amoxicillin","Antibiotik","Kapsul • tablet • sirup","💊","pending"],
+["Cefadroxil","Antibiotik","Kapsul • sirup","💊","pending"],
+["Cefixime","Antibiotik","Kapsul • sirup","💊","pending"],
+["Ceftriaxone","Antibiotik","Injeksi IV / IM","💉","pending"],
+["Cefotaxime","Antibiotik","Injeksi IV / IM","💉","pending"],
+["Gentamicin","Antibiotik","Injeksi","💉","pending"],
+["Metronidazole","Antibiotik","Tablet • suspensi • infus","💊","pending"],
+["CTM (Chlorpheniramine)","Alergi","Tablet • sirup","🧴","pending"],
+["Cetirizine","Alergi","Tablet • sirup","🧴","pending"],
+["Loratadine","Alergi","Tablet • sirup","🧴","pending"],
+["Oralit","Lainnya","Sachet • larutkan sesuai petunjuk kemasan","🥤","pending"],
+["Zinc","Lainnya","Tablet dispersibel • sirup","💊","pending"],
+["Ambroxol","Lainnya","Tablet • sirup","🧴","pending"],
+["Cendo Xitrol","Mata & telinga","Tetes mata • salep mata","👁️","pending"],
+["Erlamycetin","Mata & telinga","Tetes mata • tetes telinga • salep mata","👁️","pending"],
+["Salbutamol","Lainnya","Sirup • tablet • inhalasi","🫁","pending"],
+["Dexamethasone","Lainnya","Tablet • injeksi","💊","pending"],
+["Prednisone","Lainnya","Tablet","💊","pending"],
+["Methylprednisolone","Lainnya","Tablet • injeksi","💊","pending"],
+["Diazepam","Lainnya","Rektal • injeksi • tablet","💊","pending"],
+["Ondansetron","Lainnya","Tablet • sirup • injeksi","💊","pending"],
+["Domperidone","Lainnya","Tablet • suspensi","💊","pending"],
+["Omeprazole","Lainnya","Kapsul","💊","pending"],
+["Lansoprazole","Lainnya","Kapsul • dispersibel","💊","pending"],
+["Furosemide","Lainnya","Tablet • injeksi","💊","pending"],
+["Adrenaline","Lainnya","Injeksi","💉","pending"]
+];
+let cat="Semua";const $=id=>document.getElementById(id);
+function ageMonths(){return (Number($("th").value)||0)*12+(Number($("bl").value)||0)}
+function patient(){const w=Number($("bb").value),a=ageMonths(),th=$("th").value,bl=$("bl").value;if(!w||w<=0||w>100||th===""||a>216||Number(bl||0)>11||Number(th)<0)return null;return {w,a}}
+function updateSummary(){const p=patient();$("summary").textContent=p?"BB "+p.w+" kg • Usia "+Math.floor(p.a/12)+" tahun "+p.a%12+" bulan.":"Isi BB dan usia yang valid (0–18 tahun)."}
+function draw(){let q=$("q").value.toLowerCase().trim();let a=data.filter(d=>(cat==="Semua"||d[1]===cat)&&d.join(" ").toLowerCase().includes(q));$("count").textContent=a.length+" obat";$("list").innerHTML=a.map((d)=>'<article class="drug"><div class="ico">'+d[3]+'</div><div><h3>'+d[0]+'</h3><p>'+d[2]+'</p><p>'+d[1]+'</p></div><button class="detail" data-name="'+d[0]+'">'+(d[4]==="active"?"Hitung":"Detail")+'</button></article>').join("")||'<p class="summary">Obat tidak ditemukan.</p>'}
+function openDrug(name){const d=data.find(x=>x[0]===name);$("detail").classList.add("open");$("drugName").textContent=d[0];$("drugDesc").textContent=d[2];const p=patient();if(d[4]!=="active"){$("doseArea").innerHTML='<div class="warn"><b>Perhitungan belum tersedia.</b><br>Regimen dan batas dosis obat ini masih dalam proses validasi. Jangan gunakan kalkulator untuk obat ini dulu.</div>';return}if(!p){$("doseArea").innerHTML='<div class="warn">Masukkan BB dan usia anak yang valid terlebih dahulu.</div>';return}
+if(name==="Paracetamol"){if(p.a<2){$("doseArea").innerHTML='<div class="warn">Usia di bawah 2 bulan: kalkulasi otomatis dinonaktifkan. Perlu penilaian klinis khusus neonatus/bayi muda.</div>';return}
+$("doseArea").innerHTML='<span class="pill">Oral</span><p><b>Rentang dosis umum: 10–15 mg/kgBB per dosis</b></p><div class="result"><label for="paraStrength">Pilih konsentrasi sediaan</label><select id="paraStrength"><option value="24">120 mg/5 mL</option><option value="32">160 mg/5 mL</option><option value="50">250 mg/5 mL</option></select><div id="paraResult"></div></div><div class="warn">Interval 4–6 jam bila diperlukan. Batas konservatif kalkulator: maksimal 4 dosis/24 jam dan total 60 mg/kgBB/24 jam. Hindari duplikasi dari obat kombinasi yang juga mengandung paracetamol. Gunakan kehati-hatian pada gangguan hati/malnutrisi.</div>';const calc=()=>{const mglo=p.w*10,mghi=p.w*15,conc=Number($("paraStrength").value),max=p.w*60;$("paraResult").innerHTML='<div class="resultgrid"><div class="metric"><small>Dosis rendah</small><strong>'+fmt(mglo)+' mg</strong><small>'+fmt(mglo/(conc/5))+' mL</small></div><div class="metric"><small>Dosis tinggi</small><strong>'+fmt(mghi)+' mg</strong><small>'+fmt(mghi/(conc/5))+' mL</small></div><div class="metric"><small>Maksimum total/24 jam</small><strong>'+fmt(max)+' mg</strong></div><div class="metric"><small>Perkiraan volume/dosis</small><strong>'+fmt(mglo/(conc/5))+'–'+fmt(mghi/(conc/5))+' mL</strong></div></div><small>Volume dibulatkan 2 desimal. Ukur dengan oral syringe.</small>'};$("paraStrength").addEventListener("change",calc);calc();return}
+if(name==="Ibuprofen"){if(p.a<6){$("doseArea").innerHTML='<div class="warn">Usia di bawah 6 bulan: ibuprofen tidak dihitung otomatis. Perlu penilaian dokter dan rujukan dosis khusus.</div>';return}
+$("doseArea").innerHTML='<span class="pill">Oral</span><p><b>Rentang dosis umum: 5–10 mg/kgBB per dosis</b></p><div class="result"><label for="ibuStrength">Pilih konsentrasi sediaan</label><select id="ibuStrength"><option value="20">100 mg/5 mL</option><option value="40">200 mg/5 mL</option></select><div id="ibuResult"></div></div><div class="warn">Interval 6–8 jam bila diperlukan. Maksimal 40 mg/kgBB/24 jam. Hindari pada dehidrasi/hipovolemia, gangguan ginjal, perdarahan atau ulkus gastrointestinal, hipersensitivitas NSAID, dan kecurigaan dengue. Berikan setelah makan bila memungkinkan.</div>';const calc=()=>{const mglo=p.w*5,mghi=p.w*10,conc=Number($("ibuStrength").value),max=p.w*40;$("ibuResult").innerHTML='<div class="resultgrid"><div class="metric"><small>Dosis rendah</small><strong>'+fmt(mglo)+' mg</strong><small>'+fmt(mglo/(conc/5))+' mL</small></div><div class="metric"><small>Dosis tinggi</small><strong>'+fmt(mghi)+' mg</strong><small>'+fmt(mghi/(conc/5))+' mL</small></div><div class="metric"><small>Maksimum total/24 jam</small><strong>'+fmt(max)+' mg</strong></div><div class="metric"><small>Perkiraan volume/dosis</small><strong>'+fmt(mglo/(conc/5))+'–'+fmt(mghi/(conc/5))+' mL</strong></div></div><small>Volume dibulatkan 2 desimal. Ukur dengan oral syringe.</small>'};$("ibuStrength").addEventListener("change",calc);calc();return}}
+function fmt(n){return Number(n.toFixed(2)).toString()}
+$("list").addEventListener("click",e=>{const b=e.target.closest("button[data-name]");if(b)openDrug(b.dataset.name)});
+$("close").addEventListener("click",()=>$("detail").classList.remove("open"));
+["bb","th","bl"].forEach(id=>$(id).addEventListener("input",()=>{updateSummary();if($("detail").classList.contains("open"))openDrug($("drugName").textContent)}));
 $("q").addEventListener("input",draw);$("filters").addEventListener("click",e=>{if(e.target.dataset.c){cat=e.target.dataset.c;document.querySelectorAll(".filters button").forEach(b=>b.classList.toggle("active",b===e.target));draw()}});draw();
 </script></body></html>

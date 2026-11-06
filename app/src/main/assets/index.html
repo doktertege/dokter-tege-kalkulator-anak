@@ -647,6 +647,51 @@ button.active,.bottomNav a.active{
 .handoverOutputPanel pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;padding:14px;border:1px solid #e7e9e1;border-radius:14px;background:#fffefa;color:#34475a;font:12px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;min-height:150px}
 @media(max-width:390px){.handoverIntro,.handoverOutputPanel{padding:14px}.handoverField{padding:11px}.handoverFlow{gap:5px}.handoverFlow span{font-size:8px;padding:5px 7px}.handoverActions button{flex:1}}
 
+
+/* MEDORA Shift Board — premium command surface */
+.shiftBoard{display:grid;gap:14px}
+.shiftBoardHero{padding:19px;border-radius:23px;background:radial-gradient(circle at 92% 8%,#d9c9a45c 0,transparent 34%),linear-gradient(135deg,#102b42,#1c4a50);color:#fff;box-shadow:0 12px 28px #102b4224}
+.shiftBoardHero .workspaceEyebrow{color:#d7c49a}
+.shiftBoardHero h3{font-size:21px;line-height:1.18;letter-spacing:-.4px;margin:7px 0;color:#fff}
+.shiftBoardHero p{font-size:12px;line-height:1.55;color:#d3e0df;margin:0;max-width:440px}
+.shiftBoardStats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.shiftBoardStats div{padding:11px 12px;border:1px solid #ffffff26;border-radius:15px;background:#ffffff0d}
+.shiftBoardStats strong{display:block;font-size:23px;color:#f3e7c8;line-height:1.1}
+.shiftBoardStats span{display:block;margin-top:4px;font-size:10px;color:#d3dfdc}
+.shiftComposer,.shiftTaskSection{padding:16px;border:1px solid #e6e9e1;border-radius:21px;background:linear-gradient(145deg,#fffefa,#f7f8f3);box-shadow:0 5px 18px #10243b08}
+.shiftSectionTitle{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.shiftSectionTitle>span{display:grid;place-items:center;width:29px;height:29px;border-radius:10px;background:#f1eadb;color:#967b49;font-size:10px;font-weight:850;flex:none}
+.shiftSectionTitle b{display:block;color:#1a3348;font-size:14px}
+.shiftSectionTitle small{display:block;color:#849087;font-size:10px;margin-top:2px}
+.shiftSectionTitle>div{min-width:0;flex:1}
+.shiftComposer label{display:block;margin:10px 0 5px;color:#617064;font-size:11px;font-weight:750}
+.shiftComposer input,.shiftComposer select{width:100%;min-width:0;padding:12px 13px;border:1px solid #e0e6dc;border-radius:13px;background:#fffefa;color:#24384a;font:13px inherit}
+.shiftComposerGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shiftAddButton{width:100%;margin-top:14px;border-radius:13px!important;background:linear-gradient(135deg,#245e64,#173e4a)!important;border-color:#245e64!important;color:#fff!important}
+.shiftTaskList{display:grid;gap:9px}
+.shiftTaskCard{padding:13px;border:1px solid #e8e9e2;border-radius:16px;background:#fffefa}
+.shiftTaskCard.status-done{background:#f5f8f3;border-color:#dce8da}
+.shiftTaskTop,.shiftTaskFooter{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.shiftTaskCategory,.shiftTaskPriority{font-size:9px;font-weight:800;letter-spacing:.35px}
+.shiftTaskCategory{color:#6c7d72;text-transform:uppercase}
+.shiftTaskPriority{padding:4px 8px;border-radius:30px;background:#f1eee6;color:#7e6b49}
+.shiftTaskPriority.priority-segera{background:#fae8e5;color:#a54b3e}
+.shiftTaskPriority.priority-tinggi{background:#f8efdc;color:#92703a}
+.shiftTaskCard h4{margin:9px 0 12px;color:#1c3448;font-size:14px;line-height:1.4;font-weight:750;overflow-wrap:anywhere}
+.shiftTaskCard.status-done h4{text-decoration:line-through;color:#78877c}
+.shiftTaskFooter{border-top:1px solid #edf0e9;padding-top:9px}
+.shiftTaskStatus{font-size:10px;color:#75847a;font-weight:750}
+.shiftTaskActions{display:flex;gap:6px}
+.shiftTaskActions button,.shiftClearButton{padding:7px 10px;border-radius:10px;font-size:10px;box-shadow:none}
+.shiftTaskActions button:first-child{background:#edf4ed;border-color:#dce8dc;color:#315b48}
+.shiftTaskActions button:last-child{min-width:30px;padding:5px 8px;color:#98736b}
+.shiftClearButton{white-space:nowrap;color:#7b7568;border-color:#e6e1d5;background:#fbfaf6}
+.shiftBoardEmpty{display:grid;justify-items:center;gap:5px;padding:28px 12px;border:1px dashed #d9e0d5;border-radius:16px;background:#fbfcf8;text-align:center}
+.shiftBoardEmpty span{font-size:22px;color:#b49b68}
+.shiftBoardEmpty b{font-size:13px;color:#405449}
+.shiftBoardEmpty small{font-size:10px;color:#89948a}
+@media(max-width:390px){.shiftBoardHero{padding:16px}.shiftComposer,.shiftTaskSection{padding:13px}.shiftSectionTitle{gap:7px}.shiftSectionTitle small{font-size:9px}.shiftClearButton{font-size:9px;padding:6px 7px}.shiftTaskCard{padding:11px}}
+
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">
@@ -693,6 +738,7 @@ button.active,.bottomNav a.active{
 <button class="moduleCard" data-module="integrated"><span class="moduleIcon">🧩</span><span class="moduleText"><strong>Kasus Terpadu</strong><small>Evaluasi kasus lintas kondisi</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="ultrasound"><span class="moduleIcon">🤰</span><span class="moduleText"><strong>USG Kandungan</strong><small>Biometri janin dan cairan ketuban</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="laboratory"><span class="moduleIcon">🧪</span><span class="moduleText"><strong>Laboratorium</strong><small>Interpretasi hasil pemeriksaan</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="shiftboard"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 9h8M8 13h5M8 17h8"/></svg></span><span class="moduleText"><span class="miniBrand"><img class="miniLogo" src="medora-mark.svg" alt="" aria-hidden="true"> MEDORA</span><strong>Shift Board</strong><small>Papan tugas dan prioritas selama jaga</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="handover"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></span><span class="moduleText"><span class="miniBrand"><img class="miniLogo" src="medora-mark.svg" alt="" aria-hidden="true"> MEDORA</span><strong>Clinical Handover</strong><small>Serah terima pasien dengan format SBAR</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="patient"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h3m2 0h3M8 16h8M12 5v6"/></svg></span><span class="moduleText"><span class="miniBrand"><img class="miniLogo" src="medora-mark.svg" alt="" aria-hidden="true"> MEDORA</span><strong>Patient Workspace</strong><small>Ringkasan kunjungan, vital sign, SOAP</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="records"><span class="moduleIcon">📋</span><span class="moduleText"><strong>Rekam Medis</strong><small>Checklist dokumentasi kunjungan</small></span><span class="moduleArrow">›</span></button>

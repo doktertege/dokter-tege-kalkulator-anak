@@ -813,7 +813,7 @@ $("medicineDbList").addEventListener("click",e=>{const b=e.target.closest("[data
 $("medicineDbFilters").addEventListener("click",e=>{const b=e.target.closest("[data-medicine-cat]");if(!b)return;medicineDbCategory=b.dataset.medicineCat;drawMedicineDatabase()});
 $("medicineDbSearch").addEventListener("input",drawMedicineDatabase);
 $("medicineDbDetailBack").addEventListener("click",()=>{$("medicineDbDetail").style.display="none";$("medicineDbList").style.display="block";$("medicineDbFilters").style.display="";$("medicineDbSearch").style.display="block";$("medicineDbCount").style.display="block";window.scrollTo(0,0)});
-$("medicineDbBack").addEventListener("click",()=>{showHome()});
+$("medicineDbBack").addEventListener("click",()=>{showClinicalHome()});
 function showMedical(){document.body.classList.remove("home-mode","icd-mode","medicine-database-mode","module-workspace-mode","public-mode");document.body.classList.add("medical-mode");setNavActive("navSearch");window.scrollTo(0,0)}
 function showIcd(){document.body.classList.remove("home-mode","medical-mode","medicine-database-mode","module-workspace-mode","public-mode");document.body.classList.add("icd-mode");setNavActive("navSearch");drawIcd();window.scrollTo(0,0)}
 function showCalculator(){document.body.classList.remove("home-mode","medical-mode","icd-mode","medicine-database-mode","module-workspace-mode","public-mode");setNavActive("navSearch");showFavorites=false;draw();window.scrollTo(0,0)}

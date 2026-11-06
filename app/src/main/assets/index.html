@@ -596,6 +596,15 @@ function openMedicineDatabaseDetail(name){
  if(d[4]==="excluded")html+='<div class="medicineDbWarning"><b>Produk tidak diaktifkan.</b><br>Jangan menghitung dosis menggunakan rumus generik. Ikuti penilaian klinis dan referensi produk yang sesuai.</div>';
  if(p.keyWarnings&&p.keyWarnings.length)html+='<div class="medicineDbWarning"><b>Peringatan klinis</b><ul>'+p.keyWarnings.map(x=>'<li>'+escapeHTML(x)+'</li>').join("")+'</ul></div>';
  if(!p.activeIngredient)html+='<div class="medicineDbWarning">Profil farmakologi terstruktur belum tersedia. Informasi kartu ini hanya berasal dari katalog nama dan label sediaan.</div>';
+ const sourceRegistry=window.MEDORA_DATABASE.metadata.medicineProfiles?.sources||{};
+ const provenance=p.provenance||{};
+ const provenanceLabels={activeIngredient:"Zat aktif",dosageForms:"Bentuk sediaan",route:"Rute",formulationNote:"Catatan formulasi",strength:"Kekuatan",prescriptionStatus:"Status resep",keyWarnings:"Peringatan klinis",doseEngineFunction:"Kalkulator"};
+ const provenanceRows=Object.entries(provenanceLabels).filter(([field])=>provenance[field]).map(([field,label])=>{
+  const entry=provenance[field],sourceNames=(entry.sourceRefs||[]).map(id=>sourceRegistry[id]?.title||id);
+  const state=entry.status==="source_linked_reference"?"Ada referensi":entry.status==="verified_by_local_regression_test"?"Diuji lokal":"Perlu verifikasi produk";
+  return "<li><b>"+escapeHTML(label)+":</b> "+escapeHTML(state)+(sourceNames.length?" · "+sourceNames.map(escapeHTML).join("; "):"")+"</li>";
+ });
+ if(provenanceRows.length)html+='<div class="medicineDbSection"><h3>Asal data & status verifikasi</h3><ul>'+provenanceRows.join("")+'</ul><p class="medicalHint">Referensi yang tercantum mendukung kolom terkait saja. Kolom tanpa sumber masih perlu dicocokkan dengan kemasan/leaflet produk lokal.</p></div>';
  html+='<p class="medicalHint">Status produk: '+escapeHTML(p.prescriptionStatus||"Belum diverifikasi")+' • Tanggal tinjau profil: '+escapeHTML(window.MEDORA_DATABASE.metadata.medicineProfiles?.reviewedOn||"tidak tersedia")+'</p>';
  $("medicineDbDetailBody").innerHTML=html;
  $("medicineDbList").style.display="none";$("medicineDbFilters").style.display="none";$("medicineDbSearch").style.display="none";$("medicineDbCount").style.display="none";$("medicineDbDetail").style.display="block";window.scrollTo(0,0);

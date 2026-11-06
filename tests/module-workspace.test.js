@@ -63,7 +63,8 @@ test("public health area exposes searchable, filterable articles with working de
   assert.match(html, /id="publicFilters"/);
   assert.match(html, /id="publicArticles"/);
   assert.match(html, /id="publicDetailBack"/);
-  assert.match(html, /body\\.public-mode \\.bottomNav\\{display:none\\}/);\n  assert.match(html, /function showPublicHome\\(\\)\\{document\\.body\\.classList\\.add\\("public-mode"\\)/);
+  assert.match(html, /body\\.public-mode \\.bottomNav\\{display:none\\}/);
+  assert.match(html, /function showPublicHome\\(\\)\\{document\\.body\\.classList\\.add\\("public-mode"\\)/);
   assert.match(html, /\$\("publicSearch"\)\.addEventListener\("input",drawPublicArticles\)/);
   assert.match(html, /openPublicArticle\(b\.dataset\.article\)/);
   assert.match(html, /drawPublicArticles\(\)/);
@@ -72,7 +73,7 @@ test("public health area exposes searchable, filterable articles with working de
 test("bottom navigation always returns to a visible clinical destination from every module", () => {
   assert.match(html, /function showCalculator\(\)\{document\.body\.classList\.remove\("home-mode","medical-mode","icd-mode","medicine-database-mode","module-workspace-mode","public-mode"\)/);
   assert.match(html, /function showMedical\(\)\{document\.body\.classList\.remove\("home-mode","icd-mode","medicine-database-mode","module-workspace-mode","public-mode"\)/);
-  assert.match(html, /function showIcd\(\)\{document\.body\.classList\.remove\("home-mode","medical-mode","medicine-database-mode","module-workspace-mode"\)/);
+  assert.match(html, /function showIcd\(\)\{document\.body\.classList\.remove\("home-mode","medical-mode","medicine-database-mode","module-workspace-mode","public-mode"\)/);
   assert.match(html, /\$\("navHistory"\)\.addEventListener\("click",e=>\{e\.preventDefault\(\);showCalculator\(\)/);
   assert.match(html, /\$\("navFavorites"\)\.addEventListener\("click",e=>\{e\.preventDefault\(\);showCalculator\(\);showFavorites=true/);
 });

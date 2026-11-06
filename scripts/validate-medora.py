@@ -141,6 +141,10 @@ def main():
         raise SystemExit("ERROR: required high-yield ICD-10 codes missing: " + ", ".join(missing_required_codes))
     if "R07.9" in icd_codes:
         raise SystemExit("ERROR: R07.9 is not the WHO ICD-10 code for unspecified chest pain; use R07.4")
+    if "R11.2" in icd_codes:
+        raise SystemExit("ERROR: R11.2 is ICD-10-CM-specific; use WHO ICD-10 R11 for nausea and vomiting")
+    if "R11" not in icd_codes:
+        raise SystemExit("ERROR: WHO ICD-10 R11 (nausea and vomiting) is missing")
     icd_categories = {entry[2] for entry in icd_entries}
     visible_categories = set(re.findall(r'data-icd-cat="([^"]+)"', html))
     missing_categories = sorted(icd_categories - visible_categories)

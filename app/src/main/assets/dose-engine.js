@@ -403,7 +403,34 @@
     };
   }
 
-  const api = Object.freeze({ metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+
+  // Single-dose dexamethasone for clinically diagnosed pediatric croup only.
+  // Lower dose for mild-moderate disease; standard 0.6 mg/kg for severe disease.
+  function dexamethasoneCroup(weightKg, ageMonths, severity, formulation) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 6 || ageMonths > 72) {
+      throw new RangeError("croup calculator is restricted to age 6 months through 6 years; atypical age requires evaluation for alternative diagnoses");
+    }
+    if (severity !== "mildModerate" && severity !== "severe") {
+      throw new RangeError("severity must be mildModerate or severe");
+    }
+    if (formulation !== "tablet" && formulation !== "injection") {
+      throw new RangeError("formulation must be tablet or injection");
+    }
+    const doseMg = Math.min(weightKg * (severity === "severe" ? 0.6 : 0.15), 12);
+    return {
+      doseMg,
+      doseMgPerKg: severity === "severe" ? 0.6 : 0.15,
+      formulation,
+      tabletCount: formulation === "tablet" ? doseMg / 0.5 : null,
+      injectionVolumeMl: formulation === "injection" ? doseMg / 5 : null,
+      frequency: "single dose only",
+      maxDoseMg: 12,
+      route: formulation === "tablet" ? "oral; preferred when tolerated" : "IM/IV only when oral route is not feasible and clinically indicated"
+    };
+  }
+
+  const api = Object.freeze({ dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

@@ -29,6 +29,7 @@ EXPECTED_DYNAMIC_IDS = {
     "cefotaximeDivisions", "cefotaximeResult", "gentamicinStrength", "gentamicinResult",
     "ondansetronStrength", "ondansetronResult", "diazepamStrength", "diazepamResult",
     "metroRegimen", "metroStrength", "metroResult",
+    "dexSeverity", "dexForm", "dexResult",
 }
 
 

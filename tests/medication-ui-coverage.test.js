@@ -41,7 +41,7 @@ test("every active catalog medicine has a detail handler or a dedicated topical 
     .map((entry) => entry[0])
     .filter((name) => !handlers.has(name) && !topicalGuides.has(name));
 
-  assert.deepEqual(uncovered, []);
+  assert.equal(uncovered.length, 0, "uncovered active medicines: " + uncovered.join(", "));
 });
 
 test("all requested eye and ear products use dedicated safety guidance, not dose calculators", () => {

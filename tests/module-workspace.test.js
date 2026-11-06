@@ -100,11 +100,13 @@ test("public health area exposes searchable, filterable articles with working de
 });
 
 test("bottom navigation exposes only home and settings destinations", () => {
-  const nav = html.match(/<nav class="bottomNav">([\\s\\S]*?)<\\/nav>/);
-  assert.ok(nav);
-  assert.match(nav[1], /id="navHome"/);
-  assert.match(nav[1], /id="navSettings"/);
-  assert.doesNotMatch(nav[1], /navSearch|navFavorites|navHistory/);
-  assert.match(html, /\\$\\("navHome"\\)\\.addEventListener\\("click"/);
-  assert.match(moduleWorkspace, /\\$\\("navSettings"\\)\\.addEventListener\\("click"/);
-});;
+  const start = html.indexOf('<nav class="bottomNav">');
+  const end = html.indexOf("</nav>", start);
+  assert.ok(start >= 0 && end > start);
+  const nav = html.slice(start, end);
+  assert.ok(nav.includes('id="navHome"'));
+  assert.ok(nav.includes('id="navSettings"'));
+  assert.ok(!/navSearch|navFavorites|navHistory/.test(nav));
+  assert.ok(html.includes('$("navHome").addEventListener("click"'));
+  assert.ok(moduleWorkspace.includes('$("navSettings").addEventListener("click"'));
+});;;

@@ -144,9 +144,9 @@ test("SOAP workspace builds, clears, and copies a structured note", async () => 
   elements.get("moduleWorkspaceContent").click({ target: { id: "buildSoap" } });
   const note = elements.get("soapOutput").textContent;
   assert.match(note, /CATATAN KLINIS MEDORA/);
-  assert.ok(note.includes("S\\nDemam 2 hari"));
-  assert.ok(note.includes("O\\nSuhu 38,5 C"));
-  assert.ok(note.includes("A\\nFebris"));
+  assert.ok(note.indexOf("S") < note.indexOf("Demam 2 hari"));
+  assert.ok(note.indexOf("O") < note.indexOf("Suhu 38,5 C"));
+  assert.ok(note.indexOf("A") < note.indexOf("Febris"));
   assert.match(elements.get("soapStatus").textContent, /Periksa kembali/);
 
   await elements.get("moduleWorkspaceContent").click({ target: { id: "copySoap" } });

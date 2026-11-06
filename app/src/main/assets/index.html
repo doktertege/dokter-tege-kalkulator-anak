@@ -415,6 +415,35 @@ button.active{background:#1d6d70;border-color:#1d6d70;box-shadow:0 4px 12px #1d6
 @media(max-width:390px){header.medoraHero{min-height:222px;padding:23px 16px 26px}header.medoraHero .heroLogo{width:64px;height:60px}header.medoraHero .brandName{font-size:32px;letter-spacing:2px}.moduleCard{min-height:116px;padding:10px 8px}.moduleIcon{width:46px;height:46px;font-size:24px}.moduleText strong{font-size:12px}.moduleText small{font-size:9px}.modeCard{min-height:158px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
 
+
+/* MEDORA Atelier: premium workspace and quick-launch components */
+:root{--atelier-ink:#142c3a;--atelier-muted:#71828a;--atelier-teal:#2c7774;--atelier-gold:#b99a62;--atelier-paper:#f7f8f5}
+.dashboardLaunchpad{margin:4px 0 22px;padding:19px;border:1px solid #e3e9e4;border-radius:24px;background:linear-gradient(145deg,#fff 0%,#f5f8f5 100%);box-shadow:0 12px 30px #193a3510,0 2px 5px #193a3508}
+.launchpadHeading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:15px}
+.launchpadHeading .eyebrow{font-size:9px;font-weight:850;letter-spacing:1.7px;color:var(--atelier-gold)}
+.launchpadHeading h2{margin:4px 0 3px;color:var(--atelier-ink);font-size:21px;letter-spacing:-.6px}
+.launchpadHeading p{margin:0;color:var(--atelier-muted);font-size:11px;line-height:1.45}
+.launchpadMark{width:37px;height:37px;display:grid;place-items:center;border-radius:13px;background:#f2eee4;color:#a58a58;font-size:20px}
+.quickActionGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.quickAction{display:flex;align-items:center;gap:10px;min-width:0;text-align:left;white-space:normal;padding:11px 10px;border:1px solid #e7ece7;border-radius:16px;background:#fff;box-shadow:0 3px 9px #1c39330a}
+.quickActionPrimary{background:linear-gradient(125deg,#153a48,#1c6262);border-color:#1c6262;color:#fff}
+.quickActionIcon{width:36px;height:36px;flex:none;display:grid;place-items:center;border-radius:11px;background:#eaf2ed;color:#276e68;font-size:14px;font-weight:850}
+.quickActionPrimary .quickActionIcon{background:#ffffff19;color:#e4d2a8}
+.quickAction>span:nth-child(2){display:flex;flex-direction:column;gap:2px;min-width:0}
+.quickAction b{font-size:11px;line-height:1.2;color:inherit}
+.quickAction small{font-size:9px;color:#84918d;line-height:1.25}
+.quickActionPrimary small{color:#d0dfd9}
+.quickAction i{margin-left:auto;font-style:normal;color:#b29b6b;font-size:15px}
+.recentModules{margin-top:17px;padding-top:13px;border-top:1px solid #e8ede8}
+.recentHeading{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.recentHeading b{font-size:11px;color:#29434d}
+.recentHeading span{font-size:8px;letter-spacing:1px;color:#9b8a68;font-weight:800}
+.recentModuleList{display:flex;gap:7px;overflow-x:auto;padding:1px 0 3px;scrollbar-width:none}
+.recentModuleList::-webkit-scrollbar{display:none}
+.recentModuleChip{flex:none;border-radius:30px;padding:8px 11px;background:#edf4ef;border:1px solid #e1eae3;color:#365b57;font-size:10px;font-weight:750;box-shadow:none}
+.recentEmpty{font-size:10px;color:#89958f;margin:0}
+@media(max-width:370px){.dashboardLaunchpad{padding:15px}.quickActionGrid{gap:7px}.quickAction{gap:7px;padding:9px 7px}.quickActionIcon{width:31px;height:31px}.quickAction b{font-size:10px}}
+
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">
@@ -435,6 +464,16 @@ button.active{background:#1d6d70;border-color:#1d6d70;box-shadow:0 4px 12px #1d6
 <div id="clinicalDashboard" style="display:none">
 <button class="medicalBack" id="modeBack">‹ Pilih area lain</button>
 <p class="welcome">Modul untuk tenaga medis</p>
+<section class="dashboardLaunchpad" aria-label="Akses cepat MEDORA">
+ <div class="launchpadHeading"><div><span class="eyebrow">MEDORA WORKSPACE</span><h2>Akses cepat</h2><p>Buka alat klinis penting tanpa menelusuri seluruh menu.</p></div><span class="launchpadMark" aria-hidden="true">✦</span></div>
+ <div class="quickActionGrid">
+  <button class="quickAction quickActionPrimary" data-module="calculator"><span class="quickActionIcon">Rx</span><span><b>Kalkulator dosis</b><small>Hitung dosis obat</small></span><i>↗</i></button>
+  <button class="quickAction" data-module="emergency"><span class="quickActionIcon">+</span><span><b>IGD & Emergency</b><small>Checklist respons awal</small></span><i>↗</i></button>
+  <button class="quickAction" data-module="icd"><span class="quickActionIcon">10</span><span><b>ICD-10</b><small>Cari kode diagnosis</small></span><i>↗</i></button>
+  <button class="quickAction" data-module="drugs"><span class="quickActionIcon">◈</span><span><b>Database obat</b><small>Informasi obat</small></span><i>↗</i></button>
+ </div>
+ <div class="recentModules"><div class="recentHeading"><b>Terakhir dibuka</b><span>DI PERANGKAT INI</span></div><div id="recentModuleList" class="recentModuleList"><p class="recentEmpty">Modul yang terakhir digunakan akan muncul di sini.</p></div></div>
+</section>
 <div class="moduleGrid">
 <p class="moduleGroupLabel">KALKULATOR & KODE KLINIS</p>
 <button class="moduleCard" data-module="calculator"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v4l-3 3v10h10V10l-3-3V3M7 13h10M12 13v4m-2-2h4"/></svg></span><span class="moduleText"><span class="miniBrand"><img class="miniLogo" src="medora-mark.svg" alt="" aria-hidden="true"> MEDORA</span><strong>Kalkulator Dosis Obat</strong><small>Anak dan dewasa</small></span><span class="moduleArrow">›</span></button>

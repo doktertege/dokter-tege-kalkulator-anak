@@ -515,7 +515,42 @@
     };
   }
 
-  const api = Object.freeze({ omeprazolePediatricGerd, prednisoneAsthmaOral, methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+
+  // Lansoprazole delayed-release 30 mg capsule: only regimens matching verified local strength.
+  // Typical GERD symptoms are supported for ages 1-11; adolescents are enabled only for erosive esophagitis.
+  function lansoprazolePediatricGerd(weightKg, ageMonths, indication, durationWeeks) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 12 || ageMonths >= 216) {
+      throw new RangeError("lansoprazole capsule calculator is restricted to age 1 through 17 years");
+    }
+    if (weightKg <= 30) {
+      throw new RangeError("30 mg capsule regimen is supported only above 30 kg; do not split capsule granules or estimate a lower dose");
+    }
+    if (indication !== "typicalGERD" && indication !== "erosiveEsophagitis") {
+      throw new RangeError("unsupported lansoprazole indication");
+    }
+    if (indication === "typicalGERD" && ageMonths >= 144) {
+      throw new RangeError("adolescent non-erosive GERD requires 15 mg, which is not enabled because a local 15 mg formulation was not verified");
+    }
+    if (indication === "typicalGERD" && durationWeeks !== 4) {
+      throw new RangeError("typical GERD trial duration is 4 weeks before reassessment");
+    }
+    if (indication === "erosiveEsophagitis" && durationWeeks !== 4 && durationWeeks !== 8) {
+      throw new RangeError("erosive esophagitis duration must be 4 or 8 weeks");
+    }
+    return {
+      indication,
+      dailyDoseMg: 30,
+      capsuleStrengthMg: 30,
+      capsulesPerDay: 1,
+      durationWeeks,
+      totalCapsules: durationWeeks * 7,
+      frequency: "once daily before breakfast",
+      route: "oral"
+    };
+  }
+
+  const api = Object.freeze({ lansoprazolePediatricGerd, omeprazolePediatricGerd, prednisoneAsthmaOral, methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

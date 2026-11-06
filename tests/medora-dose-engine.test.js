@@ -584,3 +584,32 @@ test("metronidazole rejects neonatal, adult, invalid and unsupported regimens", 
   assert.throws(() => dose.metronidazole(10, 24, "anaerobic", 125), RangeError);
   assert.throws(() => dose.metronidazole(10, Number.NaN, "giardiasis", 125), RangeError);
 });
+
+
+test("lansoprazole supports verified 30 mg capsule pediatric GERD regimens", () => {
+  const typical = dose.lansoprazolePediatricGerd(35, 120, "typicalGERD", 4);
+  assert.deepEqual(typical, {
+    indication: "typicalGERD", dailyDoseMg: 30, capsuleStrengthMg: 30,
+    capsulesPerDay: 1, durationWeeks: 4, totalCapsules: 28,
+    frequency: "once daily before breakfast", route: "oral"
+  });
+  const erosiveChild = dose.lansoprazolePediatricGerd(36, 132, "erosiveEsophagitis", 8);
+  assert.equal(erosiveChild.dailyDoseMg, 30);
+  assert.equal(erosiveChild.totalCapsules, 56);
+  const erosiveAdolescent = dose.lansoprazolePediatricGerd(45, 180, "erosiveEsophagitis", 4);
+  assert.equal(erosiveAdolescent.dailyDoseMg, 30);
+  assert.equal(erosiveAdolescent.totalCapsules, 28);
+});
+
+test("lansoprazole blocks unsupported weights, ages, indications and durations", () => {
+  assert.throws(() => dose.lansoprazolePediatricGerd(30, 120, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(25, 120, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(35, 11, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(35, 216, "erosiveEsophagitis", 8), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(35, 168, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(35, 120, "cough", 4), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(35, 120, "typicalGERD", 8), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(35, 120, "erosiveEsophagitis", 6), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(0, 120, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(Infinity, 120, "typicalGERD", 4), RangeError);
+});

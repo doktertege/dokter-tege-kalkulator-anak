@@ -22,7 +22,7 @@ EXPECTED_DYNAMIC_IDS = {
     "paraStrength", "paraResult", "ibuStrength", "ibuResult",
     "amoxRegimen", "amoxStrength", "amoxResult",
     "cefaStrength", "cefaResult", "cefixRegimen", "cefixStrength",
-    "cefixResult", "cetiStrength", "cetiResult",
+    "cefixResult", "cetiStrength", "cetiResult", "loraStrength", "loraResult",
     "zincRegimen", "zincResult",
     "orsPlan", "orsResult", "ctmStrength", "ctmResult",
     "ceftriaxoneRegimen", "ceftriaxoneResult", "cefotaximeRegimen",

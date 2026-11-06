@@ -1,5 +1,11 @@
 plugins { id 'com.android.application' }
 
+def medoraStoreFile = System.getenv('MEDORA_KEYSTORE_FILE')
+def medoraStorePassword = System.getenv('MEDORA_KEYSTORE_PASSWORD')
+def medoraKeyAlias = System.getenv('MEDORA_KEY_ALIAS')
+def medoraKeyPassword = System.getenv('MEDORA_KEY_PASSWORD')
+def hasMedoraSigning = [medoraStoreFile, medoraStorePassword, medoraKeyAlias, medoraKeyPassword].every { it != null && !it.trim().isEmpty() }
+
 android {
     namespace 'id.doktertege.kalkulatoranak'
     compileSdk 35
@@ -7,7 +13,29 @@ android {
         applicationId 'id.doktertege.kalkulatoranak'
         minSdk 23
         targetSdk 35
-        versionCode 1
-        versionName '0.1-prototype'
+        versionCode 3
+        versionName '0.2.0'
     }
+
+    if (hasMedoraSigning) {
+        signingConfigs {
+            release {
+                storeFile file(medoraStoreFile)
+                storePassword medoraStorePassword
+                keyAlias medoraKeyAlias
+                keyPassword medoraKeyPassword
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            if (hasMedoraSigning) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+}
+dependencies {
+    implementation 'com.google.android.gms:play-services-auth:21.3.0'
 }

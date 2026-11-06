@@ -10,10 +10,10 @@ const html = fs.readFileSync(path.join(assets, "index.html"), "utf8");
 const workspace = fs.readFileSync(path.join(assets, "module-workspace.js"), "utf8");
 
 test("all clinical dashboard menu entries route to a working module", () => {
-  for (const key of ["calculator", "medical", "icd", "guides", "emergency", "drugs", "ai", "references"]) {
+  for (const key of ["calculator", "medical", "icd", "guides", "emergency", "drugs", "ai", "references", "integrated", "ultrasound", "laboratory", "records", "anthropometry", "vitals"]) {
     assert.match(html, new RegExp('data-module="' + key + '"'));
   }
-  for (const key of ["guides", "emergency", "ai", "references"]) {
+  for (const key of ["guides", "emergency", "ai", "references", "integrated", "ultrasound", "laboratory", "records", "anthropometry", "vitals"]) {
     assert.match(workspace, new RegExp('^\\s*' + key + ':', "m"));
   }
   assert.match(workspace, /key === "calculator".*showCalculator\(\)/);
@@ -54,7 +54,9 @@ test("settings can back up, restore and clear local favorites and dose history",
   assert.match(workspace, /id="restoreLocalBackup"/);
   assert.match(workspace, /id="clearLocalHistory"/);
   assert.match(workspace, /id="clearLocalFavorites"/);
-  assert.match(workspace, /backup\.app !== "MEDORA"/);
+  assert.match(workspace, /backup\.app === "MEDORA"/);
+  assert.match(workspace, /backup\.version === 2/);
+  assert.match(workspace, /Array\.isArray\(backup\.patientRecords\)/);
   assert.match(workspace, /updateLocalDataSummary/);
 });
 
@@ -93,7 +95,8 @@ test("public health area exposes searchable, filterable articles with working de
   assert.match(html, /id="publicArticles"/);
   assert.match(html, /id="publicDetailBack"/);
   assert.match(html, /body\.public-mode \.bottomNav\{display:none\}/);
-  assert.match(html, /function showPublicHome\(\)\{document\.body\.classList\.add\("public-mode"\)/);
+  assert.match(html, /function showPublicHome\(\)/);
+  assert.match(html, /document\.body\.classList\.add\("public-mode"\)/);
   assert.match(html, /\$\("publicSearch"\)\.addEventListener\("input",drawPublicArticles\)/);
   assert.match(html, /openPublicArticle\(b\.dataset\.article\)/);
   assert.match(html, /drawPublicArticles\(\)/);

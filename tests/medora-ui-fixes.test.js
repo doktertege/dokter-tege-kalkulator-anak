@@ -70,9 +70,9 @@ test("drug cards reserve columns for medicine name, dose and action controls", (
   assert.match(html, /grid-template-columns:48px minmax\(0,1fr\) 82px 25px 20px/);
 });
 
-test("header has no offline badge and workspace visibility CSS is valid", () => {
+test("clinical desk shows offline readiness and workspace visibility CSS is valid", () => {
   const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
-  assert.ok(!html.includes("OFFLINE"), "offline badge removed");
+  assert.ok(html.includes("OFFLINE READY"), "clinical desk offline readiness indicator");
   assert.ok(html.includes("body.module-workspace-mode main> :not(#moduleWorkspace){display:none}"));
   assert.ok(html.includes("body.module-workspace-mode #moduleWorkspace{display:block}"));
 });
@@ -143,7 +143,7 @@ test("Android WebView keeps local assets internal and blocks insecure or unsuppo
   assert.match(activity, /"https"\.equalsIgnoreCase\(scheme\)/);
   assert.match(activity, /return true;\s*\}/);
   assert.match(activity, /catch \(ActivityNotFoundException error\)/);
-  assert.match(activity, /view\.loadUrl\(uri\.toString\(\)\)/);
+  assert.match(activity, /startActivity\(intent\)/, "external HTTPS pages must open outside the WebView JavaScript bridge");
   assert.match(activity, /web\.loadUrl\("file:\/\/\/android_asset\/index\.html"\)/);
   assert.doesNotMatch(activity, /"http"\.equalsIgnoreCase\(scheme\)/);
   assert.doesNotMatch(activity, /setAllowUniversalAccessFromFileURLs\(true\)/);
@@ -159,4 +159,25 @@ test("external HTTPS links are routed on both legacy API 23 and modern Android W
   assert.match(activity, /handleNavigation\(view, request\.getUrl\(\)\)/);
   const gradle = fs.readFileSync(path.join(__dirname, "../app/build.gradle"), "utf8");
   assert.match(gradle, /minSdk 23/);
+});
+
+test("public dashboard isolates general mode from pediatric calculator and clinical panels", () => {
+  const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
+  assert.match(html, /body\.public-mode main> :not\(#homeDashboard\)\{display:none\}/);
+  assert.match(html, /body\.public-mode #homeDashboard\{display:block\}/);
+  assert.match(html, /body\.public-mode #homeDashboard> #publicDashboard\{display:block!important\}/);
+  assert.match(html, /body\.public-mode #homeDashboard> #modeChooser,body\.public-mode #homeDashboard> #clinicalDashboard\{display:none!important\}/);
+  assert.match(html, /function drawPublicArticles\(\)[\s\S]*?\$\("publicArticles"\)\.innerHTML=rows\.length\?/);
+  assert.match(html, /function showPublicHome\(\)[\s\S]*?classList\.add\("public-mode"\)[\s\S]*?\$\("clinicalDashboard"\)\.style\.display="none"[\s\S]*?\$\("publicDashboard"\)\.style\.display="block"/);
+});
+
+test("medicine database back button returns to the clinical dashboard", () => {
+  const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
+  assert.match(html, /\$\("medicineDbBack"\)\.addEventListener\("click",\s*\(\)\s*=>\s*\{\s*showClinicalHome\(\)\s*\}\)/);
+});
+
+test("medical calculator and ICD search back buttons return to clinical dashboard", () => {
+  const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
+  assert.match(html, /\$\("medicalBack"\)\.addEventListener\("click",\s*showClinicalHome\)/);
+  assert.match(html, /\$\("icdBack"\)\.addEventListener\("click",\s*showClinicalHome\)/);
 });

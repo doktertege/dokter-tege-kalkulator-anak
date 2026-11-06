@@ -610,8 +610,6 @@ function updateGcs(){const e=Number($("gcsEye").value),v=Number($("gcsVerbal").v
 ["gcsEye","gcsVerbal","gcsMotor"].forEach(id=>$(id).addEventListener("change",updateGcs));
 $("navHome").addEventListener("click",e=>{e.preventDefault();showHome()});
 $("navSearch").addEventListener("click",e=>{e.preventDefault();showCalculator();$("q").focus()});
-$("navFavorites").addEventListener("click",e=>{e.preventDefault();showCalculator();showFavorites=true;draw()});
-$("navHistory").addEventListener("click",e=>{e.preventDefault();alert("Riwayat penggunaan sedang dalam tahap pengembangan.")});
 $("navSettings").addEventListener("click",e=>{e.preventDefault();alert("Pengaturan MEDORA sedang dalam tahap pengembangan.")});
 draw();updateSummary();document.body.classList.add("home-mode");
 </script></body></html>

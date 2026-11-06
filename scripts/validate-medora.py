@@ -3,6 +3,7 @@
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
+import re
 import subprocess
 import tempfile
 
@@ -71,6 +72,23 @@ def main():
             f"ERROR: expected exactly one non-empty inline script; found {len(parser.inline_scripts)}"
         )
 
+    javascript = parser.inline_scripts[0]
+    referenced_ids = set(re.findall(r'\\$\\("([^"]+)"\\)', javascript))
+    missing_references = sorted(referenced_ids - set(parser.ids) - EXPECTED_DYNAMIC_IDS)
+    missing_dynamic_controls = sorted(
+        item for item in EXPECTED_DYNAMIC_IDS if item not in javascript
+    )
+    if missing_references:
+        raise SystemExit(
+            "ERROR: JavaScript references missing HTML elements: "
+            + ", ".join(missing_references)
+        )
+    if missing_dynamic_controls:
+        raise SystemExit(
+            "ERROR: expected dynamic dose controls are not present in JavaScript: "
+            + ", ".join(missing_dynamic_controls)
+        )
+
     with tempfile.NamedTemporaryFile("w", suffix=".js", encoding="utf-8") as js_file:
         js_file.write(parser.inline_scripts[0])
         js_file.flush()
@@ -86,7 +104,7 @@ def main():
     print(
         "MEDORA validation passed: "
         f"{len(parser.ids)} HTML IDs, {len(EXPECTED_DYNAMIC_IDS)} documented dynamic dose controls, "
-        f"{len(parser.inline_scripts[0])} JavaScript characters."
+        f"{len(javascript)} JavaScript characters; all static and dynamic element references resolved."
     )
 
 

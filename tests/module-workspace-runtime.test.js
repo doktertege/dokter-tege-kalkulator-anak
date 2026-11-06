@@ -42,6 +42,14 @@ function makeElement() {
 
 function createHarness() {
   const elements = new Map();
+  elements.get = function(id) {
+    if (!Map.prototype.has.call(this, id)) {
+      const element = makeElement();
+      element.id = id;
+      Map.prototype.set.call(this, id, element);
+    }
+    return Map.prototype.get.call(this, id);
+  };
   const emergencyCheckboxes = Array.from({ length: 7 }, () => makeElement());
   const document = {
     body: { classList: { add() {}, remove() {} } },

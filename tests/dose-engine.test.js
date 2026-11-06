@@ -123,7 +123,7 @@ test("ceftriaxone injection enforces age, weight, regimen, and daily ceiling", (
   assert.equal(meningitis.dailyMaxMg, 1000);
   assert.equal(meningitis.divisions, 2);
   assert.equal(meningitis.intervalHours, 12);
-  assert.equal(dose.ceftriaxoneInjection(60, 24, "meningitis").dailyMaxMg, 4000);
+  assert.equal(dose.ceftriaxoneInjection(49, 24, "meningitis").dailyMaxMg, 4000);
   assert.throws(() => dose.ceftriaxoneInjection(10, 1, "standard"), RangeError);
   assert.throws(() => dose.ceftriaxoneInjection(50, 24, "standard"), RangeError);
   assert.throws(() => dose.ceftriaxoneInjection(10, 24, "unknown"), RangeError);

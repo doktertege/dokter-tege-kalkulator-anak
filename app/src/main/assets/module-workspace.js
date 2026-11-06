@@ -239,8 +239,8 @@
     }
   });
   document.getElementById("homeDashboard").addEventListener("click", event => {
-    const favoriteToggle = event.target.closest("[data-favorite]");
-    if (favoriteToggle && favoriteToggle.dataset && favoriteToggle.dataset.favorite) {
+    const favoriteToggle = event.target && event.target.dataset && event.target.dataset.favorite ? event.target : null;
+    if (favoriteToggle) {
       event.preventDefault();
       event.stopPropagation();
       toggleFavoriteModule(favoriteToggle.dataset.favorite);

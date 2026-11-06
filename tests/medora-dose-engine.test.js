@@ -21,8 +21,8 @@ test("paracetamol applies per-dose and daily caps", () => {
 
 test("paracetamol supports 160 mg/5 mL concentration", () => {
   const r = dose.paracetamol(12, 160);
-  assert.equal(r.lowMl, 7.5);
-  assert.equal(r.highMl, 11.25);
+  assert.equal(r.lowMl, 3.75);
+  assert.equal(r.highMl, 5.625);
 });
 
 test("ibuprofen calculates 5–10 mg/kg and daily maximum", () => {

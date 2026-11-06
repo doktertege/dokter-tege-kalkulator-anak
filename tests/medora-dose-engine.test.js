@@ -190,6 +190,23 @@ test("cetirizine enforces minimum age and maximum daily dose", () => {
 });
 
 
+test("loratadine uses age- and weight-based pediatric syrup doses", () => {
+  assert.deepEqual(dose.loratadine(20, 24, 5), {
+    dailyMg: 5, volumeMl: 5, frequencyPerDay: 1, maxDailyMg: 10
+  });
+  assert.equal(dose.loratadine(30, 143, 5).dailyMg, 5);
+  assert.equal(dose.loratadine(30.1, 143, 5).dailyMg, 10);
+  assert.equal(dose.loratadine(10, 144, 5).dailyMg, 10);
+  assert.equal(dose.loratadine(10, 216, 5).volumeMl, 10);
+});
+
+test("loratadine rejects under-2, over-18, invalid weight and strength", () => {
+  assert.throws(() => dose.loratadine(10, 23, 5), RangeError);
+  assert.throws(() => dose.loratadine(10, 217, 5), RangeError);
+  assert.throws(() => dose.loratadine(0, 24, 5), RangeError);
+  assert.throws(() => dose.loratadine(10, 24, 0), RangeError);
+});
+
 test("ambroxol uses age-based doses and frequencies", () => {
   assert.deepEqual(dose.ambroxol(24, 15), {
     doseMg: 7.5, volumeMl: 2.5, frequencyMinPerDay: 3, frequencyMaxPerDay: 3

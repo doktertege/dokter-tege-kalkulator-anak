@@ -165,7 +165,7 @@ test("quick-launch modules are remembered locally in most-recent-first order", (
   assert.doesNotMatch(recentHtml, /Kalkulator medis/);
 });
 
-test("Shift Board adds tasks, advances status, and clears completed items", () => {
+test("Shift Board adds tasks, advances status, and clears completed items", async () => {
   const { elements } = createHarness();
   elements.get("homeDashboard").click({
     target: { closest: selector => selector === "[data-favorite]" ? null : ({ dataset: { module: "shiftboard" } }) }

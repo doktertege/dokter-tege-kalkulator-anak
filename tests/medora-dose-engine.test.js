@@ -188,3 +188,30 @@ test("cetirizine enforces minimum age and maximum daily dose", () => {
   assert.equal(dose.cetirizine(60, 5).maxDailyMg, 5);
   assert.equal(dose.cetirizine(180, 5).maxDailyMg, 10);
 });
+
+
+test("ambroxol uses age-based doses and frequencies", () => {
+  assert.deepEqual(dose.ambroxol(24, 15), {
+    doseMg: 7.5, volumeMl: 2.5, frequencyMinPerDay: 3, frequencyMaxPerDay: 3
+  });
+  assert.deepEqual(dose.ambroxol(71, 15), {
+    doseMg: 7.5, volumeMl: 2.5, frequencyMinPerDay: 3, frequencyMaxPerDay: 3
+  });
+  assert.deepEqual(dose.ambroxol(72, 15), {
+    doseMg: 15, volumeMl: 5, frequencyMinPerDay: 2, frequencyMaxPerDay: 3
+  });
+  assert.deepEqual(dose.ambroxol(144, 15), {
+    doseMg: 15, volumeMl: 5, frequencyMinPerDay: 2, frequencyMaxPerDay: 3
+  });
+});
+
+test("ambroxol converts different syrup concentrations", () => {
+  assert.equal(dose.ambroxol(24, 30).volumeMl, 1.25);
+  assert.equal(dose.ambroxol(72, 7.5).volumeMl, 10);
+});
+
+test("ambroxol rejects ages outside the leaflet range and invalid strengths", () => {
+  assert.throws(() => dose.ambroxol(23, 15), RangeError);
+  assert.throws(() => dose.ambroxol(145, 15), RangeError);
+  assert.throws(() => dose.ambroxol(24, 0), RangeError);
+});

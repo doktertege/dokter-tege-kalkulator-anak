@@ -47,3 +47,38 @@
 ## Change control
 
 Do not change a dose formula solely to make the output match a single generic reference. Record the indication, source, formulation, maximum dose and rationale in this file, then add reproducible boundary tests before merging the clinical change.
+
+
+## Focused review: salbutamol nebulization (6 November 2026)
+
+### Current app behavior
+
+- Automatic calculation is disabled below 12 months.
+- 1–5 years: 2.5 mg per nebulization.
+- 6–11 years: selectable 2.5 mg or 5 mg.
+- 12 years and older: 5 mg.
+- The result panel displays repeat dosing every 20 minutes, up to 3 doses in the first hour, for moderate/severe exacerbation.
+
+### Evidence found
+
+- **GINA 2025**, management of acute asthma/wheeze in children 5 years and younger, lists 2.5 mg nebulized salbutamol as the initial dose; for moderate exacerbation, further doses may be considered every 20 minutes for 2 additional doses if needed. It emphasizes close monitoring, reassessment and escalation for severe features or poor response. GINA's November 2025 update corrected a previously published typographical dose error; use the corrected report.  
+  https://ginasthma.org/wp-content/uploads/2025/11/GINA-2025-Update-25_11_08-WMS.pdf  
+  https://ginasthma.org/minor-update-to-gina-2025-report-and-good-news-about-access-to-gina-resources/
+- **Pedoman Nasional Asma Anak (IDAI)** page for the national guideline (2017 edition) describes the Indonesian pediatric asthma guideline and emphasizes tailored management.  
+  https://www.idai.or.id/publications/buku-idai/pedoman-nasional-asma-anak
+- A searchable copy of **Pedoman Nasional Asma Anak 2022** lists 2.5 mg (one ampoule) per nebulization and repeat intervals of 20 minutes during the first hour, with subsequent frequency depending on severity/response. Because the available copy is hosted by a third-party document-sharing site, obtain and verify the official publication before treating it as the definitive local source.  
+  https://id.scribd.com/document/857413858/Buku-Pedoman-Nasional-Asma-Anak-2023-3
+
+### Clinical interpretation and decision
+
+1. The current 2.5 mg dose for ages 1–5 is consistent with the cited GINA 2025 initial dose and the searchable Indonesian guideline text.
+2. The 5 mg option for ages 6–11 is **not validated by the sources reviewed in this focused pass**. Do not retain it as an approved default without confirming an official local protocol or product-specific guidance that supports it.
+3. A fixed age-only dose for all children is incomplete. Weight, severity, route/device, formulation, response, heart rate, oxygenation and local escalation protocol matter.
+4. The q20-minute schedule must be presented as a time-limited acute-exacerbation protocol, not a routine frequency for every wheezing patient. It requires reassessment after each treatment and escalation when response is inadequate.
+5. pMDI with spacer is preferred for many children when feasible; nebulization should not be represented as universally superior.
+6. Bronchiolitis in infants must remain distinct from asthma/bronchospasm; salbutamol is not routine treatment for typical bronchiolitis.
+7. Before formula changes, request the clinic's adopted acute-asthma protocol and verify the exact marketed nebule strengths and product leaflets in Indonesia.
+
+### Implementation status
+
+**No dose logic changed.** Salbutamol remains flagged for clinical sign-off. The unresolved 5 mg option for ages 6–11 and the age-only dosing design should be reviewed against the clinic's adopted protocol before enabling a revised formula.

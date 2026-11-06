@@ -9,6 +9,7 @@ import tempfile
 
 
 HTML_FILE = Path("app/src/main/assets/index.html")
+DOSE_ENGINE_FILE = Path("app/src/main/assets/dose-engine.js")
 REQUIRED_IDS = {
     "homeDashboard", "clinicalDashboard", "publicDashboard",
     "patientPanel", "bb", "th", "bl", "list", "detail",
@@ -57,8 +58,15 @@ def main():
     if not HTML_FILE.is_file():
         raise SystemExit(f"ERROR: file not found: {HTML_FILE}")
 
+    if not DOSE_ENGINE_FILE.is_file():
+        raise SystemExit(f"ERROR: dose engine file not found: {DOSE_ENGINE_FILE}")
+
+    html = HTML_FILE.read_text(encoding="utf-8")
+    if '<script src="dose-engine.js"></script>' not in html:
+        raise SystemExit("ERROR: MEDORA dose engine is not loaded before the inline application script")
+
     parser = DocumentInspector()
-    parser.feed(HTML_FILE.read_text(encoding="utf-8"))
+    parser.feed(html)
     counts = Counter(parser.ids)
     duplicates = sorted(item for item, count in counts.items() if count > 1)
     missing = sorted(REQUIRED_IDS - set(parser.ids))
@@ -100,6 +108,15 @@ def main():
         )
     if result.returncode:
         raise SystemExit("ERROR: JavaScript syntax check failed:\n" + result.stderr)
+
+    engine_check = subprocess.run(
+        ["node", "--check", str(DOSE_ENGINE_FILE)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if engine_check.returncode:
+        raise SystemExit("ERROR: dose engine syntax check failed:\\n" + engine_check.stderr)
 
     print(
         "MEDORA validation passed: "

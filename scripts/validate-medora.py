@@ -94,11 +94,32 @@ def main():
 
     # Every active catalog entry must resolve to a calculator or an explicit
     # product guide. This prevents selectable drugs from opening an empty detail.
-    catalog_match = re.search(r"const data=\\[(.*?)\\n\\];", javascript, re.S)
+    catalog_match = re.search(r"const data=\[(.*?)\n\];", javascript, re.S)
     if not catalog_match:
         raise SystemExit("ERROR: medication catalog declaration not found")
     catalog_entries = re.findall(
-        r'^\\["([^"]+)",.*,"(active|excluded)"\\],?
+        r'^\["([^"]+)",.*,"(active|excluded)"\],?$',
+        catalog_match.group(1),
+        re.M,
+    )
+    active_names = {name for name, status in catalog_entries if status == "active"}
+    detail_match = re.search(
+        r"function openDrug\(name\)\{(.*?)(?=^function |\Z)",
+        javascript,
+        re.S | re.M,
+    )
+    if not detail_match:
+        raise SystemExit("ERROR: medication detail handler not found")
+    detail_script = detail_match.group(1)
+    handled_names = set(re.findall(r'name===["\']([^"\']+)["\']', detail_script))
+    handled_names.update(re.findall(r'^"([^"]+)":', detail_script, re.M))
+    unhandled_active = sorted(active_names - handled_names)
+    if unhandled_active:
+        raise SystemExit(
+            "ERROR: active catalog entries lack a detail handler or product guide: "
+            + ", ".join(unhandled_active)
+        )
+
     # Regression guard: every active catalog item with a supported list preview
     # must expose its detail flow instead of falling through to the pending state.
     furosemide_preview = 'else if(d[0]==="Furosemide"&&p.a>=1&&p.a<216&&p.w>=10)'

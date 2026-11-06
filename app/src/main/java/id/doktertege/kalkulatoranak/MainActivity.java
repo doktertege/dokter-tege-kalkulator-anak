@@ -163,7 +163,7 @@ public class MainActivity extends Activity {
         if ("file".equalsIgnoreCase(scheme)) return false;
         if ("https".equalsIgnoreCase(scheme)) {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            try { startActivity(intent); } catch (ActivityNotFoundException error) { view.loadUrl(uri.toString()); }
+            try { startActivity(intent); } catch (ActivityNotFoundException error) { /* Keep untrusted web content outside the WebView bridge. */ }
         }
         return true;
     }

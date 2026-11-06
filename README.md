@@ -28,6 +28,9 @@ Aplikasi tidak memerlukan koneksi internet untuk fitur lokal. Favorit disimpan d
 - The database is loaded locally by the Android WebView; no network request is needed at runtime.
 - Current ICD-10 metadata identifies WHO ICD-10 version 2010. The 99-entry list is a curated subset, not the complete WHO tabular list or alphabetic index.
 - The 32-item medication catalog is also stored in `database.js`; product labels and status are separated from dosing algorithms.
+- Ten structured medicine profiles document active ingredients, dosage forms, routes, product-specific formulation caveats, prescription status, and key safety warnings.
+- The profiles do not invent pediatric regimens; injectable products require vial/reconstitution checks, oral rehydration sachets require exact label dilution, and eye/ear steroid-antibiotic products have no pediatric dose calculator.
+- Product/formulation metadata includes source links and a review date; always verify the actual locally stocked pack and current package insert before prescribing.
 - Requested products are retained: CTM, oralit, ceftriaxone, cefotaxime, gentamicin, Cendo Xitrol eye drops/ointment, and Erlamycetin eye/ear products.
 - Domperidone remains explicitly excluded from pediatric dose calculation because of QT/arrhythmia risk.
 - Dose calculations and indication-specific instructions remain in their dedicated logic/guidance; moving the product index did not change medication regimens.

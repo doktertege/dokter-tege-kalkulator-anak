@@ -152,7 +152,7 @@ def main():
 
     # Medication catalog integrity: parse JSON-shaped rows from the offline database.
     drug_start = database_javascript.find("root.MEDORA_DATABASE.drugs = [")
-    drug_end = database_javascript.find("\\n  ];", drug_start)
+    drug_end = database_javascript.find("\n  ];", drug_start)
     if drug_start < 0 or drug_end < 0:
         raise SystemExit("ERROR: medication catalog not found in offline database")
     drug_block = database_javascript[drug_start + len("root.MEDORA_DATABASE.drugs = ["):drug_end]

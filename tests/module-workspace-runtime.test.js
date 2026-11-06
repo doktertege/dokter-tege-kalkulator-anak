@@ -297,3 +297,18 @@ test("settings explains sensitive details contained in exported backups", () => 
   assert.match(elements.get("moduleWorkspaceContent").innerHTML, /nama obat, usia, berat badan, hasil, dan tanggal/);
   assert.match(elements.get("moduleWorkspaceContent").innerHTML, /informasi kesehatan yang sensitif/);
 });
+
+test("SOAP output explicitly flags empty sections instead of silently omitting them", () => {
+  const { elements } = createHarness();
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "ai" } }) }
+  });
+  elements.get("soapComplaint").value = "Batuk 3 hari";
+  elements.get("soapAssessment").value = "ISPA";
+  elements.get("moduleWorkspaceContent").click({ target: { id: "buildSoap" } });
+  const note = elements.get("soapOutput").textContent;
+  assert.match(note, /O - Objektif[\\s\\S]*?\\[BELUM DIISI\\]/);
+  assert.match(note, /P - Rencana[\\s\\S]*?\\[BELUM DIISI\\]/);
+  assert.match(elements.get("soapStatus").textContent, /belum lengkap/);
+  assert.match(elements.get("soapStatus").textContent, /Objektif, Rencana/);
+});

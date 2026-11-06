@@ -8,6 +8,7 @@ Prototype Android offline untuk membantu perhitungan dosis pediatrik.
 - Antarmuka responsif dan dapat digunakan offline.
 - Input berat badan dan usia anak.
 - Katalog obat dengan pencarian dan kategori.
+- Referensi pencarian 51 kode ICD-10 umum dengan filter kategori; daftar ini bukan database lengkap dan kode harus diverifikasi terhadap indeks/tabular serta aturan coding yang berlaku.
 - Favorit obat tersimpan lokal di perangkat.
 - Kalkulator dosis yang saat ini diaktifkan secara terbatas untuk paracetamol, ibuprofen, cetirizine, ambroxol pada rentang usia yang ditentukan, zinc sebagai terapi tambahan diare, serta amoxicillin, cefadroxil, cefixime oral, dan salbutamol nebulisasi dengan pemilihan regimen, konsentrasi sediaan, dan batas usia/berat badan.
 - Obat lain tetap berstatus belum aktif sampai regimen, sediaan, batas dosis, kontraindikasi, dan referensinya diverifikasi.

@@ -454,6 +454,38 @@ test("rectal diazepam rejects neonatal age, adult age and invalid inputs", () =>
 
 
 
+
+test("prednisone asthma oral calculates age-capped daily dose and 3–5 day course", () => {
+  const toddler = dose.prednisoneAsthmaOral(10, 18, 2, 3, 5);
+  assert.equal(toddler.dailyDoseMg, 20);
+  assert.equal(toddler.maxDailyMg, 20);
+  assert.equal(toddler.totalCourseMg, 60);
+  assert.equal(toddler.tabletsPerDayEquivalent, 4);
+  assert.equal(toddler.totalTabletsEquivalent, 12);
+  assert.equal(toddler.taperRequired, false);
+
+  const preschool = dose.prednisoneAsthmaOral(20, 60, 2, 5, 5);
+  assert.equal(preschool.dailyDoseMg, 30);
+  assert.equal(preschool.maxDailyMg, 30);
+  assert.equal(preschool.totalCourseMg, 150);
+
+  const schoolAge = dose.prednisoneAsthmaOral(30, 120, 2, 4, 5);
+  assert.equal(schoolAge.dailyDoseMg, 40);
+  assert.equal(schoolAge.maxDailyMg, 40);
+  assert.equal(schoolAge.totalCourseMg, 160);
+});
+
+test("prednisone asthma oral validates age, selected dose, duration and tablet strength", () => {
+  assert.throws(() => dose.prednisoneAsthmaOral(10, 11, 1, 3, 5), RangeError);
+  assert.throws(() => dose.prednisoneAsthmaOral(10, 144, 1, 3, 5), RangeError);
+  assert.throws(() => dose.prednisoneAsthmaOral(10, 24, 1.5, 3, 5), RangeError);
+  assert.throws(() => dose.prednisoneAsthmaOral(10, 24, 1, 2, 5), RangeError);
+  assert.throws(() => dose.prednisoneAsthmaOral(10, 24, 1, 6, 5), RangeError);
+  assert.throws(() => dose.prednisoneAsthmaOral(10, 24, 1, 3, 10), RangeError);
+  assert.throws(() => dose.prednisoneAsthmaOral(0, 24, 1, 3, 5), RangeError);
+  assert.throws(() => dose.prednisoneAsthmaOral(Number.POSITIVE_INFINITY, 24, 1, 3, 5), RangeError);
+});
+
 test("methylprednisolone calculates initial IV dose for severe pediatric asthma", () => {
   const r = dose.methylprednisoloneAsthmaIV(12, 60);
   assert.equal(r.doseMg, 12);

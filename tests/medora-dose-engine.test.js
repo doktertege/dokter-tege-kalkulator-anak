@@ -184,5 +184,7 @@ test("cetirizine enforces minimum age and maximum daily dose", () => {
   assert.throws(() => dose.cetirizine(5, 5), RangeError);
   assert.throws(() => dose.cetirizine(Number.NaN, 5), RangeError);
   assert.throws(() => dose.cetirizine(144, 0), RangeError);
+  assert.equal(dose.cetirizine(12, 5).maxDailyMg, 2.5);
+  assert.equal(dose.cetirizine(60, 5).maxDailyMg, 5);
   assert.equal(dose.cetirizine(180, 5).maxDailyMg, 10);
 });

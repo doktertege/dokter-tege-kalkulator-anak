@@ -289,9 +289,10 @@
       throw new RangeError("divisions must be 4 or 6");
     }
     const minDailyMg = weightKg * (regimen === "meningitis" ? 200 : 50);
-    const maxDailyMg = Math.min(weightKg * (regimen === "meningitis" ? 300 : 180), 12000);
+    const maxDailyMg = Math.min(weightKg * (regimen === "meningitis" ? 300 : 180), 12000, 2000 * dosesPerDay);
+    if (minDailyMg > maxDailyMg) throw new RangeError("selected frequency cannot deliver the minimum daily dose within the 2 g per-dose limit; use 6 divided doses or specialist advice");
     const doseMinMg = minDailyMg / dosesPerDay;
-    const doseMaxMg = Math.min(maxDailyMg / dosesPerDay, 2000);\n    if (doseMinMg > 2000) throw new RangeError("minimum calculated dose exceeds 2 g per dose; use a specialist-directed regimen");
+    const doseMaxMg = maxDailyMg / dosesPerDay;
     return {
       regimen,
       dailyMinMg: minDailyMg,

@@ -122,17 +122,17 @@
       ["P", "Rencana", ["soapPlan"]]
     ];
     const missing = [];
-    let out = "CATATAN KLINIS MEDORA\\n";
-    out += "Usia: " + ($("soapAge").value.trim() || "Belum diisi") + "\\nJenis kelamin: " + ($("soapSex").value || "Belum diisi") + "\\n\\n";
+    let out = "CATATAN KLINIS MEDORA\n";
+    out += "Usia: " + ($("soapAge").value.trim() || "Belum diisi") + "\nJenis kelamin: " + ($("soapSex").value || "Belum diisi") + "\n\n";
     sections.forEach(([code, label, ids]) => {
       const values = ids.map(id => $(id).value.trim()).filter(Boolean);
-      out += code + " - " + label + "\\n";
-      if (values.length) out += values.join("\\n") + "\\n";
+      out += code + " - " + label + "\n";
+      if (values.length) out += values.join("\n") + "\n";
       else {
-        out += "[BELUM DIISI]\\n";
+        out += "[BELUM DIISI]\n";
         missing.push(label);
       }
-      out += "\\n";
+      out += "\n";
     });
     $("soapOutput").textContent = out.trim();
     $("soapStatus").textContent = missing.length

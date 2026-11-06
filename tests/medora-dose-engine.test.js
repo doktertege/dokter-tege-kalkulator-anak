@@ -290,7 +290,7 @@ test("all dose engines reject non-finite numeric inputs", () => {
 });
 
 
-\ntest("oralit Plan A calculates 10 mL/kg after each watery stool", () => {
+test("oralit Plan A calculates 10 mL/kg after each watery stool", () => {
   assert.deepEqual(dose.oralit(10, "planA"), {
     plan: "planA", afterEachStoolMl: 100,
     instruction: "give after each watery stool; continue breastfeeding and feeding"

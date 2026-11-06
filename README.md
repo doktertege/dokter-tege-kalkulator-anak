@@ -29,6 +29,8 @@ Aplikasi tidak memerlukan koneksi internet untuk fitur lokal. Favorit disimpan d
 - Current ICD-10 metadata identifies WHO ICD-10 version 2010. The 99-entry list is a curated subset, not the complete WHO tabular list or alphabetic index.
 - The 32-item medication catalog is also stored in `database.js`; product labels and status are separated from dosing algorithms.
 - Ten structured medicine profiles document active ingredients, dosage forms, routes, product-specific formulation caveats, prescription status, and key safety warnings.
+- The clinical dashboard's Database Obat module now provides offline search, category filters, and a detail view for all 32 catalog entries; structured profiles show ingredients, forms, routes, formulation notes, safety warnings, and whether a dose-engine function exists.
+- Products without validated dose logic are explicitly labelled as reference-only; topical eye/ear products and excluded medicines are not presented as dose-calculator options.
 - The profiles do not invent pediatric regimens; injectable products require vial/reconstitution checks, oral rehydration sachets require exact label dilution, and eye/ear steroid-antibiotic products have no pediatric dose calculator.
 - Product/formulation metadata includes source links and a review date; always verify the actual locally stocked pack and current package insert before prescribing.
 - Requested products are retained: CTM, oralit, ceftriaxone, cefotaxime, gentamicin, Cendo Xitrol eye drops/ointment, and Erlamycetin eye/ear products.

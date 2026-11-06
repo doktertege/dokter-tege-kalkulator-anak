@@ -273,7 +273,7 @@
         lines.push("");
         if (!value) missing.push(label);
       });
-      $("sbarOutput").textContent = lines.join("\\n").trim();
+      $("sbarOutput").textContent = lines.join("\n").trim();
       $("sbarStatus").textContent = missing.length ? "Draf dibuat. Bagian belum diisi: " + missing.join(", ") + ". Lengkapi atau tandai secara verbal sebelum serah terima." : "Empat bagian SBAR sudah terisi. Verifikasi informasi dan lakukan komunikasi langsung.";
       return;
     }

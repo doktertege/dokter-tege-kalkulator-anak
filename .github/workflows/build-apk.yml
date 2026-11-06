@@ -17,6 +17,8 @@ jobs:
           node-version: '22'
       - name: Validate MEDORA HTML and JavaScript
         run: python3 scripts/validate-medora.py
+      - name: Run pediatric dose calculation tests
+        run: node --test tests/*.test.js
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

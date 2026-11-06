@@ -57,8 +57,9 @@ test("bottom navigation contains only Beranda and Pengaturan", () => {
 
 test("settings workspace is not hidden by an inline display:none rule", () => {
   const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
+  const workspace = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/module-workspace.js"), "utf8");
   assert.match(html, /<section class="panel" id="moduleWorkspace">/);
-  assert.match(html, /title: "Pengaturan MEDORA"/);
+  assert.match(workspace, /title: "Pengaturan MEDORA"/);
   assert.match(html, /id="copyLocalBackup"/);
   assert.match(html, /id="restoreLocalBackup"/);
 });

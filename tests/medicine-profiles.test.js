@@ -169,3 +169,14 @@ test("structured medicine profiles and coverage metadata remain in one-to-one pa
   assert.equal(Object.keys(database.medicineProfiles).length, 16);
   for (const name of structuredNames) assert.ok(database.medicineProfiles[name], name);
 });
+
+
+test("Erlamycetin profiles do not expose unverified product-specific active ingredient or strength as established data", () => {
+  for (const name of ["Erlamycetin Tetes Mata", "Erlamycetin Tetes Telinga", "Erlamycetin Salep Mata"]) {
+    const profile = database.medicineProfiles[name];
+    assert.match(profile.activeIngredient, /Belum diverifikasi/i, name);
+    assert.equal(Object.hasOwn(profile, "strength"), false, name);
+    assert.equal(profile.provenance.activeIngredient.status, "pending_product_specific_verification", name);
+    assert.equal(profile.provenance.strength.status, "pending_product_specific_verification", name);
+  }
+});

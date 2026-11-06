@@ -104,7 +104,7 @@ def main():
     )
     active_names = {name for name, status in catalog_entries if status == "active"}
     detail_match = re.search(
-        r"function openDrug\(name\)\{(.*?)(?=^function |\Z)",
+        r"function openDrug\(name\)\{(.*?)function fmt\(",
         javascript,
         re.S | re.M,
     )

@@ -181,11 +181,26 @@
       "url": "https://ygi.or.id/hal-hal-yang-perlu-diperhatikan-saat-membuat-dan-konsumsi-oralit/",
       "title": "Yayasan Gastroenterologi Indonesia: pembuatan oralit",
       "sourceType": "clinical_education_reference"
+    },
+    "bpom_panadol_children": {
+      "url": "https://registrasiobat.pom.go.id/files/assesment-reports/01741762885.pdf",
+      "title": "BPOM: informasi produk Panadol Children 160 mg/5 mL",
+      "sourceType": "official_product_information"
+    },
+    "bpom_paracetamol_syrup_list": {
+      "url": "https://standar-otskk.pom.go.id/publikasi/penjelasan-tambahan-176-produk-sirop-obat-aman",
+      "title": "BPOM: daftar produk sirop aman, termasuk beberapa paracetamol 120 mg/5 mL",
+      "sourceType": "official_public_information"
+    },
+    "bpom_brufen_suspension": {
+      "url": "https://registrasiobat.pom.go.id/daftar-produk/assesment-report/DTL0400203033A1",
+      "title": "BPOM: Brufen suspensi ibuprofen 100 mg/5 mL",
+      "sourceType": "official_product_registration"
     }
   },
   "coverage": {
-    "Paracetamol": "pending_profile_review",
-    "Ibuprofen": "pending_profile_review",
+    "Paracetamol": "structured_profile",
+    "Ibuprofen": "structured_profile",
     "Metamizole": "pending_profile_review",
     "Amoxicillin": "pending_profile_review",
     "Cefadroxil": "pending_profile_review",
@@ -764,6 +779,52 @@
         "status": "verified_by_local_regression_test",
         "sourceRefs": []
       }
+    }
+  },
+  "Paracetamol": {
+    "activeIngredient": "paracetamol",
+    "dosageForms": ["sirup/larutan oral", "drops oral", "tablet"],
+    "route": ["oral"],
+    "formulationNote": "Kekuatan produk tidak seragam. Referensi produk BPOM mencakup Panadol Children 160 mg/5 mL dan sejumlah sirop paracetamol 120 mg/5 mL; pilih konsentrasi berdasarkan etiket botol yang benar, jangan menganggap semua sirop setara.",
+    "prescriptionStatus": "varies_by_product",
+    "doseEngineFunction": "paracetamol",
+    "keyWarnings": [
+      "Periksa total paracetamol dari semua obat kombinasi untuk mencegah duplikasi dan overdosis.",
+      "Waspadai penyakit hati, malnutrisi berat, serta penggunaan berulang melebihi dosis atau durasi yang dianjurkan.",
+      "Gunakan alat ukur oral; jangan mengonversi mL sebelum memastikan konsentrasi sediaan."
+    ],
+    "provenance": {
+      "activeIngredient": {"status": "source_linked_reference", "sourceRefs": ["bpom_panadol_children", "bpom_paracetamol_syrup_list"]},
+      "dosageForms": {"status": "source_linked_reference", "sourceRefs": ["bpom_panadol_children", "bpom_paracetamol_syrup_list"]},
+      "route": {"status": "source_linked_reference", "sourceRefs": ["bpom_panadol_children"]},
+      "formulationNote": {"status": "source_linked_reference", "sourceRefs": ["bpom_panadol_children", "bpom_paracetamol_syrup_list"]},
+      "strength": {"status": "source_linked_reference", "sourceRefs": ["bpom_panadol_children", "bpom_paracetamol_syrup_list"]},
+      "prescriptionStatus": {"status": "pending_product_specific_verification", "sourceRefs": []},
+      "keyWarnings": {"status": "pending_product_specific_verification", "sourceRefs": []},
+      "doseEngineFunction": {"status": "verified_by_local_regression_test", "sourceRefs": []}
+    }
+  },
+  "Ibuprofen": {
+    "activeIngredient": "ibuprofen",
+    "dosageForms": ["suspensi oral", "tablet"],
+    "route": ["oral"],
+    "formulationNote": "BPOM mencantumkan Brufen suspensi 100 mg/5 mL. Kekuatan dan batas usia dapat berbeda pada produk lain; verifikasi etiket serta informasi produk aktual sebelum konversi dosis ke mL.",
+    "prescriptionStatus": "varies_by_product",
+    "doseEngineFunction": "ibuprofen",
+    "keyWarnings": [
+      "Hindari pada dehidrasi bermakna atau hipovolemia karena risiko gangguan ginjal.",
+      "Waspadai riwayat ulkus/perdarahan gastrointestinal, penyakit ginjal, hipersensitivitas NSAID, dan asma yang dipicu NSAID.",
+      "Jangan menggabungkan dengan NSAID lain; gunakan dosis efektif terendah sesuai indikasi dan usia."
+    ],
+    "provenance": {
+      "activeIngredient": {"status": "source_linked_reference", "sourceRefs": ["bpom_brufen_suspension"]},
+      "dosageForms": {"status": "source_linked_reference", "sourceRefs": ["bpom_brufen_suspension"]},
+      "route": {"status": "source_linked_reference", "sourceRefs": ["bpom_brufen_suspension"]},
+      "formulationNote": {"status": "source_linked_reference", "sourceRefs": ["bpom_brufen_suspension"]},
+      "strength": {"status": "source_linked_reference", "sourceRefs": ["bpom_brufen_suspension"]},
+      "prescriptionStatus": {"status": "pending_product_specific_verification", "sourceRefs": []},
+      "keyWarnings": {"status": "pending_product_specific_verification", "sourceRefs": []},
+      "doseEngineFunction": {"status": "verified_by_local_regression_test", "sourceRefs": []}
     }
   }
 };

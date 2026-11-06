@@ -733,4 +733,13 @@
     }
   }
 };
+  // Explicit coverage prevents catalog-only items from appearing verified.
+  root.MEDORA_DATABASE.metadata.medicineProfiles.coverage = {};
+  for (const item of root.MEDORA_DATABASE.drugs) {
+    const name = item[0];
+    root.MEDORA_DATABASE.metadata.medicineProfiles.coverage[name] =
+      item[4] === "excluded" ? "excluded" :
+      root.MEDORA_DATABASE.medicineProfiles[name] ? "structured_profile" :
+      "pending_profile_review";
+  }
 })(window);

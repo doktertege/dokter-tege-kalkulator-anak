@@ -20,7 +20,7 @@
     references: {
       title: "Referensi Medis",
       subtitle: "Pintu akses ke sumber pedoman. Membuka tautan memerlukan koneksi internet.",
-      html: '<div class="guideCard"><h3>Pedoman dan sumber resmi</h3><a class="sourceLink" href="https://www.who.int/publications">WHO · Publications and guidelines ↗</a><a class="sourceLink" href="https://www.kemkes.go.id/">Kementerian Kesehatan RI ↗</a><a class="sourceLink" href="https://www.idai.or.id/">Ikatan Dokter Anak Indonesia (IDAI) ↗</a><a class="sourceLink" href="https://www.heart.org/">American Heart Association (AHA) ↗</a><a class="sourceLink" href="https://kdigo.org/guidelines/">KDIGO · Clinical Practice Guidelines ↗</a><a class="sourceLink" href="https://ginasthma.org/">GINA · Global Strategy for Asthma Management ↗</a><a class="sourceLink" href="https://www.cdc.gov/">CDC · Clinical and public health guidance ↗</a></div><div class="guideCard"><h3>Catatan penggunaan</h3><ul><li>Periksa tanggal publikasi dan versi terbaru sebelum menerapkan rekomendasi.</li><li>Utamakan pedoman nasional, formularium, dan SOP fasilitas yang berlaku.</li><li>Perhatikan populasi khusus: neonatus, anak, kehamilan, lansia, serta gangguan ginjal/hati.</li><li>Jangan menyamakan ringkasan sumber dengan dokumen lengkap.</li></ul></div>'
+      html: '<div class="guideCard"><h3>Pedoman dan sumber resmi</h3><label for="referenceSearch">Cari sumber atau organisasi</label><input id="referenceSearch" type="search" placeholder="Contoh: IDAI, ginjal, asma, WHO"><p id="referenceCount" class="medicalHint" aria-live="polite">7 referensi tersedia.</p><a class="sourceLink" href="https://www.who.int/publications">WHO · Publications and guidelines ↗</a><a class="sourceLink" href="https://www.kemkes.go.id/">Kementerian Kesehatan RI ↗</a><a class="sourceLink" href="https://www.idai.or.id/">Ikatan Dokter Anak Indonesia (IDAI) ↗</a><a class="sourceLink" href="https://www.heart.org/">American Heart Association (AHA) ↗</a><a class="sourceLink" href="https://kdigo.org/guidelines/">KDIGO · Clinical Practice Guidelines ↗</a><a class="sourceLink" href="https://ginasthma.org/">GINA · Global Strategy for Asthma Management ↗</a><a class="sourceLink" href="https://www.cdc.gov/">CDC · Clinical and public health guidance ↗</a></div><div class="guideCard"><h3>Catatan penggunaan</h3><ul><li>Periksa tanggal publikasi dan versi terbaru sebelum menerapkan rekomendasi.</li><li>Utamakan pedoman nasional, formularium, dan SOP fasilitas yang berlaku.</li><li>Perhatikan populasi khusus: neonatus, anak, kehamilan, lansia, serta gangguan ginjal/hati.</li><li>Jangan menyamakan ringkasan sumber dengan dokumen lengkap.</li></ul></div>'
     },
     settings: {
       title: "Pengaturan MEDORA",
@@ -211,6 +211,19 @@
   });
   document.getElementById("moduleWorkspaceContent").addEventListener("input", event => {
     if (event.target && /^soap/.test(event.target.id)) updateSoapCompleteness();
+    if (event.target && event.target.id === "referenceSearch") {
+      const query = event.target.value.trim().toLocaleLowerCase("id");
+      const links = Array.from(document.querySelectorAll("#moduleWorkspaceContent .sourceLink"));
+      let visible = 0;
+      links.forEach(link => {
+        const haystack = (link.textContent + " " + link.href).toLocaleLowerCase("id");
+        const match = haystack.includes(query);
+        link.hidden = !match;
+        if (match) visible++;
+      });
+      const count = document.getElementById("referenceCount");
+      if (count) count.textContent = visible + " dari " + links.length + " referensi ditampilkan.";
+    }
   });
 
   $("navSettings").addEventListener("click", event => {

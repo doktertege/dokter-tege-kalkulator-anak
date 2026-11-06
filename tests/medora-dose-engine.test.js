@@ -83,3 +83,57 @@ test("cefixime applies 400 mg daily maximum", () => {
 test("cefixime rejects unsupported dose divisions", () => {
   assert.throws(() => dose.cefixime(10, 100, 3), RangeError);
 });
+
+
+test("amoxicillin tonsillitis regimen calculates 25 mg/kg twice daily", () => {
+  const r = dose.amoxicillin(10, 250, "tonsillitis");
+  assert.equal(r.dailyLowMg, 500);
+  assert.equal(r.dailyHighMg, 500);
+  assert.equal(r.perDoseLowMg, 250);
+  assert.equal(r.perDoseHighMg, 250);
+  assert.equal(r.volumeLowMl, 5);
+  assert.equal(r.volumeHighMl, 5);
+  assert.equal(r.divisions, 2);
+  assert.equal(r.maxDailyMg, 1000);
+});
+
+test("amoxicillin tonsillitis regimen applies 500 mg per-dose ceiling", () => {
+  const r = dose.amoxicillin(30, 250, "tonsillitis");
+  assert.equal(r.dailyLowMg, 1000);
+  assert.equal(r.perDoseLowMg, 500);
+});
+
+test("amoxicillin AOM regimen calculates 80–90 mg/kg/day divided twice daily", () => {
+  const r = dose.amoxicillin(10, 250, "aom");
+  assert.equal(r.dailyLowMg, 800);
+  assert.equal(r.dailyHighMg, 900);
+  assert.equal(r.perDoseLowMg, 400);
+  assert.equal(r.perDoseHighMg, 450);
+  assert.equal(r.volumeLowMl, 8);
+  assert.equal(r.volumeHighMl, 9);
+  assert.equal(r.divisions, 2);
+  assert.equal(r.maxDailyMg, 3000);
+});
+
+test("amoxicillin AOM regimen applies 3000 mg daily ceiling", () => {
+  const r = dose.amoxicillin(40, 250, "aom");
+  assert.equal(r.dailyLowMg, 3000);
+  assert.equal(r.dailyHighMg, 3000);
+});
+
+test("amoxicillin GAS regimen calculates 50 mg/kg once daily with 1000 mg cap", () => {
+  const r = dose.amoxicillin(10, 250, "gas");
+  assert.equal(r.dailyLowMg, 500);
+  assert.equal(r.perDoseLowMg, 500);
+  assert.equal(r.volumeLowMl, 10);
+  assert.equal(r.divisions, 1);
+  assert.equal(r.maxDailyMg, 1000);
+  const capped = dose.amoxicillin(30, 250, "gas");
+  assert.equal(capped.dailyHighMg, 1000);
+});
+
+test("amoxicillin rejects invalid inputs and unknown regimens", () => {
+  assert.throws(() => dose.amoxicillin(0, 250, "gas"), RangeError);
+  assert.throws(() => dose.amoxicillin(10, 0, "gas"), RangeError);
+  assert.throws(() => dose.amoxicillin(10, 250, "unknown"), RangeError);
+});

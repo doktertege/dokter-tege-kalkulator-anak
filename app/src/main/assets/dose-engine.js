@@ -59,7 +59,52 @@
     };
   }
 
-  const api = Object.freeze({ paracetamol, ibuprofen, cefixime });
+  // Mirrors the three existing MEDORA regimens. It does not select an indication.
+  function amoxicillin(weightKg, strengthMgPer5Ml, regimen) {
+    requirePositive(weightKg, "weightKg");
+    requirePositive(strengthMgPer5Ml, "strengthMgPer5Ml");
+    if (!["tonsillitis", "aom", "gas"].includes(regimen)) {
+      throw new RangeError("regimen must be tonsillitis, aom, or gas");
+    }
+
+    let dailyLowMg;
+    let dailyHighMg;
+    let divisions;
+    let maxDailyMg;
+
+    if (regimen === "tonsillitis") {
+      dailyLowMg = dailyHighMg = Math.min(weightKg * 50, 1000);
+      divisions = 2;
+      maxDailyMg = 1000;
+    } else if (regimen === "aom") {
+      dailyLowMg = weightKg * 80;
+      dailyHighMg = weightKg * 90;
+      divisions = 2;
+      maxDailyMg = 3000;
+      dailyLowMg = Math.min(dailyLowMg, maxDailyMg);
+      dailyHighMg = Math.min(dailyHighMg, maxDailyMg);
+    } else {
+      dailyLowMg = dailyHighMg = Math.min(weightKg * 50, 1000);
+      divisions = 1;
+      maxDailyMg = 1000;
+    }
+
+    const mgPerMl = strengthMgPer5Ml / 5;
+    const perDoseLowMg = dailyLowMg / divisions;
+    const perDoseHighMg = dailyHighMg / divisions;
+    return {
+      dailyLowMg,
+      dailyHighMg,
+      perDoseLowMg,
+      perDoseHighMg,
+      volumeLowMl: perDoseLowMg / mgPerMl,
+      volumeHighMl: perDoseHighMg / mgPerMl,
+      divisions,
+      maxDailyMg
+    };
+  }
+
+  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

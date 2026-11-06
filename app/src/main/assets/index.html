@@ -292,7 +292,7 @@ const data=[
 ["Metronidazole","Antibiotik","Tablet • suspensi • infus","💊","pending"],
 ["CTM (Chlorpheniramine)","Alergi","Sirup immediate-release • tablet","🧴","active"],
 ["Cetirizine","Alergi","Tablet • sirup","🧴","active"],
-["Loratadine","Alergi","Tablet • sirup","🧴","pending"],
+["Loratadine","Alergi","Sirup 5 mg/5 mL • dosis anak berdasarkan berat badan","🧴","active"],
 ["Oralit","Lainnya","Sachet • larutkan sesuai petunjuk kemasan","🥤","active"],
 ["Zinc","Lainnya","Tablet dispersibel • sirup","💊","active"],
 ["Ambroxol","Lainnya","Tablet • sirup","🧴","active"],
@@ -402,6 +402,12 @@ if(name==="Cetirizine"){
  $("doseArea").innerHTML='<span class="pill">Oral • sekali sehari</span><p><b>Dosis berbasis kelompok usia sesuai informasi produk cetirizine sirup.</b></p><div class="result"><label for="cetiStrength">Konsentrasi sirup</label><select id="cetiStrength"><option value="5">5 mg/5 mL</option><option value="2.5">2,5 mg/5 mL</option></select><div id="cetiResult"></div></div><div class="warn">Acuan awal kalkulator: usia 6–23 bulan dan 2–5 tahun 2,5 mg sekali sehari; usia 6–11 tahun 5 mg sekali sehari; usia ≥12 tahun 10 mg sekali sehari. Pada usia 2–5 tahun dosis dapat ditingkatkan sampai 5 mg/hari, dan usia 6–11 tahun sampai 10 mg/hari sesuai respons klinis serta leaflet produk (maksimal 10 mg/hari). Pada gangguan ginjal perlu penyesuaian dan evaluasi dokter. Dapat menyebabkan kantuk. Ikuti leaflet produk yang digunakan.</div>';
  const calc=()=>{const r=MedoraDoseEngine.cetirizine(p.a,Number($("cetiStrength").value));$("cetiResult").innerHTML='<div class="resultgrid"><div class="metric"><small>Dosis per hari</small><strong>'+fmt(r.dailyMg)+' mg</strong></div><div class="metric"><small>Volume per dosis</small><strong>'+fmt(r.volumeMl)+' mL</strong></div></div>'};
  $("cetiStrength").addEventListener("change",calc);calc();return
+}
+if(name==="Loratadine"){
+ if(p.a<24){$("doseArea").innerHTML='<div class="warn">Keamanan dan efektivitas loratadine pada anak di bawah 2 tahun belum ditetapkan. Kalkulasi otomatis dinonaktifkan.</div>';return}
+ $("doseArea").innerHTML='<span class="pill">Oral • sirup • sekali sehari</span><p><b>Dosis loratadine anak berdasarkan berat badan.</b></p><div class="result"><label for="loraStrength">Konsentrasi sirup</label><select id="loraStrength"><option value="5">5 mg/5 mL</option></select><div id="loraResult"></div></div><div class="warn">Usia 2–12 tahun: BB ≤30 kg = 5 mg sekali sehari; BB >30 kg = 10 mg sekali sehari. Usia >12 tahun: 10 mg sekali sehari. Maksimal 10 mg/hari. Jangan gunakan pada usia <2 tahun. Pada gangguan hati berat, dosis awal perlu dikurangi/interval diperpanjang sesuai informasi produk; kalkulator ini tidak melakukan penyesuaian gangguan hati. Hentikan dan evaluasi bila timbul reaksi hipersensitivitas. Dapat diminum dengan atau tanpa makanan.</div>';
+ const calc=()=>{const r=MedoraDoseEngine.loratadine(p.w,p.a,Number($("loraStrength").value));$("loraResult").innerHTML='<div class="resultgrid"><div class="metric"><small>Dosis per hari</small><strong>'+fmt(r.dailyMg)+' mg</strong></div><div class="metric"><small>Volume per dosis</small><strong>'+fmt(r.volumeMl)+' mL</strong></div><div class="metric"><small>Frekuensi</small><strong>1× sehari</strong></div></div>'};
+ $("loraStrength").addEventListener("change",calc);calc();return
 }
 if(name==="Ambroxol"){
  if(p.a<24||p.a>144){$("doseArea").innerHTML='<div class="warn">Kalkulasi otomatis ambroxol tersedia untuk usia 2–12 tahun pada acuan sirup 15 mg/5 mL. Di luar rentang ini, verifikasi leaflet produk dan lakukan penilaian klinis.</div>';return}

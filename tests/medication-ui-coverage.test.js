@@ -96,3 +96,16 @@ test("Cendo Xitrol eye ointment guide does not assume unverified composition or 
   assert.match(guide, /Dosis, frekuensi, dan durasi tidak ditampilkan/i);
   assert.doesNotMatch(guide, /deksametason|neomisin|polimiksin|0,1%|mg\/g|\d+\s*(?:kali sehari|cm)/i);
 });
+
+
+test("gentamicin volume calculator requires the actual ampoule concentration", () => {
+  const source = getOpenDrugSource();
+  const start = source.indexOf('if(name==="Gentamicin"){');
+  const end = source.indexOf('\nif(name===', start + 10);
+  assert.ok(start >= 0, "gentamicin calculator should exist");
+  const guide = source.slice(start, end < 0 ? undefined : end);
+  assert.match(guide, /id="gentamicinStrength" type="number"/);
+  assert.match(guide, /Konsentrasi pada etiket \(mg\/mL\)/i);
+  assert.match(guide, /Masukkan konsentrasi persis dari ampul/i);
+  assert.doesNotMatch(guide, /80 mg\/2 mL|20 mg\/2 mL|value="40"|value="10"/i);
+});

@@ -455,6 +455,35 @@ test("rectal diazepam rejects neonatal age, adult age and invalid inputs", () =>
 
 
 
+
+test("omeprazole supports labeled 20 mg pediatric GERD capsule regimen", () => {
+  const typical = dose.omeprazolePediatricGerd(25, 96, "typicalGERD", 4);
+  assert.deepEqual(typical, {
+    indication: "typicalGERD",
+    dailyDoseMg: 20,
+    capsuleStrengthMg: 20,
+    capsulesPerDay: 1,
+    durationWeeks: 4,
+    totalCapsules: 28,
+    frequency: "once daily before breakfast",
+    route: "oral"
+  });
+  const erosive = dose.omeprazolePediatricGerd(35, 144, "erosiveEsophagitis", 8);
+  assert.equal(erosive.dailyDoseMg, 20);
+  assert.equal(erosive.totalCapsules, 56);
+});
+
+test("omeprazole blocks unsupported weights, ages, indications and durations", () => {
+  assert.throws(() => dose.omeprazolePediatricGerd(19.9, 48, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.omeprazolePediatricGerd(20, 11, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.omeprazolePediatricGerd(20, 193, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.omeprazolePediatricGerd(20, 48, "cough", 4), RangeError);
+  assert.throws(() => dose.omeprazolePediatricGerd(20, 48, "typicalGERD", 8), RangeError);
+  assert.throws(() => dose.omeprazolePediatricGerd(20, 48, "erosiveEsophagitis", 6), RangeError);
+  assert.throws(() => dose.omeprazolePediatricGerd(0, 48, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.omeprazolePediatricGerd(Infinity, 48, "typicalGERD", 4), RangeError);
+});
+
 test("prednisone asthma oral calculates age-capped daily dose and 3–5 day course", () => {
   const toddler = dose.prednisoneAsthmaOral(10, 18, 2, 3, 5);
   assert.equal(toddler.dailyDoseMg, 20);

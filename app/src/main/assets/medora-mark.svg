@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
-<defs><linearGradient id="m" x1="18" y1="18" x2="104" y2="104" gradientUnits="userSpaceOnUse"><stop stop-color="#16B8B0"/><stop offset="1" stop-color="#087A9D"/></linearGradient></defs>
-<path d="M22 91V39c0-7 9-10 14-4l24 29 24-29c5-6 14-3 14 4v52" fill="none" stroke="url(#m)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M47 78h9l7-16 8 28 7-12h17" fill="none" stroke="#153B59" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="94" cy="25" r="17" fill="#153B59"/><path d="M94 16v18M85 25h18" stroke="#fff" stroke-width="5.5" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="MEDORA">
+  <defs><linearGradient id="teal" x1="20" y1="20" x2="100" y2="100" gradientUnits="userSpaceOnUse"><stop stop-color="#159E9A"/><stop offset="1" stop-color="#087C83"/></linearGradient></defs>
+  <path d="M18 82V42c0-9 10-13 17-7l25 22 25-22c7-6 17-2 17 7v40" fill="none" stroke="#173B4B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M60 57v25" fill="none" stroke="url(#teal)" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="96" cy="25" r="13" fill="#159E9A"/><path d="M96 18v14M89 25h14" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
 </svg>

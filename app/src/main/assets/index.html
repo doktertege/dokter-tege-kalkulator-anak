@@ -746,6 +746,24 @@ button.active{background:linear-gradient(135deg,#315f62,#21484f);border-color:#3
 @media(max-width:390px){header.medoraHero{min-height:225px;padding-top:22px}.moduleCard{min-height:128px;padding:10px 8px}.moduleIcon{width:50px;height:50px;font-size:27px}.modeCard{min-height:162px}}
 @media(prefers-reduced-motion:reduce){.moduleCard{transition:none}}
 
+
+/* MEDORA Clinical Desk — refined dashboard signature */
+.clinicalDesk{position:relative;overflow:hidden;margin:12px 0 17px;padding:19px 19px 15px;border:1px solid #dcd8ca;border-radius:24px;background:linear-gradient(120deg,#142d40 0%,#1b4650 70%,#315d59 100%);color:#f7f4eb;box-shadow:0 13px 28px #1835411c}
+.clinicalDesk:before{content:"";position:absolute;width:190px;height:190px;right:-65px;top:-105px;border:1px solid #d4c29a35;border-radius:50%;box-shadow:0 0 0 18px #d4c29a0a,0 0 0 38px #d4c29a08}
+.clinicalDeskTop{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.deskEyebrow{font-size:9px;letter-spacing:1.8px;color:#d0bc8e;font-weight:850}
+.clinicalDeskTop h2{margin:6px 0 4px;color:#fffaf0;font-size:23px;letter-spacing:-.65px}
+.clinicalDeskTop p{margin:0;color:#c5d0c9;font-size:11px}
+.deskSeal{width:43px;height:43px;display:grid;place-items:center;flex:none;border:1px solid #cbb88b66;border-radius:15px;color:#e4d3ad;font-size:21px;font-weight:850;transform:rotate(-5deg);background:#ffffff08}
+.deskSeal span{font-size:12px;margin-left:1px}
+.clinicalDeskMeta{position:relative;display:flex;align-items:center;gap:22px;margin-top:17px;padding-top:12px;border-top:1px solid #ffffff20}
+.clinicalDeskMeta div{display:grid;gap:3px}
+.clinicalDeskMeta small{font-size:8px;letter-spacing:1.15px;color:#b6c5bd;font-weight:800}
+.clinicalDeskMeta strong{font-size:12px;color:#fff8e9;font-weight:750}
+.deskOffline{margin-left:auto;display:flex;align-items:center;gap:6px;color:#d7d8bf;font-size:8px;font-weight:850;letter-spacing:.8px}
+.deskOffline i{width:6px;height:6px;border-radius:50%;background:#a7c69b;box-shadow:0 0 0 3px #a7c69b22}
+@media(max-width:390px){.clinicalDesk{padding:16px;border-radius:20px}.clinicalDeskTop h2{font-size:21px}.clinicalDeskMeta{gap:13px}.deskOffline{font-size:7px}}
+
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">
@@ -766,6 +784,10 @@ button.active{background:linear-gradient(135deg,#315f62,#21484f);border-color:#3
 <div id="clinicalDashboard" style="display:none">
 <button class="medicalBack" id="modeBack">‹ Pilih area lain</button>
 <p class="welcome">Modul untuk tenaga medis</p>
+<section class="clinicalDesk" aria-label="Ringkasan meja klinis">
+ <div class="clinicalDeskTop"><div><span class="deskEyebrow">YOUR CLINICAL DESK</span><h2>Selamat bertugas.</h2><p>Semua alat penting, dalam satu ruang kerja.</p></div><span class="deskSeal" aria-hidden="true">M<span>+</span></span></div>
+ <div class="clinicalDeskMeta"><div><small>HARI INI</small><strong id="medoraDeskDate">Memuat tanggal…</strong></div><div><small>WAKTU PERANGKAT</small><strong id="medoraDeskClock">--:--</strong></div><span class="deskOffline"><i></i> OFFLINE READY</span></div>
+</section>
 <div class="clinicalSearchWrap"><input id="clinicalModuleSearch" type="search" autocomplete="off" placeholder="Cari modul, tindakan, atau alat klinis..." aria-label="Cari modul klinis"><p id="clinicalSearchStatus" aria-live="polite">Telusuri seluruh modul MEDORA.</p></div>
 <section class="dashboardLaunchpad" aria-label="Akses cepat MEDORA">
  <div class="launchpadHeading"><div><span class="eyebrow">MEDORA WORKSPACE</span><h2>Akses cepat</h2><p>Buka alat klinis penting tanpa menelusuri seluruh menu.</p></div><span class="launchpadMark" aria-hidden="true">✦</span></div>

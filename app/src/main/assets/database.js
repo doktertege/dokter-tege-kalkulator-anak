@@ -138,7 +138,7 @@
     ["Zinc","Lainnya","Tablet dispersibel • sirup","💊","active"],
     ["Ambroxol","Lainnya","Tablet • sirup","🧴","active"],
     ["Cendo Xitrol Tetes Mata","Mata & telinga","Deksametason 0,1% + neomisin + polimiksin B • obat mata kombinasi steroid","👁️","active"],
-    ["Cendo Xitrol Salep Mata","Mata & telinga","Deksametason 0,1% + neomisin + polimiksin B • salep mata","👁️","active"],
+    ["Cendo Xitrol Salep Mata","Mata & telinga","Salep mata kombinasi kortikosteroid + antibiotik; komposisi dan kekuatan wajib dicocokkan dengan etiket produk","👁️","active"],
     ["Erlamycetin Tetes Mata","Mata & telinga","Tetes mata; komposisi dan konsentrasi wajib diverifikasi pada label produk","👁️","active"],
     ["Erlamycetin Tetes Telinga","Mata & telinga","Tetes telinga; komposisi dan konsentrasi wajib diverifikasi pada label produk","👂","active"],
     ["Erlamycetin Salep Mata","Mata & telinga","Salep mata; komposisi dan konsentrasi wajib diverifikasi pada label produk","👁️","active"],

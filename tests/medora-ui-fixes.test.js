@@ -70,9 +70,9 @@ test("drug cards reserve columns for medicine name, dose and action controls", (
   assert.match(html, /grid-template-columns:48px minmax\(0,1fr\) 82px 25px 20px/);
 });
 
-test("header has no offline badge and workspace visibility CSS is valid", () => {
+test("clinical desk shows offline readiness and workspace visibility CSS is valid", () => {
   const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
-  assert.ok(!html.includes("OFFLINE"), "offline badge removed");
+  assert.ok(html.includes("OFFLINE READY"), "clinical desk offline readiness indicator");
   assert.ok(html.includes("body.module-workspace-mode main> :not(#moduleWorkspace){display:none}"));
   assert.ok(html.includes("body.module-workspace-mode #moduleWorkspace{display:block}"));
 });

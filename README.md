@@ -32,7 +32,9 @@ Aplikasi tidak memerlukan koneksi internet untuk fitur lokal. Favorit disimpan d
 - The clinical dashboard's Database Obat module now provides offline search, category filters, and a detail view for all 32 catalog entries; structured profiles show ingredients, forms, routes, formulation notes, safety warnings, and whether a dose-engine function exists.
 - Products without validated dose logic are explicitly labelled as reference-only; topical eye/ear products and excluded medicines are not presented as dose-calculator options.
 - The profiles do not invent pediatric regimens; injectable products require vial/reconstitution checks, oral rehydration sachets require exact label dilution, and eye/ear steroid-antibiotic products have no pediatric dose calculator.
-- Product/formulation metadata includes source links and a review date; always verify the actual locally stocked pack and current package insert before prescribing.
+- Medicine profile fields now carry individual provenance status and source references. The detail view distinguishes fields linked to a reference from fields still pending product-specific verification; a source link does not imply every field in a profile is verified.
+- The currently linked product references cover Cendo Xitrol eye drops/ointment and general oralit preparation guidance. CTM, injectable antibiotics, and Erlamycetin details remain explicitly pending product-specific verification until the exact local registration/leaflet is matched.
+- Always verify the actual locally stocked pack, registration number, concentration, and current package insert before prescribing.
 - Requested products are retained: CTM, oralit, ceftriaxone, cefotaxime, gentamicin, Cendo Xitrol eye drops/ointment, and Erlamycetin eye/ear products.
 - Domperidone remains explicitly excluded from pediatric dose calculation because of QT/arrhythmia risk.
 - Dose calculations and indication-specific instructions remain in their dedicated logic/guidance; moving the product index did not change medication regimens.

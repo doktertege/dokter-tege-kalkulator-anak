@@ -59,6 +59,7 @@ function createHarness() {
   let failNextSetKey = null;
   const localStorage = { getItem(key) { return storage.has(key) ? storage.get(key) : null; }, setItem(key, value) { if (failNextSetKey === key) { failNextSetKey = null; throw new Error("quota exceeded"); } storage.set(key, String(value)); }, removeItem(key) { storage.delete(key); } };
   let copiedText = "";
+  let confirmResult = true;
   const window = {
     MEDORA_DATABASE: { drugs: [["Paracetamol"]] },
     scrollTo() {}
@@ -82,7 +83,7 @@ function createHarness() {
     persistDoseHistory: () => true,
     renderDoseHistory: () => {},
     copyTextToClipboard: async text => { copiedText = text; },
-    confirm: message => { confirmationMessages.push(message); return true; }
+    confirm: message => { confirmationMessages.push(message); return confirmResult; }
   };
   vm.runInNewContext(source, context);
   [
@@ -90,7 +91,7 @@ function createHarness() {
     "soapExam", "soapAssessment", "soapPlan", "soapOutput", "soapStatus",
     "restoreBackup", "settingsStatus", "localDataSummary"
   ].forEach(id => document.getElementById(id));
-  return { elements, calls, window, emergencyCheckboxes, storage, confirmationMessages, failNextSet(key) { failNextSetKey = key; }, get copiedText() { return copiedText; } };
+  return { elements, calls, window, emergencyCheckboxes, storage, confirmationMessages, setConfirmResult(value) { confirmResult = value; }, failNextSet(key) { failNextSetKey = key; }, get copiedText() { return copiedText; } };
 }
 
 test("clinical dashboard click routing invokes every destination", () => {
@@ -223,6 +224,25 @@ test("settings restore accepts valid backup and rejects unknown medication names
   elements.get("restoreBackup").value = "   ";
   await elements.get("moduleWorkspaceContent").click({ target: { id: "restoreLocalBackup" } });
   assert.match(elements.get("settingsStatus").textContent, /Tempel isi backup terlebih dahulu/);
+});
+
+test("cancelling backup restore leaves existing local data untouched", async () => {
+  const harness = createHarness();
+  const { elements, storage, confirmationMessages } = harness;
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "settings" } }) }
+  });
+  storage.set("dt_favorites", JSON.stringify(["Paracetamol"]));
+  storage.set("medora_dose_history", JSON.stringify([]));
+  harness.setConfirmResult(false);
+  elements.get("restoreBackup").value = JSON.stringify({
+    app: "MEDORA", version: 1, favorites: [], doseHistory: []
+  });
+  await elements.get("moduleWorkspaceContent").click({ target: { id: "restoreLocalBackup" } });
+  assert.match(elements.get("settingsStatus").textContent, /dibatalkan/);
+  assert.deepEqual(JSON.parse(storage.get("dt_favorites")), ["Paracetamol"]);
+  assert.deepEqual(JSON.parse(storage.get("medora_dose_history")), []);
+  assert.match(confirmationMessages[0], /akan diganti/);
 });
 
 test("settings clear actions require confirmation and update local data", async () => {

@@ -115,4 +115,44 @@
 ["S06.0","Konkusi","Trauma"],
 ["S93.4","Cedera terkilir dan teregang pada pergelangan kaki","Trauma"]
   ];
+
+  root.MEDORA_DATABASE.metadata.drugs = {
+    source: "MEDORA curated medication catalog",
+    version: "1.0",
+    scope: "Product index and formulation labels; dosing logic remains in dose-engine.js and indication-specific guidance"
+  };
+  root.MEDORA_DATABASE.drugs = [
+    ["Paracetamol","Demam & nyeri","Antipiretik / analgesik","🧴","active"],
+    ["Ibuprofen","Demam & nyeri","Antipiretik / antiinflamasi","🧴","active"],
+    ["Metamizole","Nyeri berat terpilih","Suspensi oral 250 mg/5 mL • resep dokter","🧴","active"],
+    ["Amoxicillin","Antibiotik","Suspensi oral 125/250 mg per 5 mL • kapsul • tablet","💊","active"],
+    ["Cefadroxil","Antibiotik","Suspensi oral 125/250 mg per 5 mL","💊","active"],
+    ["Cefixime","Antibiotik","Suspensi oral 100/200 mg per 5 mL • kapsul","💊","active"],
+    ["Ceftriaxone","Antibiotik","Injeksi IV / IM","💉","active"],
+    ["Cefotaxime","Antibiotik","Injeksi IV / IM","💉","active"],
+    ["Gentamicin","Antibiotik","Injeksi","💉","active"],
+    ["CTM (Chlorpheniramine)","Alergi","Sirup immediate-release • tablet","🧴","active"],
+    ["Cetirizine","Alergi","Tablet • sirup","🧴","active"],
+    ["Loratadine","Alergi","Sirup 5 mg/5 mL • dosis anak berdasarkan berat badan","🧴","active"],
+    ["Oralit","Lainnya","Sachet • larutkan sesuai petunjuk kemasan","🥤","active"],
+    ["Zinc","Lainnya","Tablet dispersibel • sirup","💊","active"],
+    ["Ambroxol","Lainnya","Tablet • sirup","🧴","active"],
+    ["Cendo Xitrol Tetes Mata","Mata & telinga","Deksametason 0,1% + neomisin + polimiksin B • obat mata kombinasi steroid","👁️","active"],
+    ["Cendo Xitrol Salep Mata","Mata & telinga","Deksametason 0,1% + neomisin + polimiksin B • salep mata","👁️","active"],
+    ["Erlamycetin Tetes Mata","Mata & telinga","Kloramfenikol 0,5% • tetes mata","👁️","active"],
+    ["Erlamycetin Tetes Telinga","Mata & telinga","Kloramfenikol 1% • tetes telinga","👂","active"],
+    ["Erlamycetin Salep Mata","Mata & telinga","Kloramfenikol 1% • salep mata","👁️","active"],
+    ["Salbutamol","Lainnya","Nebulisasi/inhalasi • khusus bronkospasme/asma","🫁","active"],
+    ["Dexamethasone","Lainnya","Croup anak 6 bulan–6 tahun • dosis tunggal oral/injeksi","💊","active"],
+    ["Prednisone","Lainnya","Tablet 5 mg • asma akut sedang–berat • oral 3–5 hari","💊","active"],
+    ["Methylprednisolone","Lainnya","Injeksi IV • eksaserbasi asma berat • dosis awal","💊","active"],
+    ["Diazepam","Lainnya","Rektal • rescue kejang berkepanjangan • dosis tunggal","💊","active"],
+    ["Ondansetron","Lainnya","Sirup 4 mg/5 mL • tablet • injeksi • dosis oral tunggal terpilih","💊","active"],
+    ["Metronidazole","Lainnya","Suspensi oral • amebiasis dan giardiasis terpilih","💊","active"],
+    ["Domperidone","Tidak direkomendasikan","Tidak ada kalkulator dosis anak • risiko QT","💊","excluded"],
+    ["Omeprazole","Lainnya","Kapsul lepas tunda 20 mg • GERD khas / esofagitis erosif • usia 1–16 tahun dan BB ≥20 kg","💊","active"],
+    ["Lansoprazole","Lainnya","Kapsul lepas tunda 30 mg • GERD khas / esofagitis erosif terpilih","💊","active"],
+    ["Furosemide","Diuretik","Tablet 40 mg • edema terpilih","💊","active"],
+    ["Adrenaline","Emergensi","Injeksi IM 1 mg/mL • anafilaksis saja","💉","active"]
+  ];
 })(window);

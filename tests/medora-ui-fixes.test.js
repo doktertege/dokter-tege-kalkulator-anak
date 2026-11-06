@@ -69,3 +69,29 @@ test("drug cards reserve columns for medicine name, dose and action controls", (
   assert.match(html, /\.drug\{display:grid;grid-template-columns:68px minmax\(0,1fr\) 105px 30px 24px/);
   assert.match(html, /grid-template-columns:48px minmax\(0,1fr\) 82px 25px 20px/);
 });
+
+test("header has no offline badge and workspace visibility CSS is valid", () => {
+  const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
+  assert.doesNotMatch(html, /<span class="tag">\\s*◉?\\s*OFFLINE\\s*<\\/span>/i);
+  assert.ok(html.includes("body.module-workspace-mode main> :not(#moduleWorkspace){display:none}"));
+  assert.ok(html.includes("body.module-workspace-mode #moduleWorkspace{display:block}"));
+  assert.ok(html.includes("}\\nbody.public-mode .bottomNav{display:none}"));
+  assert.ok(!html.includes("}\\\\nbody.public-mode .bottomNav{display:none}"));
+});
+
+test("all four clinical workspace modules contain visible content", () => {
+  const workspace = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/module-workspace.js"), "utf8");
+  for (const [key, heading] of [
+    ["guides", "Panduan Klinis"],
+    ["emergency", "IGD & Emergency"],
+    ["ai", "Asisten Klinis Offline"],
+    ["references", "Referensi Medis"]
+  ]) {
+    const start = workspace.indexOf(key + ": {");
+    assert.ok(start >= 0, key + " page exists");
+    const next = workspace.indexOf("\n    },", start);
+    const page = workspace.slice(start, next < 0 ? undefined : next);
+    assert.ok(page.includes('title: "' + heading + '"'), key + " title");
+    assert.match(page, /html: '<div class="guideCard">/);
+  }
+});

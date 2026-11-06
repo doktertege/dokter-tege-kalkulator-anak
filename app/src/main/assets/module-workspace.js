@@ -220,6 +220,14 @@
   installFavoriteToggles();
 
   document.getElementById("moduleBack").addEventListener("click", showClinicalHome);
+  document.getElementById("homeDashboard").addEventListener("keydown", event => {
+    const favoriteToggle = event.target.closest("[data-favorite]");
+    if (favoriteToggle && (event.key === "Enter" || event.key === " ")) {
+      event.preventDefault();
+      event.stopPropagation();
+      toggleFavoriteModule(favoriteToggle.dataset.favorite);
+    }
+  });
   document.getElementById("homeDashboard").addEventListener("click", event => {
     const favoriteToggle = event.target.closest("[data-favorite]");
     if (favoriteToggle) {

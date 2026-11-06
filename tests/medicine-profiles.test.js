@@ -107,8 +107,8 @@ test("medicine profile coverage metadata matches the expanded structured profile
   const coverage = database.metadata.medicineProfiles.coverage;
   assert.equal(coverage.Paracetamol, "structured_profile");
   assert.equal(coverage.Ibuprofen, "structured_profile");
-  assert.equal(Object.values(coverage).filter(value => value === "structured_profile").length, 12);
-  assert.equal(Object.keys(database.medicineProfiles).length, 12);
+  assert.equal(Object.values(coverage).filter(value => value === "structured_profile").length, 14);
+  assert.equal(Object.keys(database.medicineProfiles).length, 14);
 });
 
 

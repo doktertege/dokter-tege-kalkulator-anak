@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "feature/icd10-database-expansion" ]
 permissions:
   contents: read
 jobs:

@@ -213,6 +213,47 @@ def main():
     for name in required_profiles:
         if medicine_profiles[name].get("doseEngineFunction") is not None and name.startswith(("Cendo Xitrol", "Erlamycetin")):
             raise SystemExit("ERROR: topical ophthalmic/otic product must not expose a pediatric dose calculator: " + name)
+    profile_metadata_marker = "root.MEDORA_DATABASE.metadata.medicineProfiles = "
+    metadata_start = database_javascript.find(profile_metadata_marker)
+    metadata_end = database_javascript.find(";\n  root.MEDORA_DATABASE.medicineProfiles", metadata_start)
+    if metadata_start < 0 or metadata_end < 0:
+        raise SystemExit("ERROR: medicine profile provenance metadata not found")
+    metadata_json = database_javascript[metadata_start + len(profile_metadata_marker):metadata_end]
+    try:
+        profile_metadata = json.loads(metadata_json)
+    except json.JSONDecodeError as error:
+        raise SystemExit("ERROR: malformed medicine profile provenance metadata: " + str(error))
+    source_registry = profile_metadata.get("sources", {})
+    if profile_metadata.get("schemaVersion") != "1.1" or not isinstance(source_registry, dict):
+        raise SystemExit("ERROR: medicine profile provenance schema/source registry invalid")
+    provenance_fields = {
+        "activeIngredient", "dosageForms", "route", "formulationNote",
+        "strength", "prescriptionStatus", "keyWarnings", "doseEngineFunction"
+    }
+    valid_provenance_statuses = {
+        "source_linked_reference", "pending_product_specific_verification",
+        "verified_by_local_regression_test"
+    }
+    for name, profile in medicine_profiles.items():
+        provenance = profile.get("provenance", {})
+        if set(provenance) != provenance_fields:
+            raise SystemExit("ERROR: incomplete field-level provenance for medicine profile: " + name)
+        for field, entry in provenance.items():
+            if entry.get("status") not in valid_provenance_statuses or not isinstance(entry.get("sourceRefs"), list):
+                raise SystemExit("ERROR: malformed provenance entry: " + name + "." + field)
+            refs = entry["sourceRefs"]
+            if entry["status"] == "source_linked_reference" and not refs:
+                raise SystemExit("ERROR: source-linked field has no source refs: " + name + "." + field)
+            if entry["status"] == "pending_product_specific_verification" and refs:
+                raise SystemExit("ERROR: pending field must not claim supporting sources: " + name + "." + field)
+            for source_id in refs:
+                source = source_registry.get(source_id)
+                if not source or not source.get("url", "").startswith("https://"):
+                    raise SystemExit("ERROR: unresolved medicine source reference: " + name + "." + field)
+            if field == "doseEngineFunction" and entry["status"] != "verified_by_local_regression_test":
+                raise SystemExit("ERROR: dose engine provenance must be locally regression-tested: " + name)
+    if medicine_profiles.get("Oralit", {}).get("provenance", {}).get("formulationNote", {}).get("sourceRefs") != ["ygi_oralit"]:
+        raise SystemExit("ERROR: Oralit dilution provenance must reference the ORS preparation source")
     if not medicine_profiles.get("Oralit", {}).get("formulationNote"):
         raise SystemExit("ERROR: Oralit must retain product-specific dilution guidance")
 

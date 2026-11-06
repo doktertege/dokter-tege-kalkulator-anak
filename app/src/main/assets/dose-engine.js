@@ -175,7 +175,36 @@
     throw new RangeError("regimen must be indonesia or who2024");
   }
 
-  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, ambroxol, zinc });
+  // Age-based nebulized salbutamol reference doses; this does not determine severity or repeat-treatment need.
+  function salbutamolNebulized(ageMonths, strengthMgPerMl, selectedDoseMg) {
+    if (!Number.isFinite(ageMonths) || ageMonths < 12) {
+      throw new RangeError("ageMonths must be at least 12 months");
+    }
+    requirePositive(strengthMgPerMl, "strengthMgPerMl");
+    let minDoseMg;
+    let maxDoseMg;
+    if (ageMonths < 72) {
+      minDoseMg = maxDoseMg = 2.5;
+    } else if (ageMonths < 144) {
+      minDoseMg = 2.5;
+      maxDoseMg = 5;
+    } else {
+      minDoseMg = maxDoseMg = 5;
+    }
+    const doseMg = selectedDoseMg === undefined ? minDoseMg : selectedDoseMg;
+    if (doseMg < minDoseMg || doseMg > maxDoseMg) {
+      throw new RangeError("selectedDoseMg is outside the age-based dose range");
+    }
+    return {
+      minDoseMg,
+      maxDoseMg,
+      doseMg,
+      volumeMl: doseMg / strengthMgPerMl,
+      frequency: "clinical reassessment required"
+    };
+  }
+
+  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, ambroxol, zinc, salbutamolNebulized });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

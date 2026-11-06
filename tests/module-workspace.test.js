@@ -54,7 +54,9 @@ test("settings can back up, restore and clear local favorites and dose history",
   assert.match(workspace, /id="restoreLocalBackup"/);
   assert.match(workspace, /id="clearLocalHistory"/);
   assert.match(workspace, /id="clearLocalFavorites"/);
-  assert.match(workspace, /backup\.app !== "MEDORA"/);
+  assert.match(workspace, /backup\.app === "MEDORA"/);
+  assert.match(workspace, /backup\.version === 2/);
+  assert.match(workspace, /Array\.isArray\(backup\.patientRecords\)/);
   assert.match(workspace, /updateLocalDataSummary/);
 });
 

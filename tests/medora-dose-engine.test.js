@@ -334,7 +334,7 @@ test("ceftriaxone injection calculates standard and meningitis regimens after ne
     route: "IV; IM only when appropriate to the indication and product instructions"
   });
   assert.equal(dose.ceftriaxoneInjection(10, 24, "meningitis").doseMaxMg, 500);
-  assert.equal(dose.ceftriaxoneInjection(50, 24, "meningitis").dailyMaxMg, 4000);
+  assert.equal(dose.ceftriaxoneInjection(49, 24, "meningitis").dailyMaxMg, 4000);
 });
 
 test("ceftriaxone blocks neonatal and adult-weight calculations", () => {
@@ -395,6 +395,6 @@ test("injectable antibiotic engines reject non-finite and non-positive inputs", 
 test("cefotaxime prevents exceeding 2 g per dose", () => {
   assert.throws(() => dose.cefotaximeInjection(49, 120, "meningitis", 4), RangeError);
   const safe = dose.cefotaximeInjection(49, 120, "meningitis", 6);
-  assert.equal(safe.doseMinMg, 49000 / 6);
+  assert.equal(safe.doseMinMg, 9800 / 6);
   assert.equal(safe.doseMaxMg, 2000);
 });

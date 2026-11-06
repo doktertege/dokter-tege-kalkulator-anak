@@ -262,7 +262,7 @@
       const lines = ["RINGKASAN KUNJUNGAN MEDORA", "Kode/inisial: " + (value("pwCode") || "Tidak diisi"), "Usia: " + (value("pwAge") || "Tidak diisi"), "Jenis kelamin: " + (value("pwSex") || "Tidak diisi"), "Jenis kunjungan: " + (value("pwVisit") || "IGD") , "", "TANDA VITAL"];
       fields.slice(4).forEach(([label,key]) => lines.push(label + ": " + (value(key) || "Tidak diisi")));
       [["S","Subjektif","pwSubjective"],["O","Objektif","pwObjective"],["A","Asesmen","pwAssessment"],["P","Rencana","pwPlan"]].forEach(([code,label,key]) => lines.push("", code + " · " + label, value(key) || "[Belum diisi]"));
-      $("pwOutput").textContent = lines.join("\\n");
+      $("pwOutput").textContent = lines.join("\n");
       $("pwStatus").textContent = "Draf dibuat. Pastikan data, satuan, diagnosis, dan rencana sudah benar sebelum digunakan.";
       return;
     }

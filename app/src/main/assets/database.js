@@ -275,21 +275,21 @@
 };
   root.MEDORA_DATABASE.medicineProfiles = {
   "CTM (Chlorpheniramine)": {
-    "activeIngredient": "chlorpheniramine maleate",
+    "activeIngredient": "Belum diverifikasi pada produk lokal; cocokkan zat aktif dengan etiket dan nomor registrasi.",
     "dosageForms": [
-      "sirup oral",
-      "tablet oral"
+      "sirup oral (verifikasi etiket)",
+      "tablet oral (verifikasi etiket)"
     ],
     "route": [
-      "oral"
+      "oral (verifikasi etiket produk)"
     ],
-    "formulationNote": "Konsentrasi sirup dan kekuatan tablet berbeda antarproduk; wajib cocokkan etiket sebelum menghitung volume.",
+    "formulationNote": "Konsentrasi sirup, kekuatan tablet, dan jenis pelepasan dapat berbeda antarproduk; wajib cocokkan etiket sebelum menghitung dosis atau volume.",
     "prescriptionStatus": "varies_by_product",
     "doseEngineFunction": "chlorpheniramine",
     "keyWarnings": [
       "Dapat menyebabkan kantuk dan efek antikolinergik.",
       "Hindari duplikasi dengan obat flu kombinasi yang juga mengandung antihistamin.",
-      "Gunakan sediaan immediate-release; jangan samakan dengan sediaan lepas lambat."
+      "Verifikasi apakah produk immediate-release atau modified-release pada etiket; jangan menerapkan regimen satu jenis pelepasan ke jenis lainnya."
     ],
     "provenance": {
       "activeIngredient": {

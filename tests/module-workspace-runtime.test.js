@@ -263,3 +263,15 @@ test("settings restore rolls back the first write when the second storage write 
   assert.equal(elements.get("localDataSummary").textContent,
     "0 obat favorit dan 0 catatan riwayat tersimpan di perangkat ini.");
 });
+
+test("emergency checklist never carries completed actions into a new session", () => {
+  const harness = createHarness();
+  const { elements, emergencyCheckboxes, storage } = harness;
+  storage.set("medora_emergency_checklist_v1", JSON.stringify([true, true, false, false, false, false, false]));
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "emergency" } }) }
+  });
+  assert.ok(emergencyCheckboxes.every(input => input.checked === false));
+  assert.equal(storage.has("medora_emergency_checklist_v1"), false);
+  assert.match(elements.get("emergencyChecklistStatus").textContent, /setiap kali menu dibuka/);
+});

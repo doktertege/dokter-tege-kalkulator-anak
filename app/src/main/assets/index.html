@@ -596,6 +596,34 @@ button.active,.bottomNav a.active{
   *,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
 }
 
+
+/* MEDORA Patient Workspace — structured encounter studio */
+.patientWorkspace{display:grid;gap:14px}
+.patientWorkspaceIntro,.patientSummaryPanel{border:1px solid #e4e9e2;border-radius:22px;background:linear-gradient(145deg,#fffefa,#f4f7f2);padding:17px;box-shadow:0 6px 20px rgba(16,36,59,.045)}
+.workspaceEyebrow{display:block;color:#9a8050;font-size:9px;font-weight:900;letter-spacing:1.5px}
+.patientWorkspaceIntro h3,.patientSummaryTop h3{margin:5px 0;color:#172d43;font-size:19px;letter-spacing:-.3px}
+.patientWorkspaceIntro p{margin:0;color:#718092;font-size:12px;line-height:1.5}
+.patientFormGrid,.patientVitalsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.patientField{min-width:0}
+.patientField label{color:#526477;font-size:11px;font-weight:750;margin:0 0 5px}
+.patientField input,.patientField select,.patientField textarea{width:100%;min-width:0;border:1px solid #e1e6df!important;border-radius:13px!important;background:#fffefa!important;padding:12px!important;color:#1c3045!important;font:inherit;font-size:13px}
+.patientField textarea{min-height:86px;resize:vertical;line-height:1.5}
+.patientField input:focus,.patientField select:focus,.patientField textarea:focus{outline:2px solid rgba(44,119,117,.15);border-color:#79a99e!important}
+.patientSectionHead{display:flex;align-items:center;gap:11px;padding:5px 2px 0}
+.patientSectionHead>span{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:#f1eadb;color:#967a45;font-size:10px;font-weight:900}
+.patientSectionHead b{display:block;color:#1d3448;font-size:14px}
+.patientSectionHead small{display:block;color:#82908d;font-size:10px;margin-top:2px}
+.patientClinicalFields{display:grid;gap:10px}
+.patientWorkspaceActions{display:flex;flex-wrap:wrap;gap:8px}
+.patientWorkspaceActions button{border-radius:13px;padding:11px 15px;font-size:12px}
+.patientWorkspaceActions button.active{background:linear-gradient(135deg,#245e64,#17434e)!important;border-color:#245e64!important;color:#fff!important}
+.patientSummaryPanel{background:linear-gradient(145deg,#f7f6ef,#fffefa);border-color:#e8e2d3}
+.patientSummaryTop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.patientSummaryTop h3{font-size:16px}
+.patientDraftTag{border:1px solid #e7dcc1;background:#f5efdf;color:#8b7040;border-radius:30px;padding:5px 9px;font-size:9px;font-weight:900;letter-spacing:.8px}
+.patientSummaryPanel pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;padding:14px;border:1px solid #e7e9e1;border-radius:14px;background:#fffefa;color:#34475a;font:12px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;min-height:130px}
+@media(max-width:390px){.patientWorkspaceIntro,.patientSummaryPanel{padding:14px}.patientFormGrid,.patientVitalsGrid{gap:8px}.patientField input,.patientField select,.patientField textarea{padding:10px!important;font-size:12px}.patientWorkspaceActions button{flex:1}}
+
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">
@@ -642,6 +670,7 @@ button.active,.bottomNav a.active{
 <button class="moduleCard" data-module="integrated"><span class="moduleIcon">🧩</span><span class="moduleText"><strong>Kasus Terpadu</strong><small>Evaluasi kasus lintas kondisi</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="ultrasound"><span class="moduleIcon">🤰</span><span class="moduleText"><strong>USG Kandungan</strong><small>Biometri janin dan cairan ketuban</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="laboratory"><span class="moduleIcon">🧪</span><span class="moduleText"><strong>Laboratorium</strong><small>Interpretasi hasil pemeriksaan</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="patient"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h3m2 0h3M8 16h8M12 5v6"/></svg></span><span class="moduleText"><span class="miniBrand"><img class="miniLogo" src="medora-mark.svg" alt="" aria-hidden="true"> MEDORA</span><strong>Patient Workspace</strong><small>Ringkasan kunjungan, vital sign, SOAP</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="records"><span class="moduleIcon">📋</span><span class="moduleText"><strong>Rekam Medis</strong><small>Checklist dokumentasi kunjungan</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="anthropometry"><span class="moduleIcon">📏</span><span class="moduleText"><strong>IMT & Lingkar Tubuh</strong><small>Antropometri dan risiko metabolik</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="vitals"><span class="moduleIcon">🩺</span><span class="moduleText"><strong>Tanda Vital</strong><small>TD, nadi, napas, SpO₂, suhu</small></span><span class="moduleArrow">›</span></button>

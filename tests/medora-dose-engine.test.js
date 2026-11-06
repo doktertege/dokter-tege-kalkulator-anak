@@ -240,3 +240,22 @@ test("zinc rejects unsupported ages and regimen combinations", () => {
   assert.throws(() => dose.zinc(61, "indonesia"), RangeError);
   assert.throws(() => dose.zinc(24, "unknown"), RangeError);
 });
+
+
+test("salbutamol nebulization uses age-based dose bands and concentration conversion", () => {
+  assert.deepEqual(dose.salbutamolNebulized(12, 1), {
+    minDoseMg: 2.5, maxDoseMg: 2.5, doseMg: 2.5, volumeMl: 2.5,
+    frequency: "clinical reassessment required"
+  });
+  assert.equal(dose.salbutamolNebulized(71, 1).doseMg, 2.5);
+  assert.equal(dose.salbutamolNebulized(72, 1, 5).volumeMl, 5);
+  assert.equal(dose.salbutamolNebulized(143, 2, 5).volumeMl, 2.5);
+  assert.equal(dose.salbutamolNebulized(144, 2).doseMg, 5);
+});
+
+test("salbutamol nebulization rejects unsupported ages, strengths, and doses", () => {
+  assert.throws(() => dose.salbutamolNebulized(11, 1), RangeError);
+  assert.throws(() => dose.salbutamolNebulized(12, 0), RangeError);
+  assert.throws(() => dose.salbutamolNebulized(72, 1, 1.25), RangeError);
+  assert.throws(() => dose.salbutamolNebulized(72, 1, 7.5), RangeError);
+});

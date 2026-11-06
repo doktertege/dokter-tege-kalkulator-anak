@@ -94,11 +94,32 @@ def main():
 
     # ICD-10 reference catalog integrity: unique, well-formed codes and
     # every category must have a visible filter in the interface.
-    icd_match = re.search(r"const icdData=\\[(.*?)\\n\\];", javascript, re.S)
+    icd_match = re.search(r"const icdData=\[(.*?)\n\];", javascript, re.S)
     if not icd_match:
         raise SystemExit("ERROR: ICD-10 reference catalog not found")
     icd_entries = re.findall(
-        r'^\\["([A-Z][0-9]{2}(?:\\.[0-9A-Z]{1,2})?)","([^"]+)","([^"]+)"\\],?
+        r'^\["([A-Z][0-9]{2}(?:\.[0-9A-Z]{1,2})?)","([^"]+)","([^"]+)"\],?$',
+        icd_match.group(1),
+        re.M,
+    )
+    raw_icd_rows = re.findall(r'^\["', icd_match.group(1), re.M)
+    if not icd_entries or len(icd_entries) != len(raw_icd_rows):
+        raise SystemExit("ERROR: ICD-10 catalog contains malformed or empty entries")
+    icd_codes = [entry[0] for entry in icd_entries]
+    duplicate_icd_codes = sorted(
+        code for code, count in Counter(icd_codes).items() if count > 1
+    )
+    if duplicate_icd_codes:
+        raise SystemExit("ERROR: duplicate ICD-10 codes: " + ", ".join(duplicate_icd_codes))
+    icd_categories = {entry[2] for entry in icd_entries}
+    visible_categories = set(re.findall(r'data-icd-cat="([^"]+)"', html))
+    missing_categories = sorted(icd_categories - visible_categories)
+    if missing_categories:
+        raise SystemExit(
+            "ERROR: ICD-10 categories lack visible filters: "
+            + ", ".join(missing_categories)
+        )
+
     # Bottom-navigation handlers must be registered exactly once. Duplicate
     # listeners can make a single tap trigger multiple navigation actions.
     navigation_ids = {"navHome", "navSearch", "navFavorites", "navHistory", "navSettings"}

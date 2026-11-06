@@ -122,6 +122,14 @@ def main():
     )
     if duplicate_icd_codes:
         raise SystemExit("ERROR: duplicate ICD-10 codes: " + ", ".join(duplicate_icd_codes))
+    if len(icd_entries) < 99:
+        raise SystemExit(f"ERROR: ICD-10 reference catalog unexpectedly small: {len(icd_entries)} entries")
+    required_icd_codes = {"R07.4", "A15.0", "I64", "K35.9", "N10", "G51.0", "S06.0"}
+    missing_required_codes = sorted(required_icd_codes - set(icd_codes))
+    if missing_required_codes:
+        raise SystemExit("ERROR: required high-yield ICD-10 codes missing: " + ", ".join(missing_required_codes))
+    if "R07.9" in icd_codes:
+        raise SystemExit("ERROR: R07.9 is not the WHO ICD-10 code for unspecified chest pain; use R07.4")
     icd_categories = {entry[2] for entry in icd_entries}
     visible_categories = set(re.findall(r'data-icd-cat="([^"]+)"', html))
     missing_categories = sorted(icd_categories - visible_categories)

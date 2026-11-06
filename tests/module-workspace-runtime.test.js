@@ -160,6 +160,29 @@ test("quick-launch modules are remembered locally in most-recent-first order", (
   assert.doesNotMatch(recentHtml, /Kalkulator medis/);
 });
 
+test("Shift Board adds tasks, advances status, and clears completed items", () => {
+  const { elements } = createHarness();
+  elements.get("homeDashboard").click({
+    target: { closest: selector => selector === "[data-favorite]" ? null : ({ dataset: { module: "shiftboard" } }) }
+  });
+  assert.equal(elements.get("moduleTitle").textContent, "Shift Board");
+  elements.get("shiftTaskTitle").value = "Evaluasi ulang tanda vital";
+  elements.get("shiftTaskCategory").value = "Monitoring";
+  elements.get("shiftTaskPriority").value = "Segera";
+  elements.get("moduleWorkspaceContent").click({ target: { id: "shiftTaskAdd" } });
+  assert.equal(elements.get("shiftTotal").textContent, "1");
+  assert.match(elements.get("shiftTaskList").children[0].textContent, /Evaluasi ulang tanda vital/);
+  const card = elements.get("shiftTaskList").children[0];
+  const advance = card.children[2].children[1].children[0];
+  await elements.get("moduleWorkspaceContent").click({ target: { closest: selector => selector === "[data-shift-action]" ? advance : null } });
+  assert.equal(elements.get("shiftActive").textContent, "1");
+  const complete = card.children[2].children[1].children[0];
+  await elements.get("moduleWorkspaceContent").click({ target: { closest: selector => selector === "[data-shift-action]" ? complete : null } });
+  assert.equal(elements.get("shiftDone").textContent, "1");
+  elements.get("moduleWorkspaceContent").click({ target: { id: "shiftClearDone" } });
+  assert.equal(elements.get("shiftTotal").textContent, "0");
+});
+
 test("Clinical Handover builds, clears, and copies a structured SBAR note", async () => {
   const harness = createHarness();
   const { elements } = harness;

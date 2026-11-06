@@ -72,7 +72,7 @@ test("drug cards reserve columns for medicine name, dose and action controls", (
 
 test("header has no offline badge and workspace visibility CSS is valid", () => {
   const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
-  assert.doesNotMatch(html, /<span class="tag">\\s*◉?\\s*OFFLINE\\s*<\\/span>/i);
+  assert.ok(!html.includes("OFFLINE"), "offline badge removed");
   assert.ok(html.includes("body.module-workspace-mode main> :not(#moduleWorkspace){display:none}"));
   assert.ok(html.includes("body.module-workspace-mode #moduleWorkspace{display:block}"));
   assert.ok(html.includes("}\\nbody.public-mode .bottomNav{display:none}"));

@@ -613,3 +613,27 @@ test("lansoprazole blocks unsupported weights, ages, indications and durations",
   assert.throws(() => dose.lansoprazolePediatricGerd(0, 120, "typicalGERD", 4), RangeError);
   assert.throws(() => dose.lansoprazolePediatricGerd(Infinity, 120, "typicalGERD", 4), RangeError);
 });
+
+
+test("adrenaline anaphylaxis calculates IM 1 mg/mL dose with pediatric and adolescent caps", () => {
+  const child = dose.adrenalineAnaphylaxisIM(10, 60, 1);
+  assert.equal(child.doseMg, 0.1);
+  assert.equal(child.volumeMl, 0.1);
+  assert.equal(child.maxDoseMg, 0.3);
+  assert.equal(child.route, "IM into the mid-anterolateral thigh");
+  assert.equal(child.repeatIntervalMinutes, 5);
+
+  const cappedChild = dose.adrenalineAnaphylaxisIM(40, 120, 1);
+  assert.equal(cappedChild.doseMg, 0.3);
+  const adolescent = dose.adrenalineAnaphylaxisIM(60, 168, 1);
+  assert.equal(adolescent.doseMg, 0.5);
+  assert.equal(adolescent.maxDoseMg, 0.5);
+});
+
+test("adrenaline anaphylaxis blocks wrong concentration and invalid patient inputs", () => {
+  assert.throws(() => dose.adrenalineAnaphylaxisIM(10, 60, 0.1), RangeError);
+  assert.throws(() => dose.adrenalineAnaphylaxisIM(0, 60, 1), RangeError);
+  assert.throws(() => dose.adrenalineAnaphylaxisIM(Number.NaN, 60, 1), RangeError);
+  assert.throws(() => dose.adrenalineAnaphylaxisIM(10, -1, 1), RangeError);
+  assert.throws(() => dose.adrenalineAnaphylaxisIM(10, 217, 1), RangeError);
+});

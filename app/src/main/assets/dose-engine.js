@@ -550,7 +550,31 @@
     };
   }
 
-  const api = Object.freeze({ lansoprazolePediatricGerd, omeprazolePediatricGerd, prednisoneAsthmaOral, methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+
+  // IM epinephrine for anaphylaxis only; deliberately excludes IV bolus/infusion and nebulized dosing.
+  function adrenalineAnaphylaxisIM(weightKg, ageMonths, strengthMgPerMl) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 0 || ageMonths > 216) {
+      throw new RangeError("adrenaline anaphylaxis calculator is restricted to age 0 through 18 years");
+    }
+    if (strengthMgPerMl !== 1) {
+      throw new RangeError("only adrenaline 1 mg/mL (1:1000) for IM anaphylaxis dosing is supported; never use this result for IV administration");
+    }
+    const maxDoseMg = ageMonths < 168 ? 0.3 : 0.5;
+    const doseMg = Math.min(weightKg * 0.01, maxDoseMg);
+    return {
+      doseMg,
+      volumeMl: doseMg,
+      doseMgPerKg: 0.01,
+      concentrationMgPerMl: 1,
+      maxDoseMg,
+      route: "IM into the mid-anterolateral thigh",
+      repeatIntervalMinutes: 5,
+      frequency: "single dose calculation; repeat every 5 minutes if anaphylaxis persists, with reassessment"
+    };
+  }
+
+  const api = Object.freeze({ adrenalineAnaphylaxisIM, lansoprazolePediatricGerd, omeprazolePediatricGerd, prednisoneAsthmaOral, methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

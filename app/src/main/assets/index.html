@@ -311,7 +311,7 @@ const data=[
 ["Omeprazole","Lainnya","Kapsul lepas tunda 20 mg • GERD khas / esofagitis erosif • usia 1–16 tahun dan BB ≥20 kg","💊","active"],
 ["Lansoprazole","Lainnya","Kapsul lepas tunda 30 mg • GERD khas / esofagitis erosif terpilih","💊","active"],
 ["Furosemide","Lainnya","Tablet • injeksi","💊","pending"],
-["Adrenaline","Lainnya","Injeksi","💉","pending"]
+["Adrenaline","Emergensi","Injeksi IM 1 mg/mL • anafilaksis saja","💉","active"]
 ];
 let cat="Semua",showFavorites=false;const $=id=>document.getElementById(id);let favorites=new Set();try{favorites=new Set(JSON.parse(localStorage.getItem("dt_favorites")||"[]"))}catch(e){} function saveFavorites(){try{localStorage.setItem("dt_favorites",JSON.stringify([...favorites]))}catch(e){}}
 let doseHistory=[];try{const saved=JSON.parse(localStorage.getItem("medora_dose_history")||"[]");doseHistory=Array.isArray(saved)?saved.filter(h=>h&&typeof h.drug==="string"&&Number.isFinite(Number(h.weight))&&typeof h.age==="string"&&typeof h.date==="string"&&typeof h.result==="string").slice(0,50):[]}catch(e){doseHistory=[]}
@@ -370,6 +370,12 @@ if(name==="Prednisone"){
 }
 
 
+
+if(name==="Adrenaline"){
+ $("doseArea").innerHTML='<span class="pill">Adrenaline 1 mg/mL (1:1000) • anafilaksis • IM</span><p><b>Dosis awal: 0,01 mg/kg IM pada paha anterolateral.</b></p><div class="result"><div id="adrResult"></div></div><div class="warn"><b>Hanya untuk anafilaksis:</b> segera berikan IM pada paha anterolateral. Maksimum 0,3 mg per dosis pada usia &lt;14 tahun dan 0,5 mg pada usia ≥14 tahun. Bila gejala menetap, dosis IM dapat diulang setiap 5 menit dengan penilaian ulang klinis. Jangan menunda adrenaline untuk memasang akses IV atau memberikan antihistamin/kortikosteroid.</div><div class="warn"><b>Keselamatan kritis:</b> hasil ini khusus larutan 1 mg/mL (1:1000) untuk IM. <b>JANGAN berikan hasil volume ini secara IV.</b> Tidak menghitung bolus IV, infus IV, atau nebulisasi. IV adrenaline hanya berdasarkan protokol resusitasi/infus tersendiri dengan tenaga terlatih dan monitoring kontinu. Panggil bantuan resusitasi, evaluasi ABC, berikan oksigen, posisikan pasien terlentang dengan tungkai ditinggikan bila dapat ditoleransi, monitor tanda vital, dan berikan kristaloid IV bila syok. Adrenaline adalah terapi lini pertama, bukan antihistamin atau steroid.</div>';
+ const r=MedoraDoseEngine.adrenalineAnaphylaxisIM(p.w,p.a,1);
+ $("adrResult").innerHTML='<div class="resultgrid"><div class="metric"><small>Dosis IM</small><strong>'+fmt(r.doseMg)+' mg</strong><small>'+fmt(r.doseMgPerKg)+' mg/kg</small></div><div class="metric"><small>Volume 1 mg/mL</small><strong>'+fmt(r.volumeMl)+' mL</strong><small>Tarik dengan spuit 1 mL untuk volume kecil</small></div><div class="metric"><small>Batas dosis</small><strong>'+fmt(r.maxDoseMg)+' mg</strong><small>Usia '+(p.a<168?'<14 tahun':'≥14 tahun')+'</small></div><div class="metric"><small>Rute</small><strong>IM</strong><small>Paha anterolateral</small></div></div><small>Jika anafilaksis menetap: evaluasi ulang dan pertimbangkan pengulangan IM setelah 5 menit.</small>';return
+}
 if(name==="Lansoprazole"){
  if(p.a<12||p.a>=216){$("doseArea").innerHTML='<div class="warn">Kalkulator kapsul 30 mg ini hanya untuk usia 1–17 tahun. Usia di luar rentang tersebut memerlukan protokol tersendiri.</div>';return}
  if(p.w<=30){$("doseArea").innerHTML='<div class="warn">Kalkulator tidak mengeluarkan dosis untuk BB ≤30 kg. Sediaan lokal yang terverifikasi dalam katalog ini adalah kapsul lepas tunda 30 mg. Jangan membagi atau menghancurkan granul kapsul untuk memperkirakan dosis yang lebih rendah.</div>';return}

@@ -8,6 +8,7 @@ const vm = require("node:vm");
 
 const assets = path.join(__dirname, "../app/src/main/assets");
 const html = fs.readFileSync(path.join(assets, "index.html"), "utf8");
+const workspace = fs.readFileSync(path.join(assets, "module-workspace.js"), "utf8");
 const context = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(assets, "database.js"), "utf8"), context);
 const database = context.window.MEDORA_DATABASE;
@@ -18,7 +19,8 @@ test("clinical dashboard opens the offline medicine database panel", () => {
   assert.match(html, /id="medicineDbFilters"/);
   assert.match(html, /id="medicineDbList"/);
   assert.match(html, /id="medicineDbDetail"/);
-  assert.match(html, /if\(key==="drugs"\)\{showMedicineDatabase\(\);return\}/);
+  assert.match(html, /module-workspace\.js/);
+  assert.match(workspace, /key === "drugs".*showMedicineDatabase\(\)/);
   assert.match(html, /body\.medicine-database-mode #medicineDatabasePanel\{display:block\}/);
   assert.match(html, /classList\.remove\("medical-mode","icd-mode","medicine-database-mode"\)/);
 });

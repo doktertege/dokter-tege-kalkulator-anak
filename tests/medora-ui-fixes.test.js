@@ -122,3 +122,16 @@ test("Android app permits internet and routes HTTPS reference links to an extern
   assert.match(workspace, /https:\/\/www\.idai\.or\.id/);
   assert.match(workspace, /https:\/\/kdigo\.org\/guidelines/);
 });
+
+
+test("medical reference links use secure HTTPS and avoid unsupported new-window targets", () => {
+  const workspace = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/module-workspace.js"), "utf8");
+  const start = workspace.indexOf("references: {");
+  const end = workspace.indexOf("\n    },", start);
+  assert.ok(start >= 0 && end > start, "references workspace exists");
+  const page = workspace.slice(start, end);
+  const hrefs = [...page.matchAll(/href="([^"]+)"/g)].map(match => match[1]);
+  assert.ok(hrefs.length >= 7, "official reference links are present");
+  assert.ok(hrefs.every(url => url.startsWith("https://")), "all reference destinations use HTTPS");
+  assert.doesNotMatch(page, /target="_blank"/, "links must use the Android WebView URL handler");
+});

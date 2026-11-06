@@ -10,6 +10,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      MEDORA_KEYSTORE_PASSWORD: ${{ secrets.MEDORA_KEYSTORE_PASSWORD }}
+      MEDORA_KEY_ALIAS: ${{ secrets.MEDORA_KEY_ALIAS }}
+      MEDORA_KEY_PASSWORD: ${{ secrets.MEDORA_KEY_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,10 +34,21 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.7'
-      - name: Build debug APK
+      - name: Prepare persistent MEDORA signing key
+        if: ${{ secrets.MEDORA_KEYSTORE_BASE64 != '' }}
+        env:
+          MEDORA_KEYSTORE_BASE64: ${{ secrets.MEDORA_KEYSTORE_BASE64 }}
+        run: |
+          echo "$MEDORA_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/medora-release.jks"
+          echo "MEDORA_KEYSTORE_FILE=$RUNNER_TEMP/medora-release.jks" >> "$GITHUB_ENV"
+      - name: Build signed release APK
+        if: ${{ secrets.MEDORA_KEYSTORE_BASE64 != '' }}
+        run: gradle --no-daemon assembleRelease
+      - name: Build debug APK (temporary until signing key is configured)
+        if: ${{ secrets.MEDORA_KEYSTORE_BASE64 == '' }}
         run: gradle --no-daemon assembleDebug
       - uses: actions/upload-artifact@v4
         with:
           name: MEDORA-Android-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/**/*.apk
           if-no-files-found: error

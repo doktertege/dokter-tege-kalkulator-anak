@@ -181,7 +181,7 @@ body.medicine-database-mode #medicineDatabasePanel{display:block}
 .medicineDbDose{background:#e8f7ef;border:1px solid #bfe8d0;border-radius:14px;padding:12px;margin:10px 0;color:#155b38;font-size:12px;line-height:1.5}
 @media(max-width:390px){.medicineDbCard{grid-template-columns:44px minmax(0,1fr) auto;padding:10px}.medicineDbIcon{width:42px;height:42px}}
 
-body.module-workspace-mode main> :not(#moduleWorkspace){display:none}
+body.module-workspace-mode main> :not(#moduleWorkspace){display:none}\nbody.public-mode .bottomNav{display:none}
 body.module-workspace-mode #moduleWorkspace{display:block}
 .moduleWorkspaceContent{line-height:1.55;color:#18345e}
 .moduleWorkspaceContent h3{margin:18px 0 7px;color:#0b3978;font-size:16px}
@@ -534,9 +534,9 @@ $("close").addEventListener("click",()=>$("detail").classList.remove("open"));
 ["bb","th","bl"].forEach(id=>$(id).addEventListener("input",()=>{updateSummary();if($("detail").classList.contains("open"))openDrug($("drugName").textContent)}));
 $("q").addEventListener("input",draw);$("navHistory").addEventListener("click",e=>{e.preventDefault();showCalculator();renderDoseHistory();$("historyPanel").classList.add("open");setNavActive("navHistory");window.scrollTo(0,0)});$("navFavorites").addEventListener("click",e=>{e.preventDefault();showCalculator();showFavorites=true;cat="Semua";document.querySelectorAll("#filters button").forEach(b=>b.classList.toggle("active",b.dataset.c==="Semua"));draw();setNavActive("navFavorites");window.scrollTo(0,0)});$("filters").addEventListener("click",e=>{if(e.target.dataset.c){cat=e.target.dataset.c;document.querySelectorAll(".filters button").forEach(b=>b.classList.toggle("active",b===e.target));draw()}});$("editPatient").addEventListener("click",()=> $("patientFields").classList.toggle("open"));
 function setNavActive(id){document.querySelectorAll(".bottomNav a").forEach(a=>a.classList.toggle("active",a.id===id))}
-function showHome(){document.body.classList.remove("medical-mode","icd-mode","medicine-database-mode","module-workspace-mode");document.body.classList.add("home-mode");$("modeChooser").style.display="block";$("clinicalDashboard").style.display="none";$("publicDashboard").style.display="none";setNavActive("navHome");window.scrollTo(0,0)}
-function showClinicalHome(){document.body.classList.remove("module-workspace-mode","medical-mode","icd-mode","medicine-database-mode");document.body.classList.add("home-mode");$("modeChooser").style.display="none";$("clinicalDashboard").style.display="block";$("publicDashboard").style.display="none";window.scrollTo(0,0)}
-function showPublicHome(){$("modeChooser").style.display="none";$("clinicalDashboard").style.display="none";$("publicDashboard").style.display="block";window.scrollTo(0,0)}
+function showHome(){document.body.classList.remove("medical-mode","icd-mode","medicine-database-mode","module-workspace-mode","public-mode");document.body.classList.add("home-mode");$("modeChooser").style.display="block";$("clinicalDashboard").style.display="none";$("publicDashboard").style.display="none";setNavActive("navHome");window.scrollTo(0,0)}
+function showClinicalHome(){document.body.classList.remove("module-workspace-mode","medical-mode","icd-mode","medicine-database-mode","public-mode");document.body.classList.add("home-mode");$("modeChooser").style.display="none";$("clinicalDashboard").style.display="block";$("publicDashboard").style.display="none";window.scrollTo(0,0)}
+function showPublicHome(){document.body.classList.add("public-mode");$("modeChooser").style.display="none";$("clinicalDashboard").style.display="none";$("publicDashboard").style.display="block";window.scrollTo(0,0)}
 $("chooseClinical").addEventListener("click",showClinicalHome);
 $("choosePublic").addEventListener("click",showPublicHome);
 $("modeBack").addEventListener("click",showHome);
@@ -581,7 +581,7 @@ const medicineCatalog = window.MEDORA_DATABASE.drugs || [];
 const medicineCoverage = window.MEDORA_DATABASE.metadata.medicineProfiles?.coverage || {};
 let medicineDbCategory = "Semua";
 function showMedicineDatabase(){
- document.body.classList.remove("home-mode","medical-mode","icd-mode","module-workspace-mode");
+ document.body.classList.remove("home-mode","medical-mode","icd-mode","module-workspace-mode","public-mode");
  document.body.classList.add("medicine-database-mode");
  setNavActive("navSearch");
  drawMedicineDatabase();
@@ -635,9 +635,9 @@ $("medicineDbFilters").addEventListener("click",e=>{const b=e.target.closest("[d
 $("medicineDbSearch").addEventListener("input",drawMedicineDatabase);
 $("medicineDbDetailBack").addEventListener("click",()=>{$("medicineDbDetail").style.display="none";$("medicineDbList").style.display="block";$("medicineDbFilters").style.display="";$("medicineDbSearch").style.display="block";$("medicineDbCount").style.display="block";window.scrollTo(0,0)});
 $("medicineDbBack").addEventListener("click",()=>{showHome()});
-function showMedical(){document.body.classList.remove("home-mode","icd-mode","medicine-database-mode","module-workspace-mode");document.body.classList.add("medical-mode");setNavActive("navSearch");window.scrollTo(0,0)}
-function showIcd(){document.body.classList.remove("home-mode","medical-mode","medicine-database-mode","module-workspace-mode");document.body.classList.add("icd-mode");setNavActive("navSearch");drawIcd();window.scrollTo(0,0)}
-function showCalculator(){document.body.classList.remove("home-mode","medical-mode","icd-mode","medicine-database-mode","module-workspace-mode");setNavActive("navSearch");showFavorites=false;draw();window.scrollTo(0,0)}
+function showMedical(){document.body.classList.remove("home-mode","icd-mode","medicine-database-mode","module-workspace-mode","public-mode");document.body.classList.add("medical-mode");setNavActive("navSearch");window.scrollTo(0,0)}
+function showIcd(){document.body.classList.remove("home-mode","medical-mode","medicine-database-mode","module-workspace-mode","public-mode");document.body.classList.add("icd-mode");setNavActive("navSearch");drawIcd();window.scrollTo(0,0)}
+function showCalculator(){document.body.classList.remove("home-mode","medical-mode","icd-mode","medicine-database-mode","module-workspace-mode","public-mode");setNavActive("navSearch");showFavorites=false;draw();window.scrollTo(0,0)}
 
 
 

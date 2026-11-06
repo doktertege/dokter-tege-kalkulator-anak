@@ -13,7 +13,7 @@ Prototype Android offline untuk membantu perhitungan dosis pediatrik.
 - Obat lain tetap berstatus belum aktif sampai regimen, sediaan, batas dosis, kontraindikasi, dan referensinya diverifikasi.
 
 ## Build APK
-Buka tab **Actions** lalu jalankan workflow **Build Android APK**. Setelah selesai, unduh artifact `Dokter-Tege-Kalkulator-Anak-APK` (nama artifact build saat ini).
+Buka tab **Actions** lalu jalankan workflow **Build Android APK**. Setelah selesai, unduh artifact `MEDORA-Android-APK` (nama artifact build saat ini).
 
 ## Status keselamatan
 Aplikasi ini merupakan alat bantu hitung, bukan pengganti penilaian klinis atau pedoman terapi. Selalu periksa indikasi, usia, berat badan, rute, konsentrasi produk yang benar, dosis maksimal, alergi, fungsi organ, kontraindikasi, interaksi, serta dosis yang telah diberikan. Jangan gunakan regimen obat yang masih berstatus belum aktif. Untuk amoxicillin, kalkulasi hanya tersedia pada usia ≥3 bulan dan BB <20 kg; pilihan regimen harus sesuai diagnosis, dan gangguan ginjal/alergi penisilin memerlukan evaluasi khusus. Untuk cefixime, kalkulasi dibatasi pada usia 6 bulan hingga kurang dari 12 tahun, dosis 8 mg/kgBB/hari (maksimum 400 mg/hari), dan gangguan ginjal memerlukan penyesuaian khusus. Salbutamol nebulisasi hanya dihitung mulai usia 1 tahun untuk bronkospasme/eksaserbasi asma yang dinilai klinis; bukan terapi rutin batuk atau bronkiolitis. Untuk cefadroxil, kalkulasi dibatasi pada usia ≥6 bulan dan BB <20 kg; dosis 25–50 mg/kgBB/hari dibagi tiap 12 jam, dengan penyesuaian gangguan ginjal dan alergi beta-laktam tetap memerlukan evaluasi klinis. Validasi klinis dan uji kasus sebelum penggunaan rutin di fasilitas pelayanan kesehatan.

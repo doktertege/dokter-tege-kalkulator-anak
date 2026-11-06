@@ -277,7 +277,8 @@ test("settings backup exports local favorites and dose history", async () => {
   await elements.get("moduleWorkspaceContent").click({ target: { id: "copyLocalBackup" } });
   const backup = JSON.parse(harness.copiedText);
   assert.equal(backup.app, "MEDORA");
-  assert.equal(backup.version, 1);
+  assert.equal(backup.version, 2);
+  assert.deepEqual(Array.from(backup.patientRecords), []);
   assert.deepEqual(Array.from(backup.favorites), []);
   assert.deepEqual(Array.from(backup.doseHistory), []);
   assert.match(elements.get("settingsStatus").textContent, /Backup berhasil disalin/);
@@ -289,16 +290,16 @@ test("settings restore accepts valid backup and rejects unknown medication names
     target: { closest: () => ({ dataset: { module: "settings" } }) }
   });
   elements.get("restoreBackup").value = JSON.stringify({
-    app: "MEDORA", version: 1, favorites: ["Paracetamol"], doseHistory: []
+    app: "MEDORA", version: 2, patientRecords: [], favorites: ["Paracetamol"], doseHistory: []
   });
   await elements.get("moduleWorkspaceContent").click({ target: { id: "restoreLocalBackup" } });
   assert.match(elements.get("settingsStatus").textContent, /Backup berhasil dipulihkan/);
-  assert.match(confirmationMessages[0], /akan diganti/);
+  assert.match(confirmationMessages[0], /akan menggantikan/);
   assert.equal(elements.get("localDataSummary").textContent,
     "1 obat favorit dan 0 catatan riwayat tersimpan di perangkat ini.");
 
   elements.get("restoreBackup").value = JSON.stringify({
-    app: "MEDORA", version: 1, favorites: ["Obat Tidak Terdaftar"], doseHistory: []
+    app: "MEDORA", version: 2, patientRecords: [], favorites: ["Obat Tidak Terdaftar"], doseHistory: []
   });
   await elements.get("moduleWorkspaceContent").click({ target: { id: "restoreLocalBackup" } });
   assert.match(elements.get("settingsStatus").textContent, /nama obat yang tidak dikenal/);
@@ -322,13 +323,13 @@ test("cancelling backup restore leaves existing local data untouched", async () 
   storage.set("medora_dose_history", JSON.stringify([]));
   harness.setConfirmResult(false);
   elements.get("restoreBackup").value = JSON.stringify({
-    app: "MEDORA", version: 1, favorites: [], doseHistory: []
+    app: "MEDORA", version: 2, patientRecords: [], favorites: [], doseHistory: []
   });
   await elements.get("moduleWorkspaceContent").click({ target: { id: "restoreLocalBackup" } });
   assert.match(elements.get("settingsStatus").textContent, /dibatalkan/);
   assert.deepEqual(JSON.parse(storage.get("dt_favorites")), ["Paracetamol"]);
   assert.deepEqual(JSON.parse(storage.get("medora_dose_history")), []);
-  assert.match(confirmationMessages[0], /akan diganti/);
+  assert.match(confirmationMessages[0], /akan menggantikan/);
 });
 
 test("settings clear actions require confirmation and update local data", async () => {
@@ -372,7 +373,7 @@ test("settings restore rolls back the first write when the second storage write 
   storage.set("dt_favorites", oldFavorites);
   storage.set("medora_dose_history", oldHistory);
   elements.get("restoreBackup").value = JSON.stringify({
-    app: "MEDORA", version: 1, favorites: ["Paracetamol"], doseHistory: []
+    app: "MEDORA", version: 2, patientRecords: [], favorites: ["Paracetamol"], doseHistory: []
   });
   failNextSet("medora_dose_history");
 

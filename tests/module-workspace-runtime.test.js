@@ -147,7 +147,7 @@ test("clinical dashboard click routing invokes every destination", () => {
         ({ guides: "Panduan Klinis", emergency: "IGD & Emergency",
           ai: "Asisten Klinis Offline", references: "Referensi Medis",
           integrated: "Kasus Terpadu", ultrasound: "USG Kandungan",
-          laboratory: "Interpretasi Laboratorium", records: "Rekam Medis",
+          laboratory: "Interpretasi Laboratorium", records: "Rekam Medis Pasien",
           anthropometry: "IMT & Lingkar Tubuh", vitals: "Tanda Vital" })[key]);
       assert.ok(elements.get("moduleWorkspaceContent").innerHTML.length > 0, key + " content");
     }

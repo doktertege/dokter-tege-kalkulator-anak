@@ -164,6 +164,22 @@ body.icd-mode #icdPanel{display:block}
 .publicArticleBody h2{font-size:21px;line-height:1.2;margin:8px 0}.publicArticleBody h3{font-size:15px;margin:18px 0 7px;color:#075c9d}.publicArticleBody p,.publicArticleBody li{font-size:14px;line-height:1.55;color:#263d5d}.publicArticleBody ul{padding-left:20px}.publicArticleBody .articleLead{font-size:15px;color:#345477}.publicArticleBody .articleAlert{padding:12px;border-radius:14px;background:#fff1e8;border:1px solid #ffd5be;color:#803b16;font-size:13px;margin:12px 0}.publicArticleBody .articleMeta{font-size:11px;color:#64748b;margin-bottom:12px}
 
 .doseActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.doseActions button{font-size:12px;padding:9px 12px;background:#eaf3ff;color:#174c91;border-color:#cfe0f6}.historyItem{padding:12px;border:1px solid #dce7f6;border-radius:14px;background:#fff;margin:9px 0}.historyItem strong{display:block}.historyItem small{display:block;color:#64748b;margin-top:3px}.historyClear{margin-top:10px;color:#9b2631;background:#fff5f5;border-color:#f2d0d3}
+
+#medicineDatabasePanel{display:none}
+body.medicine-database-mode main> :not(#medicineDatabasePanel){display:none}
+body.medicine-database-mode #medicineDatabasePanel{display:block}
+.medicineDbCard{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:center;background:#fff;border:1px solid #d9efff;border-radius:16px;padding:12px;margin:9px 0;box-shadow:0 4px 12px #003b7510}
+.medicineDbIcon{width:48px;height:48px;border-radius:15px;background:#e8f6ff;display:grid;place-items:center;font-size:26px}
+.medicineDbCard strong{display:block;font-size:14px;color:#09285f}
+.medicineDbCard small{display:block;color:#52627d;font-size:11px;line-height:1.35;margin-top:3px}
+.medicineDbCard button{border:0;background:#eaf5ff;color:#0758a9;border-radius:12px;padding:9px;font-size:18px}
+.medicineDbTag{display:inline-block;border-radius:20px;padding:4px 8px;margin:4px 4px 0 0;background:#eaf5ff;color:#164a7a;font-size:10px;font-weight:750}
+.medicineDbSection{background:#f2f8ff;border:1px solid #d8eaff;border-radius:14px;padding:12px;margin:10px 0;color:#18395e}
+.medicineDbSection h3{font-size:13px;margin:0 0 7px}
+.medicineDbSection p,.medicineDbSection li{font-size:12px;line-height:1.5}
+.medicineDbWarning{background:#fff4e8;border:1px solid #ffd7aa;border-radius:14px;padding:12px;margin:10px 0;color:#743d08;font-size:12px;line-height:1.5}
+.medicineDbDose{background:#e8f7ef;border:1px solid #bfe8d0;border-radius:14px;padding:12px;margin:10px 0;color:#155b38;font-size:12px;line-height:1.5}
+@media(max-width:390px){.medicineDbCard{grid-template-columns:44px minmax(0,1fr) auto;padding:10px}.medicineDbIcon{width:42px;height:42px}}
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">
@@ -223,6 +239,20 @@ body.icd-mode #icdPanel{display:block}
 </div>
 </section>
 
+<section class="panel" id="medicineDatabasePanel">
+<button class="medicalBack" id="medicineDbBack">‹ Kembali ke Beranda</button>
+<h2>Database Obat</h2>
+<p class="medicalHint">Katalog obat lokal dan catatan keamanan. Data dosis hanya tersedia pada kalkulator yang telah divalidasi.</p>
+<input class="search" id="medicineDbSearch" type="search" placeholder="Cari nama obat, zat aktif, sediaan..." aria-label="Cari database obat">
+<div class="filters" id="medicineDbFilters" aria-label="Filter kategori obat"></div>
+<p class="summary" id="medicineDbCount"></p>
+<div id="medicineDbList"></div>
+<div id="medicineDbDetail" class="panel" style="display:none;margin-top:14px">
+<button class="medicalBack" id="medicineDbDetailBack">‹ Kembali ke daftar obat</button>
+<div id="medicineDbDetailBody"></div>
+</div>
+<p class="notice"><b>Catatan keselamatan:</b> Informasi ini merupakan referensi ringkas, bukan pengganti etiket/leaflet produk. Cocokkan zat aktif, konsentrasi, bentuk sediaan, rute, usia, alergi, fungsi organ, dan indikasi sebelum meresepkan. Jangan menganggap produk dengan nama serupa memiliki konsentrasi yang sama.</p>
+</section>
 <section class="panel" id="medicalPanel">
 <button class="medicalBack" id="medicalBack">‹ Kembali ke Beranda</button>
 <h2>Kalkulator Medis</h2>
@@ -527,10 +557,58 @@ $("publicSearch").addEventListener("input",drawPublicArticles);
 $("publicDetailBack").addEventListener("click",()=>{$("publicDetailView").style.display="none";$("publicListView").style.display="block";window.scrollTo(0,0)});
 drawPublicArticles();
 
+
+const medicineProfiles = window.MEDORA_DATABASE.medicineProfiles || {};
+const medicineCatalog = window.MEDORA_DATABASE.drugs || [];
+let medicineDbCategory = "Semua";
+function showMedicineDatabase(){
+ document.body.classList.remove("home-mode","medical-mode","icd-mode");
+ document.body.classList.add("medicine-database-mode");
+ setNavActive("navSearch");
+ drawMedicineDatabase();
+ window.scrollTo(0,0);
+}
+function drawMedicineDatabase(){
+ const q=($("medicineDbSearch").value||"").trim().toLowerCase();
+ const categories=["Semua",...new Set(medicineCatalog.map(x=>x[1]))];
+ $("medicineDbFilters").innerHTML=categories.map(c=>'<button type="button" data-medicine-cat="'+escapeHTML(c)+'" class="'+(medicineDbCategory===c?'active':'')+'">'+escapeHTML(c)+'</button>').join("");
+ const rows=medicineCatalog.filter(d=>{
+  const profile=medicineProfiles[d[0]]||{};
+  const haystack=[...d,profile.activeIngredient||"",...(profile.dosageForms||[]),...(profile.route||[])].join(" ").toLowerCase();
+  return (medicineDbCategory==="Semua"||d[1]===medicineDbCategory)&&haystack.includes(q);
+ });
+ $("medicineDbCount").textContent=rows.length+" dari "+medicineCatalog.length+" produk";
+ $("medicineDbList").innerHTML=rows.map(d=>'<article class="medicineDbCard"><div class="medicineDbIcon">'+escapeHTML(d[3])+'</div><div><strong>'+escapeHTML(d[0])+'</strong><small>'+escapeHTML(d[2])+'</small><small>'+escapeHTML(d[1])+' • '+(d[4]==="excluded"?"Tidak diaktifkan":(medicineProfiles[d[0]]?"Profil tersedia":"Katalog dasar"))+'</small></div><button type="button" data-medicine-open="'+escapeHTML(d[0])+'" aria-label="Detail '+escapeHTML(d[0])+'">›</button></article>').join("")||'<div class="emptyState">Obat tidak ditemukan.</div>';
+}
+function openMedicineDatabaseDetail(name){
+ const d=medicineCatalog.find(x=>x[0]===name);if(!d)return;
+ const p=medicineProfiles[name]||{};
+ const status=d[4]==="excluded"?"Tidak diaktifkan untuk kalkulator dosis anak":p.doseEngineFunction?"Tersambung ke fungsi kalkulator dosis: "+p.doseEngineFunction:"Belum tersedia kalkulator dosis tervalidasi untuk produk ini";
+ const ingredient=p.activeIngredient||"Belum dicatat dalam profil terstruktur";
+ const forms=p.dosageForms||[d[2]];
+ const routes=p.route||["Periksa rute pada kemasan"];
+ let html='<h2>'+escapeHTML(d[0])+'</h2><p class="medicalHint">'+escapeHTML(d[1])+'</p>';
+ html+='<div class="medicineDbSection"><h3>Zat aktif</h3><p>'+escapeHTML(ingredient)+'</p><h3>Bentuk sediaan</h3><p>'+forms.map(escapeHTML).join(" • ")+'</p><h3>Rute pemberian</h3><p>'+routes.map(escapeHTML).join(" • ")+'</p>';
+ if(p.strength)html+='<h3>Kekuatan yang dicatat</h3><p>'+escapeHTML(p.strength)+'</p>';
+ if(p.formulationNote)html+='<h3>Catatan formulasi</h3><p>'+escapeHTML(p.formulationNote)+'</p>';
+ html+='</div>';
+ html+='<div class="medicineDbDose"><b>Status kalkulator:</b><br>'+escapeHTML(status)+'</div>';
+ if(d[4]==="excluded")html+='<div class="medicineDbWarning"><b>Produk tidak diaktifkan.</b><br>Jangan menghitung dosis menggunakan rumus generik. Ikuti penilaian klinis dan referensi produk yang sesuai.</div>';
+ if(p.keyWarnings&&p.keyWarnings.length)html+='<div class="medicineDbWarning"><b>Peringatan klinis</b><ul>'+p.keyWarnings.map(x=>'<li>'+escapeHTML(x)+'</li>').join("")+'</ul></div>';
+ if(!p.activeIngredient)html+='<div class="medicineDbWarning">Profil farmakologi terstruktur belum tersedia. Informasi kartu ini hanya berasal dari katalog nama dan label sediaan.</div>';
+ html+='<p class="medicalHint">Status produk: '+escapeHTML(p.prescriptionStatus||"Belum diverifikasi")+' • Tanggal tinjau profil: '+escapeHTML(window.MEDORA_DATABASE.metadata.medicineProfiles?.reviewedOn||"tidak tersedia")+'</p>';
+ $("medicineDbDetailBody").innerHTML=html;
+ $("medicineDbList").style.display="none";$("medicineDbFilters").style.display="none";$("medicineDbSearch").style.display="none";$("medicineDbCount").style.display="none";$("medicineDbDetail").style.display="block";window.scrollTo(0,0);
+}
+$("medicineDbList").addEventListener("click",e=>{const b=e.target.closest("[data-medicine-open]");if(b)openMedicineDatabaseDetail(b.dataset.medicineOpen)});
+$("medicineDbFilters").addEventListener("click",e=>{const b=e.target.closest("[data-medicine-cat]");if(!b)return;medicineDbCategory=b.dataset.medicineCat;drawMedicineDatabase()});
+$("medicineDbSearch").addEventListener("input",drawMedicineDatabase);
+$("medicineDbDetailBack").addEventListener("click",()=>{$("medicineDbDetail").style.display="none";$("medicineDbList").style.display="block";$("medicineDbFilters").style.display="flex";$("medicineDbSearch").style.display="block";$("medicineDbCount").style.display="block";window.scrollTo(0,0)});
+$("medicineDbBack").addEventListener("click",()=>{showHome()});
 function showMedical(){document.body.classList.remove("home-mode","icd-mode");document.body.classList.add("medical-mode");setNavActive("navSearch");window.scrollTo(0,0)}
 function showIcd(){document.body.classList.remove("home-mode","medical-mode");document.body.classList.add("icd-mode");setNavActive("navSearch");drawIcd();window.scrollTo(0,0)}
 function showCalculator(){document.body.classList.remove("home-mode");setNavActive("navSearch");showFavorites=false;draw();window.scrollTo(0,0)}
-$("homeDashboard").addEventListener("click",e=>{const b=e.target.closest("[data-module]");if(!b)return;const key=b.dataset.module;if(key==="calculator"){showCalculator();$("patientFields").classList.add("open");return}if(key==="medical"){showMedical();return}if(key==="icd"){showIcd();return}const names={guides:"Panduan Klinis",emergency:"IGD & Emergency",drugs:"Database Obat",ai:"Asisten Medis AI",references:"Referensi Medis"};alert(names[key]+" sedang dalam tahap pengembangan dan validasi klinis.")});
+$("homeDashboard").addEventListener("click",e=>{const b=e.target.closest("[data-module]");if(!b)return;const key=b.dataset.module;if(key==="calculator"){showCalculator();$("patientFields").classList.add("open");return}if(key==="medical"){showMedical();return}if(key==="icd"){showIcd();return}if(key==="drugs"){showMedicineDatabase();return}const names={guides:"Panduan Klinis",emergency:"IGD & Emergency",drugs:"Database Obat",ai:"Asisten Medis AI",references:"Referensi Medis"};alert(names[key]+" sedang dalam tahap pengembangan dan validasi klinis.")});
 
 
 const icdData = window.MEDORA_DATABASE.icd10;

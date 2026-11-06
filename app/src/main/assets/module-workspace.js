@@ -10,7 +10,7 @@
     emergency: {
       title: "IGD & Emergency",
       subtitle: "Checklist kesiapan dan serah terima pasien gawat darurat.",
-      html: '<div class="guideCard"><h3>Checklist respons awal</h3><label class="checkRow"><input type="checkbox"> Pastikan keamanan lokasi, gunakan APD sesuai risiko, dan panggil bantuan/tim resusitasi.</label><label class="checkRow"><input type="checkbox"> Lakukan penilaian ABCDE dan tangani ancaman nyawa segera.</label><label class="checkRow"><input type="checkbox"> Monitor tanda vital, SpO₂, irama jantung, kesadaran, dan respons intervensi sesuai kondisi.</label><label class="checkRow"><input type="checkbox"> Periksa glukosa darah pada penurunan kesadaran/kejang atau indikasi klinis.</label><label class="checkRow"><input type="checkbox"> Identifikasi alergi, obat rutin, komorbid, waktu onset, dan riwayat penting.</label><label class="checkRow"><input type="checkbox"> Dokumentasikan intervensi, dosis, rute, waktu pemberian, dan respons.</label><label class="checkRow"><input type="checkbox"> Tentukan kebutuhan konsultasi, rujukan, transportasi, dan pendampingan.</label></div><div class="guideCard"><h3>Serah terima SBAR</h3><p><b>S · Situation:</b> identitas ringkas, lokasi, masalah utama, dan kondisi saat ini.</p><p><b>B · Background:</b> riwayat relevan, komorbid, alergi, obat, dan kronologi.</p><p><b>A · Assessment:</b> temuan ABCDE, tanda vital, pemeriksaan, tindakan, dan respons.</p><p><b>R · Recommendation:</b> kebutuhan tindakan berikut, monitoring, konsultasi, dan tujuan rujukan.</p></div><div class="guideCard"><h3>Dokumentasi rujukan</h3><ul><li>Alasan dan urgensi rujukan.</li><li>Kondisi hemodinamik dan status jalan napas sebelum berangkat.</li><li>Terapi/tindakan beserta waktu dan respons.</li><li>Hasil pemeriksaan yang menyertai.</li><li>Komunikasi dengan fasilitas penerima dan moda transportasi.</li></ul></div><p class="notice">Menu ini tidak menggantikan algoritma resusitasi resmi, SOP IGD, atau instruksi klinis setempat. Tidak ada dosis obat darurat yang ditampilkan pada checklist ini.</p>'
+      html: '<div class="guideCard"><h3>Checklist respons awal</h3><p id="emergencyChecklistProgress" class="medicalHint" aria-live="polite">0 dari 7 langkah ditandai.</p><div class="workspaceActions"><button type="button" id="resetEmergencyChecklist">Reset checklist</button></div><label class="checkRow"><input type="checkbox"> Pastikan keamanan lokasi, gunakan APD sesuai risiko, dan panggil bantuan/tim resusitasi.</label><label class="checkRow"><input type="checkbox"> Lakukan penilaian ABCDE dan tangani ancaman nyawa segera.</label><label class="checkRow"><input type="checkbox"> Monitor tanda vital, SpO₂, irama jantung, kesadaran, dan respons intervensi sesuai kondisi.</label><label class="checkRow"><input type="checkbox"> Periksa glukosa darah pada penurunan kesadaran/kejang atau indikasi klinis.</label><label class="checkRow"><input type="checkbox"> Identifikasi alergi, obat rutin, komorbid, waktu onset, dan riwayat penting.</label><label class="checkRow"><input type="checkbox"> Dokumentasikan intervensi, dosis, rute, waktu pemberian, dan respons.</label><label class="checkRow"><input type="checkbox"> Tentukan kebutuhan konsultasi, rujukan, transportasi, dan pendampingan.</label></div><div class="guideCard"><h3>Serah terima SBAR</h3><p><b>S · Situation:</b> identitas ringkas, lokasi, masalah utama, dan kondisi saat ini.</p><p><b>B · Background:</b> riwayat relevan, komorbid, alergi, obat, dan kronologi.</p><p><b>A · Assessment:</b> temuan ABCDE, tanda vital, pemeriksaan, tindakan, dan respons.</p><p><b>R · Recommendation:</b> kebutuhan tindakan berikut, monitoring, konsultasi, dan tujuan rujukan.</p></div><div class="guideCard"><h3>Dokumentasi rujukan</h3><ul><li>Alasan dan urgensi rujukan.</li><li>Kondisi hemodinamik dan status jalan napas sebelum berangkat.</li><li>Terapi/tindakan beserta waktu dan respons.</li><li>Hasil pemeriksaan yang menyertai.</li><li>Komunikasi dengan fasilitas penerima dan moda transportasi.</li></ul></div><p class="notice">Menu ini tidak menggantikan algoritma resusitasi resmi, SOP IGD, atau instruksi klinis setempat. Tidak ada dosis obat darurat yang ditampilkan pada checklist ini.</p>'
     },
     ai: {
       title: "Asisten Klinis Offline",
@@ -51,6 +51,14 @@
     setNavActive(key === "settings" ? "navSettings" : "navHome");
     window.scrollTo(0, 0);
     if (key === "settings") updateLocalDataSummary();
+    if (key === "emergency") updateEmergencyChecklistProgress();
+  }
+
+  function updateEmergencyChecklistProgress() {
+    const inputs = document.querySelectorAll("#moduleWorkspaceContent .checkRow input[type=checkbox]");
+    const done = Array.from(inputs).filter(input => input.checked).length;
+    const progress = document.getElementById("emergencyChecklistProgress");
+    if (progress) progress.textContent = done + " dari " + inputs.length + " langkah ditandai.";
   }
 
   function buildSoapNote() {
@@ -83,6 +91,11 @@
     const actionButton = typeof event.target.closest === "function" ? event.target.closest("button") : null;
     const id = actionButton ? actionButton.id : event.target.id;
     const $ = value => document.getElementById(value);
+    if (id === "resetEmergencyChecklist") {
+      document.querySelectorAll("#moduleWorkspaceContent .checkRow input[type=checkbox]").forEach(input => { input.checked = false; });
+      updateEmergencyChecklistProgress();
+      return;
+    }
     if (id === "buildSoap") { buildSoapNote(); return; }
     if (id === "clearSoap") {
       ["soapAge", "soapSex", "soapComplaint", "soapHistory", "soapVitals", "soapExam", "soapAssessment", "soapPlan"].forEach(key => { const el = $(key); if (el) el.value = ""; });
@@ -135,6 +148,10 @@
         $("settingsStatus").textContent = "Backup berhasil dipulihkan.";
       } catch (error) { $("settingsStatus").textContent = "Backup gagal dipulihkan: " + error.message; }
     }
+  });
+
+  document.getElementById("moduleWorkspaceContent").addEventListener("change", event => {
+    if (event.target && event.target.matches && event.target.matches(".checkRow input[type=checkbox]")) updateEmergencyChecklistProgress();
   });
 
   $("navSettings").addEventListener("click", event => {

@@ -51,7 +51,8 @@ function createHarness() {
   };
   const calls = [];
   const storage = new Map();
-  const localStorage = { getItem(key) { return storage.has(key) ? storage.get(key) : null; }, setItem(key, value) { storage.set(key, String(value)); }, removeItem(key) { storage.delete(key); } };
+  let failNextSetKey = null;
+  const localStorage = { getItem(key) { return storage.has(key) ? storage.get(key) : null; }, setItem(key, value) { if (failNextSetKey === key) { failNextSetKey = null; throw new Error("quota exceeded"); } storage.set(key, String(value)); }, removeItem(key) { storage.delete(key); } };
   let copiedText = "";
   const window = {
     MEDORA_DATABASE: { drugs: [["Paracetamol"]] },
@@ -84,7 +85,7 @@ function createHarness() {
     "soapExam", "soapAssessment", "soapPlan", "soapOutput", "soapStatus",
     "restoreBackup", "settingsStatus", "localDataSummary"
   ].forEach(id => document.getElementById(id));
-  return { elements, calls, window, emergencyCheckboxes, get copiedText() { return copiedText; } };
+  return { elements, calls, window, emergencyCheckboxes, storage, failNextSet(key) { failNextSetKey = key; }, get copiedText() { return copiedText; } };
 }
 
 test("clinical dashboard click routing invokes every destination", () => {
@@ -237,4 +238,28 @@ test("emergency checklist tracks completion and can be reset", () => {
   elements.get("moduleWorkspaceContent").click({ target: { id: "resetEmergencyChecklist" } });
   assert.ok(emergencyCheckboxes.every(input => input.checked === false));
   assert.equal(elements.get("emergencyChecklistProgress").textContent, "0 dari 7 langkah ditandai (0%).");
+});
+
+test("settings restore rolls back the first write when the second storage write fails", async () => {
+  const harness = createHarness();
+  const { elements, storage, failNextSet } = harness;
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "settings" } }) }
+  });
+
+  const oldFavorites = JSON.stringify([]);
+  const oldHistory = JSON.stringify([]);
+  storage.set("dt_favorites", oldFavorites);
+  storage.set("medora_dose_history", oldHistory);
+  elements.get("restoreBackup").value = JSON.stringify({
+    app: "MEDORA", version: 1, favorites: ["Paracetamol"], doseHistory: []
+  });
+  failNextSet("medora_dose_history");
+
+  await elements.get("moduleWorkspaceContent").click({ target: { id: "restoreLocalBackup" } });
+  assert.match(elements.get("settingsStatus").textContent, /Penyimpanan perangkat gagal/);
+  assert.equal(storage.get("dt_favorites"), oldFavorites);
+  assert.equal(storage.get("medora_dose_history"), oldHistory);
+  assert.equal(elements.get("localDataSummary").textContent,
+    "0 obat favorit dan 0 catatan riwayat tersimpan di perangkat ini.");
 });

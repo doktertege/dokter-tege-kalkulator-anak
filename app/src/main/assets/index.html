@@ -1141,6 +1141,16 @@ draw();updateSummary();document.body.classList.add("home-mode");
   input.addEventListener("keydown",event=>{
     if(event.key==="Escape"){input.value="";applyModuleSearch();input.blur();}
   });
+  document.addEventListener("keydown",event=>{
+    const target=event.target;
+    const typing=target&&(target.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));
+    if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="k"){
+      event.preventDefault();input.focus();input.select();
+    }else if(event.key==="/"&&!typing&&!event.ctrlKey&&!event.metaKey&&!event.altKey){
+      event.preventDefault();input.focus();
+    }
+  });
+  input.setAttribute("title","Tekan Ctrl+K atau / untuk mencari modul. Escape untuk menghapus.");
 })();
 </script>
 

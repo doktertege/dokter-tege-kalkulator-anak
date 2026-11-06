@@ -355,7 +355,25 @@
     return { doseMg, volumeMl: doseMg / (strengthMgPer5Ml / 5), frequency: "single oral dose only", maxDoseMg: 8, rehydrationDelayMin: 15, rehydrationDelayMax: 30 };
   }
 
-  const api = Object.freeze({ ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+  // Rectal rescue dose for an ongoing convulsive seizure; not for routine seizure prophylaxis.
+  // Conservative single-dose ceiling; account for all benzodiazepines already administered.
+  function diazepamRectal(weightKg, ageMonths, strengthMgPerMl) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 1 || ageMonths > 216) {
+      throw new RangeError("rectal diazepam calculator is restricted to age 1 month through 18 years");
+    }
+    requirePositive(strengthMgPerMl, "strengthMgPerMl");
+    const doseMg = Math.min(weightKg * 0.5, 10);
+    return {
+      doseMg,
+      volumeMl: doseMg / strengthMgPerMl,
+      frequency: "single rescue dose; reassess immediately",
+      maxSingleDoseMg: 10,
+      doseMgPerKg: doseMg / weightKg
+    };
+  }
+
+  const api = Object.freeze({ diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

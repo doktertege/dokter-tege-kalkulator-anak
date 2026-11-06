@@ -107,6 +107,7 @@ test("opening an article displays its detail and back returns to the topic list"
 
 test("unknown article identifiers do not open a blank detail page", () => {
   const { elements } = harness();
+  if (!elements.has("publicDetailView")) elements.set("publicDetailView", element());
   const detail = elements.get("publicDetailView");
   elements.get("publicArticles").fire("click", {
     target: {

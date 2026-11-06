@@ -247,7 +247,85 @@
     };
   }
 
-  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine });
+
+  // Injectable antibiotic reference calculations for children beyond the neonatal period.
+  // These are dose calculations only; indication, cultures, allergy, organ function and local protocols remain clinician decisions.
+  function ceftriaxoneInjection(weightKg, ageMonths, regimen) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 2 || ageMonths > 216) {
+      throw new RangeError("ceftriaxone calculator is restricted to age 2 months through 18 years");
+    }
+    if (weightKg >= 50) throw new RangeError("weight >=50 kg requires an adult dosing protocol");
+    if (regimen !== "standard" && regimen !== "meningitis") {
+      throw new RangeError("regimen must be standard or meningitis");
+    }
+    const dailyMg = Math.min(weightKg * (regimen === "meningitis" ? 100 : 80), 4000);
+    const minimumDailyMg = regimen === "standard" ? Math.min(weightKg * 50, 4000) : dailyMg;
+    const divisions = regimen === "meningitis" ? 2 : 1;
+    return {
+      regimen,
+      dailyMinMg: minimumDailyMg,
+      dailyMaxMg: dailyMg,
+      doseMinMg: minimumDailyMg / divisions,
+      doseMaxMg: dailyMg / divisions,
+      divisions,
+      intervalHours: regimen === "meningitis" ? 12 : 24,
+      maxDailyMg: 4000,
+      route: "IV; IM only when appropriate to the indication and product instructions"
+    };
+  }
+
+  function cefotaximeInjection(weightKg, ageMonths, regimen, divisions) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 2 || ageMonths > 144) {
+      throw new RangeError("cefotaxime calculator is restricted to age 2 months through 12 years");
+    }
+    if (weightKg >= 50) throw new RangeError("weight >=50 kg requires an adult dosing protocol");
+    if (regimen !== "standard" && regimen !== "meningitis") {
+      throw new RangeError("regimen must be standard or meningitis");
+    }
+    const dosesPerDay = divisions === undefined ? (regimen === "meningitis" ? 6 : 4) : divisions;
+    if (![4, 6].includes(dosesPerDay)) {
+      throw new RangeError("divisions must be 4 or 6");
+    }
+    const minDailyMg = weightKg * (regimen === "meningitis" ? 200 : 50);
+    const maxDailyMg = Math.min(weightKg * (regimen === "meningitis" ? 300 : 180), 12000, 2000 * dosesPerDay);
+    if (minDailyMg > maxDailyMg) throw new RangeError("selected frequency cannot deliver the minimum daily dose within the 2 g per-dose limit; use 6 divided doses or specialist advice");
+    const doseMinMg = minDailyMg / dosesPerDay;
+    const doseMaxMg = maxDailyMg / dosesPerDay;
+    return {
+      regimen,
+      dailyMinMg: minDailyMg,
+      dailyMaxMg: maxDailyMg,
+      doseMinMg,
+      doseMaxMg,
+      divisions: dosesPerDay,
+      intervalHours: 24 / dosesPerDay,
+      maxDoseMg: 2000,
+      maxDailyMg: 12000,
+      route: "IV; IM only when appropriate to the indication and product instructions"
+    };
+  }
+
+  // Initial extended-interval dose only. Subsequent gentamicin doses require levels and renal assessment.
+  function gentamicinInitial(weightKg, ageMonths, strengthMgPerMl) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 3 || ageMonths > 216) {
+      throw new RangeError("gentamicin initial-dose calculator is restricted to age 3 months through 18 years");
+    }
+    if (weightKg >= 50) throw new RangeError("weight >=50 kg requires an adult dosing protocol");
+    requirePositive(strengthMgPerMl, "strengthMgPerMl");
+    const doseMg = weightKg * 7;
+    return {
+      doseMg,
+      volumeMl: doseMg / strengthMgPerMl,
+      intervalHours: null,
+      frequency: "initial dose only",
+      monitoring: "Check renal function and obtain gentamicin therapeutic drug monitoring before any subsequent dose; do not use this result to schedule repeat doses."
+    };
+  }
+
+  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

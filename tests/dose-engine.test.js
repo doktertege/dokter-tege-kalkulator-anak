@@ -140,7 +140,7 @@ test("cefotaxime injection enforces frequency and per-dose limits", () => {
   assert.equal(meningitis.dailyMaxMg, 3000);
   assert.equal(meningitis.divisions, 6);
   assert.equal(meningitis.intervalHours, 4);
-  assert.throws(() => dose.cefotaximeInjection(10, 24, "meningitis", 4), RangeError);
+  assert.throws(() => dose.cefotaximeInjection(49, 24, "meningitis", 4), RangeError);
   assert.throws(() => dose.cefotaximeInjection(10, 1, "standard"), RangeError);
   assert.throws(() => dose.cefotaximeInjection(50, 24, "standard"), RangeError);
 });

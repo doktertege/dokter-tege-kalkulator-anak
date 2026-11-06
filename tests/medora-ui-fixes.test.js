@@ -135,3 +135,16 @@ test("medical reference links use secure HTTPS and avoid unsupported new-window 
   assert.ok(hrefs.every(url => url.startsWith("https://")), "all reference destinations use HTTPS");
   assert.doesNotMatch(page, /target="_blank"/, "links must use the Android WebView URL handler");
 });
+
+
+test("Android WebView keeps local assets internal and blocks insecure or unsupported URL schemes", () => {
+  const activity = fs.readFileSync(path.join(__dirname, "../app/src/main/java/id/doktertege/kalkulatoranak/MainActivity.java"), "utf8");
+  assert.match(activity, /"file"\.equalsIgnoreCase\(scheme\)\) return false/);
+  assert.match(activity, /"https"\.equalsIgnoreCase\(scheme\)/);
+  assert.match(activity, /return true;\s*\}\s*\}\s*\);/);
+  assert.match(activity, /catch \(ActivityNotFoundException error\)/);
+  assert.match(activity, /view\.loadUrl\(uri\.toString\(\)\)/);
+  assert.match(activity, /web\.loadUrl\("file:\/\/\/android_asset\/index\.html"\)/);
+  assert.doesNotMatch(activity, /"http"\.equalsIgnoreCase\(scheme\)/);
+  assert.doesNotMatch(activity, /setAllowUniversalAccessFromFileURLs\(true\)/);
+});

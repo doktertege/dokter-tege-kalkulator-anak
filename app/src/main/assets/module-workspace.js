@@ -8,6 +8,11 @@
       subtitle: "Ruang kerja kunjungan untuk menyusun ringkasan pasien, tanda vital, SOAP, dan rencana tindak lanjut dalam satu layar.",
       html: '<div class="patientWorkspace"><div class="patientWorkspaceIntro"><span class="workspaceEyebrow">CLINICAL ENCOUNTER</span><h3>Ringkasan kunjungan</h3><p>Isi data seperlunya. Gunakan inisial atau kode internal, bukan identitas langsung pasien.</p></div><div class="patientFormGrid"><div class="patientField"><label for="pwCode">Kode / inisial pasien</label><input id="pwCode" maxlength="32" placeholder="Contoh: PX-001"></div><div class="patientField"><label for="pwAge">Usia</label><input id="pwAge" maxlength="32" placeholder="Contoh: 45 tahun"></div><div class="patientField"><label for="pwSex">Jenis kelamin</label><select id="pwSex"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select></div><div class="patientField"><label for="pwVisit">Jenis kunjungan</label><select id="pwVisit"><option>IGD</option><option>Rawat jalan</option><option>Rawat inap</option><option>Kontrol</option></select></div></div><div class="patientSectionHead"><span>01</span><div><b>Tanda vital</b><small>Catat angka, satuan, dan waktu pengukuran sesuai kebutuhan.</small></div></div><div class="patientVitalsGrid"><div class="patientField"><label for="pwBp">Tekanan darah</label><input id="pwBp" placeholder="120/80 mmHg"></div><div class="patientField"><label for="pwHr">Nadi</label><input id="pwHr" placeholder="x/menit"></div><div class="patientField"><label for="pwRr">Frekuensi napas</label><input id="pwRr" placeholder="x/menit"></div><div class="patientField"><label for="pwTemp">Suhu</label><input id="pwTemp" placeholder="°C"></div><div class="patientField"><label for="pwSpo2">SpO₂</label><input id="pwSpo2" placeholder="%"></div><div class="patientField"><label for="pwWeight">Berat badan</label><input id="pwWeight" placeholder="kg"></div></div><div class="patientSectionHead"><span>02</span><div><b>Catatan klinis SOAP</b><small>Susun temuan dan keputusan klinis secara terstruktur.</small></div></div><div class="patientClinicalFields"><div class="patientField"><label for="pwSubjective">S · Subjektif</label><textarea id="pwSubjective" placeholder="Keluhan utama, onset, perjalanan penyakit, riwayat relevan..."></textarea></div><div class="patientField"><label for="pwObjective">O · Objektif</label><textarea id="pwObjective" placeholder="Pemeriksaan fisik, temuan penunjang, dan kondisi umum..."></textarea></div><div class="patientField"><label for="pwAssessment">A · Asesmen</label><textarea id="pwAssessment" placeholder="Diagnosis kerja, masalah aktif, dan diagnosis banding..."></textarea></div><div class="patientField"><label for="pwPlan">P · Rencana</label><textarea id="pwPlan" placeholder="Pemeriksaan, terapi, monitoring, edukasi, disposisi..."></textarea></div></div><div class="patientWorkspaceActions"><button type="button" class="active" id="pwGenerate">Buat ringkasan kunjungan</button><button type="button" id="pwClear">Bersihkan formulir</button></div><div class="patientSummaryPanel"><div class="patientSummaryTop"><div><span class="workspaceEyebrow">MEDORA NOTE</span><h3>Hasil dokumentasi</h3></div><span class="patientDraftTag">DRAF</span></div><pre id="pwOutput" aria-live="polite">Ringkasan kunjungan akan muncul di sini.</pre><div class="patientWorkspaceActions"><button type="button" id="pwCopy">Salin ringkasan</button></div><p id="pwStatus" class="medicalHint" aria-live="polite">Data hanya diproses di sesi ini dan tidak disimpan oleh Patient Workspace.</p></div><p class="notice">Patient Workspace adalah alat bantu penyusunan catatan, bukan rekam medis elektronik resmi. Verifikasi semua data, diagnosis, dosis, dan rencana sebelum dipindahkan ke sistem rekam medis fasilitas. Hindari identitas langsung pasien.</p></div>'
     },
+    handover: {
+      title: "Clinical Handover",
+      subtitle: "Ruang serah terima pasien dengan format SBAR yang ringkas, terstruktur, dan siap disalin.",
+      html: '<div class="handoverWorkspace"><div class="handoverIntro"><span class="workspaceEyebrow">CONTINUITY OF CARE</span><h3>Serah terima yang lebih terstruktur</h3><p>Susun informasi penting agar kondisi pasien, tindakan, dan kebutuhan berikutnya tidak terlewat.</p><div class="handoverFlow"><span>01 Situation</span><i></i><span>02 Background</span><i></i><span>03 Assessment</span><i></i><span>04 Recommendation</span></div></div><div class="handoverFields"><section class="handoverField"><div class="handoverFieldHead"><b><span>01</span> Situation</b><small>Situasi saat ini</small></div><textarea id="sbarSituation" placeholder="Kode/inisial pasien, lokasi, masalah utama, kondisi terkini..."></textarea></section><section class="handoverField"><div class="handoverFieldHead"><b><span>02</span> Background</b><small>Latar belakang relevan</small></div><textarea id="sbarBackground" placeholder="Riwayat singkat, komorbid, alergi, obat, kronologi, dan hasil penting..."></textarea></section><section class="handoverField"><div class="handoverFieldHead"><b><span>03</span> Assessment</b><small>Penilaian klinis</small></div><textarea id="sbarAssessment" placeholder="ABCDE, tanda vital beserta waktu, temuan, tindakan yang sudah dilakukan, dan respons..."></textarea></section><section class="handoverField"><div class="handoverFieldHead"><b><span>04</span> Recommendation</b><small>Rencana berikutnya</small></div><textarea id="sbarRecommendation" placeholder="Tindakan yang perlu dilanjutkan, target monitoring, konsultasi, pemeriksaan, atau rujukan..."></textarea></section></div><div class="handoverActions"><button type="button" class="active" id="sbarGenerate">Susun handover</button><button type="button" id="sbarClear">Bersihkan</button></div><div class="handoverOutputPanel"><div class="patientSummaryTop"><div><span class="workspaceEyebrow">MEDORA HANDOVER</span><h3>Ringkasan serah terima</h3></div><span class="patientDraftTag">DRAF</span></div><pre id="sbarOutput" aria-live="polite">Ringkasan SBAR akan muncul di sini.</pre><div class="handoverActions"><button type="button" id="sbarCopy">Salin ringkasan</button></div><p id="sbarStatus" class="medicalHint" aria-live="polite">Data hanya diproses di sesi ini dan tidak disimpan oleh fitur ini.</p></div><p class="notice">Gunakan identitas minimum sesuai kebijakan fasilitas. SBAR tidak menggantikan komunikasi langsung, read-back untuk instruksi kritis, atau dokumentasi pada rekam medis resmi. Verifikasi kondisi dan instruksi sebelum serah terima.</p></div>'
+    },
     guides: {
       title: "Panduan Klinis",
       subtitle: "Checklist penilaian awal dan dokumentasi klinis offline.",
@@ -148,7 +153,7 @@
 
   const recentModuleKey = "medora_recent_modules_v1";
   const recentModuleCatalog = {
-    patient: "Patient Workspace", calculator: "Kalkulator dosis", emergency: "IGD & Emergency", icd: "ICD-10",
+    patient: "Patient Workspace", handover: "Clinical Handover", calculator: "Kalkulator dosis", emergency: "IGD & Emergency", icd: "ICD-10",
     drugs: "Database obat", medical: "Kalkulator medis", guides: "Panduan klinis",
     ai: "Asisten klinis", references: "Referensi medis", integrated: "Kasus terpadu",
     ultrasound: "USG kandungan", laboratory: "Interpretasi lab", records: "Rekam medis",
@@ -256,6 +261,35 @@
     const actionButton = typeof event.target.closest === "function" ? event.target.closest("button") : null;
     const id = actionButton ? actionButton.id : event.target.id;
     const $ = value => document.getElementById(value);
+    if (id === "sbarGenerate") {
+      const sections = [["S", "SITUATION", "sbarSituation"], ["B", "BACKGROUND", "sbarBackground"], ["A", "ASSESSMENT", "sbarAssessment"], ["R", "RECOMMENDATION", "sbarRecommendation"]];
+      const missing = [];
+      const lines = ["MEDORA · CLINICAL HANDOVER", "FORMAT SBAR", ""];
+      sections.forEach(([code, label, field]) => {
+        const el = $(field);
+        const value = el ? el.value.trim() : "";
+        lines.push(code + " · " + label);
+        lines.push(value || "[BELUM DIISI]");
+        lines.push("");
+        if (!value) missing.push(label);
+      });
+      $("sbarOutput").textContent = lines.join("\\n").trim();
+      $("sbarStatus").textContent = missing.length ? "Draf dibuat. Bagian belum diisi: " + missing.join(", ") + ". Lengkapi atau tandai secara verbal sebelum serah terima." : "Empat bagian SBAR sudah terisi. Verifikasi informasi dan lakukan komunikasi langsung.";
+      return;
+    }
+    if (id === "sbarClear") {
+      ["sbarSituation", "sbarBackground", "sbarAssessment", "sbarRecommendation"].forEach(field => { const el = $(field); if (el) el.value = ""; });
+      $("sbarOutput").textContent = "Ringkasan SBAR akan muncul di sini.";
+      $("sbarStatus").textContent = "Formulir dibersihkan.";
+      return;
+    }
+    if (id === "sbarCopy") {
+      const output = $("sbarOutput").textContent;
+      if (!output || output === "Ringkasan SBAR akan muncul di sini.") { $("sbarStatus").textContent = "Susun ringkasan terlebih dahulu."; return; }
+      try { await copyTextToClipboard(output); $("sbarStatus").textContent = "Ringkasan berhasil disalin. Verifikasi sebelum digunakan."; }
+      catch (error) { $("sbarStatus").textContent = "Tidak dapat menyalin otomatis. Salin teks secara manual."; }
+      return;
+    }
     if (id === "pwGenerate") {
       const fields = [["Kode/inisial", "pwCode"], ["Usia", "pwAge"], ["Jenis kelamin", "pwSex"], ["Kunjungan", "pwVisit"], ["Tekanan darah", "pwBp"], ["Nadi", "pwHr"], ["Frekuensi napas", "pwRr"], ["Suhu", "pwTemp"], ["SpO₂", "pwSpo2"], ["Berat badan", "pwWeight"]];
       const value = key => { const el = $(key); return el ? el.value.trim() : ""; };

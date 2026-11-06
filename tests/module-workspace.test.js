@@ -10,7 +10,7 @@ const html = fs.readFileSync(path.join(assets, "index.html"), "utf8");
 const workspace = fs.readFileSync(path.join(assets, "module-workspace.js"), "utf8");
 
 test("all clinical dashboard menu entries route to a working module", () => {
-  for (const key of ["guides", "emergency", "ai", "references"]) {
+  for (const key of ["calculator", "medical", "icd", "guides", "emergency", "drugs", "ai", "references"]) {
     assert.match(html, new RegExp('data-module="' + key + '"'));
     assert.match(workspace, new RegExp('^\\s*' + key + ':', "m"));
   }
@@ -62,7 +62,7 @@ test("public health area exposes searchable, filterable articles with working de
   assert.match(html, /id="publicSearch"/);
   assert.match(html, /id="publicFilters"/);
   assert.match(html, /id="publicArticles"/);
-  assert.match(html, /id="publicDetailBack"/);
+  assert.match(html, /id="publicDetailBack"/);\n  assert.match(html, /body\\.public-mode \\.bottomNav\\{display:none\\}/);\n  assert.match(html, /function showPublicHome\\(\\)\\{document\\.body\\.classList\\.add\\("public-mode"\\)/);
   assert.match(html, /\$\("publicSearch"\)\.addEventListener\("input",drawPublicArticles\)/);
   assert.match(html, /openPublicArticle\(b\.dataset\.article\)/);
   assert.match(html, /drawPublicArticles\(\)/);

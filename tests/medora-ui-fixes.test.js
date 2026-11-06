@@ -60,8 +60,8 @@ test("settings workspace is not hidden by an inline display:none rule", () => {
   const workspace = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/module-workspace.js"), "utf8");
   assert.match(html, /<section class="panel" id="moduleWorkspace">/);
   assert.match(workspace, /title: "Pengaturan MEDORA"/);
-  assert.match(html, /id="copyLocalBackup"/);
-  assert.match(html, /id="restoreLocalBackup"/);
+  assert.match(workspace, /id="copyLocalBackup"/);
+  assert.match(workspace, /id="restoreLocalBackup"/);
 });
 
 test("drug cards reserve columns for medicine name, dose and action controls", () => {

@@ -415,3 +415,21 @@ test("cefotaxime prevents exceeding 2 g per dose", () => {
   assert.equal(safe.doseMinMg, 9800 / 6);
   assert.equal(safe.doseMaxMg, 2000);
 });
+
+
+test("ondansetron gastroenteritis calculates one oral dose and syrup volume", () => {
+  const r = dose.ondansetronGastroenteritis(10, 24, 4);
+  assert.deepEqual(r, { doseMg: 1.5, volumeMl: 1.875, frequency: "single oral dose only", maxDoseMg: 8, rehydrationDelayMin: 15, rehydrationDelayMax: 30 });
+  const capped = dose.ondansetronGastroenteritis(60, 144, 4);
+  assert.equal(capped.doseMg, 8);
+  assert.equal(capped.volumeMl, 10);
+});
+
+test("ondansetron gastroenteritis blocks under-6-months, under-8-kg and invalid inputs", () => {
+  assert.throws(() => dose.ondansetronGastroenteritis(8, 5, 4), RangeError);
+  assert.throws(() => dose.ondansetronGastroenteritis(7.9, 12, 4), RangeError);
+  assert.throws(() => dose.ondansetronGastroenteritis(10, 217, 4), RangeError);
+  assert.throws(() => dose.ondansetronGastroenteritis(0, 24, 4), RangeError);
+  assert.throws(() => dose.ondansetronGastroenteritis(10, 24, 0), RangeError);
+  assert.throws(() => dose.ondansetronGastroenteritis(10, Number.NaN, 4), RangeError);
+});

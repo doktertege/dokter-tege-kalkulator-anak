@@ -136,8 +136,8 @@
     });
     $("soapOutput").textContent = out.trim();
     $("soapStatus").textContent = missing.length
-      ? "Catatan dibuat, tetapi belum lengkap. Isi: " + missing.join(", ") + ". Verifikasi seluruh data sebelum digunakan."
-      : "Semua bagian SOAP terisi. Tetap verifikasi kelengkapan dan akurasi sebelum digunakan.";
+      ? "Catatan dibuat, tetapi belum lengkap. Isi: " + missing.join(", ") + ". Periksa kembali seluruh data sebelum digunakan."
+      : "Semua bagian SOAP terisi. Periksa kembali kelengkapan dan akurasi sebelum digunakan.";
     updateSoapCompleteness();
   }
 

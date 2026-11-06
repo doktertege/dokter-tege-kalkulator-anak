@@ -120,11 +120,25 @@ def main():
             + ", ".join(unhandled_active)
         )
 
-    # Regression guard: every active catalog item with a supported list preview
-    # must expose its detail flow instead of falling through to the pending state.
-    furosemide_preview = 'else if(d[0]==="Furosemide"&&p.a>=1&&p.a<216&&p.w>=10)'
-    if furosemide_preview not in javascript:
+    # Regression guard: list preview and detail calculator must use identical
+    # age/weight eligibility. A mismatch can advertise a dose that detail rejects.
+    furosemide_preview = re.search(
+        r'else if\\(d\\[0\\]===["\\']Furosemide["\\']&&p\\.a>=(\\d+)&&p\\.a<(\\d+)&&p\\.w>=(\\d+)\\)',
+        javascript,
+    )
+    furosemide_detail = re.search(
+        r'if\\(p\\.a<(\\d+)\\|\\|p\\.a>=(\\d+)\\|\\|p\\.w<(\\d+)\\)',
+        detail_script,
+    )
+    if not furosemide_preview:
         raise SystemExit("ERROR: active Furosemide catalog preview is missing")
+    if not furosemide_detail:
+        raise SystemExit("ERROR: Furosemide detail eligibility guard is missing")
+    if furosemide_preview.groups() != furosemide_detail.groups():
+        raise SystemExit(
+            "ERROR: Furosemide preview/detail eligibility mismatch: "
+            f"preview={furosemide_preview.groups()}, detail={furosemide_detail.groups()}"
+        )
 
     # Bottom-navigation handlers must be registered exactly once. Duplicate
     # listeners can make a single tap trigger multiple navigation actions.

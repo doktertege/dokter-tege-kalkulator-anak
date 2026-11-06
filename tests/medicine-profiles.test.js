@@ -171,6 +171,16 @@ test("structured medicine profiles and coverage metadata remain in one-to-one pa
 });
 
 
+test("CTM profile does not present unverified active ingredient or release type as confirmed", () => {
+  const profile = database.medicineProfiles["CTM (Chlorpheniramine)"];
+  assert.match(profile.activeIngredient, /Belum diverifikasi/i);
+  assert.match(profile.formulationNote, /jenis pelepasan dapat berbeda/i);
+  assert.match(profile.keyWarnings.join(" "), /verifikasi apakah produk immediate-release atau modified-release/i);
+  assert.doesNotMatch(profile.keyWarnings.join(" "), /Gunakan sediaan immediate-release/i);
+  assert.equal(profile.provenance.activeIngredient.status, "pending_product_specific_verification");
+  assert.equal(profile.provenance.keyWarnings.status, "pending_product_specific_verification");
+});
+
 test("Erlamycetin profiles do not expose unverified product-specific active ingredient or strength as established data", () => {
   for (const name of ["Erlamycetin Tetes Mata", "Erlamycetin Tetes Telinga", "Erlamycetin Salep Mata"]) {
     const profile = database.medicineProfiles[name];

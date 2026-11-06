@@ -109,7 +109,7 @@ def main():
     if not icd_match:
         raise SystemExit("ERROR: ICD-10 reference catalog not found")
     icd_entries = re.findall(
-        r'^\["([A-Z][0-9]{2}(?:\.[0-9A-Z])?)","([^"]+)","([^"]+)"\],?
+        r'^\["([A-Z][0-9]{2}(?:\.[0-9A-Z])?)","([^"]+)","([^"]+)"\],?$',
         icd_match.group(1),
         re.M,
     )

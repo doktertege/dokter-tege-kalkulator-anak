@@ -125,3 +125,16 @@ test("injectable cephalosporin guides do not assume product-specific reconstitut
     assert.doesNotMatch(guide, /mL\s*\/\s*vial|reconstituted concentration\s*=/i, name);
   }
 });
+
+
+test("CTM volume calculator requires the actual product strength from its label", () => {
+  const source = getOpenDrugSource();
+  const start = source.indexOf('if(name==="CTM (Chlorpheniramine)"){');
+  const end = source.indexOf('\nif(name===', start + 10);
+  assert.ok(start >= 0, "CTM calculator should exist");
+  const guide = source.slice(start, end < 0 ? undefined : end);
+  assert.match(guide, /id="ctmStrength" type="number"/);
+  assert.match(guide, /Kekuatan pada etiket \(mg\/5 mL\)/i);
+  assert.match(guide, /Masukkan kekuatan persis dari kemasan/i);
+  assert.doesNotMatch(guide, /2 mg\/5 mL|4 mg\/5 mL|immediate-release/i);
+});

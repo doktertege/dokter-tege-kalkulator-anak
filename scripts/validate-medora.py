@@ -12,6 +12,7 @@ import tempfile
 HTML_FILE = Path("app/src/main/assets/index.html")
 DOSE_ENGINE_FILE = Path("app/src/main/assets/dose-engine.js")
 DATABASE_FILE = Path("app/src/main/assets/database.js")
+MODULE_WORKSPACE_FILE = Path("app/src/main/assets/module-workspace.js")
 REQUIRED_IDS = {
     "homeDashboard", "clinicalDashboard", "publicDashboard",
     "patientPanel", "bb", "th", "bl", "list", "detail",
@@ -74,8 +75,13 @@ def main():
         raise SystemExit(f"ERROR: dose engine file not found: {DOSE_ENGINE_FILE}")
     if not DATABASE_FILE.is_file():
         raise SystemExit(f"ERROR: offline database file not found: {DATABASE_FILE}")
+    if not MODULE_WORKSPACE_FILE.is_file():
+        raise SystemExit(f"ERROR: offline module workspace file not found: {MODULE_WORKSPACE_FILE}")
 
     html = HTML_FILE.read_text(encoding="utf-8")
+    module_workspace_javascript = MODULE_WORKSPACE_FILE.read_text(encoding="utf-8")
+    if '<script src="module-workspace.js"></script>' not in html:
+        raise SystemExit("ERROR: offline clinical workspace is not loaded by MEDORA")
     if '<script src="dose-engine.js"></script>' not in html:
         raise SystemExit("ERROR: MEDORA dose engine is not loaded before the inline application script")
     if '<script src="database.js"></script>' not in html:
@@ -273,7 +279,8 @@ def main():
     # Bottom-navigation handlers must be registered exactly once. Duplicate
     # listeners can make a single tap trigger multiple navigation actions.
     navigation_ids = {"navHome", "navSearch", "navFavorites", "navHistory", "navSettings"}
-    click_handlers = Counter(re.findall(r'\$\("([^"]+)"\)\.addEventListener\("click"', javascript))
+    combined_javascript = javascript + "\n" + module_workspace_javascript
+    click_handlers = Counter(re.findall(r'\$\("([^"]+)"\)\.addEventListener\("click"', combined_javascript))
     duplicate_navigation = sorted(item for item in navigation_ids if click_handlers[item] > 1)
     missing_navigation = sorted(item for item in navigation_ids if click_handlers[item] != 1)
     if duplicate_navigation or missing_navigation:
@@ -329,6 +336,15 @@ def main():
     )
     if engine_check.returncode:
         raise SystemExit("ERROR: dose engine syntax check failed:\n" + engine_check.stderr)
+
+    module_check = subprocess.run(
+        ["node", "--check", str(MODULE_WORKSPACE_FILE)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if module_check.returncode:
+        raise SystemExit("ERROR: offline module workspace syntax check failed:\n" + module_check.stderr)
 
     print(
         "MEDORA validation passed: "

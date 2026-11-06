@@ -70,6 +70,11 @@ function createHarness() {
     confirm: () => true
   };
   vm.runInNewContext(source, context);
+  [
+    "soapAge", "soapSex", "soapComplaint", "soapHistory", "soapVitals",
+    "soapExam", "soapAssessment", "soapPlan", "soapOutput", "soapStatus",
+    "restoreBackup", "settingsStatus", "localDataSummary"
+  ].forEach(id => document.getElementById(id));
   return { elements, calls, window, get copiedText() { return copiedText; } };
 }
 

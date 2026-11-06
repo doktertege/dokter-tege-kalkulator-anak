@@ -74,6 +74,8 @@ button.active{background:linear-gradient(135deg,#2481f0,#1260d5);color:white;bor
 @media(max-width:390px){.modeGrid{gap:8px}.modeCard{min-height:170px;padding:12px 8px}.modeIcon{width:58px;height:58px;font-size:32px}.modeCard strong{font-size:13px}.modeCard small{font-size:10px}}
 /* MEDORA dashboard */
 body.home-mode main> :not(#homeDashboard):not(#publicDashboard){display:none}
+body.public-mode main> :not(#publicDashboard){display:none}
+body.public-mode #publicDashboard{display:block}
 #homeDashboard{display:none;margin:0 auto 18px}
 body.home-mode #homeDashboard{display:block}
 header .brand{justify-content:center}header .brandMain{gap:12px}

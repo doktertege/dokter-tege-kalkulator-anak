@@ -136,6 +136,23 @@
     };
   }
 
+  // Loratadine syrup: product-label pediatric dose by age and weight.
+  // Under 2 years is excluded; severe hepatic impairment requires a separate regimen.
+  function loratadine(weightKg, ageMonths, strengthMgPer5Ml) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 24 || ageMonths > 216) {
+      throw new RangeError("loratadine is restricted to age 2 through 18 years");
+    }
+    requirePositive(strengthMgPer5Ml, "strengthMgPer5Ml");
+    const dailyMg = ageMonths <= 144 && weightKg <= 30 ? 5 : 10;
+    return {
+      dailyMg,
+      volumeMl: dailyMg / (strengthMgPer5Ml / 5),
+      frequencyPerDay: 1,
+      maxDailyMg: 10
+    };
+  }
+
   function ambroxol(ageMonths, strengthMgPer5Ml) {
     if (!Number.isFinite(ageMonths) || ageMonths < 24 || ageMonths > 144) {
       throw new RangeError("ageMonths must be between 24 and 144 months");
@@ -325,7 +342,7 @@
     };
   }
 
-  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

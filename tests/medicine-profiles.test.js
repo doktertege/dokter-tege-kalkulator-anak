@@ -13,9 +13,9 @@ const database = context.window.MEDORA_DATABASE;
 const engine = require(path.join(assets, "dose-engine.js"));
 
 test("requested medicines have structured profiles with traceable source metadata", () => {
-  assert.equal(database.metadata.medicineProfiles.schemaVersion, "1.0");
+  assert.equal(database.metadata.medicineProfiles.schemaVersion, "1.1");
   assert.equal(database.metadata.medicineProfiles.reviewedOn, "2026-11-06");
-  assert.ok(database.metadata.medicineProfiles.sources.length >= 4);
+  assert.equal(Object.keys(database.metadata.medicineProfiles.sources).length, 4);
   for (const name of [
     "CTM (Chlorpheniramine)", "Oralit", "Ceftriaxone", "Cefotaxime", "Gentamicin",
     "Cendo Xitrol Tetes Mata", "Cendo Xitrol Salep Mata",
@@ -56,4 +56,28 @@ test("oralit requires exact sachet dilution and does not assume all sachets are 
   const profile = database.medicineProfiles.Oralit;
   assert.match(profile.formulationNote, /volume/i);
   assert.match(profile.keyWarnings.join(" "), /tepat pada volume/i);
+});
+
+test("every profile field has explicit provenance and every source reference resolves", () => {
+  const metadata = database.metadata.medicineProfiles;
+  const fields = ["activeIngredient", "dosageForms", "route", "formulationNote", "strength", "prescriptionStatus", "keyWarnings", "doseEngineFunction"];
+  for (const [name, profile] of Object.entries(database.medicineProfiles)) {
+    assert.ok(profile.provenance, name + " provenance");
+    for (const field of fields) {
+      const entry = profile.provenance[field];
+      assert.ok(entry, name + "." + field + " provenance entry");
+      assert.ok(["source_linked_reference", "pending_product_specific_verification", "verified_by_local_regression_test"].includes(entry.status));
+      assert.ok(Array.isArray(entry.sourceRefs));
+      for (const sourceId of entry.sourceRefs) {
+        assert.ok(metadata.sources[sourceId], name + "." + field + " source " + sourceId + " must resolve");
+        assert.ok(metadata.sources[sourceId].url.startsWith("https://"));
+      }
+      if (entry.status === "source_linked_reference") assert.ok(entry.sourceRefs.length > 0);
+      if (entry.status === "pending_product_specific_verification") assert.equal(entry.sourceRefs.length, 0);
+    }
+    assert.equal(profile.provenance.doseEngineFunction.status, "verified_by_local_regression_test");
+  }
+  assert.ok(database.medicineProfiles.Oralit.provenance.formulationNote.sourceRefs.includes("ygi_oralit"));
+  assert.ok(database.medicineProfiles["Cendo Xitrol Tetes Mata"].provenance.activeIngredient.sourceRefs.includes("bpom_cendo_xitrol_drop"));
+  assert.ok(database.medicineProfiles["Erlamycetin Tetes Mata"].provenance.activeIngredient.status === "pending_product_specific_verification");
 });

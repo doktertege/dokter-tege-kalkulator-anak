@@ -67,3 +67,13 @@ test("every catalog medicine has an explicit structured, pending, or excluded pr
   assert.equal(Object.values(coverage).filter(x => x === "pending_profile_review").length, 15);
   assert.equal(Object.values(coverage).filter(x => x === "excluded").length, 1);
 });
+
+test("unverified CTM and Erlamycetin catalog strengths are not presented as established facts", () => {
+  const description = (name) => database.drugs.find((entry) => entry[0] === name)[2];
+  assert.match(description("CTM (Chlorpheniramine)"), /wajib diverifikasi pada label produk/i);
+  assert.doesNotMatch(description("CTM (Chlorpheniramine)"), /immediate-release/i);
+  for (const name of ["Erlamycetin Tetes Mata", "Erlamycetin Tetes Telinga", "Erlamycetin Salep Mata"]) {
+    assert.match(description(name), /wajib diverifikasi pada label produk/i, name);
+    assert.doesNotMatch(description(name), /0,5%|1%/, name);
+  }
+});

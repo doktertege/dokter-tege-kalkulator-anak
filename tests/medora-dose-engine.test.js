@@ -215,3 +215,28 @@ test("ambroxol rejects ages outside the leaflet range and invalid strengths", ()
   assert.throws(() => dose.ambroxol(145, 15), RangeError);
   assert.throws(() => dose.ambroxol(24, 0), RangeError);
 });
+
+
+test("zinc preserves Indonesian age-based diarrhea regimens", () => {
+  assert.deepEqual(dose.zinc(0, "indonesia"), {
+    dailyMg: 10, durationMinDays: 10, durationMaxDays: 10
+  });
+  assert.equal(dose.zinc(5, "indonesia").dailyMg, 10);
+  assert.equal(dose.zinc(6, "indonesia").dailyMg, 20);
+  assert.equal(dose.zinc(60, "indonesia").dailyMg, 20);
+});
+
+test("zinc supports the WHO 2024 low-dose regimen through 10 years", () => {
+  assert.deepEqual(dose.zinc(6, "who2024"), {
+    dailyMg: 5, durationMinDays: 10, durationMaxDays: 14
+  });
+  assert.equal(dose.zinc(60, "who2024").dailyMg, 5);
+  assert.equal(dose.zinc(120, "who2024").dailyMg, 5);
+});
+
+test("zinc rejects unsupported ages and regimen combinations", () => {
+  assert.throws(() => dose.zinc(-1, "who2024"), RangeError);
+  assert.throws(() => dose.zinc(121, "who2024"), RangeError);
+  assert.throws(() => dose.zinc(61, "indonesia"), RangeError);
+  assert.throws(() => dose.zinc(24, "unknown"), RangeError);
+});

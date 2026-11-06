@@ -75,8 +75,8 @@ test("header has no offline badge and workspace visibility CSS is valid", () => 
   assert.ok(!html.includes("OFFLINE"), "offline badge removed");
   assert.ok(html.includes("body.module-workspace-mode main> :not(#moduleWorkspace){display:none}"));
   assert.ok(html.includes("body.module-workspace-mode #moduleWorkspace{display:block}"));
-  assert.ok(html.includes("}\\nbody.public-mode .bottomNav{display:none}"));
-  assert.ok(!html.includes("}\\\\nbody.public-mode .bottomNav{display:none}"));
+  assert.match(html, /}\\s*body\\.public-mode \\.bottomNav\\{display:none\\}/);
+  assert.equal(html.includes(String.raw`}\\nbody.public-mode`), false);
 });
 
 test("all four clinical workspace modules contain visible content", () => {

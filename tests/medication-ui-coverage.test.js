@@ -83,3 +83,16 @@ test("Erlamycetin topical guides do not show unverified strengths or dosing regi
     assert.doesNotMatch(guide, /kloramfenikol|0,5%|1%|mg\/mL|mg\/g|\d+\s*(?:tetes|kali sehari|cm)/i, name);
   }
 });
+
+
+test("Cendo Xitrol eye ointment guide does not assume unverified composition or dosing", () => {
+  const source = getOpenDrugSource();
+  const topicalBlock = source.match(/const topicalGuides=\{([\s\S]*?)\n\};/);
+  assert.ok(topicalBlock, "topical guide map should be present");
+  const start = topicalBlock[1].indexOf('"Cendo Xitrol Salep Mata":');
+  assert.ok(start >= 0, "Cendo Xitrol ointment guide should exist");
+  const guide = topicalBlock[1].slice(start);
+  assert.match(guide, /profil produk belum terverifikasi/i);
+  assert.match(guide, /Dosis, frekuensi, dan durasi tidak ditampilkan/i);
+  assert.doesNotMatch(guide, /deksametason|neomisin|polimiksin|0,1%|mg\/g|\d+\s*(?:kali sehari|cm)/i);
+});

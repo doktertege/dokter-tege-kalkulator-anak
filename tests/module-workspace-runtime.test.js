@@ -50,6 +50,7 @@ function createHarness() {
   };
   const context = {
     document,
+    $: id => document.getElementById(id),
     window,
     console,
     showClinicalHome: () => calls.push("clinical"),

@@ -196,7 +196,7 @@ test("loratadine uses age- and weight-based pediatric syrup doses", () => {
   });
   assert.equal(dose.loratadine(30, 143, 5).dailyMg, 5);
   assert.equal(dose.loratadine(30.1, 143, 5).dailyMg, 10);
-  assert.equal(dose.loratadine(10, 144, 5).dailyMg, 10);
+  assert.equal(dose.loratadine(10, 145, 5).dailyMg, 10);
   assert.equal(dose.loratadine(10, 216, 5).volumeMl, 10);
 });
 

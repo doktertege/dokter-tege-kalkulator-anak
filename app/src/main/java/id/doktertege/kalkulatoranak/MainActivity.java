@@ -12,6 +12,17 @@ import android.webkit.WebViewClient;
 import android.view.View;
 
 public class MainActivity extends Activity {
+    private WebView webView;
+
+    @SuppressWarnings("deprecation")
+    @Override public void onBackPressed() {
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private boolean handleNavigation(WebView view, Uri uri) {
         String scheme = uri.getScheme();
         if ("file".equalsIgnoreCase(scheme)) return false;
@@ -33,6 +44,7 @@ public class MainActivity extends Activity {
         getWindow().getDecorView().setSystemUiVisibility(
             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         WebView web = new WebView(this);
+        webView = web;
         web.setBackgroundColor(0xFFF3F7FD);
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);

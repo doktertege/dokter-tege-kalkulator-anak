@@ -52,3 +52,18 @@ test("Domperidone remains excluded from pediatric dose calculation", () => {
   assert.ok(domperidone);
   assert.equal(domperidone[4], "excluded");
 });
+
+test("every catalog medicine has an explicit structured, pending, or excluded profile status", () => {
+  const coverage = database.metadata.medicineProfiles.coverage;
+  assert.equal(Object.keys(coverage).length, database.drugs.length);
+  for (const item of database.drugs) {
+    const [name, , , , status] = item;
+    assert.ok(["structured_profile", "pending_profile_review", "excluded"].includes(coverage[name]), name);
+    if (status === "excluded") assert.equal(coverage[name], "excluded");
+    else if (database.medicineProfiles[name]) assert.equal(coverage[name], "structured_profile");
+    else assert.equal(coverage[name], "pending_profile_review");
+  }
+  assert.equal(Object.values(coverage).filter(x => x === "structured_profile").length, 10);
+  assert.equal(Object.values(coverage).filter(x => x === "pending_profile_review").length, 21);
+  assert.equal(Object.values(coverage).filter(x => x === "excluded").length, 1);
+});

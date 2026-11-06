@@ -31,7 +31,8 @@ EXPECTED_DYNAMIC_IDS = {
     "metroRegimen", "metroStrength", "metroResult",
     "dexSeverity", "dexForm", "dexResult",
     "predDose", "predDuration", "predResult",
-    "omepIndication", "omepDuration", "omepResult",\n    "lansoIndication", "lansoDuration", "lansoResult",
+    "omepIndication", "omepDuration", "omepResult",
+    "lansoIndication", "lansoDuration", "lansoResult",
 }
 
 

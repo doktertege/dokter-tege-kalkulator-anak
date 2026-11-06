@@ -444,6 +444,19 @@ button.active{background:#1d6d70;border-color:#1d6d70;box-shadow:0 4px 12px #1d6
 .recentEmpty{font-size:10px;color:#89958f;margin:0}
 @media(max-width:370px){.dashboardLaunchpad{padding:15px}.quickActionGrid{gap:7px}.quickAction{gap:7px;padding:9px 7px}.quickActionIcon{width:31px;height:31px}.quickAction b{font-size:10px}}
 
+
+/* MEDORA command search: fast access to every clinical module */
+.clinicalSearchWrap{position:relative;margin:0 0 15px}
+.clinicalSearchWrap:before{content:"⌕";position:absolute;left:15px;top:50%;transform:translateY(-52%);font-size:24px;color:#8a9a96;pointer-events:none}
+#clinicalModuleSearch{width:100%;height:49px;padding:0 16px 0 45px;border:1px solid #e1e9e3;border-radius:16px;background:#ffffffed;box-shadow:0 5px 16px #1a3c350a;font-size:13px;color:#1d3544}
+#clinicalModuleSearch::placeholder{color:#96a39d}
+#clinicalModuleSearch:focus{outline:2px solid #a8d2c7;outline-offset:2px;border-color:#8abeb2}
+#clinicalSearchStatus{min-height:14px;margin:6px 3px 0;color:#87958e;font-size:10px}
+.moduleCard[hidden],.quickAction[hidden],.moduleGroupLabel[hidden]{display:none!important}
+.moduleSearchEmpty{display:none;padding:18px;border:1px dashed #d7e2da;border-radius:16px;background:#fff;color:#788981;font-size:12px;text-align:center}
+.moduleSearchEmpty.visible{display:block}
+@media(max-width:390px){#clinicalModuleSearch{height:46px}}
+
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">
@@ -464,6 +477,7 @@ button.active{background:#1d6d70;border-color:#1d6d70;box-shadow:0 4px 12px #1d6
 <div id="clinicalDashboard" style="display:none">
 <button class="medicalBack" id="modeBack">‹ Pilih area lain</button>
 <p class="welcome">Modul untuk tenaga medis</p>
+<div class="clinicalSearchWrap"><input id="clinicalModuleSearch" type="search" autocomplete="off" placeholder="Cari modul, tindakan, atau alat klinis..." aria-label="Cari modul klinis"><p id="clinicalSearchStatus" aria-live="polite">Telusuri seluruh modul MEDORA.</p></div>
 <section class="dashboardLaunchpad" aria-label="Akses cepat MEDORA">
  <div class="launchpadHeading"><div><span class="eyebrow">MEDORA WORKSPACE</span><h2>Akses cepat</h2><p>Buka alat klinis penting tanpa menelusuri seluruh menu.</p></div><span class="launchpadMark" aria-hidden="true">✦</span></div>
  <div class="quickActionGrid">
@@ -944,4 +958,51 @@ function updateGcs(){const e=Number($("gcsEye").value),v=Number($("gcsVerbal").v
 $("navHome").addEventListener("click",e=>{e.preventDefault();showHome()});
 
 draw();updateSummary();document.body.classList.add("home-mode");
-</script><script src="module-workspace.js"></script></body></html>
+</script><script src="module-workspace.js"></script>
+<script>
+/* MEDORA clinical module finder */
+(function(){
+  const input=document.getElementById("clinicalModuleSearch");
+  const dashboard=document.getElementById("clinicalDashboard");
+  if(!input||!dashboard)return;
+  const status=document.getElementById("clinicalSearchStatus");
+  const grid=dashboard.querySelector(".moduleGrid");
+  const empty=document.createElement("div");
+  empty.className="moduleSearchEmpty";
+  empty.textContent="Tidak ada modul yang cocok. Coba kata kunci lain.";
+  if(grid)grid.appendChild(empty);
+  function applyModuleSearch(){
+    const query=input.value.trim().toLocaleLowerCase("id");
+    const cards=Array.from(dashboard.querySelectorAll(".moduleCard"));
+    const quick=Array.from(dashboard.querySelectorAll(".quickAction"));
+    let visible=0;
+    cards.forEach(card=>{
+      const match=!query||(card.innerText+" "+(card.dataset.module||"")).toLocaleLowerCase("id").includes(query);
+      card.hidden=!match;
+      if(match)visible++;
+    });
+    quick.forEach(button=>{
+      const match=!query||(button.innerText+" "+(button.dataset.module||"")).toLocaleLowerCase("id").includes(query);
+      button.hidden=!match;
+    });
+    dashboard.querySelectorAll(".moduleGroupLabel").forEach(label=>{
+      let node=label.nextElementSibling,hasMatch=false;
+      while(node&&!node.classList.contains("moduleGroupLabel")){
+        if(node.classList.contains("moduleCard")&&!node.hidden)hasMatch=true;
+        node=node.nextElementSibling;
+      }
+      label.hidden=!!query&&!hasMatch;
+    });
+    empty.classList.toggle("visible",!!query&&visible===0);
+    status.textContent=query
+      ? visible+" modul ditemukan dari "+cards.length+" modul."
+      : "Telusuri seluruh modul MEDORA.";
+  }
+  input.addEventListener("input",applyModuleSearch);
+  input.addEventListener("keydown",event=>{
+    if(event.key==="Escape"){input.value="";applyModuleSearch();input.blur();}
+  });
+})();
+</script>
+
+</body></html>

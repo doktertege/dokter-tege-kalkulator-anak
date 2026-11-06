@@ -10,6 +10,11 @@ Prototype Android offline untuk membantu perhitungan dosis pediatrik.
 - Katalog obat dengan pencarian dan kategori.
 - Referensi pencarian 99 kode ICD-10 umum (WHO 2010) dengan filter kategori; daftar ini bukan database lengkap dan kode harus diverifikasi terhadap indeks/tabular serta aturan coding yang berlaku.
 - Favorit obat tersimpan lokal di perangkat.
+- Panduan Klinis offline berisi checklist penilaian awal ABCDE, dokumentasi SOAP, dan evaluasi sebelum pulang.
+- Modul IGD & Emergency menyediakan checklist respons awal, serah terima SBAR, dan dokumentasi rujukan; bukan pengganti protokol resusitasi resmi.
+- Asisten Klinis Offline menyusun catatan SOAP dari input pengguna; tidak menjalankan model AI, tidak membuat diagnosis, dan tidak mengirim data ke server.
+- Referensi Medis menyediakan pintasan ke sumber resmi; membuka tautan membutuhkan koneksi internet.
+- Pengaturan mendukung backup/pemulihan favorit dan riwayat kalkulasi lokal, serta penghapusan data lokal.
 - Kalkulator dosis yang saat ini diaktifkan secara terbatas untuk paracetamol, ibuprofen, cetirizine, ambroxol pada rentang usia yang ditentukan, zinc sebagai terapi tambahan diare, serta amoxicillin, cefadroxil, cefixime oral, dan salbutamol nebulisasi dengan pemilihan regimen, konsentrasi sediaan, dan batas usia/berat badan.
 - Obat lain tetap berstatus belum aktif sampai regimen, sediaan, batas dosis, kontraindikasi, dan referensinya diverifikasi.
 

@@ -312,3 +312,14 @@ test("SOAP output explicitly flags empty sections instead of silently omitting t
   assert.match(elements.get("soapStatus").textContent, /belum lengkap/);
   assert.match(elements.get("soapStatus").textContent, /Objektif, Rencana/);
 });
+
+test("SOAP completeness counts sex as a required patient-context field", () => {
+  const { elements } = createHarness();
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "ai" } }) }
+  });
+  assert.match(elements.get("soapCompleteness").textContent, /^0 dari 8/);
+  elements.get("soapSex").value = "Perempuan";
+  elements.get("moduleWorkspaceContent").listeners.input({ target: elements.get("soapSex") });
+  assert.match(elements.get("soapCompleteness").textContent, /^1 dari 8/);
+});

@@ -81,3 +81,32 @@ test("every profile field has explicit provenance and every source reference res
   assert.ok(database.medicineProfiles["Cendo Xitrol Tetes Mata"].provenance.activeIngredient.sourceRefs.includes("bpom_cendo_xitrol_drop"));
   assert.ok(database.medicineProfiles["Erlamycetin Tetes Mata"].provenance.activeIngredient.status === "pending_product_specific_verification");
 });
+
+
+test("paracetamol and ibuprofen profiles have BPOM-linked formulation references and valid dose-engine exports", () => {
+  for (const name of ["Paracetamol", "Ibuprofen"]) {
+    const profile = database.medicineProfiles[name];
+    assert.ok(profile, name + " profile should exist");
+    assert.ok(profile.provenance);
+    assert.equal(typeof engine[profile.doseEngineFunction], "function");
+    for (const field of ["activeIngredient", "dosageForms", "route", "formulationNote", "strength"]) {
+      const provenance = profile.provenance[field];
+      assert.equal(provenance.status, "source_linked_reference", name + "." + field);
+      assert.ok(provenance.sourceRefs.length > 0);
+    }
+    for (const field of ["prescriptionStatus", "keyWarnings"]) {
+      assert.equal(profile.provenance[field].status, "pending_product_specific_verification");
+      assert.deepEqual(profile.provenance[field].sourceRefs, []);
+    }
+  }
+  assert.match(database.medicineProfiles.Paracetamol.formulationNote, /120 mg\/5 mL.*160 mg\/5 mL|160 mg\/5 mL.*120 mg\/5 mL/);
+  assert.match(database.medicineProfiles.Ibuprofen.formulationNote, /100 mg\/5 mL/);
+});
+
+test("medicine profile coverage metadata matches the expanded structured profile set", () => {
+  const coverage = database.metadata.medicineProfiles.coverage;
+  assert.equal(coverage.Paracetamol, "structured_profile");
+  assert.equal(coverage.Ibuprofen, "structured_profile");
+  assert.equal(Object.values(coverage).filter(value => value === "structured_profile").length, 12);
+  assert.equal(Object.keys(database.medicineProfiles).length, 12);
+});

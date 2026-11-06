@@ -108,5 +108,5 @@ test("bottom navigation exposes only home and settings destinations", () => {
   assert.ok(nav.includes('id="navSettings"'));
   assert.ok(!/navSearch|navFavorites|navHistory/.test(nav));
   assert.ok(html.includes('$("navHome").addEventListener("click"'));
-  assert.ok(moduleWorkspace.includes('$("navSettings").addEventListener("click"'));
-});;;
+  assert.ok(workspace.includes('$("navSettings").addEventListener("click"'));
+});

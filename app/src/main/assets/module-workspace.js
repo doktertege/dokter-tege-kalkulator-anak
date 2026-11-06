@@ -51,7 +51,7 @@
     records: {
       title: "Rekam Medis Pasien",
       subtitle: "Simpan kunjungan pasien secara lokal, telusuri riwayat, dan buat backup untuk dipulihkan setelah instalasi ulang.",
-      html: '<div class="medicalRecords"><section class="recordsHero"><span class="workspaceEyebrow">PATIENT RECORDS</span><h3>Rekam medis dalam satu tempat</h3><p>Setiap kunjungan disimpan sebagai catatan terpisah dan dapat ditelusuri berdasarkan nomor RM atau nama pasien.</p><div class="recordsStats"><div><strong id="rmPatientCount">0</strong><span>Pasien</span></div><div><strong id="rmVisitCount">0</strong><span>Kunjungan</span></div></div></section><section class="recordsPanel"><h3 id="rmFormTitle">Daftarkan pasien / kunjungan baru</h3><input type="hidden" id="rmEditId"><div class="recordsGrid"><div><label for="rmNumber">Nomor rekam medis *</label><input id="rmNumber" maxlength="40" placeholder="Contoh: RM-0001"></div><div><label for="rmName">Nama / inisial pasien *</label><input id="rmName" maxlength="100" placeholder="Nama sesuai kebijakan fasilitas"></div><div><label for="rmBirth">Tanggal lahir</label><input id="rmBirth" type="date"></div><div><label for="rmSex">Jenis kelamin</label><select id="rmSex"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select></div><div><label for="rmDate">Tanggal kunjungan *</label><input id="rmDate" type="date"></div><div><label for="rmType">Jenis kunjungan</label><select id="rmType"><option>IGD</option><option>Rawat jalan</option><option>Rawat inap</option><option>Kontrol</option></select></div><div><label for="rmBp">Tekanan darah</label><input id="rmBp" placeholder="120/80 mmHg"></div><div><label for="rmHr">Nadi (x/menit)</label><input id="rmHr" inputmode="numeric"></div><div><label for="rmRr">RR (x/menit)</label><input id="rmRr" inputmode="numeric"></div><div><label for="rmTemp">Suhu (°C)</label><input id="rmTemp" inputmode="decimal"></div><div><label for="rmSpo2">SpO₂ (%)</label><input id="rmSpo2" inputmode="numeric"></div><div><label for="rmWeight">BB (kg)</label><input id="rmWeight" inputmode="decimal"></div></div><label for="rmAllergy">Alergi / reaksi obat</label><textarea id="rmAllergy" rows="2" placeholder="Tuliskan alergi atau tidak diketahui"></textarea><label for="rmSubjective">S · Anamnesis / subjektif</label><textarea id="rmSubjective" rows="3" placeholder="Keluhan utama, RPS, RPD, RPK, obat rutin..."></textarea><label for="rmObjective">O · Pemeriksaan / objektif</label><textarea id="rmObjective" rows="3" placeholder="Keadaan umum, pemeriksaan fisik, penunjang..."></textarea><label for="rmAssessment">A · Diagnosis / asesmen</label><textarea id="rmAssessment" rows="2" placeholder="Diagnosis kerja dan diagnosis banding"></textarea><div class="recordsGrid"><div><label for="rmIcd">Kode ICD-10</label><input id="rmIcd" maxlength="20" placeholder="Contoh: J06.9"></div><div><label for="rmDisposition">Disposisi</label><select id="rmDisposition"><option value="">Pilih</option><option>Pulang</option><option>Rawat inap</option><option>Rujuk</option><option>Observasi</option><option>Kontrol</option></select></div></div><label for="rmPlan">P · Terapi, resep, edukasi, dan rencana</label><textarea id="rmPlan" rows="4" placeholder="Nama obat, dosis, rute, frekuensi, durasi, monitoring, edukasi..."></textarea><div class="recordsActions"><button type="button" class="active" id="rmSave">Simpan kunjungan</button><button type="button" id="rmReset">Kosongkan</button></div><p id="rmStatus" class="medicalHint" aria-live="polite">Kolom bertanda * wajib diisi.</p></section><section class="recordsPanel"><h3>Daftar pasien & riwayat kunjungan</h3><input id="rmSearch" type="search" placeholder="Cari nomor RM atau nama pasien..."><div id="rmList" class="rmList"><p class="medicalHint">Belum ada rekam medis tersimpan.</p></div></section><section class="recordsPanel"><h3>Backup & pemulihan rekam medis</h3><p>Salin seluruh database menjadi teks JSON, lalu simpan sebagai file pribadi di luar MEDORA. Setelah instalasi ulang, tempel backup di bawah dan pulihkan.</p><div class="recordsActions"><button type="button" class="active" id="rmBackup">Buat & salin backup</button></div><textarea id="rmBackupText" rows="5" placeholder="Backup MEDORA akan muncul di sini. Simpan salinannya di tempat aman."></textarea><div class="recordsActions"><button type="button" id="rmRestore">Pulihkan dari backup</button></div><p id="rmBackupStatus" class="medicalHint" aria-live="polite"></p></section><p class="notice"><b>Penting:</b> data tersimpan lokal pada perangkat dan dapat ikut terhapus saat aplikasi di-uninstall atau data aplikasi dibersihkan. Backup wajib disimpan di luar aplikasi dan dipulihkan setelah instalasi ulang. Backup saat ini berupa JSON yang belum dienkripsi: simpan secara privat, jangan kirim melalui chat publik. Gunakan hanya pada perangkat yang dilindungi PIN/biometrik dan sesuai kebijakan fasilitas. Ini belum menggantikan RME resmi fasilitas atau memenuhi seluruh persyaratan interoperabilitas/regulasi.</p></div>'
+      html: '<div class="medicalRecords"><section class="recordsHero"><span class="workspaceEyebrow">PATIENT RECORDS</span><h3>Rekam medis dalam satu tempat</h3><p>Setiap kunjungan disimpan sebagai catatan terpisah dan dapat ditelusuri berdasarkan nomor RM atau nama pasien.</p><div class="recordsStats"><div><strong id="rmPatientCount">0</strong><span>Pasien</span></div><div><strong id="rmVisitCount">0</strong><span>Kunjungan</span></div></div></section><section class="recordsPanel"><h3 id="rmFormTitle">Daftarkan pasien / kunjungan baru</h3><input type="hidden" id="rmEditId"><div class="recordsGrid"><div><label for="rmNumber">Nomor rekam medis *</label><input id="rmNumber" maxlength="40" placeholder="Contoh: RM-0001"></div><div><label for="rmName">Nama / inisial pasien *</label><input id="rmName" maxlength="100" placeholder="Nama sesuai kebijakan fasilitas"></div><div><label for="rmBirth">Tanggal lahir</label><input id="rmBirth" type="date"></div><div><label for="rmSex">Jenis kelamin</label><select id="rmSex"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select></div><div><label for="rmDate">Tanggal kunjungan *</label><input id="rmDate" type="date"></div><div><label for="rmType">Jenis kunjungan</label><select id="rmType"><option>IGD</option><option>Rawat jalan</option><option>Rawat inap</option><option>Kontrol</option></select></div><div><label for="rmBp">Tekanan darah</label><input id="rmBp" placeholder="120/80 mmHg"></div><div><label for="rmHr">Nadi (x/menit)</label><input id="rmHr" inputmode="numeric"></div><div><label for="rmRr">RR (x/menit)</label><input id="rmRr" inputmode="numeric"></div><div><label for="rmTemp">Suhu (°C)</label><input id="rmTemp" inputmode="decimal"></div><div><label for="rmSpo2">SpO₂ (%)</label><input id="rmSpo2" inputmode="numeric"></div><div><label for="rmWeight">BB (kg)</label><input id="rmWeight" inputmode="decimal"></div></div><label for="rmAllergy">Alergi / reaksi obat</label><textarea id="rmAllergy" rows="2" placeholder="Tuliskan alergi atau tidak diketahui"></textarea><label for="rmSubjective">S · Anamnesis / subjektif</label><textarea id="rmSubjective" rows="3" placeholder="Keluhan utama, RPS, RPD, RPK, obat rutin..."></textarea><label for="rmObjective">O · Pemeriksaan / objektif</label><textarea id="rmObjective" rows="3" placeholder="Keadaan umum, pemeriksaan fisik, penunjang..."></textarea><label for="rmAssessment">A · Diagnosis / asesmen</label><textarea id="rmAssessment" rows="2" placeholder="Diagnosis kerja dan diagnosis banding"></textarea><div class="recordsGrid"><div><label for="rmIcd">Kode ICD-10</label><input id="rmIcd" maxlength="20" placeholder="Contoh: J06.9"></div><div><label for="rmDisposition">Disposisi</label><select id="rmDisposition"><option value="">Pilih</option><option>Pulang</option><option>Rawat inap</option><option>Rujuk</option><option>Observasi</option><option>Kontrol</option></select></div></div><label for="rmPlan">P · Terapi, resep, edukasi, dan rencana</label><textarea id="rmPlan" rows="4" placeholder="Nama obat, dosis, rute, frekuensi, durasi, monitoring, edukasi..."></textarea><div class="recordsActions"><button type="button" class="active" id="rmSave">Simpan kunjungan</button><button type="button" id="rmReset">Kosongkan</button></div><p id="rmStatus" class="medicalHint" aria-live="polite">Kolom bertanda * wajib diisi.</p></section><section class="recordsPanel"><h3>Daftar pasien & riwayat kunjungan</h3><input id="rmSearch" type="search" placeholder="Cari nomor RM atau nama pasien..."><div id="rmList" class="rmList"><p class="medicalHint">Belum ada rekam medis tersimpan.</p></div></section><section class="recordsPanel cloudPanel"><h3>Google Drive · Backup cloud</h3><p>Hubungkan akun Google. MEDORA menyimpan satu salinan backup terenkripsi di ruang data privat aplikasi pada Drive.</p><div class="recordsActions"><button type="button" class="active" id="rmGoogleSignIn">Masuk dengan Google</button><button type="button" id="rmCloudBackup">Backup ke cloud</button><button type="button" id="rmCloudRestore">Pulihkan dari cloud</button></div><p id="rmCloudStatus" class="medicalHint" aria-live="polite">Belum ada sesi Google yang dikonfirmasi.</p><label for="rmCloudPassword">Kata sandi enkripsi backup</label><input id="rmCloudPassword" type="password" minlength="12" autocomplete="new-password" placeholder="Minimal 12 karakter, simpan baik-baik"><p class="medicalHint">Kata sandi ini tidak dikirim ke Google. MEDORA mengenkripsi backup di perangkat sebelum mengunggahnya. Tanpa kata sandi ini, backup tidak dapat dipulihkan.</p></section><section class="recordsPanel"><h3>Backup lokal manual</h3><p>Opsi cadangan tambahan jika ingin menyimpan salinan sendiri di luar cloud.</p><div class="recordsActions"><button type="button" class="active" id="rmBackup">Buat & salin backup</button></div><textarea id="rmBackupText" rows="5" placeholder="Backup MEDORA akan muncul di sini. Simpan salinannya di tempat aman."></textarea><div class="recordsActions"><button type="button" id="rmRestore">Pulihkan dari backup</button></div><p id="rmBackupStatus" class="medicalHint" aria-live="polite"></p></section><p class="notice"><b>Penting:</b> data tersimpan lokal pada perangkat dan dapat ikut terhapus saat aplikasi di-uninstall atau data aplikasi dibersihkan. Backup wajib disimpan di luar aplikasi dan dipulihkan setelah instalasi ulang. Backup saat ini berupa JSON yang belum dienkripsi: simpan secara privat, jangan kirim melalui chat publik. Gunakan hanya pada perangkat yang dilindungi PIN/biometrik dan sesuai kebijakan fasilitas. Ini belum menggantikan RME resmi fasilitas atau memenuhi seluruh persyaratan interoperabilitas/regulasi.</p></div>'
     },
     anthropometry: {
       title: "IMT & Lingkar Tubuh",
@@ -111,6 +111,43 @@
       actions.append(advance, remove); footer.append(status, actions); card.append(top, title, footer); host.appendChild(card);
     });
   }
+
+
+  function rmCloudBackupObject() { return {app:"MEDORA",version:2,createdAt:new Date().toISOString(),patientRecords, favorites:[...favorites],doseHistory}; }
+  function rmBytesToBase64(bytes) { let binary=""; bytes.forEach(byte=>binary+=String.fromCharCode(byte)); return btoa(binary); }
+  function rmBase64ToBytes(value) { const binary=atob(value); return Uint8Array.from(binary,char=>char.charCodeAt(0)); }
+  async function rmEncryptCloudBackup(raw,password) {
+    if(!window.crypto || !crypto.subtle) throw new Error("Enkripsi aman tidak didukung WebView ini. Perbarui Android System WebView.");
+    const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+    const material=await crypto.subtle.importKey("raw",new TextEncoder().encode(password),"PBKDF2",false,["deriveKey"]);
+    const key=await crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:310000,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,["encrypt"]);
+    const cipher=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,new TextEncoder().encode(raw));
+    return JSON.stringify({format:"MEDORA-AES-GCM-1",salt:rmBytesToBase64(salt),iv:rmBytesToBase64(iv),data:rmBytesToBase64(new Uint8Array(cipher))});
+  }
+  async function rmDecryptCloudBackup(payload,password) {
+    if(!window.crypto || !crypto.subtle) throw new Error("Enkripsi aman tidak didukung WebView ini.");
+    const box=JSON.parse(payload); if(box.format!=="MEDORA-AES-GCM-1") throw new Error("Format backup cloud tidak dikenali.");
+    const salt=rmBase64ToBytes(box.salt),iv=rmBase64ToBytes(box.iv),data=rmBase64ToBytes(box.data);
+    const material=await crypto.subtle.importKey("raw",new TextEncoder().encode(password),"PBKDF2",false,["deriveKey"]);
+    const key=await crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:310000,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,["decrypt"]);
+    const clear=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,data);
+    return new TextDecoder().decode(clear);
+  }
+  window.medoraCloudSignInResult = raw => { try { const r=JSON.parse(raw); const el=$("rmCloudStatus"); if(el)el.textContent=r.ok ? "Google terhubung: "+r.message : r.message; } catch(e){} };
+  window.medoraCloudBackupResult = raw => { try { const r=JSON.parse(raw); const el=$("rmCloudStatus"); if(el)el.textContent=r.message; } catch(e){} };
+  window.medoraCloudRestoreResult = raw => { try { const r=JSON.parse(raw); const el=$("rmCloudStatus"); if(el)el.textContent=r.message; } catch(e){} };
+  window.medoraCloudRestorePayload = async encrypted => {
+    const status=$("rmCloudStatus"),password=$("rmCloudPassword")?.value||"";
+    try {
+      if(password.length<12) throw new Error("Masukkan kata sandi backup minimal 12 karakter terlebih dahulu.");
+      const raw=await rmDecryptCloudBackup(encrypted,password);
+      const data=JSON.parse(raw);
+      if(data.app!=="MEDORA" || data.version!==2 || !Array.isArray(data.patientRecords)) throw new Error("Isi backup tidak valid.");
+      $("rmBackupText").value=raw;
+      $("rmRestore").click();
+      if(status)status.textContent="Backup cloud berhasil didekripsi. Ikuti konfirmasi pemulihan.";
+    } catch(error) { if(status)status.textContent="Pemulihan cloud gagal: "+error.message; }
+  };
 
   const patientRecordsKey = "medora_patient_records_v1";
   function readPatientRecords() {
@@ -460,6 +497,32 @@
       if (!text || text === "Hasil catatan akan tampil di sini.") { $("soapStatus").textContent = "Buat catatan terlebih dahulu."; return; }
       try { await copyTextToClipboard(text); $("soapStatus").textContent = "Catatan berhasil disalin."; }
       catch (error) { $("soapStatus").textContent = "Gagal menyalin otomatis. Salin teks secara manual."; }
+      return;
+    }
+    if (id === "rmGoogleSignIn") {
+      if(window.MedoraCloud && typeof window.MedoraCloud.signIn==="function") window.MedoraCloud.signIn();
+      else $("rmCloudStatus").textContent="Fitur Google Drive tersedia pada aplikasi Android MEDORA.";
+      return;
+    }
+    if (id === "rmCloudBackup") {
+      const password=$("rmCloudPassword").value;
+      if(password.length<12){$("rmCloudStatus").textContent="Buat kata sandi enkripsi minimal 12 karakter.";return;}
+      if(!window.MedoraCloud || typeof window.MedoraCloud.uploadEncryptedBackup!=="function"){$("rmCloudStatus").textContent="Fitur cloud hanya tersedia di aplikasi Android.";return;}
+      try {
+        $("rmCloudStatus").textContent="Mengenkripsi backup di perangkat...";
+        const raw=JSON.stringify(rmCloudBackupObject());
+        const encrypted=await rmEncryptCloudBackup(raw,password);
+        window.MedoraCloud.uploadEncryptedBackup(encrypted);
+        $("rmCloudStatus").textContent="Mengirim backup terenkripsi ke Google Drive...";
+      } catch(error){$("rmCloudStatus").textContent="Backup gagal: "+error.message;}
+      return;
+    }
+    if (id === "rmCloudRestore") {
+      const password=$("rmCloudPassword").value;
+      if(password.length<12){$("rmCloudStatus").textContent="Masukkan kata sandi enkripsi minimal 12 karakter.";return;}
+      if(!window.MedoraCloud || typeof window.MedoraCloud.downloadEncryptedBackup!=="function"){$("rmCloudStatus").textContent="Fitur cloud hanya tersedia di aplikasi Android.";return;}
+      $("rmCloudStatus").textContent="Mencari backup terbaru di Google Drive...";
+      window.MedoraCloud.downloadEncryptedBackup();
       return;
     }
     if (id === "rmSave") {

@@ -81,3 +81,34 @@ test("invalid weight, concentration, and unsupported regimen are rejected", () =
   assert.throws(() => dose.cefixime(10, 100, 3), RangeError);
   assert.throws(() => dose.amoxicillin(10, 250, "unknown"), RangeError);
 });
+
+test("furosemide oral edema calculator enforces age and tablet-weight boundaries", () => {
+  const standard = dose.furosemidePediatricOralEdema(10, 12);
+  assert.equal(standard.dailyDoseMg, 10);
+  assert.equal(standard.doseMgPerKgPerDay, 1);
+  assert.equal(standard.tabletEquivalentPerDay, 0.25);
+  assert.equal(standard.formulation, "tablet 40 mg");
+
+  const capped = dose.furosemidePediatricOralEdema(50, 120);
+  assert.equal(capped.dailyDoseMg, 40);
+  assert.equal(capped.maximumDailyDoseMg, 40);
+  assert.equal(capped.doseMgPerKgPerDay, 0.8);
+  assert.equal(capped.tabletEquivalentPerDay, 1);
+
+  assert.throws(() => dose.furosemidePediatricOralEdema(9.9, 12), RangeError);
+  assert.throws(() => dose.furosemidePediatricOralEdema(10, 0), RangeError);
+  assert.throws(() => dose.furosemidePediatricOralEdema(10, 216), RangeError);
+});
+
+test("metamizole oral calculator enforces pediatric age and weight limits", () => {
+  const result = dose.metamizolePediatricOral(10, 36);
+  assert.equal(result.doseMg, 100);
+  assert.equal(result.volumeMl, 2);
+  assert.equal(result.concentrationMgPerMl, 50);
+  assert.equal(result.maxDailyMg, 400);
+  assert.equal(result.maxDosesPer24Hours, 4);
+
+  assert.throws(() => dose.metamizolePediatricOral(5, 36), RangeError);
+  assert.throws(() => dose.metamizolePediatricOral(10, 2), RangeError);
+  assert.throws(() => dose.metamizolePediatricOral(10, 169), RangeError);
+});

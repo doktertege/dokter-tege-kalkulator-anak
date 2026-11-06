@@ -118,7 +118,25 @@
     };
   }
 
-  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil });
+  function cetirizine(ageMonths, strengthMgPer5Ml) {
+    if (!Number.isFinite(ageMonths) || ageMonths < 6) {
+      throw new RangeError("ageMonths must be at least 6 months");
+    }
+    requirePositive(strengthMgPer5Ml, "strengthMgPer5Ml");
+    let dailyMg;
+    if (ageMonths < 72) dailyMg = 2.5;
+    else if (ageMonths < 144) dailyMg = 5;
+    else dailyMg = 10;
+    const mgPerMl = strengthMgPer5Ml / 5;
+    return {
+      dailyMg,
+      volumeMl: dailyMg / mgPerMl,
+      maxDailyMg: 10,
+      frequencyPerDay: 1
+    };
+  }
+
+  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

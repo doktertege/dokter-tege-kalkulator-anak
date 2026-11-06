@@ -253,7 +253,7 @@ body.icd-mode #icdPanel{display:block}
 <section class="panel" id="icdPanel">
 <button class="medicalBack" id="icdBack">‹ Kembali ke Beranda</button>
 <h2>ICD-10 & Diagnosis</h2>
-<p class="medicalHint">Pencarian kode diagnosis umum (referensi awal ICD-10 WHO).</p>
+<p class="medicalHint">Pencarian kode diagnosis umum (referensi ICD-10 WHO 2010; selaras dengan versi yang digunakan SATUSEHAT).</p>
 <input class="search" id="icdSearch" type="search" placeholder="Cari diagnosis atau kode, mis. demam, J06.9">
 <div class="filters" id="icdFilters">
 <button class="active" data-icd-cat="Semua">Semua</button>
@@ -599,7 +599,7 @@ const icdData=[
 ["R00.2","Palpitasi","Gejala"],
 ["R03.0","Peningkatan tekanan darah tanpa diagnosis hipertensi","Gejala"],
 ["R06.0","Dispnea","Gejala"],
-["R07.9","Nyeri dada, tidak spesifik","Gejala"],
+["R07.4","Nyeri dada, tidak spesifik","Gejala"],
 ["R11.2","Mual dengan muntah, tidak spesifik","Gejala"],
 ["R19.7","Diare, tidak spesifik","Gejala"],
 ["R53","Malaise dan kelelahan","Gejala"],
@@ -616,7 +616,55 @@ const icdData=[
 ["M79.1","Mialgia","Lainnya"],
 ["L30.9","Dermatitis, tidak spesifik","Lainnya"],
 ["H66.9","Otitis media, tidak spesifik","Lainnya"],
-["G43.9","Migrain, tidak spesifik","Lainnya"]
+["G43.9","Migrain, tidak spesifik","Lainnya"],
+["A15.0","Tuberkulosis paru terkonfirmasi melalui pemeriksaan mikroskopis sputum","Infeksi"],
+["A16.2","Tuberkulosis paru tanpa keterangan konfirmasi bakteriologis atau histologis","Infeksi"],
+["A18.0","Tuberkulosis tulang dan sendi","Infeksi"],
+["B00.9","Infeksi herpesvirus, tidak spesifik","Infeksi"],
+["B01.9","Varisela tanpa komplikasi","Infeksi"],
+["B02.9","Herpes zoster tanpa komplikasi","Infeksi"],
+["B86","Skabies","Infeksi"],
+["D64.9","Anemia, tidak spesifik","Penyakit dalam"],
+["E03.9","Hipotiroidisme, tidak spesifik","Penyakit dalam"],
+["E66.9","Obesitas, tidak spesifik","Penyakit dalam"],
+["E78.5","Hiperlipidemia, tidak spesifik","Penyakit dalam"],
+["I20.9","Angina pektoris, tidak spesifik","Penyakit dalam"],
+["I50.9","Gagal jantung, tidak spesifik","Penyakit dalam"],
+["I64","Stroke, tidak ditentukan sebagai perdarahan atau infark","Penyakit dalam"],
+["J01.9","Sinusitis akut, tidak spesifik","Respirasi"],
+["J30.4","Rinitis alergi, tidak spesifik","Respirasi"],
+["J32.9","Sinusitis kronis, tidak spesifik","Respirasi"],
+["J40","Bronkitis, tidak dinyatakan akut atau kronis","Respirasi"],
+["J46","Status asmatikus","Respirasi"],
+["J90","Efusi pleura, tidak diklasifikasikan di tempat lain","Respirasi"],
+["K25.9","Ulkus gaster, tidak spesifik, tanpa perdarahan atau perforasi","Pencernaan"],
+["K35.9","Apendisitis akut, tidak spesifik","Pencernaan"],
+["K40.9","Hernia inguinal unilateral atau tidak spesifik tanpa obstruksi atau gangren","Pencernaan"],
+["K64.9","Hemoroid, tidak spesifik","Pencernaan"],
+["K76.0","Perlemakan hati, tidak diklasifikasikan di tempat lain","Pencernaan"],
+["K80.2","Batu kandung empedu tanpa kolesistitis","Pencernaan"],
+["K85.9","Pankreatitis akut, tidak spesifik","Pencernaan"],
+["K92.2","Perdarahan gastrointestinal, tidak spesifik","Pencernaan"],
+["N10","Nefritis tubulointerstisial akut","Urogenital"],
+["N20.0","Batu ginjal","Urogenital"],
+["N40","Hiperplasia prostat","Urogenital"],
+["R04.0","Epistaksis","Gejala"],
+["R31","Hematuria, tidak spesifik","Gejala"],
+["R33","Retensi urine","Gejala"],
+["R55","Sinkop dan kolaps","Gejala"],
+["R56.0","Kejang demam","Gejala"],
+["G40.9","Epilepsi, tidak spesifik","Neurologi"],
+["G51.0","Paralisis Bell","Neurologi"],
+["H00.0","Hordeolum dan inflamasi dalam kelopak mata lainnya","Mata & THT"],
+["H81.1","Vertigo paroksismal benigna","Mata & THT"],
+["L02.9","Abses kulit, furunkel, atau karbunkel, tidak spesifik","Kulit"],
+["L03.9","Selulitis, tidak spesifik","Kulit"],
+["M17.9","Gonartrosis, tidak spesifik","Muskuloskeletal"],
+["M19.9","Artrosis, tidak spesifik","Muskuloskeletal"],
+["M54.2","Nyeri leher (servikalgia)","Muskuloskeletal"],
+["M54.9","Dorsalgia, tidak spesifik","Muskuloskeletal"],
+["S06.0","Konkusi","Trauma"],
+["S93.4","Cedera terkilir dan teregang pada pergelangan kaki","Trauma"]
 ];
 let icdCategory="Semua";
 function drawIcd(){

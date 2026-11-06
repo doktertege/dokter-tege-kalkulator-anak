@@ -413,7 +413,7 @@ header .medora-full-logo{background:transparent !important;filter:none !importan
 <p class="medicalHint">Katalog obat lokal dan catatan keamanan. Data dosis hanya tersedia pada kalkulator yang telah divalidasi.</p>
 <input class="search" id="medicineDbSearch" type="search" placeholder="Cari nama obat, zat aktif, sediaan..." aria-label="Cari database obat">
 <div class="filters" id="medicineDbFilters" aria-label="Filter kategori obat"></div>
-<p class="summary" id="medicineDbCount"></p>
+<p class="summary" id="medicineDbCount" role="status" aria-live="polite" aria-atomic="true"></p>
 <div id="medicineDbList"></div>
 <div id="medicineDbDetail" class="panel" style="display:none;margin-top:14px">
 <button class="medicalBack" id="medicineDbDetailBack">‹ Kembali ke daftar obat</button>
@@ -743,7 +743,7 @@ function showMedicineDatabase(){
 function drawMedicineDatabase(){
  const q=($("medicineDbSearch").value||"").trim().toLowerCase();
  const categories=["Semua",...new Set(medicineCatalog.map(x=>x[1]))];
- $("medicineDbFilters").innerHTML=categories.map(c=>'<button type="button" data-medicine-cat="'+escapeHTML(c)+'" class="'+(medicineDbCategory===c?'active':'')+'">'+escapeHTML(c)+'</button>').join("");
+ $("medicineDbFilters").innerHTML=categories.map(c=>'<button type="button" data-medicine-cat="'+escapeHTML(c)+'" class="'+(medicineDbCategory===c?'active':'')+'" aria-pressed="'+String(medicineDbCategory===c)+'">'+escapeHTML(c)+'</button>').join("");
  const rows=medicineCatalog.filter(d=>{
   const profile=medicineProfiles[d[0]]||{};
   const haystack=[...d,profile.activeIngredient||"",...(profile.dosageForms||[]),...(profile.route||[])].join(" ").toLowerCase();

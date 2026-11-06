@@ -483,7 +483,39 @@
     };
   }
 
-  const api = Object.freeze({ prednisoneAsthmaOral, methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+
+  // Omeprazole delayed-release 20 mg capsule: labeled pediatric dose for patients >=20 kg.
+  // Restrict to typical acid GERD symptoms or endoscopy-proven erosive esophagitis.
+  function omeprazolePediatricGerd(weightKg, ageMonths, indication, durationWeeks) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 12 || ageMonths > 192) {
+      throw new RangeError("omeprazole capsule calculator is restricted to age 1 through 16 years");
+    }
+    if (weightKg < 20) {
+      throw new RangeError("20 mg capsule dose is only supported from 20 kg; lower weights need a verified pediatric formulation");
+    }
+    if (indication !== "typicalGERD" && indication !== "erosiveEsophagitis") {
+      throw new RangeError("unsupported omeprazole indication");
+    }
+    if (indication === "typicalGERD" && durationWeeks !== 4) {
+      throw new RangeError("typical GERD trial duration is 4 weeks before reassessment");
+    }
+    if (indication === "erosiveEsophagitis" && durationWeeks !== 4 && durationWeeks !== 8) {
+      throw new RangeError("erosive esophagitis duration must be 4 or 8 weeks");
+    }
+    return {
+      indication,
+      dailyDoseMg: 20,
+      capsuleStrengthMg: 20,
+      capsulesPerDay: 1,
+      durationWeeks,
+      totalCapsules: durationWeeks * 7,
+      frequency: "once daily before breakfast",
+      route: "oral"
+    };
+  }
+
+  const api = Object.freeze({ omeprazolePediatricGerd, prednisoneAsthmaOral, methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

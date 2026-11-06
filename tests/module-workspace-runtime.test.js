@@ -26,7 +26,7 @@ function makeElement() {
       listeners[type] = callback;
     },
     click(event = {}) {
-      if (listeners.click) listeners.click(event);
+      if (listeners.click) return listeners.click(event);
     },
     innerHTML: "",
     textContent: "",
@@ -44,6 +44,7 @@ function createHarness() {
     }
   };
   const calls = [];
+  let copiedText = "";
   const window = {
     MEDORA_DATABASE: { drugs: [["Paracetamol"]] },
     scrollTo() {}
@@ -65,11 +66,11 @@ function createHarness() {
     saveFavorites: () => {},
     persistDoseHistory: () => {},
     renderDoseHistory: () => {},
-    copyTextToClipboard: async () => {},
+    copyTextToClipboard: async text => { copiedText = text; },
     confirm: () => true
   };
   vm.runInNewContext(source, context);
-  return { elements, calls, window };
+  return { elements, calls, window, get copiedText() { return copiedText; } };
 }
 
 test("clinical dashboard click routing invokes every destination", () => {
@@ -121,4 +122,77 @@ test("settings navigation opens a usable settings workspace", () => {
   for (const id of ["copyLocalBackup", "restoreLocalBackup", "clearLocalHistory", "clearLocalFavorites"]) {
     assert.ok(html.includes('id="' + id + '"'), id + " control");
   }
+});
+
+
+test("SOAP workspace builds, clears, and copies a structured note", async () => {
+  const { elements, copiedText } = createHarness();
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "ai" } }) }
+  });
+  elements.get("soapAge").value = "4 tahun";
+  elements.get("soapSex").value = "Perempuan";
+  elements.get("soapComplaint").value = "Demam 2 hari";
+  elements.get("soapVitals").value = "Suhu 38,5 C";
+  elements.get("soapAssessment").value = "Febris";
+  elements.get("moduleWorkspaceContent").click({ target: { id: "buildSoap" } });
+  const note = elements.get("soapOutput").textContent;
+  assert.match(note, /CATATAN KLINIS MEDORA/);
+  assert.match(note, /S\\nDemam 2 hari/);
+  assert.match(note, /O\\nSuhu 38,5 C/);
+  assert.match(note, /A\\nFebris/);
+  assert.match(elements.get("soapStatus").textContent, /Periksa kembali/);
+
+  await elements.get("moduleWorkspaceContent").click({ target: { id: "copySoap" } });
+  assert.match(copiedText, /Demam 2 hari/);
+
+  elements.get("moduleWorkspaceContent").click({ target: { id: "clearSoap" } });
+  assert.equal(elements.get("soapAge").value, "");
+  assert.equal(elements.get("soapOutput").textContent, "Hasil catatan akan tampil di sini.");
+});
+
+test("settings backup exports local favorites and dose history", async () => {
+  const { elements, copiedText } = createHarness();
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "settings" } }) }
+  });
+  await elements.get("moduleWorkspaceContent").click({ target: { id: "copyLocalBackup" } });
+  const backup = JSON.parse(copiedText);
+  assert.equal(backup.app, "MEDORA");
+  assert.equal(backup.version, 1);
+  assert.deepEqual(Array.from(backup.favorites), []);
+  assert.deepEqual(Array.from(backup.doseHistory), []);
+  assert.match(elements.get("settingsStatus").textContent, /Backup berhasil disalin/);
+});
+
+test("settings restore accepts valid backup and rejects unknown medication names", async () => {
+  const { elements, calls } = createHarness();
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "settings" } }) }
+  });
+  elements.get("restoreBackup").value = JSON.stringify({
+    app: "MEDORA", version: 1, favorites: ["Paracetamol"], doseHistory: []
+  });
+  await elements.get("moduleWorkspaceContent").click({ target: { id: "restoreLocalBackup" } });
+  assert.match(elements.get("settingsStatus").textContent, /Backup berhasil dipulihkan/);
+  assert.equal(elements.get("localDataSummary").textContent,
+    "1 obat favorit dan 0 catatan riwayat tersimpan di perangkat ini.");
+
+  elements.get("restoreBackup").value = JSON.stringify({
+    app: "MEDORA", version: 1, favorites: ["Obat Tidak Terdaftar"], doseHistory: []
+  });
+  await elements.get("moduleWorkspaceContent").click({ target: { id: "restoreLocalBackup" } });
+  assert.match(elements.get("settingsStatus").textContent, /nama obat yang tidak dikenal/);
+});
+
+test("settings clear actions require confirmation and update local data", async () => {
+  const { elements, calls } = createHarness();
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "settings" } }) }
+  });
+  await elements.get("moduleWorkspaceContent").click({ target: { id: "clearLocalHistory" } });
+  await elements.get("moduleWorkspaceContent").click({ target: { id: "clearLocalFavorites" } });
+  assert.equal(calls.filter(x => x === "clinical").length, 0);
+  assert.match(elements.get("settingsStatus").textContent, /Daftar favorit dihapus/);
+  assert.match(elements.get("localDataSummary").textContent, /0 obat favorit dan 0 catatan riwayat/);
 });

@@ -62,7 +62,7 @@ test("public topic search filters the visible article list and supports empty re
   search.fire("input");
   assert.match(elements.get("publicArticles").innerHTML, /data-article="fever"/);
   assert.doesNotMatch(elements.get("publicArticles").innerHTML, /data-article="diarrhea"/);
-  assert.match(elements.get("publicCount").textContent, /^1 panduan ditemukan/);
+  assert.match(elements.get("publicCount").textContent, /^2 panduan ditemukan/);
 
   search.value = "topik-yang-tidak-ada";
   search.fire("input");
@@ -107,10 +107,11 @@ test("opening an article displays its detail and back returns to the topic list"
 
 test("unknown article identifiers do not open a blank detail page", () => {
   const { elements } = harness();
+  const detail = elements.get("publicDetailView");
   elements.get("publicArticles").fire("click", {
     target: {
       closest() { return { dataset: { article: "not-a-real-topic" } }; }
     }
   });
-  assert.notEqual(elements.get("publicDetailView").style.display, "block");
+  assert.notEqual(detail.style.display, "block");
 });

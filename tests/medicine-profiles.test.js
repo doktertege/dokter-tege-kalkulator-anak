@@ -15,7 +15,7 @@ const engine = require(path.join(assets, "dose-engine.js"));
 test("requested medicines have structured profiles with traceable source metadata", () => {
   assert.equal(database.metadata.medicineProfiles.schemaVersion, "1.1");
   assert.equal(database.metadata.medicineProfiles.reviewedOn, "2026-11-06");
-  assert.equal(Object.keys(database.metadata.medicineProfiles.sources).length, 7);
+  assert.equal(Object.keys(database.metadata.medicineProfiles.sources).length, 12);
   for (const name of [
     "CTM (Chlorpheniramine)", "Oralit", "Ceftriaxone", "Cefotaxime", "Gentamicin",
     "Cendo Xitrol Tetes Mata", "Cendo Xitrol Salep Mata",
@@ -109,4 +109,34 @@ test("medicine profile coverage metadata matches the expanded structured profile
   assert.equal(coverage.Ibuprofen, "structured_profile");
   assert.equal(Object.values(coverage).filter(value => value === "structured_profile").length, 12);
   assert.equal(Object.keys(database.medicineProfiles).length, 12);
+});
+
+
+test("cetirizine and amoxicillin profiles use BPOM-linked Indonesian formulations and real dose-engine exports", () => {
+  const cetirizine = database.medicineProfiles.Cetirizine;
+  const amoxicillin = database.medicineProfiles.Amoxicillin;
+  for (const [name, profile] of [["Cetirizine", cetirizine], ["Amoxicillin", amoxicillin]]) {
+    assert.ok(profile, name + " profile");
+    assert.equal(typeof engine[profile.doseEngineFunction], "function");
+    for (const field of ["activeIngredient", "dosageForms", "route", "formulationNote", "strength"]) {
+      assert.equal(profile.provenance[field].status, "source_linked_reference", name + "." + field);
+      assert.ok(profile.provenance[field].sourceRefs.length > 0);
+    }
+  }
+  assert.match(cetirizine.formulationNote, /5 mg\/5 mL/);
+  assert.match(cetirizine.formulationNote, /10 mg\/mL/);
+  assert.equal(cetirizine.provenance.prescriptionStatus.status, "source_linked_reference");
+  assert.equal(cetirizine.provenance.keyWarnings.status, "pending_product_specific_verification");
+  assert.match(amoxicillin.formulationNote, /125 mg\/5 mL/);
+  assert.match(amoxicillin.formulationNote, /250 mg\/5 mL/);
+  assert.equal(amoxicillin.provenance.prescriptionStatus.status, "pending_product_specific_verification");
+  assert.equal(amoxicillin.provenance.keyWarnings.status, "pending_product_specific_verification");
+});
+
+test("structured medicine profiles and coverage metadata remain in one-to-one parity", () => {
+  const coverage = database.metadata.medicineProfiles.coverage;
+  const structuredNames = Object.keys(coverage).filter(name => coverage[name] === "structured_profile");
+  assert.equal(structuredNames.length, 14);
+  assert.equal(Object.keys(database.medicineProfiles).length, 14);
+  for (const name of structuredNames) assert.ok(database.medicineProfiles[name], name);
 });

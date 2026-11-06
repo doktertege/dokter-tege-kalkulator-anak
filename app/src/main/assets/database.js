@@ -182,6 +182,40 @@
       "title": "Yayasan Gastroenterologi Indonesia: pembuatan oralit",
       "sourceType": "clinical_education_reference"
     }
+  },
+  "coverage": {
+    "Paracetamol": "pending_profile_review",
+    "Ibuprofen": "pending_profile_review",
+    "Metamizole": "pending_profile_review",
+    "Amoxicillin": "pending_profile_review",
+    "Cefadroxil": "pending_profile_review",
+    "Cefixime": "pending_profile_review",
+    "Ceftriaxone": "structured_profile",
+    "Cefotaxime": "structured_profile",
+    "Gentamicin": "structured_profile",
+    "CTM (Chlorpheniramine)": "structured_profile",
+    "Cetirizine": "pending_profile_review",
+    "Loratadine": "pending_profile_review",
+    "Oralit": "structured_profile",
+    "Zinc": "pending_profile_review",
+    "Ambroxol": "pending_profile_review",
+    "Cendo Xitrol Tetes Mata": "structured_profile",
+    "Cendo Xitrol Salep Mata": "structured_profile",
+    "Erlamycetin Tetes Mata": "structured_profile",
+    "Erlamycetin Tetes Telinga": "structured_profile",
+    "Erlamycetin Salep Mata": "structured_profile",
+    "Salbutamol": "pending_profile_review",
+    "Dexamethasone": "pending_profile_review",
+    "Prednisone": "pending_profile_review",
+    "Methylprednisolone": "pending_profile_review",
+    "Diazepam": "pending_profile_review",
+    "Ondansetron": "pending_profile_review",
+    "Metronidazole": "pending_profile_review",
+    "Domperidone": "excluded",
+    "Omeprazole": "pending_profile_review",
+    "Lansoprazole": "pending_profile_review",
+    "Furosemide": "pending_profile_review",
+    "Adrenaline": "pending_profile_review"
   }
 };
   root.MEDORA_DATABASE.medicineProfiles = {
@@ -733,13 +767,4 @@
     }
   }
 };
-  // Explicit coverage prevents catalog-only items from appearing verified.
-  root.MEDORA_DATABASE.metadata.medicineProfiles.coverage = {};
-  for (const item of root.MEDORA_DATABASE.drugs) {
-    const name = item[0];
-    root.MEDORA_DATABASE.metadata.medicineProfiles.coverage[name] =
-      item[4] === "excluded" ? "excluded" :
-      root.MEDORA_DATABASE.medicineProfiles[name] ? "structured_profile" :
-      "pending_profile_review";
-  }
 })(window);

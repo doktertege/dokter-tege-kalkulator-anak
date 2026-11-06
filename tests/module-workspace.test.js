@@ -12,8 +12,14 @@ const workspace = fs.readFileSync(path.join(assets, "module-workspace.js"), "utf
 test("all clinical dashboard menu entries route to a working module", () => {
   for (const key of ["calculator", "medical", "icd", "guides", "emergency", "drugs", "ai", "references"]) {
     assert.match(html, new RegExp('data-module="' + key + '"'));
+  }
+  for (const key of ["guides", "emergency", "ai", "references"]) {
     assert.match(workspace, new RegExp('^\\s*' + key + ':', "m"));
   }
+  assert.match(workspace, /key === "calculator".*showCalculator\(\)/);
+  assert.match(workspace, /key === "medical".*showMedical\(\)/);
+  assert.match(workspace, /key === "icd".*showIcd\(\)/);
+  assert.match(workspace, /key === "drugs".*showMedicineDatabase\(\)/);
   assert.match(html, /id="moduleWorkspace"/);
   assert.match(html, /module-workspace\.js/);
   assert.match(workspace, /function showWorkspace\(key\)/);

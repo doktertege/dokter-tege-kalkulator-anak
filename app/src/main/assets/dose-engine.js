@@ -449,7 +449,41 @@
     };
   }
 
-  const api = Object.freeze({ methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+
+  // Oral prednisone-equivalent course for clinically assessed moderate/severe acute asthma.
+  // Restricted to children 1–11 years; adolescent dosing follows a separate age-based protocol.
+  function prednisoneAsthmaOral(weightKg, ageMonths, doseMgPerKg, durationDays, strengthMg) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 12 || ageMonths >= 144) {
+      throw new RangeError("prednisone asthma calculator is restricted to age 1 through 11 years");
+    }
+    if (doseMgPerKg !== 1 && doseMgPerKg !== 2) {
+      throw new RangeError("doseMgPerKg must be 1 or 2");
+    }
+    if (![3, 4, 5].includes(durationDays)) {
+      throw new RangeError("durationDays must be 3, 4 or 5");
+    }
+    if (strengthMg !== 5) {
+      throw new RangeError("only the verified 5 mg tablet strength is supported");
+    }
+    const maxDailyMg = ageMonths < 24 ? 20 : ageMonths < 72 ? 30 : 40;
+    const dailyDoseMg = Math.min(weightKg * doseMgPerKg, maxDailyMg);
+    return {
+      dailyDoseMg,
+      doseMgPerKg,
+      maxDailyMg,
+      durationDays,
+      totalCourseMg: dailyDoseMg * durationDays,
+      tabletStrengthMg: strengthMg,
+      tabletsPerDayEquivalent: dailyDoseMg / strengthMg,
+      totalTabletsEquivalent: (dailyDoseMg * durationDays) / strengthMg,
+      frequency: "once daily, preferably in the morning",
+      route: "oral",
+      taperRequired: false
+    };
+  }
+
+  const api = Object.freeze({ prednisoneAsthmaOral, methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

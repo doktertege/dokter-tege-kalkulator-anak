@@ -172,3 +172,9 @@ test("medicine database back button returns to the clinical dashboard", () => {
   const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
   assert.match(html, /\$\("medicineDbBack"\)\.addEventListener\("click",\s*\(\)\s*=>\s*\{\s*showClinicalHome\(\)\s*\}\)/);
 });
+
+test("medical calculator and ICD search back buttons return to clinical dashboard", () => {
+  const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
+  assert.match(html, /\$\("medicalBack"\)\.addEventListener\("click",\s*showClinicalHome\)/);
+  assert.match(html, /\$\("icdBack"\)\.addEventListener\("click",\s*showClinicalHome\)/);
+});

@@ -214,7 +214,7 @@ test("settings restore accepts valid backup and rejects unknown medication names
   await elements.get("moduleWorkspaceContent").click({ target: { id: "restoreLocalBackup" } });
   assert.match(elements.get("settingsStatus").textContent, /nama obat yang tidak dikenal/);
 
-  elements.get("restoreBackup").value = " ".repeat(100001);
+  elements.get("restoreBackup").value = "x".repeat(100001);
   await elements.get("moduleWorkspaceContent").click({ target: { id: "restoreLocalBackup" } });
   assert.match(elements.get("settingsStatus").textContent, /melebihi batas 100 KB/);
 

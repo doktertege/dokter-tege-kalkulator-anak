@@ -526,6 +526,20 @@
   window.MEDORA_WORKSPACE = { showWorkspace };
 })();
 
+/* MEDORA local clinical desk clock */
+(function(){
+ const dateNode=document.getElementById("medoraDeskDate");
+ const clockNode=document.getElementById("medoraDeskClock");
+ if(!dateNode||!clockNode)return;
+ const update=()=>{
+  const now=new Date();
+  dateNode.textContent=new Intl.DateTimeFormat("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(now);
+  clockNode.textContent=new Intl.DateTimeFormat("id-ID",{hour:"2-digit",minute:"2-digit",hour12:false}).format(now);
+ };
+ update();
+ window.setInterval(update,30000);
+})();
+
 /* MEDORA clinical module finder */
 (function(){
   const input=document.getElementById("clinicalModuleSearch");

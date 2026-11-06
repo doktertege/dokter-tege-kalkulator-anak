@@ -378,3 +378,23 @@ test("gentamicin blocks neonatal and adult-weight calculations and invalid stren
   assert.throws(() => dose.gentamicinInitial(10, 24, 0), RangeError);
 });
 
+
+test("injectable antibiotic engines reject non-finite and non-positive inputs", () => {
+  const bad = [Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY];
+  for (const value of bad) {
+    assert.throws(() => dose.ceftriaxoneInjection(value, 24, "standard"), RangeError);
+    assert.throws(() => dose.ceftriaxoneInjection(10, value, "standard"), RangeError);
+    assert.throws(() => dose.cefotaximeInjection(value, 24, "standard"), RangeError);
+    assert.throws(() => dose.cefotaximeInjection(10, value, "standard"), RangeError);
+    assert.throws(() => dose.gentamicinInitial(value, 24, 40), RangeError);
+    assert.throws(() => dose.gentamicinInitial(10, value, 40), RangeError);
+  }
+  assert.throws(() => dose.gentamicinInitial(10, 24, Number.NaN), RangeError);
+});
+
+test("cefotaxime prevents exceeding 2 g per dose", () => {
+  assert.throws(() => dose.cefotaximeInjection(49, 120, "meningitis", 4), RangeError);
+  const safe = dose.cefotaximeInjection(49, 120, "meningitis", 6);
+  assert.equal(safe.doseMinMg, 49000 / 6);
+  assert.equal(safe.doseMaxMg, 2000);
+});

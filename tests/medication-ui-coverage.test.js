@@ -109,3 +109,19 @@ test("gentamicin volume calculator requires the actual ampoule concentration", (
   assert.match(guide, /Masukkan konsentrasi persis dari ampul/i);
   assert.doesNotMatch(guide, /80 mg\/2 mL|20 mg\/2 mL|value="40"|value="10"/i);
 });
+
+
+test("injectable cephalosporin guides do not assume product-specific reconstitution volumes", () => {
+  const source = getOpenDrugSource();
+  for (const [name, marker] of [
+    ["Ceftriaxone", "Volume rekonstitusi tidak dihitung"],
+    ["Cefotaxime", "Volume rekonstitusi tidak ditampilkan"]
+  ]) {
+    const start = source.indexOf('if(name==="' + name + '"){');
+    const end = source.indexOf('\nif(name===', start + 10);
+    assert.ok(start >= 0, name + " calculator should exist");
+    const guide = source.slice(start, end < 0 ? undefined : end);
+    assert.match(guide, new RegExp(marker, "i"), name);
+    assert.doesNotMatch(guide, /mL\s*\/\s*vial|reconstituted concentration\s*=/i, name);
+  }
+});

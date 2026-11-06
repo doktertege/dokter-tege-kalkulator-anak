@@ -204,7 +204,50 @@
     };
   }
 
-  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, ambroxol, zinc, salbutamolNebulized });
+  // ORS: Plan A replacement after each watery stool; Plan B for some dehydration.
+  // Plan B volume is delivered over 3 hours, followed by clinical reassessment.
+  function oralit(weightKg, plan) {
+    requirePositive(weightKg, "weightKg");
+    if (plan === "planA") {
+      return { plan, afterEachStoolMl: weightKg * 10, instruction: "give after each watery stool; continue breastfeeding and feeding" };
+    }
+    if (plan === "planB") {
+      return { plan, totalMl: weightKg * 75, durationHours: 3, instruction: "give gradually; reassess hydration after 3 hours" };
+    }
+    throw new RangeError("plan must be planA or planB");
+  }
+
+  // Conservative age bands for immediate-release oral chlorpheniramine syrup 2 mg/5 mL.
+  // Under 2 years is blocked; follow local product labeling and avoid routine use for common cold.
+  function chlorpheniramine(ageMonths, strengthMgPer5Ml) {
+    if (!Number.isFinite(ageMonths) || ageMonths < 24) {
+      throw new RangeError("chlorpheniramine is not enabled below 2 years");
+    }
+    requirePositive(strengthMgPer5Ml, "strengthMgPer5Ml");
+    let doseMg;
+    let maxDailyMg;
+    if (ageMonths < 72) {
+      doseMg = 1;
+      maxDailyMg = 6;
+    } else if (ageMonths < 144) {
+      doseMg = 2;
+      maxDailyMg = 12;
+    } else {
+      doseMg = 4;
+      maxDailyMg = 24;
+    }
+    const mgPerMl = strengthMgPer5Ml / 5;
+    return {
+      doseMg,
+      volumeMl: doseMg / mgPerMl,
+      intervalHoursMin: 4,
+      intervalHoursMax: 6,
+      maxDailyMg,
+      maxDosesPerDay: maxDailyMg / doseMg
+    };
+  }
+
+  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

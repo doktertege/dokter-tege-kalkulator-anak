@@ -77,3 +77,12 @@ test("unverified CTM and Erlamycetin catalog strengths are not presented as esta
     assert.doesNotMatch(description(name), /0,5%|1%/, name);
   }
 });
+
+
+test("Cendo Xitrol ointment catalog does not copy unverified eye-drop strength", () => {
+  const ointment = database.drugs.find((entry) => entry[0] === "Cendo Xitrol Salep Mata");
+  const drops = database.drugs.find((entry) => entry[0] === "Cendo Xitrol Tetes Mata");
+  assert.match(ointment[2], /komposisi dan kekuatan wajib dicocokkan dengan etiket produk/i);
+  assert.doesNotMatch(ointment[2], /0,1%/);
+  assert.match(drops[2], /0,1%/);
+});

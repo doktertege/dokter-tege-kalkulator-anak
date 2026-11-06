@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="MEDORA">
-  <defs><linearGradient id="teal" x1="20" y1="20" x2="100" y2="100" gradientUnits="userSpaceOnUse"><stop stop-color="#159E9A"/><stop offset="1" stop-color="#087C83"/></linearGradient></defs>
-  <path d="M18 82V42c0-9 10-13 17-7l25 22 25-22c7-6 17-2 17 7v40" fill="none" stroke="#173B4B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M60 57v25" fill="none" stroke="url(#teal)" stroke-width="10" stroke-linecap="round"/>
-  <circle cx="96" cy="25" r="13" fill="#159E9A"/><path d="M96 18v14M89 25h14" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M34 79V45c0-6 6-8 11-4l15 13 15-13c5-4 11-2 11 4v34H77V49L60 64 43 49v30Z" fill="#173B4B"/>
+  <circle cx="85" cy="32" r="10" fill="#159E9A"/>
+  <path d="M85 26.5v11M79.5 32h11" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/>
 </svg>

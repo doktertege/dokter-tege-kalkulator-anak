@@ -82,7 +82,7 @@
     setNavActive(key === "settings" ? "navSettings" : "navHome");
     window.scrollTo(0, 0);
     if (key === "settings") updateLocalDataSummary();
-    if (key === "emergency") { restoreEmergencyChecklist(); updateEmergencyChecklistProgress(); }
+    if (key === "emergency") { resetEmergencyChecklistForNewSession(); updateEmergencyChecklistProgress(); }
     if (key === "ai") updateSoapCompleteness();
   }
 
@@ -94,15 +94,14 @@
   }
 
   const emergencyChecklistKey = "medora_emergency_checklist_v1";
-  function restoreEmergencyChecklist() {
-    let saved = [];
-    try {
-      const value = JSON.parse(localStorage.getItem(emergencyChecklistKey) || "[]");
-      if (Array.isArray(value)) saved = value.slice(0, 7);
-    } catch (error) { saved = []; }
-    document.querySelectorAll("#moduleWorkspaceContent .checkRow input[type=checkbox]").forEach((input, index) => {
-      input.checked = saved[index] === true;
+  function resetEmergencyChecklistForNewSession() {
+    // Never carry completed actions into a later patient encounter.
+    document.querySelectorAll("#moduleWorkspaceContent .checkRow input[type=checkbox]").forEach(input => {
+      input.checked = false;
     });
+    try { localStorage.removeItem(emergencyChecklistKey); } catch (error) { /* Session still starts unchecked. */ }
+    const status = document.getElementById("emergencyChecklistStatus");
+    if (status) status.textContent = "Checklist dimulai dari awal setiap kali menu dibuka. Status tidak dibawa ke sesi berikutnya.";
   }
   function saveEmergencyChecklist() {
     const values = Array.from(document.querySelectorAll("#moduleWorkspaceContent .checkRow input[type=checkbox]")).map(input => input.checked);

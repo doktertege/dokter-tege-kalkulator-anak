@@ -58,6 +58,17 @@ test("settings can back up, restore and clear local favorites and dose history",
   assert.match(workspace, /updateLocalDataSummary/);
 });
 
+test("startup storage loading filters unknown favorites and malformed dose history", () => {
+  assert.match(html, /const validDrugNames=new Set\(data\.map\(item=>item\[0\]\)\)/);
+  assert.match(html, /savedFavorites\.filter\(name=>typeof name==="string"&&validDrugNames\.has\(name\)\)/);
+  assert.match(html, /validDrugNames\.has\(h\.drug\)/);
+  assert.match(html, /Number\(h\.weight\)>0&&Number\(h\.weight\)<=100/);
+  assert.match(html, /h\.age\.length<=40/);
+  assert.match(html, /h\.date\.length<=80/);
+  assert.match(html, /h\.result\.length<=1200/);
+  assert.match(html, /slice\(0,50\)/);
+});
+
 test("backup restore rejects unknown medicines, invalid weights, and oversized history payloads", () => {
   assert.match(workspace, /const catalogNames = new Set\(\(window\.MEDORA_DATABASE\?\.drugs \|\| \[\]\)\.map\(item => item\[0\]\)\)/);
   assert.match(workspace, /catalogNames\.has\(item\)/);

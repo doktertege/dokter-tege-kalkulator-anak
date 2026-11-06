@@ -192,7 +192,7 @@
       minDoseMg = maxDoseMg = 5;
     }
     const doseMg = selectedDoseMg === undefined ? minDoseMg : selectedDoseMg;
-    if (doseMg < minDoseMg || doseMg > maxDoseMg) {
+    if (!Number.isFinite(doseMg) || doseMg < minDoseMg || doseMg > maxDoseMg) {
       throw new RangeError("selectedDoseMg is outside the age-based dose range");
     }
     return {

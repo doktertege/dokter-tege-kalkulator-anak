@@ -1,5 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="MEDORA">
-  <path d="M32 81V45c0-6 6-9 11-4l17 15 17-15c5-5 11-2 11 4v36H78V49L60 65 42 49v32Z" fill="#173B4B"/>
-  <circle cx="84" cy="34" r="8" fill="#159E9A"/>
-  <path d="M84 29.5v9M79.5 34h9" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="MEDORA"><path d="M23 84V36c0-7 9-10 14-5l23 21 23-21c5-5 14-2 14 5v48H83V49L60 70 37 49v35Z" fill="#16324F"/><path d="M60 69v15" stroke="#19A7A1" stroke-width="9" stroke-linecap="round"/></svg>

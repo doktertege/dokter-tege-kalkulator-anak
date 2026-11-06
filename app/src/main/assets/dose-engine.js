@@ -252,8 +252,8 @@
   // These are dose calculations only; indication, cultures, allergy, organ function and local protocols remain clinician decisions.
   function ceftriaxoneInjection(weightKg, ageMonths, regimen) {
     requirePositive(weightKg, "weightKg");
-    if (!Number.isFinite(ageMonths) || ageMonths < 1 || ageMonths > 216) {
-      throw new RangeError("ceftriaxone calculator is restricted to age 1 month through 18 years");
+    if (!Number.isFinite(ageMonths) || ageMonths < 2 || ageMonths > 216) {
+      throw new RangeError("ceftriaxone calculator is restricted to age 2 months through 18 years");
     }
     if (weightKg >= 50) throw new RangeError("weight >=50 kg requires an adult dosing protocol");
     if (regimen !== "standard" && regimen !== "meningitis") {
@@ -277,21 +277,21 @@
 
   function cefotaximeInjection(weightKg, ageMonths, regimen, divisions) {
     requirePositive(weightKg, "weightKg");
-    if (!Number.isFinite(ageMonths) || ageMonths < 1 || ageMonths > 144) {
-      throw new RangeError("cefotaxime calculator is restricted to age 1 month through 12 years");
+    if (!Number.isFinite(ageMonths) || ageMonths < 2 || ageMonths > 144) {
+      throw new RangeError("cefotaxime calculator is restricted to age 2 months through 12 years");
     }
     if (weightKg >= 50) throw new RangeError("weight >=50 kg requires an adult dosing protocol");
     if (regimen !== "standard" && regimen !== "meningitis") {
       throw new RangeError("regimen must be standard or meningitis");
     }
-    const dosesPerDay = divisions === undefined ? 4 : divisions;
+    const dosesPerDay = divisions === undefined ? (regimen === "meningitis" ? 6 : 4) : divisions;
     if (![4, 6].includes(dosesPerDay)) {
       throw new RangeError("divisions must be 4 or 6");
     }
     const minDailyMg = weightKg * (regimen === "meningitis" ? 200 : 50);
     const maxDailyMg = Math.min(weightKg * (regimen === "meningitis" ? 300 : 180), 12000);
     const doseMinMg = minDailyMg / dosesPerDay;
-    const doseMaxMg = Math.min(maxDailyMg / dosesPerDay, 2000);
+    const doseMaxMg = Math.min(maxDailyMg / dosesPerDay, 2000);\n    if (doseMinMg > 2000) throw new RangeError("minimum calculated dose exceeds 2 g per dose; use a specialist-directed regimen");
     return {
       regimen,
       dailyMinMg: minDailyMg,
@@ -309,8 +309,8 @@
   // Initial extended-interval dose only. Subsequent gentamicin doses require levels and renal assessment.
   function gentamicinInitial(weightKg, ageMonths, strengthMgPerMl) {
     requirePositive(weightKg, "weightKg");
-    if (!Number.isFinite(ageMonths) || ageMonths < 1 || ageMonths > 216) {
-      throw new RangeError("gentamicin initial-dose calculator is restricted to age 1 month through 18 years");
+    if (!Number.isFinite(ageMonths) || ageMonths < 3 || ageMonths > 216) {
+      throw new RangeError("gentamicin initial-dose calculator is restricted to age 3 months through 18 years");
     }
     if (weightKg >= 50) throw new RangeError("weight >=50 kg requires an adult dosing protocol");
     requirePositive(strengthMgPerMl, "strengthMgPerMl");

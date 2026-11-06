@@ -275,6 +275,49 @@ label{color:#425c68;font-size:12px;font-weight:750;letter-spacing:.01em}
 .moduleWorkspaceContent .badge,.moduleWorkspaceContent .chip,.moduleWorkspaceContent .tag{border-radius:999px;box-shadow:none}
 @media(prefers-color-scheme:dark){body{background:#101b21;color:#e6f0f2}header.medoraHero{background:linear-gradient(135deg,#172d34,#1c2934);border-color:#2b4148}header.medoraHero .brandName{color:#e7f4f4}header.medoraHero .brandSub,header.medoraHero .heroLine{color:#a7c0c5}.modeCard,.moduleCard,.panel,.drug,.moduleWorkspaceContent .panel,.moduleWorkspaceContent .drug,.moduleWorkspaceContent .workspaceCard,.moduleWorkspaceContent .card{background:#1b2a31;color:#e6f0f2;border-color:#2b4148;box-shadow:none}.moduleText strong,.moduleWorkspaceContent h2,.moduleWorkspaceContent h3{color:#e4f1f2}.moduleText small,.moduleWorkspaceContent p{color:#a6bbc0}.moduleWorkspaceContent input,.moduleWorkspaceContent select,.moduleWorkspaceContent textarea,input,select,textarea{background:#142229;color:#e6f0f2;border-color:#344a51}.moduleWorkspaceContent .workspaceOutput{background:#14272d;color:#d8e9eb;border-color:#314950}.bottomNav{background:#17252b;border-color:#2b4148}.bottomNav a.active{background:#203d40;color:#80d4d0}.homeNote{background:#1d3538;color:#b8d9d6}}
 
+
+/* MEDORA premium identity refinement */
+header.medoraHero{
+  min-height:190px !important;
+  padding:24px 18px 26px !important;
+  background:linear-gradient(145deg,#edf6f5 0%,#fbfdfd 58%,#eaf2f5 100%) !important;
+  border-radius:0 0 28px 28px !important;
+  border-bottom:1px solid #e1ebec !important;
+}
+header.medoraHero:before{
+  background:radial-gradient(circle at 14% 12%,#fff 0,transparent 34%),radial-gradient(circle at 88% 4%,#dceced 0,transparent 36%) !important;
+}
+header.medoraHero:after{
+  width:220px !important;height:120px !important;right:-80px !important;bottom:-82px !important;
+  background:#d5eae766 !important;box-shadow:-390px -5px 0 0 #e3eff066 !important;
+}
+header.medoraHero .brand{display:flex !important;flex-direction:row !important;justify-content:center !important;align-items:center !important;gap:0 !important;min-height:0 !important}
+header.medoraHero .brandMain{display:flex !important;align-items:center !important;justify-content:center !important;gap:10px !important;width:auto !important}
+header.medoraHero .medora-full-logo{
+  width:50px !important;height:50px !important;object-fit:contain !important;
+  filter:none !important;drop-shadow:none !important;
+}
+header.medoraHero .brandWordmark{display:flex !important;flex-direction:column !important;align-items:flex-start !important;line-height:1 !important}
+header.medoraHero .brandWordmark span{
+  font-size:30px !important;font-weight:850 !important;letter-spacing:.2px !important;
+  color:#173B4B !important;
+}
+header.medoraHero .brandWordmark small{
+  margin-top:5px !important;font-size:11px !important;font-weight:600 !important;
+  letter-spacing:.25px !important;color:#71868D !important;
+}
+header.medoraHero .heroLine{
+  display:block !important;margin:14px auto 0 !important;padding:0 !important;
+  background:transparent !important;box-shadow:none !important;border-radius:0 !important;
+  color:#6B858B !important;font-size:12px !important;font-weight:650 !important;
+  letter-spacing:.15px !important;text-align:center !important;
+}
+@media(max-width:390px){
+  header.medoraHero{min-height:174px !important;padding:21px 14px 22px !important}
+  header.medoraHero .medora-full-logo{width:44px !important;height:44px !important}
+  header.medoraHero .brandWordmark span{font-size:27px !important}
+}
+
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">

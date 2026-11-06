@@ -456,7 +456,7 @@
 (function(){
   const input=document.getElementById("clinicalModuleSearch");
   const dashboard=document.getElementById("clinicalDashboard");
-  if(!input||!dashboard)return;
+  if(!input||!dashboard||typeof dashboard.querySelector!=="function")return;
   const status=document.getElementById("clinicalSearchStatus");
   const grid=dashboard.querySelector(".moduleGrid");
   const empty=document.createElement("div");

@@ -265,3 +265,27 @@ test("salbutamol nebulization rejects non-finite selected doses", () => {
   assert.throws(() => dose.salbutamolNebulized(72, 1, Number.NaN), RangeError);
   assert.throws(() => dose.salbutamolNebulized(72, 1, Number.POSITIVE_INFINITY), RangeError);
 });
+
+test("all dose engines reject non-finite numeric inputs", () => {
+  const bad = [Number.NaN, Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY];
+  for (const value of bad) {
+    assert.throws(() => dose.paracetamol(value, 120), RangeError);
+    assert.throws(() => dose.paracetamol(10, value), RangeError);
+    assert.throws(() => dose.ibuprofen(value, 100), RangeError);
+    assert.throws(() => dose.ibuprofen(10, value), RangeError);
+    assert.throws(() => dose.cefixime(value, 100), RangeError);
+    assert.throws(() => dose.cefixime(10, value), RangeError);
+    assert.throws(() => dose.amoxicillin(value, 250, "gas"), RangeError);
+    assert.throws(() => dose.amoxicillin(10, value, "gas"), RangeError);
+    assert.throws(() => dose.cefadroxil(value, 125), RangeError);
+    assert.throws(() => dose.cefadroxil(10, value), RangeError);
+    assert.throws(() => dose.cetirizine(value, 5), RangeError);
+    assert.throws(() => dose.cetirizine(72, value), RangeError);
+    assert.throws(() => dose.ambroxol(value, 15), RangeError);
+    assert.throws(() => dose.ambroxol(24, value), RangeError);
+    assert.throws(() => dose.zinc(value, "who2024"), RangeError);
+    assert.throws(() => dose.salbutamolNebulized(value, 1), RangeError);
+    assert.throws(() => dose.salbutamolNebulized(72, value), RangeError);
+  }
+});
+

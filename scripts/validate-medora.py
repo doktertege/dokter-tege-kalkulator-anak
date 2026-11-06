@@ -27,6 +27,7 @@ EXPECTED_DYNAMIC_IDS = {
     "orsPlan", "orsResult", "ctmStrength", "ctmResult",
     "ceftriaxoneRegimen", "ceftriaxoneResult", "cefotaximeRegimen",
     "cefotaximeDivisions", "cefotaximeResult", "gentamicinStrength", "gentamicinResult",
+    "ondansetronStrength", "ondansetronResult",
 }
 
 

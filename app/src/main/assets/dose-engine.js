@@ -342,7 +342,20 @@
     };
   }
 
-  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+  // Single oral dose to facilitate oral rehydration in selected children with acute gastroenteritis.
+  // Not a routine antiemetic regimen; do not schedule repeat doses.
+  function ondansetronGastroenteritis(weightKg, ageMonths, strengthMgPer5Ml) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 6 || ageMonths > 216) {
+      throw new RangeError("ondansetron gastroenteritis use is restricted to age 6 months through 18 years");
+    }
+    if (weightKg < 8) throw new RangeError("ondansetron gastroenteritis use is not enabled below 8 kg");
+    requirePositive(strengthMgPer5Ml, "strengthMgPer5Ml");
+    const doseMg = Math.min(weightKg * 0.15, 8);
+    return { doseMg, volumeMl: doseMg / (strengthMgPer5Ml / 5), frequency: "single oral dose only", maxDoseMg: 8, rehydrationDelayMin: 15, rehydrationDelayMax: 30 };
+  }
+
+  const api = Object.freeze({ ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

@@ -37,8 +37,14 @@
   function showWorkspace(key) {
     const page = pages[key];
     if (!page) return;
-    document.body.classList.remove("home-mode", "medical-mode", "icd-mode", "medicine-database-mode");
+    document.body.classList.remove("home-mode", "medical-mode", "icd-mode", "medicine-database-mode", "public-mode");
     document.body.classList.add("module-workspace-mode");
+    const clinicalDashboard = document.getElementById("clinicalDashboard");
+    const publicDashboard = document.getElementById("publicDashboard");
+    const modeChooser = document.getElementById("modeChooser");
+    if (clinicalDashboard) clinicalDashboard.style.display = "none";
+    if (publicDashboard) publicDashboard.style.display = "none";
+    if (modeChooser) modeChooser.style.display = "none";
     document.getElementById("moduleTitle").textContent = page.title;
     document.getElementById("moduleSubtitle").textContent = page.subtitle;
     document.getElementById("moduleWorkspaceContent").innerHTML = page.html;

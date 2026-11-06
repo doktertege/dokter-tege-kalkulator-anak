@@ -240,7 +240,7 @@
   });
   document.getElementById("homeDashboard").addEventListener("click", event => {
     const favoriteToggle = event.target.closest("[data-favorite]");
-    if (favoriteToggle) {
+    if (favoriteToggle && favoriteToggle.dataset && favoriteToggle.dataset.favorite) {
       event.preventDefault();
       event.stopPropagation();
       toggleFavoriteModule(favoriteToggle.dataset.favorite);

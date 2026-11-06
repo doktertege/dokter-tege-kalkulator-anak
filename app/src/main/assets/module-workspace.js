@@ -80,7 +80,8 @@
   });
 
   document.getElementById("moduleWorkspaceContent").addEventListener("click", async event => {
-    const id = event.target.id;
+    const actionButton = event.target.closest("button");
+    const id = actionButton ? actionButton.id : event.target.id;
     const $ = value => document.getElementById(value);
     if (id === "buildSoap") { buildSoapNote(); return; }
     if (id === "clearSoap") {

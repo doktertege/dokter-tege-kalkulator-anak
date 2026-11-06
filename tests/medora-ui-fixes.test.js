@@ -160,3 +160,10 @@ test("external HTTPS links are routed on both legacy API 23 and modern Android W
   const gradle = fs.readFileSync(path.join(__dirname, "../app/build.gradle"), "utf8");
   assert.match(gradle, /minSdk 23/);
 });
+
+test("public dashboard isolates general mode from pediatric calculator and clinical panels", () => {
+  const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
+  assert.match(html, /body\.public-mode main> :not\(#publicDashboard\)\{display:none\}/);
+  assert.match(html, /body\.public-mode #publicDashboard\{display:block\}/);
+  assert.match(html, /function showPublicHome\(\)[\s\S]*?classList\.add\("public-mode"\)[\s\S]*?\$\("clinicalDashboard"\)\.style\.display="none"[\s\S]*?\$\("publicDashboard"\)\.style\.display="block"/);
+});

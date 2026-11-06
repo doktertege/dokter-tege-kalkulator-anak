@@ -148,3 +148,14 @@ test("Android WebView keeps local assets internal and blocks insecure or unsuppo
   assert.doesNotMatch(activity, /"http"\.equalsIgnoreCase\(scheme\)/);
   assert.doesNotMatch(activity, /setAllowUniversalAccessFromFileURLs\(true\)/);
 });
+
+
+test("external HTTPS links are routed on both legacy API 23 and modern Android WebView callbacks", () => {
+  const activity = fs.readFileSync(path.join(__dirname, "../app/src/main/java/id/doktertege/kalkulatoranak/MainActivity.java"), "utf8");
+  assert.match(activity, /private boolean handleNavigation\(WebView view, Uri uri\)/);
+  assert.match(activity, /shouldOverrideUrlLoading\(WebView view, String url\)/);
+  assert.match(activity, /handleNavigation\(view, Uri\.parse\(url\)\)/);
+  assert.match(activity, /shouldOverrideUrlLoading\(WebView view, WebResourceRequest request\)/);
+  assert.match(activity, /handleNavigation\(view, request\.getUrl\(\)\)/);
+  assert.match(activity, /minSdk 23|/); // API 23 compatibility is the app's declared minimum.
+});

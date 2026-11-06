@@ -453,6 +453,27 @@ test("rectal diazepam rejects neonatal age, adult age and invalid inputs", () =>
 
 
 
+
+test("methylprednisolone calculates initial IV dose for severe pediatric asthma", () => {
+  const r = dose.methylprednisoloneAsthmaIV(12, 60);
+  assert.equal(r.doseMg, 12);
+  assert.equal(r.doseMgPerKg, 1);
+  assert.equal(r.maxDoseMg, 60);
+  assert.equal(r.route, "IV");
+  assert.match(r.frequency, /initial dose/);
+  const capped = dose.methylprednisoloneAsthmaIV(80, 216);
+  assert.equal(capped.doseMg, 60);
+  assert.equal(capped.maxDoseMg, 60);
+});
+
+test("methylprednisolone asthma IV calculator rejects under-1-year and invalid inputs", () => {
+  assert.throws(() => dose.methylprednisoloneAsthmaIV(8, 11), RangeError);
+  assert.throws(() => dose.methylprednisoloneAsthmaIV(8, 217), RangeError);
+  assert.throws(() => dose.methylprednisoloneAsthmaIV(0, 24), RangeError);
+  assert.throws(() => dose.methylprednisoloneAsthmaIV(Number.POSITIVE_INFINITY, 24), RangeError);
+  assert.throws(() => dose.methylprednisoloneAsthmaIV(8, Number.NaN), RangeError);
+});
+
 test("dexamethasone croup selects severity-specific single doses and formulation conversion", () => {
   const mild = dose.dexamethasoneCroup(10, 24, "mildModerate", "tablet");
   assert.equal(mild.doseMg, 1.5);

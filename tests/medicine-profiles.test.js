@@ -15,7 +15,7 @@ const engine = require(path.join(assets, "dose-engine.js"));
 test("requested medicines have structured profiles with traceable source metadata", () => {
   assert.equal(database.metadata.medicineProfiles.schemaVersion, "1.1");
   assert.equal(database.metadata.medicineProfiles.reviewedOn, "2026-11-06");
-  assert.equal(Object.keys(database.metadata.medicineProfiles.sources).length, 13);
+  assert.equal(Object.keys(database.metadata.medicineProfiles.sources).length, 14);
   for (const name of [
     "CTM (Chlorpheniramine)", "Oralit", "Ceftriaxone", "Cefotaxime", "Gentamicin",
     "Cendo Xitrol Tetes Mata", "Cendo Xitrol Salep Mata",
@@ -108,7 +108,7 @@ test("medicine profile coverage metadata matches the expanded structured profile
   assert.equal(coverage.Paracetamol, "structured_profile");
   assert.equal(coverage.Ibuprofen, "structured_profile");
   assert.equal(Object.values(coverage).filter(value => value === "structured_profile").length, 14);
-  assert.equal(Object.keys(database.medicineProfiles).length, 14);
+  assert.equal(Object.keys(database.medicineProfiles).length, 15);
 });
 
 
@@ -134,10 +134,24 @@ test("cetirizine and amoxicillin profiles use BPOM-linked Indonesian formulation
   assert.equal(amoxicillin.provenance.keyWarnings.status, "pending_product_specific_verification");
 });
 
+test("cefixime profile uses BPOM-approved Cefspan product information and cefixime dose engine", () => {
+  const profile = database.medicineProfiles.Cefixime;
+  assert.ok(profile);
+  assert.equal(profile.doseEngineFunction, "cefixime");
+  assert.equal(typeof engine.cefixime, "function");
+  for (const field of ["activeIngredient", "dosageForms", "route", "formulationNote", "strength", "prescriptionStatus", "keyWarnings"]) {
+    assert.equal(profile.provenance[field].status, "source_linked_reference", "Cefixime." + field);
+    assert.ok(profile.provenance[field].sourceRefs.includes("bpom_cefspan_cefixime"));
+  }
+  assert.match(profile.strength, /100 mg\/5 mL/);
+  assert.match(profile.strength, /200 mg/);
+  assert.match(profile.formulationNote, /spesifik produk/);
+});
+
 test("structured medicine profiles and coverage metadata remain in one-to-one parity", () => {
   const coverage = database.metadata.medicineProfiles.coverage;
   const structuredNames = Object.keys(coverage).filter(name => coverage[name] === "structured_profile");
-  assert.equal(structuredNames.length, 14);
+  assert.equal(structuredNames.length, 15);
   assert.equal(Object.keys(database.medicineProfiles).length, 14);
   for (const name of structuredNames) assert.ok(database.medicineProfiles[name], name);
 });

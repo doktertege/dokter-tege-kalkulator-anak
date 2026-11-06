@@ -141,11 +141,42 @@
     updateSoapCompleteness();
   }
 
+  const recentModuleKey = "medora_recent_modules_v1";
+  const recentModuleCatalog = {
+    calculator: "Kalkulator dosis", emergency: "IGD & Emergency", icd: "ICD-10",
+    drugs: "Database obat", medical: "Kalkulator medis", guides: "Panduan klinis",
+    ai: "Asisten klinis", references: "Referensi medis", integrated: "Kasus terpadu",
+    ultrasound: "USG kandungan", laboratory: "Interpretasi lab", records: "Rekam medis",
+    anthropometry: "IMT & lingkar tubuh", vitals: "Tanda vital"
+  };
+  function readRecentModules() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(recentModuleKey) || "[]");
+      return Array.isArray(saved) ? saved.filter(key => Object.prototype.hasOwnProperty.call(recentModuleCatalog, key)).slice(0, 4) : [];
+    } catch (error) { return []; }
+  }
+  function renderRecentModules() {
+    const host = document.getElementById("recentModuleList");
+    if (!host) return;
+    const recent = readRecentModules();
+    host.innerHTML = recent.length
+      ? recent.map(key => '<button type="button" class="recentModuleChip" data-module="' + key + '">' + recentModuleCatalog[key] + ' ↗</button>').join("")
+      : '<p class="recentEmpty">Modul yang terakhir digunakan akan muncul di sini.</p>';
+  }
+  function rememberModule(key) {
+    if (!Object.prototype.hasOwnProperty.call(recentModuleCatalog, key)) return;
+    try { localStorage.setItem(recentModuleKey, JSON.stringify([key].concat(readRecentModules().filter(item => item !== key)).slice(0, 4))); }
+    catch (error) { /* Quick access remains usable when storage is unavailable. */ }
+    renderRecentModules();
+  }
+  renderRecentModules();
+
   document.getElementById("moduleBack").addEventListener("click", showClinicalHome);
   document.getElementById("homeDashboard").addEventListener("click", event => {
     const button = event.target.closest("[data-module]");
     if (!button) return;
     const key = button.dataset.module;
+    rememberModule(key);
     if (key === "calculator") { document.getElementById("patientFields").classList.add("open"); showCalculator(); return; }
     if (key === "medical") { showMedical(); return; }
     if (key === "icd") { showIcd(); return; }

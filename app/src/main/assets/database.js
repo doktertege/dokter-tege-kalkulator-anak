@@ -680,7 +680,7 @@
     "doseEngineFunction": null,
     "keyWarnings": [
       "Pastikan diagnosis infeksi bakteri dan indikasi penggunaan.",
-      "Periksa alergi kloramfenikol serta petunjuk usia pada informasi produk.",
+      "Periksa riwayat alergi terhadap zat aktif yang tercantum pada etiket serta batas usia pada informasi produk aktual.",
       "Jangan gunakan sediaan tetes telinga sebagai pengganti tetes mata."
     ],
     "provenance": {
@@ -781,7 +781,7 @@
     "doseEngineFunction": null,
     "keyWarnings": [
       "Pastikan diagnosis infeksi bakteri dan indikasi penggunaan.",
-      "Periksa alergi kloramfenikol serta petunjuk usia pada informasi produk.",
+      "Periksa riwayat alergi terhadap zat aktif yang tercantum pada etiket serta batas usia pada informasi produk aktual.",
       "Jangan tertukar dengan konsentrasi tetes mata."
     ],
     "provenance": {

@@ -101,3 +101,9 @@ test("all four clinical workspace modules contain visible content", () => {
     assert.match(page, /html: '<div class="guideCard">/);
   }
 });
+
+test("workspace actions resolve clicks on nested button content", () => {
+  const workspace = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/module-workspace.js"), "utf8");
+  assert.match(workspace, /const actionButton = event\.target\.closest\("button"\)/);
+  assert.match(workspace, /const id = actionButton \? actionButton\.id : event\.target\.id/);
+});

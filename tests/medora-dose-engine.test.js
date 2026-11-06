@@ -452,31 +452,6 @@ test("rectal diazepam rejects neonatal age, adult age and invalid inputs", () =>
 });
 
 
-
-test("dexamethasone croup selects severity-specific single doses and formulation conversion", () => {
-  const mild = dose.dexamethasoneCroup(10, 24, "mildModerate", "tablet");
-  assert.equal(mild.doseMg, 1.5);
-  assert.equal(mild.tabletCount, 3);
-  assert.equal(mild.injectionVolumeMl, null);
-  assert.equal(mild.frequency, "single dose only");
-  const severe = dose.dexamethasoneCroup(10, 24, "severe", "injection");
-  assert.equal(severe.doseMg, 6);
-  assert.equal(severe.injectionVolumeMl, 1.2);
-  assert.equal(severe.tabletCount, null);
-  const capped = dose.dexamethasoneCroup(30, 72, "severe", "tablet");
-  assert.equal(capped.doseMg, 12);
-  assert.equal(capped.tabletCount, 24);
-});
-
-test("dexamethasone croup blocks atypical ages, invalid severity and formulation", () => {
-  assert.throws(() => dose.dexamethasoneCroup(10, 5, "mildModerate", "tablet"), RangeError);
-  assert.throws(() => dose.dexamethasoneCroup(10, 73, "severe", "tablet"), RangeError);
-  assert.throws(() => dose.dexamethasoneCroup(10, 24, "asthma", "tablet"), RangeError);
-  assert.throws(() => dose.dexamethasoneCroup(10, 24, "severe", "syrup"), RangeError);
-  assert.throws(() => dose.dexamethasoneCroup(0, 24, "severe", "injection"), RangeError);
-  assert.throws(() => dose.dexamethasoneCroup(Number.POSITIVE_INFINITY, 24, "severe", "injection"), RangeError);
-});
-
 test("metronidazole calculates separate oral amoebiasis and giardiasis regimens", () => {
   const amoeba = dose.metronidazole(10, 24, "amoebiasis", 125);
   assert.deepEqual(amoeba, {

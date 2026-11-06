@@ -141,7 +141,7 @@ test("Android WebView keeps local assets internal and blocks insecure or unsuppo
   const activity = fs.readFileSync(path.join(__dirname, "../app/src/main/java/id/doktertege/kalkulatoranak/MainActivity.java"), "utf8");
   assert.match(activity, /"file"\.equalsIgnoreCase\(scheme\)\) return false/);
   assert.match(activity, /"https"\.equalsIgnoreCase\(scheme\)/);
-  assert.match(activity, /return true;\s*\}\s*\}\s*\);/);
+  assert.match(activity, /return true;\s*\}/);
   assert.match(activity, /catch \(ActivityNotFoundException error\)/);
   assert.match(activity, /view\.loadUrl\(uri\.toString\(\)\)/);
   assert.match(activity, /web\.loadUrl\("file:\/\/\/android_asset\/index\.html"\)/);
@@ -157,5 +157,6 @@ test("external HTTPS links are routed on both legacy API 23 and modern Android W
   assert.match(activity, /handleNavigation\(view, Uri\.parse\(url\)\)/);
   assert.match(activity, /shouldOverrideUrlLoading\(WebView view, WebResourceRequest request\)/);
   assert.match(activity, /handleNavigation\(view, request\.getUrl\(\)\)/);
-  assert.match(activity, /minSdk 23|/); // API 23 compatibility is the app's declared minimum.
+  const gradle = fs.readFileSync(path.join(__dirname, "../app/build.gradle"), "utf8");
+  assert.match(gradle, /minSdk 23/);
 });

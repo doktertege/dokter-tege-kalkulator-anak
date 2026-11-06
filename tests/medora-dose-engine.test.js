@@ -137,3 +137,29 @@ test("amoxicillin rejects invalid inputs and unknown regimens", () => {
   assert.throws(() => dose.amoxicillin(10, 0, "gas"), RangeError);
   assert.throws(() => dose.amoxicillin(10, 250, "unknown"), RangeError);
 });
+
+
+test("cefadroxil calculates 30 mg/kg once daily and concentration volume", () => {
+  const r = dose.cefadroxil(10, 125);
+  assert.equal(r.dailyMg, 300);
+  assert.equal(r.perDoseMg, 300);
+  assert.equal(r.volumeMl, 12);
+  assert.equal(r.divisions, 1);
+  assert.equal(r.maxDailyMg, 1000);
+});
+
+test("cefadroxil supports 250 mg/5 mL concentration", () => {
+  const r = dose.cefadroxil(10, 250);
+  assert.equal(r.volumeMl, 6);
+});
+
+test("cefadroxil applies 1000 mg maximum dose", () => {
+  const r = dose.cefadroxil(40, 125);
+  assert.equal(r.dailyMg, 1000);
+  assert.equal(r.volumeMl, 40);
+});
+
+test("cefadroxil rejects invalid inputs", () => {
+  assert.throws(() => dose.cefadroxil(0, 125), RangeError);
+  assert.throws(() => dose.cefadroxil(10, 0), RangeError);
+});

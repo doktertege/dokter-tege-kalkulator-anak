@@ -92,6 +92,98 @@ def main():
 
     javascript = parser.inline_scripts[0]
 
+    # ICD-10 reference catalog integrity: unique, well-formed codes and
+    # every category must have a visible filter in the interface.
+    icd_match = re.search(r"const icdData=\\[(.*?)\\n\\];", javascript, re.S)
+    if not icd_match:
+        raise SystemExit("ERROR: ICD-10 reference catalog not found")
+    icd_entries = re.findall(
+        r'^\\["([A-Z][0-9]{2}(?:\\.[0-9A-Z]{1,2})?)","([^"]+)","([^"]+)"\\],?
+    # Bottom-navigation handlers must be registered exactly once. Duplicate
+    # listeners can make a single tap trigger multiple navigation actions.
+    navigation_ids = {"navHome", "navSearch", "navFavorites", "navHistory", "navSettings"}
+    click_handlers = Counter(re.findall(r'\$\("([^"]+)"\)\.addEventListener\("click"', javascript))
+    duplicate_navigation = sorted(item for item in navigation_ids if click_handlers[item] > 1)
+    missing_navigation = sorted(item for item in navigation_ids if click_handlers[item] != 1)
+    if duplicate_navigation or missing_navigation:
+        details = []
+        if duplicate_navigation:
+            details.append("duplicate click handlers: " + ", ".join(duplicate_navigation))
+        if missing_navigation:
+            details.append("navigation handlers must occur exactly once: " + ", ".join(missing_navigation))
+        raise SystemExit("ERROR: " + "; ".join(details))
+
+    referenced_ids = set(re.findall(r'\$\("([^"]+)"\)', javascript))
+    missing_references = sorted(referenced_ids - set(parser.ids) - EXPECTED_DYNAMIC_IDS)
+    missing_dynamic_controls = sorted(
+        item for item in EXPECTED_DYNAMIC_IDS if item not in javascript
+    )
+    if missing_references:
+        raise SystemExit(
+            "ERROR: JavaScript references missing HTML elements: "
+            + ", ".join(missing_references)
+        )
+    if missing_dynamic_controls:
+        raise SystemExit(
+            "ERROR: expected dynamic dose controls are not present in JavaScript: "
+            + ", ".join(missing_dynamic_controls)
+        )
+
+    with tempfile.NamedTemporaryFile("w", suffix=".js", encoding="utf-8") as js_file:
+        js_file.write(parser.inline_scripts[0])
+        js_file.flush()
+        result = subprocess.run(
+            ["node", "--check", js_file.name],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+    if result.returncode:
+        raise SystemExit("ERROR: JavaScript syntax check failed:\n" + result.stderr)
+
+    engine_check = subprocess.run(
+        ["node", "--check", str(DOSE_ENGINE_FILE)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if engine_check.returncode:
+        raise SystemExit("ERROR: dose engine syntax check failed:\\n" + engine_check.stderr)
+
+    print(
+        "MEDORA validation passed: "
+        f"{len(parser.ids)} HTML IDs, {len(EXPECTED_DYNAMIC_IDS)} documented dynamic dose controls, "
+        f"{len(javascript)} JavaScript characters; all static and dynamic element references resolved."
+    )
+
+
+if __name__ == "__main__":
+    main()
+,
+        icd_match.group(1),
+        re.M,
+    )
+    if not icd_entries:
+        raise SystemExit("ERROR: ICD-10 reference catalog is empty or malformed")
+    icd_codes = [entry[0] for entry in icd_entries]
+    duplicate_icd_codes = sorted(
+        code for code, count in Counter(icd_codes).items() if count > 1
+    )
+    if duplicate_icd_codes:
+        raise SystemExit("ERROR: duplicate ICD-10 codes: " + ", ".join(duplicate_icd_codes))
+    if len(icd_entries) != len(icd_codes):
+        raise SystemExit("ERROR: malformed ICD-10 catalog entries detected")
+    icd_categories = {entry[2] for entry in icd_entries}
+    visible_categories = set(
+        re.findall(r'data-icd-cat="([^"]+)"', html)
+    )
+    missing_categories = sorted(icd_categories - visible_categories)
+    if missing_categories:
+        raise SystemExit(
+            "ERROR: ICD-10 categories lack visible filters: "
+            + ", ".join(missing_categories)
+        )
+
     # Bottom-navigation handlers must be registered exactly once. Duplicate
     # listeners can make a single tap trigger multiple navigation actions.
     navigation_ids = {"navHome", "navSearch", "navFavorites", "navHistory", "navSettings"}

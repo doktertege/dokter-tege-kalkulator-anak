@@ -586,7 +586,7 @@
       }
     }
     if (id === "copyLocalBackup") {
-      const backup = { app: "MEDORA", version: 1, favorites: [...favorites], doseHistory };
+      const backup = { app: "MEDORA", version: 2, createdAt: new Date().toISOString(), patientRecords: [...patientRecords], favorites: [...favorites], doseHistory };
       try { await copyTextToClipboard(JSON.stringify(backup, null, 2)); $("settingsStatus").textContent = "Backup berhasil disalin. Simpan di tempat aman."; }
       catch (error) { $("settingsStatus").textContent = "Gagal menyalin backup."; }
       return;
@@ -625,9 +625,15 @@
         if (!rawBackup) throw new Error("Tempel isi backup terlebih dahulu.");
         if (rawBackup.length > 100000) throw new Error("Ukuran backup melebihi batas 100 KB.");
         const backup = JSON.parse(rawBackup);
-        if (backup.app !== "MEDORA" || backup.version !== 1 || !Array.isArray(backup.favorites) || !Array.isArray(backup.doseHistory)) throw new Error("Format backup tidak dikenali.");
+        const isV1 = backup.app === "MEDORA" && backup.version === 1;
+        const isV2 = backup.app === "MEDORA" && backup.version === 2 && Array.isArray(backup.patientRecords);
+        if ((!isV1 && !isV2) || !Array.isArray(backup.favorites) || !Array.isArray(backup.doseHistory)) {
+          throw new Error("Format backup tidak dikenali. MEDORA mendukung backup versi 1 dan 2.");
+        }
         const catalogNames = new Set((window.MEDORA_DATABASE?.drugs || []).map(item => item[0]));
-        if (backup.favorites.length > catalogNames.size || backup.favorites.some(item => typeof item !== "string" || !catalogNames.has(item))) throw new Error("Daftar favorit berisi nama obat yang tidak dikenal.");
+        if (backup.favorites.length > catalogNames.size || backup.favorites.some(item => typeof item !== "string" || !catalogNames.has(item))) {
+          throw new Error("Daftar favorit berisi nama obat yang tidak dikenal.");
+        }
         if (backup.doseHistory.length > 50 || backup.doseHistory.some(item =>
           !item ||
           typeof item.drug !== "string" || !catalogNames.has(item.drug) ||
@@ -636,37 +642,45 @@
           typeof item.date !== "string" || !item.date.trim() || item.date.length > 80 ||
           typeof item.result !== "string" || !item.result.trim() || item.result.length > 1200
         )) throw new Error("Isi riwayat backup tidak valid atau di luar batas MEDORA.");
-        if (!confirm("Pulihkan backup MEDORA? Daftar favorit dan riwayat saat ini akan diganti dengan isi backup.")) {
+        const nextPatients = isV2 ? backup.patientRecords : patientRecords;
+        if (!Array.isArray(nextPatients) || nextPatients.length > 500 || nextPatients.some(item =>
+          !item || typeof item.id !== "string" || !item.id.trim() ||
+          typeof item.mrn !== "string" || !item.mrn.trim() ||
+          typeof item.name !== "string" || !item.name.trim()
+        )) throw new Error("Data rekam medis dalam backup tidak valid atau melebihi batas.");
+        if (!confirm("Pulihkan backup MEDORA? Data favorit, riwayat, dan rekam medis yang termasuk dalam backup akan menggantikan data saat ini.")) {
           $("settingsStatus").textContent = "Pemulihan backup dibatalkan. Data saat ini tidak berubah.";
           return;
         }
         const nextFavorites = new Set(backup.favorites);
         const nextHistory = backup.doseHistory.slice();
-        // Persist both collections before changing the in-memory state. Roll back the
-        // first write if the second one fails, so a failed restore is not half-applied.
-        const previousFavorites = localStorage.getItem("dt_favorites");
-        const previousHistory = localStorage.getItem("medora_dose_history");
+        const previousValues = {
+          favorites: localStorage.getItem("dt_favorites"),
+          history: localStorage.getItem("medora_dose_history"),
+          patients: localStorage.getItem(patientRecordsKey)
+        };
         try {
           localStorage.setItem("dt_favorites", JSON.stringify([...nextFavorites]));
           localStorage.setItem("medora_dose_history", JSON.stringify(nextHistory.slice(0, 50)));
+          if (isV2) localStorage.setItem(patientRecordsKey, JSON.stringify(nextPatients));
         } catch (storageError) {
           try {
-            if (previousFavorites === null) localStorage.removeItem("dt_favorites");
-            else localStorage.setItem("dt_favorites", previousFavorites);
-            if (previousHistory === null) localStorage.removeItem("medora_dose_history");
-            else localStorage.setItem("medora_dose_history", previousHistory);
-          } catch (rollbackError) {
-            // Keep the original storage error as the actionable failure.
-          }
-          throw new Error("Penyimpanan perangkat gagal. Data aktif tidak diubah.");
+            const restoreKey = (key, value) => value === null ? localStorage.removeItem(key) : localStorage.setItem(key, value);
+            restoreKey("dt_favorites", previousValues.favorites);
+            restoreKey("medora_dose_history", previousValues.history);
+            restoreKey(patientRecordsKey, previousValues.patients);
+          } catch (rollbackError) {}
+          throw new Error("Penyimpanan perangkat gagal. Data aktif dipertahankan.");
         }
         favorites = nextFavorites;
         doseHistory = nextHistory;
+        if (isV2) patientRecords = nextPatients;
         draw(); renderDoseHistory(); updateLocalDataSummary();
-        $("settingsStatus").textContent = "Backup berhasil dipulihkan.";
+        if (isV2) renderPatientRecords($("rmSearch")?.value || "");
+        $("settingsStatus").textContent = "Backup berhasil dipulihkan (" + (isV2 ? "versi 2" : "versi 1") + ").";
       } catch (error) { $("settingsStatus").textContent = "Backup gagal dipulihkan: " + error.message; }
-    }
-  });
+      return;
+    }  });
 
   document.getElementById("moduleWorkspaceContent").addEventListener("change", event => {
     if (event.target && event.target.matches && event.target.matches(".checkRow input[type=checkbox]")) {

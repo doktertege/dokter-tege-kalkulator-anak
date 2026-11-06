@@ -112,9 +112,18 @@
       try {
         const backup = JSON.parse($("restoreBackup").value.trim());
         if (backup.app !== "MEDORA" || backup.version !== 1 || !Array.isArray(backup.favorites) || !Array.isArray(backup.doseHistory)) throw new Error("Format backup tidak dikenali.");
-        if (backup.favorites.some(item => typeof item !== "string") || backup.doseHistory.some(item => !item || typeof item.drug !== "string" || !Number.isFinite(Number(item.weight)) || typeof item.age !== "string" || typeof item.date !== "string" || typeof item.result !== "string")) throw new Error("Isi backup tidak valid.");
+        const catalogNames = new Set((window.MEDORA_DATABASE?.drugs || []).map(item => item[0]));
+        if (backup.favorites.length > catalogNames.size || backup.favorites.some(item => typeof item !== "string" || !catalogNames.has(item))) throw new Error("Daftar favorit berisi nama obat yang tidak dikenal.");
+        if (backup.doseHistory.length > 50 || backup.doseHistory.some(item =>
+          !item ||
+          typeof item.drug !== "string" || !catalogNames.has(item.drug) ||
+          !Number.isFinite(Number(item.weight)) || Number(item.weight) <= 0 || Number(item.weight) > 100 ||
+          typeof item.age !== "string" || !item.age.trim() || item.age.length > 40 ||
+          typeof item.date !== "string" || !item.date.trim() || item.date.length > 80 ||
+          typeof item.result !== "string" || !item.result.trim() || item.result.length > 1200
+        )) throw new Error("Isi riwayat backup tidak valid atau di luar batas MEDORA.");
         favorites = new Set(backup.favorites);
-        doseHistory = backup.doseHistory.slice(0, 50);
+        doseHistory = backup.doseHistory.slice();
         saveFavorites(); persistDoseHistory(); draw(); renderDoseHistory(); updateLocalDataSummary();
         $("settingsStatus").textContent = "Backup berhasil dipulihkan.";
       } catch (error) { $("settingsStatus").textContent = "Backup gagal dipulihkan: " + error.message; }

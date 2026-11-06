@@ -13,7 +13,7 @@ android {
         applicationId 'id.doktertege.kalkulatoranak'
         minSdk 23
         targetSdk 35
-        versionCode 2
+        versionCode 3
         versionName '0.2.0'
     }
 

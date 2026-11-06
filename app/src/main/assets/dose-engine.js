@@ -430,7 +430,26 @@
     };
   }
 
-  const api = Object.freeze({ dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+
+  // Initial IV dose for severe pediatric acute asthma when oral corticosteroid is not feasible.
+  // This is not a complete course or a general-purpose methylprednisolone calculator.
+  function methylprednisoloneAsthmaIV(weightKg, ageMonths) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 12 || ageMonths > 216) {
+      throw new RangeError("methylprednisolone asthma calculator is restricted to age 1 through 18 years");
+    }
+    const doseMg = Math.min(weightKg, 60);
+    return {
+      doseMg,
+      doseMgPerKg: doseMg / weightKg,
+      maxDoseMg: 60,
+      route: "IV",
+      frequency: "initial dose; if admitted, repeat only under a monitored inpatient asthma protocol (commonly 1 mg/kg/dose every 6 hours on day 1, max 60 mg/dose)",
+      scope: "severe acute asthma when oral corticosteroid is not feasible; not for routine mild exacerbation"
+    };
+  }
+
+  const api = Object.freeze({ methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

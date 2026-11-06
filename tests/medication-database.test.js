@@ -63,7 +63,7 @@ test("every catalog medicine has an explicit structured, pending, or excluded pr
     else if (database.medicineProfiles[name]) assert.equal(coverage[name], "structured_profile");
     else assert.equal(coverage[name], "pending_profile_review");
   }
-  assert.equal(Object.values(coverage).filter(x => x === "structured_profile").length, 10);
-  assert.equal(Object.values(coverage).filter(x => x === "pending_profile_review").length, 21);
+  assert.equal(Object.values(coverage).filter(x => x === "structured_profile").length, 12);
+  assert.equal(Object.values(coverage).filter(x => x === "pending_profile_review").length, 19);
   assert.equal(Object.values(coverage).filter(x => x === "excluded").length, 1);
 });

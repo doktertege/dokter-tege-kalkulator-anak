@@ -157,33 +157,33 @@
   ];
 
   root.MEDORA_DATABASE.metadata.medicineProfiles = {
-    schemaVersion: "1.1",
-    reviewedOn: "2026-11-06",
-    scope: "Structured formulation and safety notes; not a prescribing label and not a substitute for current product-specific package information",
-    verificationPolicy: "Each profile field carries provenance status and sourceRefs. Unlinked fields remain explicitly pending product-specific verification; verify the actual stocked pack and current package insert.",
-    sources: {
-      bpom_cendo_xitrol_drop: {
-        url: "https://cekbpom.pom.go.id/produk/EREG100213VR12100053/05/detail",
-        title: "BPOM Cek Produk: Cendo Xitrol tetes mata",
-        sourceType: "official_product_registration"
-      },
-      halodoc_cendo_xitrol_drop: {
-        url: "https://www.halodoc.com/obat-dan-vitamin/cendo-xitrol-eye-drop-5-ml",
-        title: "Halodoc: Cendo Xitrol Eye Drop 5 ml",
-        sourceType: "product_information_reference"
-      },
-      halodoc_cendo_xitrol_ointment: {
-        url: "https://www.halodoc.com/obat-dan-vitamin/cendo-xitrol-salep-mata-3-5-g",
-        title: "Halodoc: Cendo Xitrol Salep Mata 3.5 g",
-        sourceType: "product_information_reference"
-      },
-      ygi_oralit: {
-        url: "https://ygi.or.id/hal-hal-yang-perlu-diperhatikan-saat-membuat-dan-konsumsi-oralit/",
-        title: "Yayasan Gastroenterologi Indonesia: pembuatan oralit",
-        sourceType: "clinical_education_reference"
-      }
+  "schemaVersion": "1.1",
+  "reviewedOn": "2026-11-06",
+  "scope": "Structured formulation and safety notes; not a prescribing label and not a substitute for current product-specific package information",
+  "verificationPolicy": "Each profile field carries provenance status and sourceRefs. Unlinked fields remain explicitly pending product-specific verification; verify the actual stocked pack and current package insert.",
+  "sources": {
+    "bpom_cendo_xitrol_drop": {
+      "url": "https://cekbpom.pom.go.id/produk/EREG100213VR12100053/05/detail",
+      "title": "BPOM Cek Produk: Cendo Xitrol tetes mata",
+      "sourceType": "official_product_registration"
+    },
+    "halodoc_cendo_xitrol_drop": {
+      "url": "https://www.halodoc.com/obat-dan-vitamin/cendo-xitrol-eye-drop-5-ml",
+      "title": "Halodoc: Cendo Xitrol Eye Drop 5 ml",
+      "sourceType": "product_information_reference"
+    },
+    "halodoc_cendo_xitrol_ointment": {
+      "url": "https://www.halodoc.com/obat-dan-vitamin/cendo-xitrol-salep-mata-3-5-g",
+      "title": "Halodoc: Cendo Xitrol Salep Mata 3.5 g",
+      "sourceType": "product_information_reference"
+    },
+    "ygi_oralit": {
+      "url": "https://ygi.or.id/hal-hal-yang-perlu-diperhatikan-saat-membuat-dan-konsumsi-oralit/",
+      "title": "Yayasan Gastroenterologi Indonesia: pembuatan oralit",
+      "sourceType": "clinical_education_reference"
     }
-  };
+  }
+}
   root.MEDORA_DATABASE.medicineProfiles = {
   "CTM (Chlorpheniramine)": {
     "activeIngredient": "chlorpheniramine maleate",

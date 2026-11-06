@@ -22,7 +22,7 @@ test("clinical dashboard opens the offline medicine database panel", () => {
   assert.match(html, /module-workspace\.js/);
   assert.match(workspace, /key === "drugs".*showMedicineDatabase\(\)/);
   assert.match(html, /body\.medicine-database-mode #medicineDatabasePanel\{display:block\}/);
-  assert.match(html, /classList\.remove\("medical-mode","icd-mode","medicine-database-mode","module-workspace-mode"\)/);
+  assert.match(html, /function showMedicineDatabase\(\)\{\s*document\.body\.classList\.remove\("home-mode","medical-mode","icd-mode","module-workspace-mode","public-mode"\)/);
 });
 
 test("medicine database renders all catalog entries and searches profile metadata", () => {

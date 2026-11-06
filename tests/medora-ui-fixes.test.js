@@ -107,3 +107,18 @@ test("workspace actions resolve clicks on nested button content", () => {
   assert.match(workspace, /typeof event\.target\.closest === "function" \? event\.target\.closest\("button"\) : null/);
   assert.match(workspace, /const id = actionButton \? actionButton\.id : event\.target\.id/);
 });
+
+
+test("Android app permits internet and routes HTTPS reference links to an external browser", () => {
+  const manifest = fs.readFileSync(path.join(__dirname, "../app/src/main/AndroidManifest.xml"), "utf8");
+  const activity = fs.readFileSync(path.join(__dirname, "../app/src/main/java/id/doktertege/kalkulatoranak/MainActivity.java"), "utf8");
+  const workspace = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/module-workspace.js"), "utf8");
+  assert.match(manifest, /<uses-permission android:name="android.permission.INTERNET"\s*\/>/);
+  assert.match(activity, /shouldOverrideUrlLoading\(WebView view, WebResourceRequest request\)/);
+  assert.match(activity, /"https"\.equalsIgnoreCase\(scheme\)/);
+  assert.match(activity, /Intent\.ACTION_VIEW/);
+  assert.match(workspace, /https:\/\/www\.who\.int\/publications/);
+  assert.match(workspace, /https:\/\/www\.kemkes\.go\.id/);
+  assert.match(workspace, /https:\/\/www\.idai\.or\.id/);
+  assert.match(workspace, /https:\/\/kdigo\.org\/guidelines/);
+});

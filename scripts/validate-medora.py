@@ -189,7 +189,7 @@ def main():
     # Structured medicine profiles are reference/safety metadata, not dose instructions.
     profile_marker = "root.MEDORA_DATABASE.medicineProfiles = "
     profile_start = database_javascript.find(profile_marker)
-    profile_end = database_javascript.find(";\\n})(window);", profile_start)
+    profile_end = database_javascript.find(";\n})(window);", profile_start)
     if profile_start < 0 or profile_end < 0:
         raise SystemExit("ERROR: structured medicine profiles not found")
     profile_json = database_javascript[profile_start + len(profile_marker):profile_end]

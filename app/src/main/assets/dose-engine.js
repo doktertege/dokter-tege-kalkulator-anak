@@ -136,7 +136,22 @@
     };
   }
 
-  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine });
+  function ambroxol(ageMonths, strengthMgPer5Ml) {
+    if (!Number.isFinite(ageMonths) || ageMonths < 24 || ageMonths > 144) {
+      throw new RangeError("ageMonths must be between 24 and 144 months");
+    }
+    requirePositive(strengthMgPer5Ml, "strengthMgPer5Ml");
+    const doseMg = ageMonths < 72 ? 7.5 : 15;
+    const mgPerMl = strengthMgPer5Ml / 5;
+    return {
+      doseMg,
+      volumeMl: doseMg / mgPerMl,
+      frequencyMinPerDay: ageMonths < 72 ? 3 : 2,
+      frequencyMaxPerDay: ageMonths < 72 ? 3 : 3
+    };
+  }
+
+  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, ambroxol });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

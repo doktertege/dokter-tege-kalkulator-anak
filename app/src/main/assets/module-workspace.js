@@ -71,7 +71,7 @@
     settings: {
       title: "Pengaturan MEDORA",
       subtitle: "Kelola data lokal yang tersimpan pada perangkat ini.",
-      html: '<div class="guideCard"><h3>Penyimpanan perangkat</h3><p id="localDataSummary"></p><div class="workspaceActions"><button type="button" id="copyLocalBackup" class="active">Salin backup data</button><button type="button" id="clearLocalHistory">Hapus riwayat</button><button type="button" id="clearLocalFavorites">Hapus favorit</button></div><label for="restoreBackup">Pulihkan backup JSON</label><textarea id="restoreBackup" placeholder="Tempel isi backup MEDORA di sini..."></textarea><div class="workspaceActions"><button type="button" id="restoreLocalBackup">Pulihkan data</button></div><p id="settingsStatus" class="medicalHint" aria-live="polite"></p></div><p class="notice">Backup memuat daftar obat favorit serta riwayat kalkulasi, termasuk nama obat, usia, berat badan, hasil, dan tanggal. Data dapat menjadi informasi kesehatan yang sensitif. Simpan secara pribadi, jangan tempelkan ke layanan publik, dan hapus salinan clipboard bila perangkat digunakan bersama.</p>'
+      html: '<section class="recordsPanel cloudPanel settingsCloudEntry"><h3>Google Drive · Cloud Backup</h3><p>Cadangkan dan pulihkan data MEDORA melalui akun Google. File backup dienkripsi di perangkat sebelum dikirim ke ruang data privat aplikasi di Google Drive.</p><div class="workspaceActions"><button type="button" class="active" id="openCloudBackup">Buka menu Cloud Backup</button></div><p class="medicalHint">Login Google, backup terenkripsi, dan pemulihan tersedia di menu Rekam Medis Pasien.</p></section><div class="guideCard"><h3>Penyimpanan perangkat</h3><p id="localDataSummary"></p><div class="workspaceActions"><button type="button" id="copyLocalBackup" class="active">Salin backup data</button><button type="button" id="clearLocalHistory">Hapus riwayat</button><button type="button" id="clearLocalFavorites">Hapus favorit</button></div><label for="restoreBackup">Pulihkan backup JSON</label><textarea id="restoreBackup" placeholder="Tempel isi backup MEDORA di sini..."></textarea><div class="workspaceActions"><button type="button" id="restoreLocalBackup">Pulihkan data</button></div><p id="settingsStatus" class="medicalHint" aria-live="polite"></p></div><p class="notice">Backup memuat daftar obat favorit serta riwayat kalkulasi, termasuk nama obat, usia, berat badan, hasil, dan tanggal. Data dapat menjadi informasi kesehatan yang sensitif. Simpan secara pribadi, jangan tempelkan ke layanan publik, dan hapus salinan clipboard bila perangkat digunakan bersama.</p>'
     }
   };
 
@@ -392,6 +392,7 @@
     const actionButton = typeof event.target.closest === "function" ? event.target.closest("button") : null;
     const id = actionButton ? actionButton.id : event.target.id;
     const $ = value => document.getElementById(value);
+    if (id === "openCloudBackup") { showWorkspace("records"); const cloudPanel=document.querySelector("#moduleWorkspaceContent .cloudPanel"); if(cloudPanel) cloudPanel.scrollIntoView({behavior:"smooth",block:"start"}); return; }
     if (id === "shiftTaskAdd") {
       const title = $("shiftTaskTitle");
       const status = $("shiftBoardStatus");

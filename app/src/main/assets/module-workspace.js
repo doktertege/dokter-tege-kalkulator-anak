@@ -3,6 +3,11 @@
   "use strict";
   const $ = id => document.getElementById(id);
   const pages = {
+    patient: {
+      title: "Patient Workspace",
+      subtitle: "Ruang kerja kunjungan untuk menyusun ringkasan pasien, tanda vital, SOAP, dan rencana tindak lanjut dalam satu layar.",
+      html: '<div class="patientWorkspace"><div class="patientWorkspaceIntro"><span class="workspaceEyebrow">CLINICAL ENCOUNTER</span><h3>Ringkasan kunjungan</h3><p>Isi data seperlunya. Gunakan inisial atau kode internal, bukan identitas langsung pasien.</p></div><div class="patientFormGrid"><div class="patientField"><label for="pwCode">Kode / inisial pasien</label><input id="pwCode" maxlength="32" placeholder="Contoh: PX-001"></div><div class="patientField"><label for="pwAge">Usia</label><input id="pwAge" maxlength="32" placeholder="Contoh: 45 tahun"></div><div class="patientField"><label for="pwSex">Jenis kelamin</label><select id="pwSex"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select></div><div class="patientField"><label for="pwVisit">Jenis kunjungan</label><select id="pwVisit"><option>IGD</option><option>Rawat jalan</option><option>Rawat inap</option><option>Kontrol</option></select></div></div><div class="patientSectionHead"><span>01</span><div><b>Tanda vital</b><small>Catat angka, satuan, dan waktu pengukuran sesuai kebutuhan.</small></div></div><div class="patientVitalsGrid"><div class="patientField"><label for="pwBp">Tekanan darah</label><input id="pwBp" placeholder="120/80 mmHg"></div><div class="patientField"><label for="pwHr">Nadi</label><input id="pwHr" placeholder="x/menit"></div><div class="patientField"><label for="pwRr">Frekuensi napas</label><input id="pwRr" placeholder="x/menit"></div><div class="patientField"><label for="pwTemp">Suhu</label><input id="pwTemp" placeholder="°C"></div><div class="patientField"><label for="pwSpo2">SpO₂</label><input id="pwSpo2" placeholder="%"></div><div class="patientField"><label for="pwWeight">Berat badan</label><input id="pwWeight" placeholder="kg"></div></div><div class="patientSectionHead"><span>02</span><div><b>Catatan klinis SOAP</b><small>Susun temuan dan keputusan klinis secara terstruktur.</small></div></div><div class="patientClinicalFields"><div class="patientField"><label for="pwSubjective">S · Subjektif</label><textarea id="pwSubjective" placeholder="Keluhan utama, onset, perjalanan penyakit, riwayat relevan..."></textarea></div><div class="patientField"><label for="pwObjective">O · Objektif</label><textarea id="pwObjective" placeholder="Pemeriksaan fisik, temuan penunjang, dan kondisi umum..."></textarea></div><div class="patientField"><label for="pwAssessment">A · Asesmen</label><textarea id="pwAssessment" placeholder="Diagnosis kerja, masalah aktif, dan diagnosis banding..."></textarea></div><div class="patientField"><label for="pwPlan">P · Rencana</label><textarea id="pwPlan" placeholder="Pemeriksaan, terapi, monitoring, edukasi, disposisi..."></textarea></div></div><div class="patientWorkspaceActions"><button type="button" class="active" id="pwGenerate">Buat ringkasan kunjungan</button><button type="button" id="pwClear">Bersihkan formulir</button></div><div class="patientSummaryPanel"><div class="patientSummaryTop"><div><span class="workspaceEyebrow">MEDORA NOTE</span><h3>Hasil dokumentasi</h3></div><span class="patientDraftTag">DRAF</span></div><pre id="pwOutput" aria-live="polite">Ringkasan kunjungan akan muncul di sini.</pre><div class="patientWorkspaceActions"><button type="button" id="pwCopy">Salin ringkasan</button></div><p id="pwStatus" class="medicalHint" aria-live="polite">Data hanya diproses di sesi ini dan tidak disimpan oleh Patient Workspace.</p></div><p class="notice">Patient Workspace adalah alat bantu penyusunan catatan, bukan rekam medis elektronik resmi. Verifikasi semua data, diagnosis, dosis, dan rencana sebelum dipindahkan ke sistem rekam medis fasilitas. Hindari identitas langsung pasien.</p></div>'
+    },
     guides: {
       title: "Panduan Klinis",
       subtitle: "Checklist penilaian awal dan dokumentasi klinis offline.",
@@ -143,7 +148,7 @@
 
   const recentModuleKey = "medora_recent_modules_v1";
   const recentModuleCatalog = {
-    calculator: "Kalkulator dosis", emergency: "IGD & Emergency", icd: "ICD-10",
+    patient: "Patient Workspace", calculator: "Kalkulator dosis", emergency: "IGD & Emergency", icd: "ICD-10",
     drugs: "Database obat", medical: "Kalkulator medis", guides: "Panduan klinis",
     ai: "Asisten klinis", references: "Referensi medis", integrated: "Kasus terpadu",
     ultrasound: "USG kandungan", laboratory: "Interpretasi lab", records: "Rekam medis",
@@ -251,6 +256,30 @@
     const actionButton = typeof event.target.closest === "function" ? event.target.closest("button") : null;
     const id = actionButton ? actionButton.id : event.target.id;
     const $ = value => document.getElementById(value);
+    if (id === "pwGenerate") {
+      const fields = [["Kode/inisial", "pwCode"], ["Usia", "pwAge"], ["Jenis kelamin", "pwSex"], ["Kunjungan", "pwVisit"], ["Tekanan darah", "pwBp"], ["Nadi", "pwHr"], ["Frekuensi napas", "pwRr"], ["Suhu", "pwTemp"], ["SpO₂", "pwSpo2"], ["Berat badan", "pwWeight"]];
+      const value = key => { const el = $(key); return el ? el.value.trim() : ""; };
+      const lines = ["RINGKASAN KUNJUNGAN MEDORA", "Kode/inisial: " + (value("pwCode") || "Tidak diisi"), "Usia: " + (value("pwAge") || "Tidak diisi"), "Jenis kelamin: " + (value("pwSex") || "Tidak diisi"), "Jenis kunjungan: " + (value("pwVisit") || "IGD") , "", "TANDA VITAL"];
+      fields.slice(4).forEach(([label,key]) => lines.push(label + ": " + (value(key) || "Tidak diisi")));
+      [["S","Subjektif","pwSubjective"],["O","Objektif","pwObjective"],["A","Asesmen","pwAssessment"],["P","Rencana","pwPlan"]].forEach(([code,label,key]) => lines.push("", code + " · " + label, value(key) || "[Belum diisi]"));
+      $("pwOutput").textContent = lines.join("\\n");
+      $("pwStatus").textContent = "Draf dibuat. Pastikan data, satuan, diagnosis, dan rencana sudah benar sebelum digunakan.";
+      return;
+    }
+    if (id === "pwClear") {
+      document.querySelectorAll("#moduleWorkspaceContent .patientWorkspace input, #moduleWorkspaceContent .patientWorkspace textarea").forEach(el => { el.value = ""; });
+      document.querySelectorAll("#moduleWorkspaceContent .patientWorkspace select").forEach(el => { el.selectedIndex = 0; });
+      $("pwOutput").textContent = "Ringkasan kunjungan akan muncul di sini.";
+      $("pwStatus").textContent = "Formulir dibersihkan.";
+      return;
+    }
+    if (id === "pwCopy") {
+      const output = $("pwOutput").textContent;
+      if (!output || output === "Ringkasan kunjungan akan muncul di sini.") { $("pwStatus").textContent = "Buat ringkasan terlebih dahulu."; return; }
+      try { await copyTextToClipboard(output); $("pwStatus").textContent = "Ringkasan berhasil disalin. Pindahkan ke sistem rekam medis resmi setelah diverifikasi."; }
+      catch (error) { $("pwStatus").textContent = "Tidak dapat menyalin otomatis. Salin teks secara manual."; }
+      return;
+    }
     if (id === "resetEmergencyChecklist") {
       document.querySelectorAll("#moduleWorkspaceContent .checkRow input[type=checkbox]").forEach(input => { input.checked = false; });
       updateEmergencyChecklistProgress();

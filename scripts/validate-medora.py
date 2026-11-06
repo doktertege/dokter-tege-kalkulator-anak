@@ -224,6 +224,15 @@ def main():
     except json.JSONDecodeError as error:
         raise SystemExit("ERROR: malformed medicine profile provenance metadata: " + str(error))
     source_registry = profile_metadata.get("sources", {})
+    coverage = profile_metadata.get("coverage", {})
+    expected_coverage = {
+        name: ("excluded" if drug_status.get(name) == "excluded" else
+               "structured_profile" if name in medicine_profiles else
+               "pending_profile_review")
+        for name in drug_status
+    }
+    if coverage != expected_coverage:
+        raise SystemExit("ERROR: medicine profile coverage does not match the medication catalog")
     if profile_metadata.get("schemaVersion") != "1.1" or not isinstance(source_registry, dict):
         raise SystemExit("ERROR: medicine profile provenance schema/source registry invalid")
     provenance_fields = {

@@ -92,6 +92,12 @@ def main():
 
     javascript = parser.inline_scripts[0]
 
+    # Regression guard: every active catalog item with a supported list preview
+    # must expose its detail flow instead of falling through to the pending state.
+    furosemide_preview = 'else if(d[0]==="Furosemide"&&p.a>=1&&p.a<216&&p.w>=10)'
+    if furosemide_preview not in javascript:
+        raise SystemExit("ERROR: active Furosemide catalog preview is missing")
+
     # Bottom-navigation handlers must be registered exactly once. Duplicate
     # listeners can make a single tap trigger multiple navigation actions.
     navigation_ids = {"navHome", "navSearch", "navFavorites", "navHistory", "navSettings"}

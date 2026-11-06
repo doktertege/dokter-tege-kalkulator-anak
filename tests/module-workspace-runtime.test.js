@@ -72,8 +72,8 @@ function createHarness() {
     favorites: new Set(),
     doseHistory: [],
     draw: () => {},
-    saveFavorites: () => {},
-    persistDoseHistory: () => {},
+    saveFavorites: () => true,
+    persistDoseHistory: () => true,
     renderDoseHistory: () => {},
     copyTextToClipboard: async text => { copiedText = text; },
     confirm: () => true
@@ -236,5 +236,5 @@ test("emergency checklist tracks completion and can be reset", () => {
   assert.equal(elements.get("emergencyChecklistProgress").textContent, "1 dari 7 langkah ditandai (14%).");
   elements.get("moduleWorkspaceContent").click({ target: { id: "resetEmergencyChecklist" } });
   assert.ok(emergencyCheckboxes.every(input => input.checked === false));
-  assert.equal(elements.get("emergencyChecklistProgress").textContent, "0 dari 7 langkah ditandai.");
+  assert.equal(elements.get("emergencyChecklistProgress").textContent, "0 dari 7 langkah ditandai (0%).");
 });

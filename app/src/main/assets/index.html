@@ -800,10 +800,11 @@ function drawIcd(){
  const q=$("icdSearch").value||"";
  const matches=searchIcdRows(q).filter(x=>icdCategory==="Semua"||x.row[2]===icdCategory);
  $("icdCount").textContent=matches.length+" saran kode dari "+icdData.length+" kode referensi";
- $("icdList").innerHTML=matches.length?((q.trim()?'<p class="medicalHint">Saran berdasarkan kata kunci keluhan. Ini bukan diagnosis otomatis.</p>':"")+matches.map(({row,matchedBy})=>'<div class="icdItem"><span class="icdCode">'+row[0]+'</span><span><span class="icdName">'+escapeHTML(row[1])+'</span><div class="icdMeta">'+escapeHTML(row[2])+(matchedBy?' • '+escapeHTML(matchedBy):'')+'</div></span></div>').join("")):'<div class="icdEmpty">Belum ada kecocokan dalam daftar referensi. Coba istilah gejala lain atau cari kode di indeks ICD-10 resmi.</div>';
+ $("icdList").innerHTML=matches.length?((q.trim()?'<p class="medicalHint">Saran berdasarkan kata kunci keluhan. Ini bukan diagnosis otomatis.</p>':"")+matches.map(({row,matchedBy})=>'<div class="icdItem"><span class="icdCode">'+escapeHTML(row[0])+'</span><span class="icdItemMain"><span class="icdName">'+escapeHTML(row[1])+'</span><div class="icdMeta">'+escapeHTML(row[2])+(matchedBy?' • '+escapeHTML(matchedBy):'')+'</div></span><button type="button" class="icdCopy" data-copy-icd="'+escapeHTML(row[0])+'" aria-label="Salin kode '+escapeHTML(row[0])+'">Salin kode</button></div>').join("")):'<div class="icdEmpty">Belum ada kecocokan dalam daftar referensi. Coba istilah gejala lain atau cari kode di indeks ICD-10 resmi.</div>';
 }
 $("icdBack").addEventListener("click",showHome);
 $("icdSearch").addEventListener("input",drawIcd);
+$("icdList").addEventListener("click",async e=>{const b=e.target.closest("[data-copy-icd]");if(!b)return;try{await copyTextToClipboard(b.dataset.copyIcd);$("icdCount").textContent="Kode "+b.dataset.copyIcd+" berhasil disalin."}catch(error){$("icdCount").textContent="Gagal menyalin kode. Catat kode secara manual."}});
 $("icdFilters").addEventListener("click",e=>{const b=e.target.closest("[data-icd-cat]");if(!b)return;icdCategory=b.dataset.icdCat;document.querySelectorAll("#icdFilters button").forEach(x=>x.classList.toggle("active",x===b));drawIcd()});
 
 $("medicalBack").addEventListener("click",showHome);

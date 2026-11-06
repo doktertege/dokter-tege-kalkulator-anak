@@ -36,7 +36,7 @@ input,select{width:100%;border:1px solid var(--line);border-radius:14px;padding:
 .filters::-webkit-scrollbar{display:none}
 button{border:1px solid #d8e2f1;background:#fff;border-radius:30px;padding:11px 15px;white-space:nowrap;color:var(--ink);font-weight:650;cursor:pointer;box-shadow:0 2px 6px #244b8010}
 button.active{background:linear-gradient(135deg,#2481f0,#1260d5);color:white;border-color:var(--blue);box-shadow:0 5px 12px #1769df33}
-.drug{display:grid;grid-template-columns:68px minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px 14px;min-height:112px;border-radius:24px}
+.drug{display:grid;grid-template-columns:68px minmax(0,1fr) 105px 30px 24px;align-items:center;gap:9px;padding:12px 14px;min-height:112px;border-radius:24px}
 .drug:nth-of-type(5n+1){background:linear-gradient(110deg,#fff3f7,#fffafd)}
 .drug:nth-of-type(5n+2){background:linear-gradient(110deg,#edf5ff,#f9fbff)}
 .drug:nth-of-type(5n+3){background:linear-gradient(110deg,#eaf9f2,#f8fffb)}
@@ -45,7 +45,7 @@ button.active{background:linear-gradient(135deg,#2481f0,#1260d5);color:white;bor
 .ico{width:62px;height:62px;display:grid;place-items:center;background:#ffffffa8;border-radius:50%;font-size:31px;flex-shrink:0}
 .drug h3{font-size:18px;margin:0;font-weight:850;line-height:1.2}
 .drug p{font-size:12px;color:#53627b;margin:4px 0 0}
-.drugDose{min-width:105px;border-left:1px solid #d8e0ed;padding-left:12px}
+.drugDose{min-width:0;border-left:1px solid #d8e0ed;padding-left:10px;overflow-wrap:anywhere}
 .drugDose strong{display:block;color:#173c88;font-size:21px;line-height:1.1}
 .drugDose span{font-size:12px;color:#465773;display:block;margin-top:3px}
 .drugDose em{font-style:normal;display:inline-block;background:#dceaff;color:#164a9a;padding:4px 9px;border-radius:20px;font-size:11px;font-weight:750;margin-top:5px}
@@ -62,7 +62,7 @@ button.active{background:linear-gradient(135deg,#2481f0,#1260d5);color:white;bor
 .bottomNav a{color:#3e4d67;text-decoration:none;text-align:center;font-size:11px;font-weight:650;padding:5px 2px;border-radius:15px}
 .bottomNav a span{display:block;font-size:22px;line-height:1.2;margin-bottom:3px}
 .bottomNav a:first-child{background:linear-gradient(135deg,#2584f4,#1260d5);color:#fff}
-@media(max-width:390px){header{min-height:176px;padding:18px 16px 24px}.patientTop{gap:8px}.avatar{width:48px;height:48px;font-size:27px}.patientTitle{font-size:16px}.patientStats{gap:5px}.stat{padding:8px}.stat strong{font-size:16px}.drug{grid-template-columns:54px minmax(0,1fr) auto;gap:8px;padding:11px 10px;min-height:100px}.ico{width:50px;height:50px;font-size:26px}.drug h3{font-size:16px}.drugDose{min-width:90px;padding-left:8px}.drugDose strong{font-size:18px}.drugDose span{font-size:11px}.drugDose em{font-size:10px}}
+@media(max-width:390px){header{min-height:176px;padding:18px 16px 24px}.patientTop{gap:8px}.avatar{width:48px;height:48px;font-size:27px}.patientTitle{font-size:16px}.patientStats{gap:5px}.stat{padding:8px}.stat strong{font-size:16px}.drug{grid-template-columns:48px minmax(0,1fr) 82px 25px 20px;gap:6px;padding:11px 9px;min-height:100px}.ico{width:44px;height:44px;font-size:24px}.drug h3{font-size:15px;overflow-wrap:anywhere}.drug p{font-size:11px;line-height:1.3}.drugDose{min-width:0;padding-left:6px}.drugDose strong{font-size:16px;line-height:1.15}.drugDose span{font-size:10px;line-height:1.25}.drugDose em{font-size:9px;padding:3px 6px}.favBtn{min-width:22px;padding:2px;font-size:17px}.detail{font-size:20px;padding:2px}}
 /* MEDORA audience selection */
 .modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
 .modeCard{min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;white-space:normal;border:1px solid #ffffffed;border-radius:26px;padding:16px 12px;background:linear-gradient(145deg,#fff,#e5f5ff);box-shadow:0 8px 22px #003b752c;color:#09285f}
@@ -92,7 +92,7 @@ header .muted{text-align:center;font-size:13px}
 .moduleText small{display:block;font-size:10px;line-height:1.25;color:#52627d;margin-top:5px}
 .moduleArrow{font-size:22px;color:#163d7b}
 .homeNote{margin-top:14px;padding:12px 14px;border-radius:16px;background:#eaf6ff;color:#315779;font-size:11px}
-.bottomNav{grid-template-columns:repeat(5,1fr);padding-left:7px;padding-right:7px}
+.bottomNav{grid-template-columns:repeat(2,minmax(0,1fr));padding-left:12px;padding-right:12px}
 .bottomNav a small{display:block;font-size:8px;letter-spacing:.4px;color:#168e9d;font-weight:900}
 .bottomNav a span{font-size:21px}
 .bottomNav a.active{background:linear-gradient(135deg,#2584f4,#1260d5);color:#fff}
@@ -255,7 +255,7 @@ body.module-workspace-mode #moduleWorkspace{display:block}
 </div>
 </section>
 
-<section class="panel" id="moduleWorkspace" style="display:none"><button class="medicalBack" id="moduleBack">‹ Kembali ke menu klinis</button><h2 id="moduleTitle">Modul MEDORA</h2><p class="medicalHint" id="moduleSubtitle"></p><div id="moduleWorkspaceContent" class="moduleWorkspaceContent"></div></section>
+<section class="panel" id="moduleWorkspace"><button class="medicalBack" id="moduleBack">‹ Kembali ke menu klinis</button><h2 id="moduleTitle">Modul MEDORA</h2><p class="medicalHint" id="moduleSubtitle"></p><div id="moduleWorkspaceContent" class="moduleWorkspaceContent"></div></section>
 <section class="panel" id="medicineDatabasePanel">
 <button class="medicalBack" id="medicineDbBack">‹ Kembali ke Beranda</button>
 <h2>Database Obat</h2>
@@ -301,7 +301,7 @@ body.module-workspace-mode #moduleWorkspace{display:block}
 <button class="medicalBack" id="icdBack">‹ Kembali ke Beranda</button>
 <h2>ICD-10 & Diagnosis</h2>
 <p class="medicalHint">Pencarian kode diagnosis umum (referensi ICD-10 WHO 2010; selaras dengan versi yang digunakan SATUSEHAT).</p>
-<input class="search" id="icdSearch" type="search" placeholder="Cari diagnosis atau kode, mis. demam, J06.9">
+<input class="search" id="icdSearch" type="search" placeholder="Ketik keluhan, gejala, diagnosis, atau kode ICD-10">
 <div class="filters" id="icdFilters">
 <button class="active" data-icd-cat="Semua">Semua</button>
 <button data-icd-cat="Infeksi">Infeksi</button>
@@ -330,7 +330,7 @@ body.module-workspace-mode #moduleWorkspace{display:block}
 <section class="panel modal" id="historyPanel"><div style="display:flex;justify-content:space-between;align-items:center"><h2>Riwayat Perhitungan</h2><button id="closeHistory">Tutup</button></div><div id="doseHistoryList"></div><button type="button" id="clearHistory" class="historyClear">Hapus semua riwayat</button></section>
 <div class="notice" id="safety"><b>Catatan keselamatan:</b> Kalkulasi aktif untuk diazepam rektal (rescue kejang berkepanjangan, dosis tunggal), ondansetron (dosis oral tunggal terpilih pada gastroenteritis), paracetamol, ibuprofen, amoxicillin, cefadroxil, cefixime (suspensi, usia 6 bulan–<12 tahun), salbutamol nebulisasi (usia ≥1 tahun, untuk bronkospasme/asma sesuai penilaian klinis), cetirizine, ambroxol (usia 2–<12 tahun), dan zinc sebagai terapi tambahan diare. Hasil adalah alat bantu hitung, bukan pengganti penilaian klinis. Periksa indikasi, kondisi pasien, alergi, fungsi organ, obat kombinasi, konsentrasi pada kemasan, dan dosis yang sudah diberikan. Obat lain masih berupa katalog dan belum boleh dipakai untuk menentukan dosis.</div>
 <p class="summary">Versi 0.2 • Database tersimpan di perangkat • Tidak memerlukan internet.</p>
-</main><nav class="bottomNav"><a href="#homeDashboard" id="navHome" class="active"><span>⌂</span><small>MEDORA</small>Beranda</a><a href="#list" id="navSearch"><span>⌕</span><small>MEDORA</small>Cari</a><a href="#favorites" id="navFavorites"><span>☆</span><small>MEDORA</small>Favorit</a><a href="#history" id="navHistory"><span>◷</span><small>MEDORA</small>Riwayat</a><a href="#settings" id="navSettings"><span>⚙</span><small>MEDORA</small>Pengaturan</a></nav>
+</main><nav class="bottomNav"><a href="#homeDashboard" id="navHome" class="active"><span>⌂</span><small>MEDORA</small>Beranda</a><a href="#settings" id="navSettings"><span>⚙</span><small>MEDORA</small>Pengaturan</a></nav>
 <script src="dose-engine.js"></script>
 <script src="database.js"></script>
 <script src="medical-calculations.js"></script>
@@ -533,7 +533,7 @@ $("clearHistory").addEventListener("click",()=>{if(confirm("Hapus seluruh riwaya
 $("doseHistoryList").addEventListener("click",async e=>{const b=e.target.closest("[data-history-copy]");if(!b)return;const h=doseHistory[Number(b.dataset.historyCopy)];if(!h)return;const t=h.drug+" • "+h.weight+" kg • "+h.age+"\n"+h.date+"\n"+h.result;try{await copyTextToClipboard(t);$("doseHistoryList").insertAdjacentHTML("afterbegin",'<p class="summary">Ringkasan berhasil disalin.</p>')}catch(err){$("doseHistoryList").insertAdjacentHTML("afterbegin",'<p class="summary">Gagal menyalin otomatis. Silakan salin manual.</p>')}});
 $("close").addEventListener("click",()=>$("detail").classList.remove("open"));
 ["bb","th","bl"].forEach(id=>$(id).addEventListener("input",()=>{updateSummary();if($("detail").classList.contains("open"))openDrug($("drugName").textContent)}));
-$("q").addEventListener("input",draw);$("navHistory").addEventListener("click",e=>{e.preventDefault();showCalculator();renderDoseHistory();$("historyPanel").classList.add("open");setNavActive("navHistory");window.scrollTo(0,0)});$("navFavorites").addEventListener("click",e=>{e.preventDefault();showCalculator();showFavorites=true;cat="Semua";document.querySelectorAll("#filters button").forEach(b=>b.classList.toggle("active",b.dataset.c==="Semua"));draw();setNavActive("navFavorites");window.scrollTo(0,0)});$("filters").addEventListener("click",e=>{if(e.target.dataset.c){cat=e.target.dataset.c;document.querySelectorAll(".filters button").forEach(b=>b.classList.toggle("active",b===e.target));draw()}});$("editPatient").addEventListener("click",()=> $("patientFields").classList.toggle("open"));
+$("q").addEventListener("input",draw);$("filters").addEventListener("click",e=>{if(e.target.dataset.c){cat=e.target.dataset.c;document.querySelectorAll(".filters button").forEach(b=>b.classList.toggle("active",b===e.target));draw()}});$("editPatient").addEventListener("click",()=> $("patientFields").classList.toggle("open"));
 function setNavActive(id){document.querySelectorAll(".bottomNav a").forEach(a=>a.classList.toggle("active",a.id===id))}
 function showHome(){document.body.classList.remove("medical-mode","icd-mode","medicine-database-mode","module-workspace-mode","public-mode");document.body.classList.add("home-mode");$("modeChooser").style.display="block";$("clinicalDashboard").style.display="none";$("publicDashboard").style.display="none";setNavActive("navHome");window.scrollTo(0,0)}
 function showClinicalHome(){document.body.classList.remove("module-workspace-mode","medical-mode","icd-mode","medicine-database-mode","public-mode");document.body.classList.add("home-mode");$("modeChooser").style.display="none";$("clinicalDashboard").style.display="block";$("publicDashboard").style.display="none";window.scrollTo(0,0)}
@@ -644,11 +644,62 @@ function showCalculator(){document.body.classList.remove("home-mode","medical-mo
 
 const icdData = window.MEDORA_DATABASE.icd10;
 let icdCategory="Semua";
+const icdComplaintAliases = {
+ "panas":[ "R50.9" ],"badan panas":[ "R50.9" ],"meriang":[ "R50.9" ],"febris":[ "R50.9" ],
+ "pilek":[ "J00","J06.9" ],"hidung meler":[ "J00","J06.9" ],"flu":[ "J00","J06.9" ],"selesma":[ "J00" ],
+ "batuk":[ "R05","J20.9" ],"batuk berdahak":[ "R05","J20.9" ],"batuk kering":[ "R05" ],
+ "sakit tenggorokan":[ "J02.9" ],"nyeri tenggorokan":[ "J02.9" ],"radang tenggorokan":[ "J02.9" ],
+ "amandel":[ "J03.9" ],"tonsil bengkak":[ "J03.9" ],"sesak":[ "R06.0" ],"sesak napas":[ "R06.0" ],"napas pendek":[ "R06.0" ],
+ "nyeri dada":[ "R07.4" ],"dada sakit":[ "R07.4" ],"dada terasa sakit":[ "R07.4" ],
+ "sakit kepala":[ "R51","G44.2" ],"pusing":[ "R42" ],"vertigo":[ "R42","H81.1" ],"kepala berputar":[ "R42","H81.1" ],
+ "mual":[ "R11" ],"muntah":[ "R11" ],"mual muntah":[ "R11" ],
+ "diare":[ "R19.7","A09" ],"mencret":[ "R19.7","A09" ],"bab cair":[ "R19.7","A09" ],
+ "sakit perut":[ "R10.9" ],"nyeri perut":[ "R10.9" ],"nyeri abdomen":[ "R10.9" ],"perut melilit":[ "R10.9" ],
+ "nyeri ulu hati":[ "K30","K29.7" ],"perih lambung":[ "K29.7","K30" ],"maag":[ "K29.7","K30" ],"kembung":[ "K30" ],
+ "susah bab":[ "K59.0" ],"sembelit":[ "K59.0" ],"konstipasi":[ "K59.0" ],
+ "kencing sakit":[ "N30.0","N39.0" ],"anyang anyangan":[ "N30.0","N39.0" ],"sering kencing":[ "N39.0" ],
+ "kencing berdarah":[ "R31" ],"susah kencing":[ "R33" ],"tidak bisa kencing":[ "R33" ],"retensi urine":[ "R33" ],
+ "jantung berdebar":[ "R00.2" ],"berdebar":[ "R00.2" ],"palpitasi":[ "R00.2" ],
+ "lemas":[ "R53" ],"mudah lelah":[ "R53" ],"kelelahan":[ "R53" ],"badan pegal":[ "M79.1" ],"nyeri otot":[ "M79.1" ],
+ "nyeri sendi":[ "M25.5" ],"sendi sakit":[ "M25.5" ],"nyeri pinggang":[ "M54.5" ],"sakit pinggang":[ "M54.5" ],
+ "mimisan":[ "R04.0" ],"hidung berdarah":[ "R04.0" ],"pingsan":[ "R55" ],"sinkop":[ "R55" ],
+ "kejang demam":[ "R56.0" ],"kejang":[ "R56.0","G40.9" ],
+ "mata merah":[ "H10.9" ],"belekan":[ "H10.9" ],"sakit telinga":[ "H60.9","H66.9" ],"telinga nyeri":[ "H60.9","H66.9" ],
+ "gatal bentol":[ "L50.9" ],"biduran":[ "L50.9" ],"bentol gatal":[ "L50.9" ],
+ "luka":[ "T14.9" ],"cedera kepala":[ "S09.9","S06.0" ],"keseleo":[ "S93.4" ]
+};
+function normalizeIcdText(value){
+ return String(value||"").toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/[^a-z0-9. ]/g," ").replace(/\\s+/g," ").trim();
+}
+function searchIcdRows(query){
+ const q=normalizeIcdText(query);
+ const tokens=q.split(" ").filter(Boolean);
+ const scored=new Map();
+ if(!q)return icdData.map(row=>({row,score:0,matchedBy:""}));
+ icdData.forEach(row=>{
+  const hay=normalizeIcdText(row.join(" "));
+  if(hay.includes(q))scored.set(row[0],{row,score:100,matchedBy:"Teks diagnosis/kode"});
+  else if(tokens.length>1&&tokens.every(t=>hay.includes(t)))scored.set(row[0],{row,score:70,matchedBy:"Kata kunci"});
+ });
+ Object.entries(icdComplaintAliases).forEach(([alias,codes])=>{
+  const a=normalizeIcdText(alias),parts=a.split(" ");
+  if(q.includes(a)||parts.every(t=>tokens.includes(t))){
+   codes.forEach(code=>{
+    const row=icdData.find(item=>item[0]===code);
+    if(!row)return;
+    const score=90+parts.length;
+    const previous=scored.get(code);
+    if(!previous||score>previous.score)scored.set(code,{row,score,matchedBy:"Kata kunci keluhan"});
+   });
+  }
+ });
+ return [...scored.values()].sort((a,b)=>b.score-a.score||a.row[0].localeCompare(b.row[0]));
+}
 function drawIcd(){
- const q=($("icdSearch").value||"").trim().toLowerCase();
- const rows=icdData.filter(x=>(icdCategory==="Semua"||x[2]===icdCategory)&&x.join(" ").toLowerCase().includes(q));
- $("icdCount").textContent=rows.length+" kode ditemukan dari "+icdData.length+" kode referensi";
- $("icdList").innerHTML=rows.length?rows.map(x=>'<div class="icdItem"><span class="icdCode">'+x[0]+'</span><span><span class="icdName">'+x[1]+'</span><div class="icdMeta">'+x[2]+'</div></span></div>').join(""):'<div class="icdEmpty">Tidak ada kode yang cocok. Coba kata kunci atau kode lain.</div>';
+ const q=$("icdSearch").value||"";
+ const matches=searchIcdRows(q).filter(x=>icdCategory==="Semua"||x.row[2]===icdCategory);
+ $("icdCount").textContent=matches.length+" saran kode dari "+icdData.length+" kode referensi";
+ $("icdList").innerHTML=matches.length?((q.trim()?'<p class="medicalHint">Saran berdasarkan kata kunci keluhan. Ini bukan diagnosis otomatis.</p>':"")+matches.map(({row,matchedBy})=>'<div class="icdItem"><span class="icdCode">'+row[0]+'</span><span><span class="icdName">'+escapeHTML(row[1])+'</span><div class="icdMeta">'+escapeHTML(row[2])+(matchedBy?' • '+escapeHTML(matchedBy):'')+'</div></span></div>').join("")):'<div class="icdEmpty">Belum ada kecocokan dalam daftar referensi. Coba istilah gejala lain atau cari kode di indeks ICD-10 resmi.</div>';
 }
 $("icdBack").addEventListener("click",showHome);
 $("icdSearch").addEventListener("input",drawIcd);
@@ -670,7 +721,6 @@ $("calcMedical").addEventListener("click",()=>{
 function updateGcs(){const e=Number($("gcsEye").value),v=Number($("gcsVerbal").value),m=Number($("gcsMotor").value),total=e+v+m;$("gcsOutput").innerHTML='<b>GCS '+total+'/15</b><br><small>E'+e+' V'+v+' M'+m+'</small>'}
 ["gcsEye","gcsVerbal","gcsMotor"].forEach(id=>$(id).addEventListener("change",updateGcs));
 $("navHome").addEventListener("click",e=>{e.preventDefault();showHome()});
-$("navSearch").addEventListener("click",e=>{e.preventDefault();showCalculator();$("q").focus()});
 
 draw();updateSummary();document.body.classList.add("home-mode");
 </script><script src="module-workspace.js"></script></body></html>

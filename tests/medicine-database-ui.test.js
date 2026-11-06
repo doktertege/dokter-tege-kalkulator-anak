@@ -58,3 +58,10 @@ test("medicine detail displays field-level source provenance and pending verific
   assert.match(html, /Perlu verifikasi produk/);
   assert.match(html, /sourceRegistry\[id\]/);
 });
+
+test("medicine database shows exact profile coverage and pending verification state", () => {
+  assert.match(html, /medicineCoverage = window\.MEDORA_DATABASE\.metadata\.medicineProfiles\?\.coverage/);
+  assert.match(html, /profil terstruktur/);
+  assert.match(html, /menunggu verifikasi/);
+  assert.match(html, /batas usia, dan peringatan belum boleh dianggap tervalidasi/);
+});

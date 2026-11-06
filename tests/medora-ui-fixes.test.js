@@ -143,7 +143,7 @@ test("Android WebView keeps local assets internal and blocks insecure or unsuppo
   assert.match(activity, /"https"\.equalsIgnoreCase\(scheme\)/);
   assert.match(activity, /return true;\s*\}/);
   assert.match(activity, /catch \(ActivityNotFoundException error\)/);
-  assert.match(activity, /view\.loadUrl\(uri\.toString\(\)\)/);
+  assert.match(activity, /startActivity\(intent\)/, "external HTTPS pages must open outside the WebView JavaScript bridge");
   assert.match(activity, /web\.loadUrl\("file:\/\/\/android_asset\/index\.html"\)/);
   assert.doesNotMatch(activity, /"http"\.equalsIgnoreCase\(scheme\)/);
   assert.doesNotMatch(activity, /setAllowUniversalAccessFromFileURLs\(true\)/);

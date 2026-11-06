@@ -115,16 +115,29 @@
 
   function buildSoapNote() {
     const $ = id => document.getElementById(id);
-    const sections = [["S", ["soapComplaint", "soapHistory"]], ["O", ["soapVitals", "soapExam"]], ["A", ["soapAssessment"]], ["P", ["soapPlan"]]];
-    let out = "CATATAN KLINIS MEDORA\n";
-    out += "Usia: " + ($("soapAge").value.trim() || "-") + "\nJenis kelamin: " + ($("soapSex").value || "-") + "\n\n";
-    sections.forEach(([name, ids]) => {
-      out += name + "\n";
-      ids.forEach(id => { const value = $(id).value.trim(); if (value) out += value + "\n"; });
-      out += "\n";
+    const sections = [
+      ["S", "Subjektif", ["soapComplaint", "soapHistory"]],
+      ["O", "Objektif", ["soapVitals", "soapExam"]],
+      ["A", "Asesmen", ["soapAssessment"]],
+      ["P", "Rencana", ["soapPlan"]]
+    ];
+    const missing = [];
+    let out = "CATATAN KLINIS MEDORA\\n";
+    out += "Usia: " + ($("soapAge").value.trim() || "Belum diisi") + "\\nJenis kelamin: " + ($("soapSex").value || "Belum diisi") + "\\n\\n";
+    sections.forEach(([code, label, ids]) => {
+      const values = ids.map(id => $(id).value.trim()).filter(Boolean);
+      out += code + " - " + label + "\\n";
+      if (values.length) out += values.join("\\n") + "\\n";
+      else {
+        out += "[BELUM DIISI]\\n";
+        missing.push(label);
+      }
+      out += "\\n";
     });
     $("soapOutput").textContent = out.trim();
-    $("soapStatus").textContent = "Catatan dibuat. Periksa kembali kelengkapan dan akurasi sebelum dimasukkan ke rekam medis.";
+    $("soapStatus").textContent = missing.length
+      ? "Catatan dibuat, tetapi belum lengkap. Isi: " + missing.join(", ") + ". Verifikasi seluruh data sebelum digunakan."
+      : "Semua bagian SOAP terisi. Tetap verifikasi kelengkapan dan akurasi sebelum digunakan.";
     updateSoapCompleteness();
   }
 

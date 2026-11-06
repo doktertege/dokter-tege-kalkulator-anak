@@ -196,20 +196,45 @@
       "url": "https://registrasiobat.pom.go.id/daftar-produk/assesment-report/DTL0400203033A1",
       "title": "BPOM: Brufen suspensi ibuprofen 100 mg/5 mL",
       "sourceType": "official_product_registration"
+    },
+    "bpom_cetirizine_syrup": {
+      "url": "https://standar-otskk.pom.go.id/publikasi/penjelasan-tambahan-176-produk-sirop-obat-aman",
+      "title": "BPOM: cetirizine hydrochloride sirup 5 mg/5 mL",
+      "sourceType": "official_public_information"
+    },
+    "bpom_cetirizine_drops": {
+      "url": "https://standar-otskk.pom.go.id/publikasi/penjelasan-tambahan-176-produk-sirop-obat-aman",
+      "title": "BPOM: cetirizine hydrochloride drops 10 mg/mL",
+      "sourceType": "official_public_information"
+    },
+    "kemkes_cetirizine_classification": {
+      "url": "https://registrasiobat.pom.go.id/files/rule/5846988521776068419.pdf",
+      "title": "Kemenkes: penggolongan cetirizine dan batas kemasan",
+      "sourceType": "official_regulation"
+    },
+    "bpom_amoxsan": {
+      "url": "https://registrasiobat.pom.go.id/daftar-produk/produk-obat-komparator?report_0=3&report_2=60",
+      "title": "BPOM: Amoxsan amoxicillin sirup kering 125 mg/5 mL",
+      "sourceType": "official_product_registration"
+    },
+    "sidomuncul_amoxicillin": {
+      "url": "https://www.sidomuncul.co.id/id/product/amoxicillin_trihydrate.html",
+      "title": "Produsen: amoxicillin trihydrate 125 mg/5 mL dan 250 mg/5 mL",
+      "sourceType": "manufacturer_product_information"
     }
   },
   "coverage": {
     "Paracetamol": "structured_profile",
     "Ibuprofen": "structured_profile",
     "Metamizole": "pending_profile_review",
-    "Amoxicillin": "pending_profile_review",
+    "Amoxicillin": "structured_profile",
     "Cefadroxil": "pending_profile_review",
     "Cefixime": "pending_profile_review",
     "Ceftriaxone": "structured_profile",
     "Cefotaxime": "structured_profile",
     "Gentamicin": "structured_profile",
     "CTM (Chlorpheniramine)": "structured_profile",
-    "Cetirizine": "pending_profile_review",
+    "Cetirizine": "structured_profile",
     "Loratadine": "pending_profile_review",
     "Oralit": "structured_profile",
     "Zinc": "pending_profile_review",
@@ -822,6 +847,54 @@
       "route": {"status": "source_linked_reference", "sourceRefs": ["bpom_brufen_suspension"]},
       "formulationNote": {"status": "source_linked_reference", "sourceRefs": ["bpom_brufen_suspension"]},
       "strength": {"status": "source_linked_reference", "sourceRefs": ["bpom_brufen_suspension"]},
+      "prescriptionStatus": {"status": "pending_product_specific_verification", "sourceRefs": []},
+      "keyWarnings": {"status": "pending_product_specific_verification", "sourceRefs": []},
+      "doseEngineFunction": {"status": "verified_by_local_regression_test", "sourceRefs": []}
+    }
+  },
+  "Cetirizine": {
+    "activeIngredient": "cetirizine hydrochloride",
+    "dosageForms": ["sirup 5 mg/5 mL", "drops 10 mg/mL", "tablet"],
+    "route": ["oral"],
+    "strength": "Referensi BPOM mencantumkan sirup 5 mg/5 mL dan drops 10 mg/mL; cocokkan dengan kemasan aktual.",
+    "formulationNote": "BPOM mencantumkan produk cetirizine sirup 5 mg/5 mL dan drops 10 mg/mL. Jangan memakai konsentrasi sirup untuk drops atau sebaliknya. Status golongan juga bergantung pada bentuk, kadar, dan batas kemasan sesuai regulasi.",
+    "prescriptionStatus": "varies_by_product",
+    "doseEngineFunction": "cetirizine",
+    "keyWarnings": [
+      "Periksa usia, indikasi, dan fungsi ginjal sebelum menentukan regimen.",
+      "Dapat menyebabkan kantuk; pertimbangkan efek aditif dengan depresan sistem saraf pusat.",
+      "Jangan mengonversi dosis ke mL sebelum memastikan bentuk sediaan dan konsentrasinya."
+    ],
+    "provenance": {
+      "activeIngredient": {"status": "source_linked_reference", "sourceRefs": ["bpom_cetirizine_syrup", "bpom_cetirizine_drops"]},
+      "dosageForms": {"status": "source_linked_reference", "sourceRefs": ["bpom_cetirizine_syrup", "bpom_cetirizine_drops"]},
+      "route": {"status": "source_linked_reference", "sourceRefs": ["bpom_cetirizine_syrup", "bpom_cetirizine_drops"]},
+      "formulationNote": {"status": "source_linked_reference", "sourceRefs": ["bpom_cetirizine_syrup", "bpom_cetirizine_drops", "kemkes_cetirizine_classification"]},
+      "strength": {"status": "source_linked_reference", "sourceRefs": ["bpom_cetirizine_syrup", "bpom_cetirizine_drops"]},
+      "prescriptionStatus": {"status": "source_linked_reference", "sourceRefs": ["kemkes_cetirizine_classification"]},
+      "keyWarnings": {"status": "pending_product_specific_verification", "sourceRefs": []},
+      "doseEngineFunction": {"status": "verified_by_local_regression_test", "sourceRefs": []}
+    }
+  },
+  "Amoxicillin": {
+    "activeIngredient": "amoxicillin trihydrate (setara amoxicillin)",
+    "dosageForms": ["sirup kering untuk suspensi oral", "kapsul/tablet"],
+    "route": ["oral"],
+    "strength": "Referensi produk Indonesia mencakup sirup kering 125 mg/5 mL dan 250 mg/5 mL; cek produk aktual.",
+    "formulationNote": "BPOM mencantumkan Amoxsan sirup kering 125 mg/5 mL; informasi produsen mencantumkan 125 mg/5 mL dan 250 mg/5 mL. Rekonstitusi harus mengikuti volume air pada etiket, kemudian kocok dan verifikasi konsentrasi akhir sebelum menghitung volume dosis.",
+    "prescriptionStatus": "prescription_only",
+    "doseEngineFunction": "amoxicillin",
+    "keyWarnings": [
+      "Pastikan indikasi infeksi bakteri dan pemilihan antibiotik sesuai pedoman serta pola resistensi setempat.",
+      "Tanyakan riwayat alergi penisilin/beta-laktam; waspadai reaksi hipersensitivitas berat.",
+      "Sesuaikan regimen pada gangguan ginjal; konsentrasi dan volume rekonstitusi harus mengikuti etiket produk."
+    ],
+    "provenance": {
+      "activeIngredient": {"status": "source_linked_reference", "sourceRefs": ["bpom_amoxsan", "sidomuncul_amoxicillin"]},
+      "dosageForms": {"status": "source_linked_reference", "sourceRefs": ["bpom_amoxsan", "sidomuncul_amoxicillin"]},
+      "route": {"status": "source_linked_reference", "sourceRefs": ["bpom_amoxsan", "sidomuncul_amoxicillin"]},
+      "formulationNote": {"status": "source_linked_reference", "sourceRefs": ["bpom_amoxsan", "sidomuncul_amoxicillin"]},
+      "strength": {"status": "source_linked_reference", "sourceRefs": ["bpom_amoxsan", "sidomuncul_amoxicillin"]},
       "prescriptionStatus": {"status": "pending_product_specific_verification", "sourceRefs": []},
       "keyWarnings": {"status": "pending_product_specific_verification", "sourceRefs": []},
       "doseEngineFunction": {"status": "verified_by_local_regression_test", "sourceRefs": []}

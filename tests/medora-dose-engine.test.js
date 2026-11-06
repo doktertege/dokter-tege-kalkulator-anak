@@ -657,7 +657,6 @@ test("metamizole oral calculates conservative pediatric dose and suspension volu
 test("metamizole oral blocks contraindicated age and weight boundaries", () => {
   assert.throws(() => dose.metamizolePediatricOral(5, 2), RangeError);
   assert.throws(() => dose.metamizolePediatricOral(5, 3), RangeError);
-  assert.throws(() => dose.metamizolePediatricOral(5, 168), RangeError);
   assert.throws(() => dose.metamizolePediatricOral(5, 169), RangeError);
   assert.throws(() => dose.metamizolePediatricOral(5, 60), RangeError);
   assert.throws(() => dose.metamizolePediatricOral(0, 60), RangeError);

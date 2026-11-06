@@ -142,9 +142,29 @@
           typeof item.date !== "string" || !item.date.trim() || item.date.length > 80 ||
           typeof item.result !== "string" || !item.result.trim() || item.result.length > 1200
         )) throw new Error("Isi riwayat backup tidak valid atau di luar batas MEDORA.");
-        favorites = new Set(backup.favorites);
-        doseHistory = backup.doseHistory.slice();
-        saveFavorites(); persistDoseHistory(); draw(); renderDoseHistory(); updateLocalDataSummary();
+        const nextFavorites = new Set(backup.favorites);
+        const nextHistory = backup.doseHistory.slice();
+        // Persist both collections before changing the in-memory state. Roll back the
+        // first write if the second one fails, so a failed restore is not half-applied.
+        const previousFavorites = localStorage.getItem("dt_favorites");
+        const previousHistory = localStorage.getItem("medora_dose_history");
+        try {
+          localStorage.setItem("dt_favorites", JSON.stringify([...nextFavorites]));
+          localStorage.setItem("medora_dose_history", JSON.stringify(nextHistory.slice(0, 50)));
+        } catch (storageError) {
+          try {
+            if (previousFavorites === null) localStorage.removeItem("dt_favorites");
+            else localStorage.setItem("dt_favorites", previousFavorites);
+            if (previousHistory === null) localStorage.removeItem("medora_dose_history");
+            else localStorage.setItem("medora_dose_history", previousHistory);
+          } catch (rollbackError) {
+            // Keep the original storage error as the actionable failure.
+          }
+          throw new Error("Penyimpanan perangkat gagal. Data aktif tidak diubah.");
+        }
+        favorites = nextFavorites;
+        doseHistory = nextHistory;
+        draw(); renderDoseHistory(); updateLocalDataSummary();
         $("settingsStatus").textContent = "Backup berhasil dipulihkan.";
       } catch (error) { $("settingsStatus").textContent = "Backup gagal dipulihkan: " + error.message; }
     }

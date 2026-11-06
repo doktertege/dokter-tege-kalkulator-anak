@@ -50,6 +50,8 @@ function createHarness() {
     }
   };
   const calls = [];
+  const storage = new Map();
+  const localStorage = { getItem(key) { return storage.has(key) ? storage.get(key) : null; }, setItem(key, value) { storage.set(key, String(value)); }, removeItem(key) { storage.delete(key); } };
   let copiedText = "";
   const window = {
     MEDORA_DATABASE: { drugs: [["Paracetamol"]] },
@@ -57,6 +59,7 @@ function createHarness() {
   };
   const context = {
     document,
+    localStorage,
     $: id => document.getElementById(id),
     window,
     console,
@@ -95,7 +98,13 @@ test("clinical dashboard click routing invokes every destination", () => {
     guides: null,
     emergency: null,
     ai: null,
-    references: null
+    references: null,
+    integrated: null,
+    ultrasound: null,
+    laboratory: null,
+    records: null,
+    anthropometry: null,
+    vitals: null
   };
 
   for (const [key, expected] of Object.entries(routes)) {
@@ -113,7 +122,10 @@ test("clinical dashboard click routing invokes every destination", () => {
     } else {
       assert.equal(elements.get("moduleTitle").textContent,
         ({ guides: "Panduan Klinis", emergency: "IGD & Emergency",
-          ai: "Asisten Klinis Offline", references: "Referensi Medis" })[key]);
+          ai: "Asisten Klinis Offline", references: "Referensi Medis",
+          integrated: "Kasus Terpadu", ultrasound: "USG Kandungan",
+          laboratory: "Interpretasi Laboratorium", records: "Rekam Medis",
+          anthropometry: "IMT & Lingkar Tubuh", vitals: "Tanda Vital" })[key]);
       assert.ok(elements.get("moduleWorkspaceContent").innerHTML.length > 0, key + " content");
     }
   }
@@ -216,12 +228,12 @@ test("emergency checklist tracks completion and can be reset", () => {
   elements.get("homeDashboard").click({
     target: { closest: () => ({ dataset: { module: "emergency" } }) }
   });
-  assert.equal(elements.get("emergencyChecklistProgress").textContent, "0 dari 7 langkah ditandai.");
+  assert.equal(elements.get("emergencyChecklistProgress").textContent, "0 dari 7 langkah ditandai (0%).");
   emergencyCheckboxes[0].checked = true;
   elements.get("moduleWorkspaceContent").listeners.change({
     target: { matches: selector => selector === ".checkRow input[type=checkbox]" }
   });
-  assert.equal(elements.get("emergencyChecklistProgress").textContent, "1 dari 7 langkah ditandai.");
+  assert.equal(elements.get("emergencyChecklistProgress").textContent, "1 dari 7 langkah ditandai (14%).");
   elements.get("moduleWorkspaceContent").click({ target: { id: "resetEmergencyChecklist" } });
   assert.ok(emergencyCheckboxes.every(input => input.checked === false));
   assert.equal(elements.get("emergencyChecklistProgress").textContent, "0 dari 7 langkah ditandai.");

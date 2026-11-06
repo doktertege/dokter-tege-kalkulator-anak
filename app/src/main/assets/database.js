@@ -222,6 +222,11 @@
       "title": "Produsen: amoxicillin trihydrate 125 mg/5 mL dan 250 mg/5 mL",
       "sourceType": "manufacturer_product_information"
     },
+    "bpom_cefspan_cefixime": {
+      "url": "https://registrasiobat.pom.go.id/files/assesment-reports/01731558565.pdf",
+      "title": "BPOM: informasi produk Cefspan cefixime kapsul 100 mg, kaplet 200 mg, dan suspensi 100 mg/5 mL",
+      "sourceType": "official_product_information"
+    },
     "kemkes_antibiotic_prescription": {
       "url": "https://keslan.kemkes.go.id/view_artikel/2157/masyarakat-cerdas-bijak-gunakan-antibiotik",
       "title": "Kemenkes: antibiotik termasuk obat keras dan harus dengan resep dokter",
@@ -234,7 +239,7 @@
     "Metamizole": "pending_profile_review",
     "Amoxicillin": "structured_profile",
     "Cefadroxil": "pending_profile_review",
-    "Cefixime": "pending_profile_review",
+    "Cefixime": "structured_profile",
     "Ceftriaxone": "structured_profile",
     "Cefotaxime": "structured_profile",
     "Gentamicin": "structured_profile",
@@ -902,6 +907,31 @@
       "strength": {"status": "source_linked_reference", "sourceRefs": ["bpom_amoxsan", "sidomuncul_amoxicillin"]},
       "prescriptionStatus": {"status": "source_linked_reference", "sourceRefs": ["kemkes_antibiotic_prescription"]},
       "keyWarnings": {"status": "pending_product_specific_verification", "sourceRefs": []},
+      "doseEngineFunction": {"status": "verified_by_local_regression_test", "sourceRefs": []}
+    }
+  },
+  "Cefixime": {
+    "activeIngredient": "cefixime (sebagai cefixime trihydrate)",
+    "dosageForms": ["sirup kering untuk suspensi oral", "kapsul 100 mg", "kaplet salut selaput 200 mg"],
+    "route": ["oral"],
+    "strength": "Informasi produk Cefspan yang disetujui BPOM mencantumkan suspensi 100 mg/5 mL, kapsul 100 mg, dan kaplet 200 mg; verifikasi merek dan etiket aktual.",
+    "formulationNote": "Dokumen informasi produk Cefspan yang disetujui BPOM mencantumkan cefixime 100 mg per 5 mL suspensi, kapsul 100 mg, dan kaplet salut selaput 200 mg. Volume air rekonstitusi dan masa simpan setelah rekonstitusi bersifat spesifik produk; ikuti etiket produk yang digunakan, jangan menggeneralisasi petunjuk Cefspan ke merek lain.",
+    "prescriptionStatus": "prescription_only",
+    "doseEngineFunction": "cefixime",
+    "keyWarnings": [
+      "Periksa riwayat hipersensitivitas terhadap sefalosporin dan riwayat alergi penisilin.",
+      "Pertimbangkan penyesuaian dosis pada gangguan fungsi ginjal.",
+      "Hentikan dan evaluasi segera bila timbul reaksi alergi berat atau diare berat/berdarah.",
+      "Informasi produk Cefspan menyatakan keamanan dan efektivitas belum ditetapkan untuk anak di bawah 6 bulan; batas ini tidak otomatis berlaku untuk semua produk tanpa memeriksa informasi produknya."
+    ],
+    "provenance": {
+      "activeIngredient": {"status": "source_linked_reference", "sourceRefs": ["bpom_cefspan_cefixime"]},
+      "dosageForms": {"status": "source_linked_reference", "sourceRefs": ["bpom_cefspan_cefixime"]},
+      "route": {"status": "source_linked_reference", "sourceRefs": ["bpom_cefspan_cefixime"]},
+      "formulationNote": {"status": "source_linked_reference", "sourceRefs": ["bpom_cefspan_cefixime"]},
+      "strength": {"status": "source_linked_reference", "sourceRefs": ["bpom_cefspan_cefixime"]},
+      "prescriptionStatus": {"status": "source_linked_reference", "sourceRefs": ["bpom_cefspan_cefixime"]},
+      "keyWarnings": {"status": "source_linked_reference", "sourceRefs": ["bpom_cefspan_cefixime"]},
       "doseEngineFunction": {"status": "verified_by_local_regression_test", "sourceRefs": []}
     }
   }

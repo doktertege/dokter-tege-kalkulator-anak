@@ -63,3 +63,23 @@ test("all requested eye and ear products use dedicated safety guidance, not dose
     assert.ok(topicalGuides.has(name), name + " should have dedicated guidance");
   }
 });
+
+
+test("Erlamycetin topical guides do not show unverified strengths or dosing regimens", () => {
+  const source = getOpenDrugSource();
+  const topicalBlock = source.match(/const topicalGuides=\\{([\\s\\S]*?)\\n\\};/);
+  assert.ok(topicalBlock, "topical guide map should be present");
+  for (const name of [
+    "Erlamycetin Tetes Mata",
+    "Erlamycetin Tetes Telinga",
+    "Erlamycetin Salep Mata"
+  ]) {
+    const start = topicalBlock[1].indexOf('"' + name + '":');
+    assert.ok(start >= 0, name + " guide should exist");
+    const next = topicalBlock[1].indexOf(',\\n"', start);
+    const guide = topicalBlock[1].slice(start, next < 0 ? undefined : next);
+    assert.match(guide, /profil produk belum terverifikasi/i, name);
+    assert.match(guide, /Dosis, frekuensi, dan durasi tidak ditampilkan/i, name);
+    assert.doesNotMatch(guide, /kloramfenikol|0,5%|1%|mg\\/mL|mg\\/g|\\d+\\s*(?:tetes|kali sehari|cm)/i, name);
+  }
+});

@@ -325,3 +325,56 @@ test("chlorpheniramine blocks under 2 years and rejects invalid strengths", () =
   assert.throws(() => dose.chlorpheniramine(Number.NaN, 2), RangeError);
   assert.throws(() => dose.chlorpheniramine(24, 0), RangeError);
 });
+\n
+test("ceftriaxone injection calculates standard and meningitis regimens after neonatal period", () => {
+  assert.deepEqual(dose.ceftriaxoneInjection(10, 24, "standard"), {
+    regimen: "standard", dailyMinMg: 500, dailyMaxMg: 800,
+    doseMinMg: 500, doseMaxMg: 800, divisions: 1, intervalHours: 24,
+    maxDailyMg: 4000,
+    route: "IV; IM only when appropriate to the indication and product instructions"
+  });
+  assert.equal(dose.ceftriaxoneInjection(10, 24, "meningitis").doseMaxMg, 500);
+  assert.equal(dose.ceftriaxoneInjection(50, 24, "meningitis").dailyMaxMg, 4000);
+});
+
+test("ceftriaxone blocks neonatal and adult-weight calculations", () => {
+  assert.throws(() => dose.ceftriaxoneInjection(3, 0, "standard"), RangeError);
+  assert.throws(() => dose.ceftriaxoneInjection(50, 24, "standard"), RangeError);
+  assert.throws(() => dose.ceftriaxoneInjection(10, 24, "unknown"), RangeError);
+});
+
+test("cefotaxime injection calculates divided daily dose and caps", () => {
+  const standard = dose.cefotaximeInjection(10, 24, "standard", 4);
+  assert.equal(standard.dailyMinMg, 500);
+  assert.equal(standard.dailyMaxMg, 1800);
+  assert.equal(standard.doseMinMg, 125);
+  assert.equal(standard.doseMaxMg, 450);
+  assert.equal(standard.intervalHours, 6);
+  const meningitis = dose.cefotaximeInjection(10, 24, "meningitis", 6);
+  assert.equal(meningitis.dailyMinMg, 2000);
+  assert.equal(meningitis.dailyMaxMg, 3000);
+  assert.equal(meningitis.intervalHours, 4);
+});
+
+test("cefotaxime blocks neonatal, adult-weight, invalid regimen and invalid divisions", () => {
+  assert.throws(() => dose.cefotaximeInjection(3, 0, "standard"), RangeError);
+  assert.throws(() => dose.cefotaximeInjection(10, 145, "standard"), RangeError);
+  assert.throws(() => dose.cefotaximeInjection(50, 24, "standard"), RangeError);
+  assert.throws(() => dose.cefotaximeInjection(10, 24, "unknown"), RangeError);
+  assert.throws(() => dose.cefotaximeInjection(10, 24, "standard", 3), RangeError);
+});
+
+test("gentamicin calculates an initial dose and concentration volume only", () => {
+  assert.deepEqual(dose.gentamicinInitial(10, 24, 40), {
+    doseMg: 70, volumeMl: 1.75, intervalHours: null,
+    frequency: "initial dose only",
+    monitoring: "Check renal function and obtain gentamicin therapeutic drug monitoring before any subsequent dose; do not use this result to schedule repeat doses."
+  });
+});
+
+test("gentamicin blocks neonatal and adult-weight calculations and invalid strength", () => {
+  assert.throws(() => dose.gentamicinInitial(3, 0, 40), RangeError);
+  assert.throws(() => dose.gentamicinInitial(50, 24, 40), RangeError);
+  assert.throws(() => dose.gentamicinInitial(10, 24, 0), RangeError);
+});
+

@@ -451,3 +451,57 @@
   });
   window.MEDORA_WORKSPACE = { showWorkspace };
 })();
+
+/* MEDORA clinical module finder */
+(function(){
+  const input=document.getElementById("clinicalModuleSearch");
+  const dashboard=document.getElementById("clinicalDashboard");
+  if(!input||!dashboard)return;
+  const status=document.getElementById("clinicalSearchStatus");
+  const grid=dashboard.querySelector(".moduleGrid");
+  const empty=document.createElement("div");
+  empty.className="moduleSearchEmpty";
+  empty.textContent="Tidak ada modul yang cocok. Coba kata kunci lain.";
+  if(grid)grid.appendChild(empty);
+  function applyModuleSearch(){
+    const query=input.value.trim().toLocaleLowerCase("id");
+    const cards=Array.from(dashboard.querySelectorAll(".moduleCard"));
+    const quick=Array.from(dashboard.querySelectorAll(".quickAction"));
+    let visible=0;
+    cards.forEach(card=>{
+      const match=!query||(card.innerText+" "+(card.dataset.module||"")).toLocaleLowerCase("id").includes(query);
+      card.hidden=!match;
+      if(match)visible++;
+    });
+    quick.forEach(button=>{
+      const match=!query||(button.innerText+" "+(button.dataset.module||"")).toLocaleLowerCase("id").includes(query);
+      button.hidden=!match;
+    });
+    dashboard.querySelectorAll(".moduleGroupLabel").forEach(label=>{
+      let node=label.nextElementSibling,hasMatch=false;
+      while(node&&!node.classList.contains("moduleGroupLabel")){
+        if(node.classList.contains("moduleCard")&&!node.hidden)hasMatch=true;
+        node=node.nextElementSibling;
+      }
+      label.hidden=!!query&&!hasMatch;
+    });
+    empty.classList.toggle("visible",!!query&&visible===0);
+    status.textContent=query
+      ? visible+" modul ditemukan dari "+cards.length+" modul."
+      : "Telusuri seluruh modul MEDORA.";
+  }
+  input.addEventListener("input",applyModuleSearch);
+  input.addEventListener("keydown",event=>{
+    if(event.key==="Escape"){input.value="";applyModuleSearch();input.blur();}
+  });
+  document.addEventListener("keydown",event=>{
+    const target=event.target;
+    const typing=target&&(target.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));
+    if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="k"){
+      event.preventDefault();input.focus();input.select();
+    }else if(event.key==="/"&&!typing&&!event.ctrlKey&&!event.metaKey&&!event.altKey){
+      event.preventDefault();input.focus();
+    }
+  });
+  input.setAttribute("title","Tekan Ctrl+K atau / untuk mencari modul. Escape untuk menghapus.");
+})();

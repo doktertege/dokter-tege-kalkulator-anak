@@ -34,6 +34,7 @@ function makeElement() {
     checked: false,
     children: [],
     append(...nodes) { this.children.push(...nodes); this.textContent = this.children.map(node => node.textContent || "").join(""); },
+    appendChild(node) { this.append(node); return node; },
     replaceChildren(...nodes) { this.children = []; this.textContent = ""; this.append(...nodes); },
     setAttribute(name, value) { this[name] = value; },
     matches(selector) { return selector === ".checkRow input[type=checkbox]"; }

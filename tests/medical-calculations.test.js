@@ -8,7 +8,7 @@ test("medical calculator returns BMI and Mosteller BSA from valid anthropometry"
   const result = calculateMedicalMetrics({ weight: "70", height: "175" });
   assert.deepEqual(result, [
     ["BMI", "22.86 kg/m²"],
-    ["BSA (Mosteller)", "1.85 m²"]
+    ["BSA (Mosteller)", "1.84 m²"]
   ]);
 });
 

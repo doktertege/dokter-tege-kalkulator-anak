@@ -49,7 +49,7 @@ function harness() {
 test("general area renders all public education topics and category filters", () => {
   const { elements } = harness();
   const count = elements.get("publicCount").textContent;
-  assert.match(count, /11 panduan ditemukan/);
+  assert.match(count, /23 panduan ditemukan/);
   assert.match(elements.get("publicFilters").innerHTML, /data-public-cat="Semua"/);
   assert.match(elements.get("publicArticles").innerHTML, /data-article="fever"/);
   assert.match(elements.get("publicArticles").innerHTML, /data-article="diarrhea"/);

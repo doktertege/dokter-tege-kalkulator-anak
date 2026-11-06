@@ -42,7 +42,11 @@ function createHarness() {
   const document = {
     body: { classList: { add() {}, remove() {} } },
     getElementById(id) {
-      if (!elements.has(id)) elements.set(id, makeElement());
+      if (!elements.has(id)) {
+        const element = makeElement();
+        element.id = id;
+        elements.set(id, element);
+      }
       return elements.get(id);
     },
     querySelectorAll(selector) {

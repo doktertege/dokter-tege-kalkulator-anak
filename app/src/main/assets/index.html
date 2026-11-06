@@ -560,6 +560,7 @@ drawPublicArticles();
 
 const medicineProfiles = window.MEDORA_DATABASE.medicineProfiles || {};
 const medicineCatalog = window.MEDORA_DATABASE.drugs || [];
+const medicineCoverage = window.MEDORA_DATABASE.metadata.medicineProfiles?.coverage || {};
 let medicineDbCategory = "Semua";
 function showMedicineDatabase(){
  document.body.classList.remove("home-mode","medical-mode","icd-mode");
@@ -577,8 +578,10 @@ function drawMedicineDatabase(){
   const haystack=[...d,profile.activeIngredient||"",...(profile.dosageForms||[]),...(profile.route||[])].join(" ").toLowerCase();
   return (medicineDbCategory==="Semua"||d[1]===medicineDbCategory)&&haystack.includes(q);
  });
- $("medicineDbCount").textContent=rows.length+" dari "+medicineCatalog.length+" produk";
- $("medicineDbList").innerHTML=rows.map(d=>'<article class="medicineDbCard"><div class="medicineDbIcon">'+escapeHTML(d[3])+'</div><div><strong>'+escapeHTML(d[0])+'</strong><small>'+escapeHTML(d[2])+'</small><small>'+escapeHTML(d[1])+' • '+(d[4]==="excluded"?"Tidak diaktifkan":(medicineProfiles[d[0]]?"Profil tersedia":"Katalog dasar"))+'</small></div><button type="button" data-medicine-open="'+escapeHTML(d[0])+'" aria-label="Detail '+escapeHTML(d[0])+'">›</button></article>').join("")||'<div class="emptyState">Obat tidak ditemukan.</div>';
+ const profiledCount=medicineCatalog.filter(d=>medicineCoverage[d[0]]==="structured_profile").length;
+ const pendingCount=medicineCatalog.filter(d=>medicineCoverage[d[0]]==="pending_profile_review").length;
+ $("medicineDbCount").textContent=rows.length+" dari "+medicineCatalog.length+" produk • "+profiledCount+" profil terstruktur • "+pendingCount+" menunggu verifikasi";
+ $("medicineDbList").innerHTML=rows.map(d=>'<article class="medicineDbCard"><div class="medicineDbIcon">'+escapeHTML(d[3])+'</div><div><strong>'+escapeHTML(d[0])+'</strong><small>'+escapeHTML(d[2])+'</small><small>'+escapeHTML(d[1])+' • '+(d[4]==="excluded"?"Tidak diaktifkan":(medicineCoverage[d[0]]==="structured_profile"?"Profil terstruktur":medicineCoverage[d[0]]==="pending_profile_review"?"Profil menunggu verifikasi":"Tidak diaktifkan"))+'</small></div><button type="button" data-medicine-open="'+escapeHTML(d[0])+'" aria-label="Detail '+escapeHTML(d[0])+'">›</button></article>').join("")||'<div class="emptyState">Obat tidak ditemukan.</div>';
 }
 function openMedicineDatabaseDetail(name){
  const d=medicineCatalog.find(x=>x[0]===name);if(!d)return;
@@ -595,7 +598,7 @@ function openMedicineDatabaseDetail(name){
  html+='<div class="medicineDbDose"><b>Status kalkulator:</b><br>'+escapeHTML(status)+'</div>';
  if(d[4]==="excluded")html+='<div class="medicineDbWarning"><b>Produk tidak diaktifkan.</b><br>Jangan menghitung dosis menggunakan rumus generik. Ikuti penilaian klinis dan referensi produk yang sesuai.</div>';
  if(p.keyWarnings&&p.keyWarnings.length)html+='<div class="medicineDbWarning"><b>Peringatan klinis</b><ul>'+p.keyWarnings.map(x=>'<li>'+escapeHTML(x)+'</li>').join("")+'</ul></div>';
- if(!p.activeIngredient)html+='<div class="medicineDbWarning">Profil farmakologi terstruktur belum tersedia. Informasi kartu ini hanya berasal dari katalog nama dan label sediaan.</div>';
+ if(!p.activeIngredient)html+='<div class="medicineDbWarning"><b>Profil menunggu verifikasi.</b><br>Produk ini baru tercatat pada katalog dasar. Zat aktif, sediaan, rute, konsentrasi, batas usia, dan peringatan belum boleh dianggap tervalidasi.</div>';
  const sourceRegistry=window.MEDORA_DATABASE.metadata.medicineProfiles?.sources||{};
  const provenance=p.provenance||{};
  const provenanceLabels={activeIngredient:"Zat aktif",dosageForms:"Bentuk sediaan",route:"Rute",formulationNote:"Catatan formulasi",strength:"Kekuatan",prescriptionStatus:"Status resep",keyWarnings:"Peringatan klinis",doseEngineFunction:"Kalkulator"};

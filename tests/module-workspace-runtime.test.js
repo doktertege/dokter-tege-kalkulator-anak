@@ -56,7 +56,8 @@ function createHarness() {
     },
     querySelectorAll(selector) {
       return selector === "#moduleWorkspaceContent .checkRow input[type=checkbox]" ? emergencyCheckboxes : [];
-    }
+    },
+    addEventListener() {}
   };
   const calls = [];
   const confirmationMessages = [];
@@ -67,7 +68,8 @@ function createHarness() {
   let confirmResult = true;
   const window = {
     MEDORA_DATABASE: { drugs: [["Paracetamol"]] },
-    scrollTo() {}
+    scrollTo() {},
+    setInterval() { return 1; }
   };
   const context = {
     document,

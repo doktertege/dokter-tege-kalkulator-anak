@@ -131,7 +131,7 @@
     return {
       dailyMg,
       volumeMl: dailyMg / mgPerMl,
-      maxDailyMg: 10,
+      maxDailyMg: ageMonths < 24 ? 2.5 : ageMonths < 72 ? 5 : 10,
       frequencyPerDay: 1
     };
   }

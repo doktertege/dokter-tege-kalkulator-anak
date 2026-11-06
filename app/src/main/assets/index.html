@@ -309,7 +309,7 @@ const data=[
 ["Metronidazole","Lainnya","Suspensi oral • amebiasis dan giardiasis terpilih","💊","active"],
 ["Domperidone","Lainnya","Tablet • suspensi","💊","pending"],
 ["Omeprazole","Lainnya","Kapsul lepas tunda 20 mg • GERD khas / esofagitis erosif • usia 1–16 tahun dan BB ≥20 kg","💊","active"],
-["Lansoprazole","Lainnya","Kapsul • dispersibel","💊","pending"],
+["Lansoprazole","Lainnya","Kapsul lepas tunda 30 mg • GERD khas / esofagitis erosif terpilih","💊","active"],
 ["Furosemide","Lainnya","Tablet • injeksi","💊","pending"],
 ["Adrenaline","Lainnya","Injeksi","💉","pending"]
 ];
@@ -369,6 +369,14 @@ if(name==="Prednisone"){
  $("predDose").addEventListener("change",calc);$("predDuration").addEventListener("change",calc);calc();return
 }
 
+
+if(name==="Lansoprazole"){
+ if(p.a<12||p.a>=216){$("doseArea").innerHTML='<div class="warn">Kalkulator kapsul 30 mg ini hanya untuk usia 1–17 tahun. Usia di luar rentang tersebut memerlukan protokol tersendiri.</div>';return}
+ if(p.w<=30){$("doseArea").innerHTML='<div class="warn">Kalkulator tidak mengeluarkan dosis untuk BB ≤30 kg. Sediaan lokal yang terverifikasi dalam katalog ini adalah kapsul lepas tunda 30 mg. Jangan membagi atau menghancurkan granul kapsul untuk memperkirakan dosis yang lebih rendah.</div>';return}
+ $("doseArea").innerHTML='<span class="pill">Lansoprazole 30 mg • kapsul lepas tunda • oral</span><div class="result"><label for="lansoIndication">Indikasi yang sudah dinilai klinis</label><select id="lansoIndication"><option value="typicalGERD">Gejala GERD khas • usia 1–11 tahun</option><option value="erosiveEsophagitis">Esofagitis erosif terkait refluks (terdiagnosis)</option></select><label for="lansoDuration" style="margin-top:10px">Durasi terapi</label><select id="lansoDuration"><option value="4">4 minggu</option><option value="8">8 minggu</option></select><div id="lansoResult"></div></div><div class="warn"><b>Regimen yang didukung:</b> 30 mg sekali sehari untuk anak usia 1–11 tahun dengan BB &gt;30 kg. Pada usia 12–17 tahun, kalkulator hanya mengaktifkan esofagitis erosif: 30 mg sekali sehari selama 4–8 minggu. Untuk gejala GERD khas usia 1–11 tahun, evaluasi setelah 4 minggu. Berikan sebelum makan pagi; kapsul lepas tunda ditelan utuh sesuai leaflet produk.</div><div class="warn"><b>Batas penting:</b> pada usia 12–17 tahun dengan GERD non-erosif, dosis label adalah 15 mg dan tidak diaktifkan karena sediaan lokal 15 mg belum diverifikasi. BB ≤30 kg juga diblokir. Jangan gunakan untuk gumoh/regurgitasi fisiologis atau rewel/menangis pada bayi sehat, batuk/wheezing tanpa gejala GERD khas, maupun nyeri perut tanpa evaluasi penyebab. Evaluasi respons, diagnosis alternatif, dan kebutuhan penghentian setelah 4–8 minggu. Waspadai diare, nyeri kepala, nyeri perut, risiko infeksi enterik, interaksi obat, serta efek supresi asam jangka panjang.</div>';
+ const calc=()=>{const indication=$("lansoIndication").value;if(indication==="typicalGERD")$("lansoDuration").value="4";$("lansoDuration").disabled=indication==="typicalGERD";$("lansoIndication").querySelector('option[value="typicalGERD"]').disabled=p.a>=144;const r=MedoraDoseEngine.lansoprazolePediatricGerd(p.w,p.a,indication,Number($("lansoDuration").value));$("lansoResult").innerHTML='<div class="resultgrid"><div class="metric"><small>Dosis per hari</small><strong>'+r.dailyDoseMg+' mg</strong></div><div class="metric"><small>Sediaan</small><strong>1 kapsul</strong><small>'+r.capsuleStrengthMg+' mg</small></div><div class="metric"><small>Frekuensi</small><strong>1× sehari</strong><small>Sebelum sarapan</small></div><div class="metric"><small>Total terapi</small><strong>'+r.totalCapsules+' kapsul</strong><small>'+r.durationWeeks+' minggu</small></div></div>'};
+ $("lansoIndication").addEventListener("change",calc);$("lansoDuration").addEventListener("change",calc);calc();return
+}
 if(name==="Omeprazole"){
  if(p.a<12||p.a>192){$("doseArea").innerHTML='<div class="warn">Kalkulator kapsul 20 mg ini hanya untuk usia 1–16 tahun. Di luar rentang tersebut gunakan penilaian dan protokol tersendiri.</div>';return}
  if(p.w<20){$("doseArea").innerHTML='<div class="warn">Berat badan di bawah 20 kg: kalkulator tidak mengeluarkan dosis karena yang terverifikasi untuk sediaan lokal adalah kapsul lepas tunda 20 mg. Jangan membagi isi kapsul atau memperkirakan dosis. Diperlukan sediaan pediatrik yang tervalidasi.</div>';return}

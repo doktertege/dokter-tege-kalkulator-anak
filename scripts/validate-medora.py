@@ -123,7 +123,7 @@ def main():
     # Regression guard: list preview and detail calculator must use identical
     # age/weight eligibility. A mismatch can advertise a dose that detail rejects.
     furosemide_preview = re.search(
-        r'else if\(d\[0\]==["\']Furosemide["\']&&p\.a>=(\d+)&&p\.a<(\d+)&&p\.w>=(\d+)\)',
+        r'else if\(d\[0\]===["\']Furosemide["\']&&p\.a>=(\d+)&&p\.a<(\d+)&&p\.w>=(\d+)\)',
         javascript,
     )
     furosemide_detail = re.search(

@@ -662,3 +662,26 @@ test("metamizole oral blocks contraindicated age and weight boundaries", () => {
   assert.throws(() => dose.metamizolePediatricOral(0, 60), RangeError);
   assert.throws(() => dose.metamizolePediatricOral(Number.NaN, 60), RangeError);
 });
+
+
+test("furosemide oral edema calculates conservative starting dose and maximum", () => {
+  const child = dose.furosemidePediatricOralEdema(20, 72);
+  assert.equal(child.dailyDoseMg, 20);
+  assert.equal(child.doseMgPerKgPerDay, 1);
+  assert.equal(child.tabletStrengthMg, 40);
+  assert.equal(child.tabletEquivalentPerDay, 0.5);
+  assert.equal(child.frequency, "once daily");
+  const capped = dose.furosemidePediatricOralEdema(60, 180);
+  assert.equal(capped.dailyDoseMg, 40);
+  assert.equal(capped.doseMgPerKgPerDay, 40 / 60);
+  assert.equal(capped.tabletEquivalentPerDay, 1);
+});
+
+test("furosemide oral edema blocks neonatal, adult and unsupported low-weight patients", () => {
+  assert.throws(() => dose.furosemidePediatricOralEdema(10, 0), RangeError);
+  assert.throws(() => dose.furosemidePediatricOralEdema(10, 1 - 0.001), RangeError);
+  assert.throws(() => dose.furosemidePediatricOralEdema(10, 216), RangeError);
+  assert.throws(() => dose.furosemidePediatricOralEdema(9.9, 72), RangeError);
+  assert.throws(() => dose.furosemidePediatricOralEdema(0, 72), RangeError);
+  assert.throws(() => dose.furosemidePediatricOralEdema(Number.NaN, 72), RangeError);
+});

@@ -126,7 +126,8 @@ test("settings navigation opens a usable settings workspace", () => {
 
 
 test("SOAP workspace builds, clears, and copies a structured note", async () => {
-  const { elements, copiedText } = createHarness();
+  const harness = createHarness();
+  const { elements } = harness;
   elements.get("homeDashboard").click({
     target: { closest: () => ({ dataset: { module: "ai" } }) }
   });
@@ -144,7 +145,7 @@ test("SOAP workspace builds, clears, and copies a structured note", async () => 
   assert.match(elements.get("soapStatus").textContent, /Periksa kembali/);
 
   await elements.get("moduleWorkspaceContent").click({ target: { id: "copySoap" } });
-  assert.match(copiedText, /Demam 2 hari/);
+  assert.match(harness.copiedText, /Demam 2 hari/);
 
   elements.get("moduleWorkspaceContent").click({ target: { id: "clearSoap" } });
   assert.equal(elements.get("soapAge").value, "");
@@ -157,7 +158,7 @@ test("settings backup exports local favorites and dose history", async () => {
     target: { closest: () => ({ dataset: { module: "settings" } }) }
   });
   await elements.get("moduleWorkspaceContent").click({ target: { id: "copyLocalBackup" } });
-  const backup = JSON.parse(copiedText);
+  const backup = JSON.parse(harness.copiedText);
   assert.equal(backup.app, "MEDORA");
   assert.equal(backup.version, 1);
   assert.deepEqual(Array.from(backup.favorites), []);

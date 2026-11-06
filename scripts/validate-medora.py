@@ -30,6 +30,7 @@ EXPECTED_DYNAMIC_IDS = {
     "ondansetronStrength", "ondansetronResult", "diazepamStrength", "diazepamResult",
     "metroRegimen", "metroStrength", "metroResult",
     "dexSeverity", "dexForm", "dexResult",
+    "predDose", "predDuration", "predResult",
 }
 
 

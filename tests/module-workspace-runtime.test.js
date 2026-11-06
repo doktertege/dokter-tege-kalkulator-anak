@@ -138,6 +138,28 @@ test("clinical dashboard click routing invokes every destination", () => {
   }
 });
 
+
+test("quick-launch modules are remembered locally in most-recent-first order", () => {
+  const { elements, storage } = createHarness();
+  const dashboard = elements.get("homeDashboard");
+  for (const key of ["calculator", "emergency", "icd", "drugs", "emergency"]) {
+    dashboard.click({
+      target: {
+        closest(selector) {
+          assert.equal(selector, "[data-module]");
+          return { dataset: { module: key } };
+        }
+      }
+    });
+  }
+  assert.deepEqual(JSON.parse(storage.get("medora_recent_modules_v1")),
+    ["emergency", "drugs", "icd", "calculator"]);
+  const recentHtml = elements.get("recentModuleList").innerHTML;
+  assert.match(recentHtml, /IGD & Emergency/);
+  assert.match(recentHtml, /Database obat/);
+  assert.doesNotMatch(recentHtml, /Kalkulator medis/);
+});
+
 test("module back button returns to the clinical dashboard", () => {
   const { elements, calls } = createHarness();
   elements.get("moduleBack").click();

@@ -1,6 +1,7 @@
 /* MEDORA offline module workspace. Loaded after the main application script. */
 (function () {
   "use strict";
+  const $ = id => document.getElementById(id);
   const pages = {
     guides: {
       title: "Panduan Klinis",
@@ -277,7 +278,7 @@
     }
   });
 
-  document.getElementById("navSettings").addEventListener("click", event => {
+  $("navSettings").addEventListener("click", event => {
     event.preventDefault();
     showWorkspace("settings");
   });

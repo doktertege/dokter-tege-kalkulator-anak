@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 permissions:
   contents: read
 jobs:
@@ -10,6 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate MEDORA HTML and JavaScript
+        run: python3 scripts/validate-medora.py
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

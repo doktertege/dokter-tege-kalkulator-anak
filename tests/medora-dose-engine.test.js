@@ -637,3 +637,29 @@ test("adrenaline anaphylaxis blocks wrong concentration and invalid patient inpu
   assert.throws(() => dose.adrenalineAnaphylaxisIM(10, -1, 1), RangeError);
   assert.throws(() => dose.adrenalineAnaphylaxisIM(10, 217, 1), RangeError);
 });
+
+
+test("metamizole oral calculates conservative pediatric dose and suspension volume", () => {
+  const r = dose.metamizolePediatricOral(10, 60);
+  assert.equal(r.doseMg, 100);
+  assert.equal(r.doseMgPerKg, 10);
+  assert.equal(r.concentrationMgPerMl, 50);
+  assert.equal(r.volumeMl, 2);
+  assert.equal(r.maxDailyMg, 400);
+  assert.equal(r.maxDosesPer24Hours, 4);
+
+  const capped = dose.metamizolePediatricOral(60, 168);
+  assert.equal(capped.doseMg, 500);
+  assert.equal(capped.maxDailyMg, 2000);
+  assert.equal(capped.volumeMl, 10);
+});
+
+test("metamizole oral blocks contraindicated age and weight boundaries", () => {
+  assert.throws(() => dose.metamizolePediatricOral(5, 2), RangeError);
+  assert.throws(() => dose.metamizolePediatricOral(5, 3), RangeError);
+  assert.throws(() => dose.metamizolePediatricOral(5, 168), RangeError);
+  assert.throws(() => dose.metamizolePediatricOral(5, 169), RangeError);
+  assert.throws(() => dose.metamizolePediatricOral(5, 60), RangeError);
+  assert.throws(() => dose.metamizolePediatricOral(0, 60), RangeError);
+  assert.throws(() => dose.metamizolePediatricOral(Number.NaN, 60), RangeError);
+});

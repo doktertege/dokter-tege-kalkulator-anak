@@ -73,7 +73,7 @@ def main():
         )
 
     javascript = parser.inline_scripts[0]
-    referenced_ids = set(re.findall(r'\\$\\("([^"]+)"\\)', javascript))
+    referenced_ids = set(re.findall(r'\$\("([^"]+)"\)', javascript))
     missing_references = sorted(referenced_ids - set(parser.ids) - EXPECTED_DYNAMIC_IDS)
     missing_dynamic_controls = sorted(
         item for item in EXPECTED_DYNAMIC_IDS if item not in javascript

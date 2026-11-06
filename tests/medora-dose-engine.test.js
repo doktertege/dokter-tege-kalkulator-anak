@@ -289,3 +289,39 @@ test("all dose engines reject non-finite numeric inputs", () => {
   }
 });
 
+
+test("oralit Plan A calculates 10 mL/kg after each watery stool", () => {
+  assert.deepEqual(dose.oralit(10, "planA"), {
+    plan: "planA", afterEachStoolMl: 100,
+    instruction: "give after each watery stool; continue breastfeeding and feeding"
+  });
+});
+
+test("oralit Plan B calculates 75 mL/kg over 3 hours", () => {
+  assert.deepEqual(dose.oralit(10, "planB"), {
+    plan: "planB", totalMl: 750, durationHours: 3,
+    instruction: "give gradually; reassess hydration after 3 hours"
+  });
+});
+
+test("oralit rejects invalid weight and unsupported plan", () => {
+  assert.throws(() => dose.oralit(0, "planA"), RangeError);
+  assert.throws(() => dose.oralit(10, "unknown"), RangeError);
+  assert.throws(() => dose.oralit(Number.NaN, "planB"), RangeError);
+});
+
+test("chlorpheniramine uses conservative age bands and syrup concentration conversion", () => {
+  assert.deepEqual(dose.chlorpheniramine(24, 2), {
+    doseMg: 1, volumeMl: 2.5, intervalHoursMin: 4, intervalHoursMax: 6,
+    maxDailyMg: 6, maxDosesPerDay: 6
+  });
+  assert.equal(dose.chlorpheniramine(72, 2).doseMg, 2);
+  assert.equal(dose.chlorpheniramine(144, 2).doseMg, 4);
+  assert.equal(dose.chlorpheniramine(72, 4).volumeMl, 2.5);
+});
+
+test("chlorpheniramine blocks under 2 years and rejects invalid strengths", () => {
+  assert.throws(() => dose.chlorpheniramine(23, 2), RangeError);
+  assert.throws(() => dose.chlorpheniramine(Number.NaN, 2), RangeError);
+  assert.throws(() => dose.chlorpheniramine(24, 0), RangeError);
+});

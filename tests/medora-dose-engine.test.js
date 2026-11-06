@@ -163,3 +163,26 @@ test("cefadroxil rejects invalid inputs", () => {
   assert.throws(() => dose.cefadroxil(0, 125), RangeError);
   assert.throws(() => dose.cefadroxil(10, 0), RangeError);
 });
+
+
+test("cetirizine uses age-based daily doses at key age boundaries", () => {
+  assert.equal(dose.cetirizine(6, 5).dailyMg, 2.5);
+  assert.equal(dose.cetirizine(23, 5).dailyMg, 2.5);
+  assert.equal(dose.cetirizine(24, 5).dailyMg, 2.5);
+  assert.equal(dose.cetirizine(71, 5).dailyMg, 2.5);
+  assert.equal(dose.cetirizine(72, 5).dailyMg, 5);
+  assert.equal(dose.cetirizine(143, 5).dailyMg, 5);
+  assert.equal(dose.cetirizine(144, 5).dailyMg, 10);
+});
+
+test("cetirizine converts 5 mg/5 mL and 2.5 mg/5 mL concentrations", () => {
+  assert.equal(dose.cetirizine(72, 5).volumeMl, 5);
+  assert.equal(dose.cetirizine(72, 2.5).volumeMl, 10);
+});
+
+test("cetirizine enforces minimum age and maximum daily dose", () => {
+  assert.throws(() => dose.cetirizine(5, 5), RangeError);
+  assert.throws(() => dose.cetirizine(Number.NaN, 5), RangeError);
+  assert.throws(() => dose.cetirizine(144, 0), RangeError);
+  assert.equal(dose.cetirizine(180, 5).maxDailyMg, 10);
+});

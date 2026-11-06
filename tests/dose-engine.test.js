@@ -155,3 +155,41 @@ test("gentamicin calculator is explicitly an initial dose only", () => {
   assert.throws(() => dose.gentamicinInitial(10, 2, 40), RangeError);
   assert.throws(() => dose.gentamicinInitial(50, 24, 40), RangeError);
 });
+
+test("rectal diazepam is a single rescue dose with a hard single-dose ceiling", () => {
+  const result = dose.diazepamRectal(10, 60, 5);
+  assert.equal(result.doseMg, 5);
+  assert.equal(result.volumeMl, 1);
+  assert.equal(result.frequency, "single rescue dose; reassess immediately");
+  assert.equal(result.maxSingleDoseMg, 10);
+  assert.throws(() => dose.diazepamRectal(10, 0, 5), RangeError);
+  assert.throws(() => dose.diazepamRectal(10, 217, 5), RangeError);
+  assert.throws(() => dose.diazepamRectal(10, 60, 0), RangeError);
+});
+
+test("ondansetron gastroenteritis calculator is single-dose and enforces age and weight", () => {
+  const result = dose.ondansetronGastroenteritis(10, 24, 4);
+  assert.equal(result.doseMg, 1.5);
+  assert.equal(result.volumeMl, 1.875);
+  assert.equal(result.frequency, "single oral dose only");
+  assert.equal(result.maxDoseMg, 8);
+  assert.equal(result.rehydrationDelayMin, 15);
+  assert.equal(result.rehydrationDelayMax, 30);
+  assert.throws(() => dose.ondansetronGastroenteritis(7.9, 24, 4), RangeError);
+  assert.throws(() => dose.ondansetronGastroenteritis(10, 5, 4), RangeError);
+  assert.throws(() => dose.ondansetronGastroenteritis(10, 24, 0), RangeError);
+});
+
+test("dexamethasone croup calculator enforces age, severity, and single-dose use", () => {
+  const mild = dose.dexamethasoneCroup(10, 24, "mildModerate", "tablet");
+  assert.equal(mild.doseMg, 1.5);
+  assert.equal(mild.tabletCount, 3);
+  assert.equal(mild.frequency, "single dose only");
+  const severe = dose.dexamethasoneCroup(30, 60, "severe", "injection");
+  assert.equal(severe.doseMg, 12);
+  assert.equal(severe.injectionVolumeMl, 2.4);
+  assert.equal(severe.maxDoseMg, 12);
+  assert.throws(() => dose.dexamethasoneCroup(10, 5, "mildModerate", "tablet"), RangeError);
+  assert.throws(() => dose.dexamethasoneCroup(10, 24, "unknown", "tablet"), RangeError);
+  assert.throws(() => dose.dexamethasoneCroup(10, 24, "mildModerate", "syrup"), RangeError);
+});

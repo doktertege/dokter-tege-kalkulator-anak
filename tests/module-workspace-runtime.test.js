@@ -275,3 +275,16 @@ test("emergency checklist never carries completed actions into a new session", (
   assert.equal(storage.has("medora_emergency_checklist_v1"), false);
   assert.match(elements.get("emergencyChecklistStatus").textContent, /setiap kali menu dibuka/);
 });
+
+test("emergency checklist changes remain session-only and are not persisted", () => {
+  const { elements, emergencyCheckboxes, storage } = createHarness();
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "emergency" } }) }
+  });
+  emergencyCheckboxes[0].checked = true;
+  elements.get("moduleWorkspaceContent").listeners.change({
+    target: { matches: selector => selector === ".checkRow input[type=checkbox]" }
+  });
+  assert.equal(storage.has("medora_emergency_checklist_v1"), false);
+  assert.match(elements.get("emergencyChecklistStatus").textContent, /sesi ini saja/);
+});

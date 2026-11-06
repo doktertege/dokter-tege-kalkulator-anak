@@ -15,7 +15,7 @@ const engine = require(path.join(assets, "dose-engine.js"));
 test("requested medicines have structured profiles with traceable source metadata", () => {
   assert.equal(database.metadata.medicineProfiles.schemaVersion, "1.1");
   assert.equal(database.metadata.medicineProfiles.reviewedOn, "2026-11-06");
-  assert.equal(Object.keys(database.metadata.medicineProfiles.sources).length, 12);
+  assert.equal(Object.keys(database.metadata.medicineProfiles.sources).length, 13);
   for (const name of [
     "CTM (Chlorpheniramine)", "Oralit", "Ceftriaxone", "Cefotaxime", "Gentamicin",
     "Cendo Xitrol Tetes Mata", "Cendo Xitrol Salep Mata",

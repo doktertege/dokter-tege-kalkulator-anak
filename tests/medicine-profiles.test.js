@@ -129,7 +129,8 @@ test("cetirizine and amoxicillin profiles use BPOM-linked Indonesian formulation
   assert.equal(cetirizine.provenance.keyWarnings.status, "pending_product_specific_verification");
   assert.match(amoxicillin.formulationNote, /125 mg\/5 mL/);
   assert.match(amoxicillin.formulationNote, /250 mg\/5 mL/);
-  assert.equal(amoxicillin.provenance.prescriptionStatus.status, "pending_product_specific_verification");
+  assert.equal(amoxicillin.provenance.prescriptionStatus.status, "source_linked_reference");
+  assert.ok(amoxicillin.provenance.prescriptionStatus.sourceRefs.includes("kemkes_antibiotic_prescription"));
   assert.equal(amoxicillin.provenance.keyWarnings.status, "pending_product_specific_verification");
 });
 

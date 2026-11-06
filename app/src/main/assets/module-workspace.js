@@ -230,6 +230,10 @@
           typeof item.date !== "string" || !item.date.trim() || item.date.length > 80 ||
           typeof item.result !== "string" || !item.result.trim() || item.result.length > 1200
         )) throw new Error("Isi riwayat backup tidak valid atau di luar batas MEDORA.");
+        if (!confirm("Pulihkan backup MEDORA? Daftar favorit dan riwayat saat ini akan diganti dengan isi backup.")) {
+          $("settingsStatus").textContent = "Pemulihan backup dibatalkan. Data saat ini tidak berubah.";
+          return;
+        }
         const nextFavorites = new Set(backup.favorites);
         const nextHistory = backup.doseHistory.slice();
         // Persist both collections before changing the in-memory state. Roll back the

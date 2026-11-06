@@ -364,6 +364,57 @@ header.medoraHero:before,header.medoraHero:after,header:before,header:after{
 }
 header .medora-full-logo{background:transparent !important;filter:none !important}
 
+
+/* MEDORA Signature UI — refined clinical luxury system */
+:root{--ink:#172b43;--muted:#68798b;--blue:#176b72;--line:#e4e9e8;--bg:#f3f5f3;--green:#197b67;--red:#a8434b;--lux-navy:#102a3a;--lux-teal:#4eb5a4;--lux-gold:#c6a66a}
+html{scroll-behavior:smooth}
+body{background:#f2f4f1;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;letter-spacing:-.12px}
+body:before{background:radial-gradient(ellipse at 95% 0%,#dcece7 0,transparent 38%),linear-gradient(180deg,#f2f5f2,#f7f8f6 55%,#edf1ef)}
+header.medoraHero{min-height:242px;padding:26px 20px 30px;border-radius:0 0 32px 32px;background:linear-gradient(128deg,#102b3b 0%,#173e4b 58%,#1d6262 100%);box-shadow:0 14px 34px #102b3b26;isolation:isolate}
+header.medoraHero:before{background:radial-gradient(circle at 82% 10%,#75d6c52b,transparent 34%),radial-gradient(circle at 10% 100%,#d2b77a1c,transparent 38%)}
+header.medoraHero:after{width:260px;height:180px;right:-95px;bottom:-125px;background:#7ed0bd18;box-shadow:-340px -10px 0 0 #c9ad7710}
+header.medoraHero .brand{align-items:center}header.medoraHero .brandMain{gap:12px}
+header.medoraHero .heroLogo{width:76px;height:70px;filter:drop-shadow(0 4px 9px #061b2b70)}
+header.medoraHero .brandName{color:#f4f6f1;font-size:clamp(32px,8vw,43px);font-weight:850;letter-spacing:3px}
+header.medoraHero .brandSub{color:#c7d9d5;font-size:12px;letter-spacing:.7px}
+header.medoraHero .tag{top:18px;right:16px;background:#d7c08f;color:#18333e;box-shadow:none;font-weight:850;letter-spacing:.6px}
+header.medoraHero .heroLine{margin-top:17px;background:#ffffff12;border:1px solid #ffffff20;color:#d8e9e3;box-shadow:none;font-size:11px;letter-spacing:1.15px;text-transform:uppercase}
+main{max-width:780px;padding:0 16px 34px;margin:18px auto 0}
+#homeDashboard .welcome{color:#657a7b;font-size:13px;font-weight:650;letter-spacing:.15px;margin:2px 0 17px}
+#modeChooser .welcome{text-align:center;margin:4px 0 18px}
+.modeGrid{gap:13px}
+.modeCard,.modeCard.publicMode{min-height:176px;border:1px solid #e4e9e5;border-radius:22px;background:linear-gradient(150deg,#fff,#f3f7f4);color:#203b48;box-shadow:0 8px 24px #1c3b3510,0 1px 2px #1c3b3508;transition:transform .18s ease,box-shadow .18s ease}
+.modeCard:active,.moduleCard:active{transform:scale(.985)}
+.modeIcon,.publicMode .modeIcon{width:58px;height:58px;border-radius:18px;background:#e7f1ed;color:#246c68;box-shadow:inset 0 1px 0 #fff;font-size:30px}
+.publicMode .modeIcon{background:#f3eee2;color:#9a7840}
+.modeCard strong{font-size:13px;letter-spacing:1px;color:#1a3544}.modeCard small{color:#71817e;font-size:10px;max-width:180px}
+.moduleGrid{gap:11px}
+.moduleCard{min-height:126px;border:1px solid #e5eae6;border-radius:19px;padding:13px 11px;background:linear-gradient(145deg,#fff 0%,#f7f9f6 100%);box-shadow:0 5px 16px #1a3c3510,0 1px 2px #1a3c3508;color:#1d3544;transition:transform .18s ease,box-shadow .18s ease}
+.moduleIcon{width:52px;height:52px;border-radius:16px;background:#eaf2ef;color:#276f68;box-shadow:inset 0 1px 0 #fff;font-size:27px}
+.moduleText .miniBrand{color:#9b8152;font-size:8px;letter-spacing:1.2px}
+.moduleText strong{font-size:13px;line-height:1.18;color:#1b3442;font-weight:800}.moduleText small{font-size:10px;color:#71818a;line-height:1.3}
+.moduleArrow{font-size:23px;color:#a18a60}
+.homeNote{background:#edf3ef;border:1px solid #e1e9e3;border-radius:15px;color:#63766f;padding:13px 15px}
+.bottomNav{background:#fbfcfaf2;border-top:1px solid #e1e8e3;box-shadow:0 -7px 24px #1b3a3510;backdrop-filter:blur(18px)}
+.bottomNav a{color:#788681;font-weight:700}.bottomNav a span{font-size:23px;filter:saturate(.65)}.bottomNav a small{color:#81918b}
+.bottomNav a.active{background:#173e4b;color:#f6f7f2;box-shadow:0 4px 12px #173e4b28}.bottomNav a.active small{color:#d5c49b}
+.panel,.drug{background:#fff;border:1px solid #e7ece8;border-radius:19px;box-shadow:0 5px 18px #1b3b3510,0 1px 2px #1b3b3508}
+#patientPanel{border-radius:21px}.stat{background:#edf4f0}.stat:last-child{background:#f4f0e7}
+input,select{border:1px solid #dfe7e2;background:#fbfcfa;border-radius:12px;color:#1d3544}
+input:focus,select:focus{outline:2px solid #9bcfc3;outline-offset:1px}
+.search{border:1px solid #e5ebe6;box-shadow:0 4px 15px #1b3b350b}
+button{border:1px solid #e1e8e3;color:#344b53;box-shadow:0 2px 7px #1b3b3508}
+button.active{background:#1d6d70;border-color:#1d6d70;box-shadow:0 4px 12px #1d6d7028}
+.drug{background:#fff!important;min-height:104px}.drug:nth-of-type(n){background:#fff}
+.ico{background:#edf4f0;color:#286c66}.drugDose{border-left-color:#e5eae6}.drugDose strong{color:#1b5960}
+.drugDose em{background:#e5f1ec;color:#286b5f}.drugDose.pending em{background:#f5efdf;color:#816936}
+.result,.medicalResult{background:#eef5f1;border-color:#dce9e1}.metric{background:#fff;border:1px solid #e8eee9}
+.warn,.notice{background:#f8f2e5;border-color:#eadcbb;color:#765f31}
+.icdItem{background:#fff;border-color:#e5ebe6}.icdCode{color:#28766f}
+.publicArticleCard{background:#fff;border-color:#e6ece7;box-shadow:0 4px 14px #1b3b350b}
+@media(max-width:390px){header.medoraHero{min-height:222px;padding:23px 16px 26px}header.medoraHero .heroLogo{width:64px;height:60px}header.medoraHero .brandName{font-size:32px;letter-spacing:2px}.moduleCard{min-height:116px;padding:10px 8px}.moduleIcon{width:46px;height:46px;font-size:24px}.moduleText strong{font-size:12px}.moduleText small{font-size:9px}.modeCard{min-height:158px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">

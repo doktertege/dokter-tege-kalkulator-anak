@@ -234,8 +234,8 @@
     throw new RangeError("plan must be planA or planB");
   }
 
-  // Conservative age bands for immediate-release oral chlorpheniramine syrup 2 mg/5 mL.
-  // Under 2 years is blocked; follow local product labeling and avoid routine use for common cold.
+  // Conservative age-band dose reference. The caller must supply the exact product strength in mg/5 mL.
+  // Under 2 years is blocked; verify active ingredient and formulation on the actual label.
   function chlorpheniramine(ageMonths, strengthMgPer5Ml) {
     if (!Number.isFinite(ageMonths) || ageMonths < 24) {
       throw new RangeError("chlorpheniramine is not enabled below 2 years");

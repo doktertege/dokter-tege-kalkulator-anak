@@ -1,13 +1,31 @@
 package id.doktertege.kalkulatoranak;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
 import android.view.View;
 
 public class MainActivity extends Activity {
+    private boolean handleNavigation(WebView view, Uri uri) {
+        String scheme = uri.getScheme();
+        if ("file".equalsIgnoreCase(scheme)) return false;
+        if ("https".equalsIgnoreCase(scheme)) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException error) {
+                view.loadUrl(uri.toString());
+            }
+        }
+        return true;
+    }
+
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
         getWindow().setStatusBarColor(0xFFEAF3FF);
@@ -20,7 +38,19 @@ public class MainActivity extends Activity {
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);
         s.setAllowFileAccess(true);
-        web.setWebViewClient(new WebViewClient());
+        web.setWebViewClient(new WebViewClient() {
+            // Legacy overload is required for Android API 23 (minimum supported version).
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return handleNavigation(view, Uri.parse(url));
+            }
+
+            // Modern overload handles navigation on API 24 and newer.
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return handleNavigation(view, request.getUrl());
+            }
+        });
         setContentView(web);
         web.loadUrl("file:///android_asset/index.html");
     }

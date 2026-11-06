@@ -307,8 +307,8 @@ test("SOAP output explicitly flags empty sections instead of silently omitting t
   elements.get("soapAssessment").value = "ISPA";
   elements.get("moduleWorkspaceContent").click({ target: { id: "buildSoap" } });
   const note = elements.get("soapOutput").textContent;
-  assert.match(note, /O - Objektif[\\s\\S]*?\\[BELUM DIISI\\]/);
-  assert.match(note, /P - Rencana[\\s\\S]*?\\[BELUM DIISI\\]/);
+  assert.match(note, /O - Objektif[\s\S]*?\[BELUM DIISI\]/);
+  assert.match(note, /P - Rencana[\s\S]*?\[BELUM DIISI\]/);
   assert.match(elements.get("soapStatus").textContent, /belum lengkap/);
   assert.match(elements.get("soapStatus").textContent, /Objektif, Rencana/);
 });

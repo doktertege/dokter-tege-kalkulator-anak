@@ -49,7 +49,7 @@
 ["R03.0","Peningkatan tekanan darah tanpa diagnosis hipertensi","Gejala"],
 ["R06.0","Dispnea","Gejala"],
 ["R07.4","Nyeri dada, tidak spesifik","Gejala"],
-["R11.2","Mual dengan muntah, tidak spesifik","Gejala"],
+["R11","Mual dan muntah","Gejala"],
 ["R19.7","Diare, tidak spesifik","Gejala"],
 ["R53","Malaise dan kelelahan","Gejala"],
 ["M25.5","Nyeri sendi","Muskuloskeletal"],

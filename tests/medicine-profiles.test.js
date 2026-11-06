@@ -96,7 +96,7 @@ test("paracetamol and ibuprofen profiles have BPOM-linked formulation references
     }
     for (const field of ["prescriptionStatus", "keyWarnings"]) {
       assert.equal(profile.provenance[field].status, "pending_product_specific_verification");
-      assert.deepEqual(profile.provenance[field].sourceRefs, []);
+      assert.equal(profile.provenance[field].sourceRefs.length, 0);
     }
   }
   assert.match(database.medicineProfiles.Paracetamol.formulationNote, /120 mg\/5 mL.*160 mg\/5 mL|160 mg\/5 mL.*120 mg\/5 mL/);

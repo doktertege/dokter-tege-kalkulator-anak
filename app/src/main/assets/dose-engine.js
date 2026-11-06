@@ -104,7 +104,21 @@
     };
   }
 
-  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin });
+  function cefadroxil(weightKg, strengthMgPer5Ml) {
+    requirePositive(weightKg, "weightKg");
+    requirePositive(strengthMgPer5Ml, "strengthMgPer5Ml");
+    const dailyMg = Math.min(weightKg * 30, 1000);
+    const mgPerMl = strengthMgPer5Ml / 5;
+    return {
+      dailyMg,
+      perDoseMg: dailyMg,
+      volumeMl: dailyMg / mgPerMl,
+      divisions: 1,
+      maxDailyMg: 1000
+    };
+  }
+
+  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

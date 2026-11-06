@@ -669,14 +669,13 @@
     }
   },
   "Erlamycetin Tetes Mata": {
-    "activeIngredient": "chloramphenicol",
+    "activeIngredient": "Belum diverifikasi; cocokkan zat aktif dengan etiket dan nomor registrasi produk.",
     "dosageForms": [
       "tetes mata"
     ],
     "route": [
       "ophthalmic"
     ],
-    "strength": "0.5% (produk yang tercantum pada referensi)",
     "prescriptionStatus": "verify_local_label",
     "doseEngineFunction": null,
     "keyWarnings": [
@@ -720,7 +719,7 @@
     }
   },
   "Erlamycetin Tetes Telinga": {
-    "activeIngredient": "chloramphenicol",
+    "activeIngredient": "Belum diverifikasi; cocokkan zat aktif dengan etiket dan nomor registrasi produk.",
     "dosageForms": [
       "tetes telinga"
     ],
@@ -771,14 +770,13 @@
     }
   },
   "Erlamycetin Salep Mata": {
-    "activeIngredient": "chloramphenicol",
+    "activeIngredient": "Belum diverifikasi; cocokkan zat aktif dengan etiket dan nomor registrasi produk.",
     "dosageForms": [
       "salep mata"
     ],
     "route": [
       "ophthalmic"
     ],
-    "strength": "1% (produk yang tercantum pada formularium rujukan)",
     "prescriptionStatus": "verify_local_label",
     "doseEngineFunction": null,
     "keyWarnings": [

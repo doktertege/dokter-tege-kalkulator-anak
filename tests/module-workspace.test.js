@@ -99,10 +99,12 @@ test("public health area exposes searchable, filterable articles with working de
   assert.match(html, /drawPublicArticles\(\)/);
 });
 
-test("bottom navigation always returns to a visible clinical destination from every module", () => {
-  assert.match(html, /function showCalculator\(\)\{document\.body\.classList\.remove\("home-mode","medical-mode","icd-mode","medicine-database-mode","module-workspace-mode","public-mode"\)/);
-  assert.match(html, /function showMedical\(\)\{document\.body\.classList\.remove\("home-mode","icd-mode","medicine-database-mode","module-workspace-mode","public-mode"\)/);
-  assert.match(html, /function showIcd\(\)\{document\.body\.classList\.remove\("home-mode","medical-mode","medicine-database-mode","module-workspace-mode","public-mode"\)/);
-  assert.match(html, /\$\("navHistory"\)\.addEventListener\("click",e=>\{e\.preventDefault\(\);showCalculator\(\)/);
-  assert.match(html, /\$\("navFavorites"\)\.addEventListener\("click",e=>\{e\.preventDefault\(\);showCalculator\(\);showFavorites=true/);
-});
+test("bottom navigation exposes only home and settings destinations", () => {
+  const nav = html.match(/<nav class="bottomNav">([\\s\\S]*?)<\\/nav>/);
+  assert.ok(nav);
+  assert.match(nav[1], /id="navHome"/);
+  assert.match(nav[1], /id="navSettings"/);
+  assert.doesNotMatch(nav[1], /navSearch|navFavorites|navHistory/);
+  assert.match(html, /\\$\\("navHome"\\)\\.addEventListener\\("click"/);
+  assert.match(moduleWorkspace, /\\$\\("navSettings"\\)\\.addEventListener\\("click"/);
+});;

@@ -259,3 +259,9 @@ test("salbutamol nebulization rejects unsupported ages, strengths, and doses", (
   assert.throws(() => dose.salbutamolNebulized(72, 1, 1.25), RangeError);
   assert.throws(() => dose.salbutamolNebulized(72, 1, 7.5), RangeError);
 });
+
+
+test("salbutamol nebulization rejects non-finite selected doses", () => {
+  assert.throws(() => dose.salbutamolNebulized(72, 1, Number.NaN), RangeError);
+  assert.throws(() => dose.salbutamolNebulized(72, 1, Number.POSITIVE_INFINITY), RangeError);
+});

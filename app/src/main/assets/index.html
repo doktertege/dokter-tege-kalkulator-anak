@@ -262,8 +262,15 @@ body.icd-mode #icdPanel{display:block}
 <button data-icd-cat="Penyakit dalam">Penyakit dalam</button>
 <button data-icd-cat="Gejala">Gejala</button>
 <button data-icd-cat="Lainnya">Lainnya</button>
+<button data-icd-cat="Pencernaan">Pencernaan</button>
+<button data-icd-cat="Urogenital">Urogenital</button>
+<button data-icd-cat="Kulit">Kulit</button>
+<button data-icd-cat="Mata & THT">Mata & THT</button>
+<button data-icd-cat="Neurologi">Neurologi</button>
+<button data-icd-cat="Muskuloskeletal">Muskuloskeletal</button>
+<button data-icd-cat="Trauma">Trauma</button>
 </div>
-<p class="summary" id="icdCount">20 kode referensi awal</p>
+<p class="summary" id="icdCount">Memuat database ICD-10 referensi...</p>
 <div id="icdList" class="icdList"></div>
 <div class="warn"><b>Penting:</b> Ini adalah daftar referensi awal, bukan database ICD-10 lengkap dan bukan penentu diagnosis. Pilih kode berdasarkan diagnosis yang sudah ditegakkan, dokumentasi klinis, tingkat spesifisitas, dan ketentuan coding yang berlaku. Jangan memilih kode penyakit definitif hanya dari gejala. Verifikasi pada indeks alfabetik dan tabular resmi sebelum klaim/rujukan.</div>
 <p class="medicalHint">Referensi: <a href="https://icd.who.int/browse10/2019/en" target="_blank" rel="noreferrer">WHO ICD-10 Browser 2019</a>.</p>
@@ -578,6 +585,33 @@ const icdData=[
 ["R10.9","Nyeri abdomen, tidak spesifik","Gejala"],
 ["R42","Pusing dan vertigo","Gejala"],
 ["R51.9","Sakit kepala","Gejala"],
+["A04.9","Infeksi usus bakterial, tidak spesifik","Infeksi"],
+["A08.4","Infeksi usus virus, tidak spesifik","Infeksi"],
+["E86","Dehidrasi","Penyakit dalam"],
+["D50.9","Anemia defisiensi besi, tidak spesifik","Penyakit dalam"],
+["E10.9","Diabetes melitus tipe 1 tanpa komplikasi","Penyakit dalam"],
+["J20.9","Bronkitis akut, tidak spesifik","Respirasi"],
+["J21.9","Bronkiolitis akut, tidak spesifik","Respirasi"],
+["J44.9","Penyakit paru obstruktif kronik, tidak spesifik","Respirasi"],
+["K52.9","Gastroenteritis dan kolitis noninfeksi, tidak spesifik","Pencernaan"],
+["K59.0","Konstipasi","Pencernaan"],
+["N30.0","Sistitis akut","Urogenital"],
+["R00.2","Palpitasi","Gejala"],
+["R03.0","Peningkatan tekanan darah tanpa diagnosis hipertensi","Gejala"],
+["R06.0","Dispnea","Gejala"],
+["R07.9","Nyeri dada, tidak spesifik","Gejala"],
+["R11.2","Mual dengan muntah, tidak spesifik","Gejala"],
+["R19.7","Diare, tidak spesifik","Gejala"],
+["R53","Malaise dan kelelahan","Gejala"],
+["M25.5","Nyeri sendi","Muskuloskeletal"],
+["L20.9","Dermatitis atopik, tidak spesifik","Kulit"],
+["L23.9","Dermatitis kontak alergi, penyebab tidak spesifik","Kulit"],
+["L50.9","Urtikaria, tidak spesifik","Kulit"],
+["H10.9","Konjungtivitis, tidak spesifik","Mata & THT"],
+["H60.9","Otitis eksterna, tidak spesifik","Mata & THT"],
+["G44.2","Sakit kepala tipe tegang","Neurologi"],
+["S09.9","Cedera kepala, tidak spesifik","Trauma"],
+["T14.9","Cedera, tidak spesifik","Trauma"]
 ["M54.5","Nyeri punggung bawah","Lainnya"],
 ["M79.1","Mialgia","Lainnya"],
 ["L30.9","Dermatitis, tidak spesifik","Lainnya"],

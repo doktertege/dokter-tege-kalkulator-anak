@@ -103,6 +103,17 @@ def main():
         re.M,
     )
     raw_icd_rows = re.findall(r'^\["', icd_match.group(1), re.M)
+    icd_row_lines = [line for line in icd_match.group(1).splitlines() if line.strip()]
+    missing_separators = [
+        index + 1
+        for index, row in enumerate(icd_row_lines[:-1])
+        if not row.rstrip().endswith(",")
+    ]
+    if missing_separators:
+        raise SystemExit(
+            "ERROR: ICD-10 catalog rows missing commas after entries: "
+            + ", ".join(map(str, missing_separators))
+        )
     if not icd_entries or len(icd_entries) != len(raw_icd_rows):
         raise SystemExit("ERROR: ICD-10 catalog contains malformed or empty entries")
     icd_codes = [entry[0] for entry in icd_entries]

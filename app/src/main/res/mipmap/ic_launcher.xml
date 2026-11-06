@@ -1,1 +1,8 @@
-<bitmap xmlns:android="http://schemas.android.com/apk/res/android" android:src="@drawable/ic_launcher_image" android:gravity="fill" />
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="120dp" android:height="120dp" android:viewportWidth="120" android:viewportHeight="120">
+    <path android:fillColor="#EAF4F3" android:pathData="M0,0h120v120h-120z"/>
+    <path android:fillColor="#173B4B" android:pathData="M28,83 L28,43 C28,34 38,30 45,36 L60,50 L75,36 C82,30 92,34 92,43 L92,83 L82,83 L82,44 L60,64 L38,44 L38,83 Z"/>
+    <path android:fillColor="#159E9A" android:pathData="M55,59h10v24h-10z"/>
+    <path android:fillColor="#159E9A" android:pathData="M96,12a13,13 0,1 0,0 26a13,13 0,1 0,0 -26"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M94,18h4v14h-4zM89,23h14v4h-14z"/>
+</vector>

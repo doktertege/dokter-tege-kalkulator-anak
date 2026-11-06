@@ -450,3 +450,30 @@ test("rectal diazepam rejects neonatal age, adult age and invalid inputs", () =>
   assert.throws(() => dose.diazepamRectal(10, 24, 0), RangeError);
   assert.throws(() => dose.diazepamRectal(10, Number.NaN, 5), RangeError);
 });
+
+
+test("metronidazole calculates separate oral amoebiasis and giardiasis regimens", () => {
+  const amoeba = dose.metronidazole(10, 24, "amoebiasis", 125);
+  assert.deepEqual(amoeba, {
+    regimen: "amoebiasis", doseMg: 150, volumeMl: 6,
+    frequencyPerDay: 3, intervalHours: 8, maxDoseMg: 800,
+    dailyMg: 450, durationMinDays: 7, durationMaxDays: 10
+  });
+  const giardia = dose.metronidazole(10, 24, "giardiasis", 200);
+  assert.deepEqual(giardia, {
+    regimen: "giardiasis", doseMg: 100, volumeMl: 2.5,
+    frequencyPerDay: 3, intervalHours: 8, maxDoseMg: 400,
+    dailyMg: 300, durationMinDays: 5, durationMaxDays: 7
+  });
+  assert.equal(dose.metronidazole(60, 144, "amoebiasis", 200).doseMg, 800);
+  assert.equal(dose.metronidazole(50, 144, "giardiasis", 125).doseMg, 400);
+});
+
+test("metronidazole rejects neonatal, adult, invalid and unsupported regimens", () => {
+  assert.throws(() => dose.metronidazole(3, 0, "amoebiasis", 125), RangeError);
+  assert.throws(() => dose.metronidazole(10, 217, "giardiasis", 125), RangeError);
+  assert.throws(() => dose.metronidazole(0, 24, "amoebiasis", 125), RangeError);
+  assert.throws(() => dose.metronidazole(10, 24, "amoebiasis", 0), RangeError);
+  assert.throws(() => dose.metronidazole(10, 24, "anaerobic", 125), RangeError);
+  assert.throws(() => dose.metronidazole(10, Number.NaN, "giardiasis", 125), RangeError);
+});

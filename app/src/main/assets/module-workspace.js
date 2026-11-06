@@ -277,7 +277,7 @@
     }
   });
 
-  $("navSettings").addEventListener("click", event => {
+  document.getElementById("navSettings").addEventListener("click", event => {
     event.preventDefault();
     showWorkspace("settings");
   });

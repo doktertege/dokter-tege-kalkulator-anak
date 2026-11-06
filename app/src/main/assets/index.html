@@ -457,6 +457,14 @@ button.active{background:#1d6d70;border-color:#1d6d70;box-shadow:0 4px 12px #1d6
 .moduleSearchEmpty.visible{display:block}
 @media(max-width:390px){#clinicalModuleSearch{height:46px}}
 
+
+.favoriteModules{margin-top:14px;padding-top:13px;border-top:1px solid #e8ede8}
+.moduleCard{position:relative}
+.moduleFavoriteToggle{position:absolute;right:9px;top:9px;z-index:2;width:27px;height:27px;display:grid;place-items:center;border:1px solid #e7ece7;border-radius:10px;background:#fff;color:#a0aaa4;font-size:15px;line-height:1;box-shadow:0 2px 7px #183b350c;cursor:pointer}
+.moduleFavoriteToggle[aria-pressed="true"]{background:#f5efdf;border-color:#e8dcc0;color:#a17d3e}
+.moduleCard .moduleText{padding-right:17px}
+.favoriteModules .recentModuleChip{background:#f5f0e4;border-color:#e9dfc8;color:#705b35}
+
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">
@@ -486,7 +494,7 @@ button.active{background:#1d6d70;border-color:#1d6d70;box-shadow:0 4px 12px #1d6
   <button class="quickAction" data-module="icd"><span class="quickActionIcon">10</span><span><b>ICD-10</b><small>Cari kode diagnosis</small></span><i>↗</i></button>
   <button class="quickAction" data-module="drugs"><span class="quickActionIcon">◈</span><span><b>Database obat</b><small>Informasi obat</small></span><i>↗</i></button>
  </div>
- <div class="recentModules"><div class="recentHeading"><b>Terakhir dibuka</b><span>DI PERANGKAT INI</span></div><div id="recentModuleList" class="recentModuleList"><p class="recentEmpty">Modul yang terakhir digunakan akan muncul di sini.</p></div></div>
+ <div class="recentModules"><div class="recentHeading"><b>Terakhir dibuka</b><span>DI PERANGKAT INI</span></div><div id="recentModuleList" class="recentModuleList"><p class="recentEmpty">Modul yang terakhir digunakan akan muncul di sini.</p></div></div><div class="favoriteModules"><div class="recentHeading"><b>Modul favorit</b><span id="favoriteModuleCount">0 TERSIMPAN</span></div><div id="favoriteModuleList" class="recentModuleList"><p class="recentEmpty">Tandai modul dengan ikon bintang untuk akses pribadi.</p></div></div>
 </section>
 <div class="moduleGrid">
 <p class="moduleGroupLabel">KALKULATOR & KODE KLINIS</p>

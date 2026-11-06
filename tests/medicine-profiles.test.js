@@ -1,0 +1,59 @@
+"use strict";
+
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const vm = require("node:vm");
+
+const assets = path.join(__dirname, "../app/src/main/assets");
+const context = { window: {} };
+vm.runInNewContext(fs.readFileSync(path.join(assets, "database.js"), "utf8"), context);
+const database = context.window.MEDORA_DATABASE;
+const engine = require(path.join(assets, "dose-engine.js"));
+
+test("requested medicines have structured profiles with traceable source metadata", () => {
+  assert.equal(database.metadata.medicineProfiles.schemaVersion, "1.0");
+  assert.equal(database.metadata.medicineProfiles.reviewedOn, "2026-11-06");
+  assert.ok(database.metadata.medicineProfiles.sources.length >= 4);
+  for (const name of [
+    "CTM (Chlorpheniramine)", "Oralit", "Ceftriaxone", "Cefotaxime", "Gentamicin",
+    "Cendo Xitrol Tetes Mata", "Cendo Xitrol Salep Mata",
+    "Erlamycetin Tetes Mata", "Erlamycetin Tetes Telinga", "Erlamycetin Salep Mata"
+  ]) {
+    const profile = database.medicineProfiles[name];
+    assert.ok(profile, name + " profile should exist");
+    assert.ok(profile.activeIngredient, name + " active ingredient should be documented");
+    assert.ok(Array.isArray(profile.dosageForms) && profile.dosageForms.length > 0);
+    assert.ok(Array.isArray(profile.route) && profile.route.length > 0);
+    assert.ok(Array.isArray(profile.keyWarnings) && profile.keyWarnings.length >= 2);
+    assert.ok(["prescription_only", "non_prescription", "verify_local_label", "varies_by_product"].includes(profile.prescriptionStatus));
+  }
+});
+
+test("dose engine links point to real exported functions; topical profiles never expose a dose calculator", () => {
+  const topicalNames = [
+    "Cendo Xitrol Tetes Mata", "Cendo Xitrol Salep Mata",
+    "Erlamycetin Tetes Mata", "Erlamycetin Tetes Telinga", "Erlamycetin Salep Mata"
+  ];
+  for (const [name, profile] of Object.entries(database.medicineProfiles)) {
+    if (profile.doseEngineFunction) {
+      assert.equal(typeof engine[profile.doseEngineFunction], "function", name + " dose engine function");
+    }
+    if (topicalNames.includes(name)) assert.equal(profile.doseEngineFunction, null, name + " must not have a dose calculator");
+  }
+});
+
+test("injectable products warn about product-specific reconstitution and monitoring", () => {
+  for (const name of ["Ceftriaxone", "Cefotaxime", "Gentamicin"]) {
+    const profile = database.medicineProfiles[name];
+    assert.match(profile.formulationNote, /konsentrasi|vial|ampul/i);
+    assert.ok(profile.keyWarnings.length >= 3);
+  }
+});
+
+test("oralit requires exact sachet dilution and does not assume all sachets are equivalent", () => {
+  const profile = database.medicineProfiles.Oralit;
+  assert.match(profile.formulationNote, /volume/i);
+  assert.match(profile.keyWarnings.join(" "), /tepat pada volume/i);
+});

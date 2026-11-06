@@ -157,191 +157,580 @@
   ];
 
   root.MEDORA_DATABASE.metadata.medicineProfiles = {
-    schemaVersion: "1.0",
+    schemaVersion: "1.1",
     reviewedOn: "2026-11-06",
     scope: "Structured formulation and safety notes; not a prescribing label and not a substitute for current product-specific package information",
-    sources: [
-        "https://cekbpom.pom.go.id/produk/EREG100213VR12100053/05/detail",
-        "https://www.halodoc.com/obat-dan-vitamin/cendo-xitrol-eye-drop-5-ml",
-        "https://www.halodoc.com/obat-dan-vitamin/cendo-xitrol-salep-mata-3-5-g",
-        "https://peraturan.bpk.go.id/Download/366339/2024pb6306009.pdf",
-        "https://ygi.or.id/hal-hal-yang-perlu-diperhatikan-saat-membuat-dan-konsumsi-oralit/"
-    ]
-  };
-  root.MEDORA_DATABASE.medicineProfiles = {
-    "CTM (Chlorpheniramine)": {
-      "activeIngredient": "chlorpheniramine maleate",
-      "dosageForms": [
-        "sirup oral",
-        "tablet oral"
-      ],
-      "route": [
-        "oral"
-      ],
-      "formulationNote": "Konsentrasi sirup dan kekuatan tablet berbeda antarproduk; wajib cocokkan etiket sebelum menghitung volume.",
-      "prescriptionStatus": "varies_by_product",
-      "doseEngineFunction": "chlorpheniramine",
-      "keyWarnings": [
-        "Dapat menyebabkan kantuk dan efek antikolinergik.",
-        "Hindari duplikasi dengan obat flu kombinasi yang juga mengandung antihistamin.",
-        "Gunakan sediaan immediate-release; jangan samakan dengan sediaan lepas lambat."
-      ]
-    },
-    "Oralit": {
-      "activeIngredient": "glukosa anhidrat, natrium klorida, kalium klorida, trisodium sitrat dihidrat",
-      "dosageForms": [
-        "serbuk sachet untuk larutan oral"
-      ],
-      "route": [
-        "oral"
-      ],
-      "formulationNote": "Volume pelarut mengikuti label sachet; produk 200 mL tidak boleh diasumsikan sama dengan sachet untuk volume lain.",
-      "prescriptionStatus": "non_prescription",
-      "doseEngineFunction": "oralit",
-      "keyWarnings": [
-        "Larutkan seluruh sachet tepat pada volume air matang sesuai kemasan.",
-        "Jangan menambahkan gula atau garam dan jangan membagi serbuk sachet secara perkiraan.",
-        "Dehidrasi berat atau syok memerlukan tata laksana segera, bukan oralit oral saja."
-      ]
-    },
-    "Ceftriaxone": {
-      "activeIngredient": "ceftriaxone sodium",
-      "dosageForms": [
-        "serbuk injeksi vial"
-      ],
-      "route": [
-        "IV",
-        "IM"
-      ],
-      "formulationNote": "Kekuatan vial, pelarut, konsentrasi setelah rekonstitusi, dan kompatibilitas bergantung produk serta rute.",
-      "prescriptionStatus": "prescription_only",
-      "doseEngineFunction": "ceftriaxoneInjection",
-      "keyWarnings": [
-        "Verifikasi alergi beta-laktam dan riwayat reaksi berat.",
-        "Jangan gunakan pelarut yang mengandung kalsium untuk rekonstitusi atau pengenceran IV.",
-        "Neonatus memerlukan pemeriksaan kontraindikasi khusus, termasuk hiperbilirubinemia dan cairan IV berkalsium."
-      ]
-    },
-    "Cefotaxime": {
-      "activeIngredient": "cefotaxime sodium",
-      "dosageForms": [
-        "serbuk injeksi vial"
-      ],
-      "route": [
-        "IV",
-        "IM"
-      ],
-      "formulationNote": "Kekuatan vial dan konsentrasi setelah rekonstitusi bergantung produk serta rute.",
-      "prescriptionStatus": "prescription_only",
-      "doseEngineFunction": "cefotaximeInjection",
-      "keyWarnings": [
-        "Verifikasi alergi beta-laktam.",
-        "Periksa fungsi ginjal untuk penyesuaian regimen pada gangguan ginjal.",
-        "Pastikan pengencer, konsentrasi, stabilitas, dan kecepatan pemberian sesuai informasi produk."
-      ]
-    },
-    "Gentamicin": {
-      "activeIngredient": "gentamicin sulfate",
-      "dosageForms": [
-        "larutan injeksi"
-      ],
-      "route": [
-        "IV",
-        "IM"
-      ],
-      "formulationNote": "Konsentrasi ampul berbeda antarproduk; hitung dosis berdasarkan mg dan volume aktual setelah memeriksa label.",
-      "prescriptionStatus": "prescription_only",
-      "doseEngineFunction": "gentamicinInitial",
-      "keyWarnings": [
-        "Risiko nefrotoksisitas dan ototoksisitas; evaluasi fungsi ginjal.",
-        "Regimen dan interval perlu mempertimbangkan usia gestasi/neonatal, fungsi ginjal, indikasi, dan pemantauan kadar bila tersedia.",
-        "Jangan mengasumsikan dosis awal tunggal sebagai regimen lengkap."
-      ]
-    },
-    "Cendo Xitrol Tetes Mata": {
-      "activeIngredient": "dexamethasone, neomycin sulfate, polymyxin B sulfate",
-      "dosageForms": [
-        "suspensi tetes mata"
-      ],
-      "route": [
-        "ophthalmic"
-      ],
-      "formulationNote": "Komposisi dan satuan kekuatan harus dicocokkan dengan nomor registrasi serta etiket produk yang digunakan.",
-      "prescriptionStatus": "prescription_only",
-      "doseEngineFunction": null,
-      "keyWarnings": [
-        "Mengandung kortikosteroid mata; bukan terapi empiris untuk semua mata merah.",
-        "Hindari pada dugaan keratitis herpes simpleks, infeksi jamur, atau infeksi mata yang belum dievaluasi.",
-        "Steroid dapat meningkatkan tekanan intraokular, memperburuk infeksi, dan menunda penyembuhan; perlu evaluasi dokter mata."
-      ]
-    },
-    "Cendo Xitrol Salep Mata": {
-      "activeIngredient": "dexamethasone, neomycin sulfate, polymyxin B sulfate",
-      "dosageForms": [
-        "salep mata"
-      ],
-      "route": [
-        "ophthalmic"
-      ],
-      "formulationNote": "Kekuatan per gram dan kemasan harus dicocokkan dengan etiket produk; jangan menyalin komposisi tetes mata.",
-      "prescriptionStatus": "prescription_only",
-      "doseEngineFunction": null,
-      "keyWarnings": [
-        "Mengandung kortikosteroid mata; bukan terapi empiris untuk semua mata merah.",
-        "Hindari pada dugaan keratitis herpes simpleks, infeksi jamur, atau infeksi mata yang belum dievaluasi.",
-        "Steroid dapat meningkatkan tekanan intraokular, memperburuk infeksi, dan menunda penyembuhan; perlu evaluasi dokter mata."
-      ]
-    },
-    "Erlamycetin Tetes Mata": {
-      "activeIngredient": "chloramphenicol",
-      "dosageForms": [
-        "tetes mata"
-      ],
-      "route": [
-        "ophthalmic"
-      ],
-      "strength": "0.5% (produk yang tercantum pada referensi)",
-      "prescriptionStatus": "verify_local_label",
-      "doseEngineFunction": null,
-      "keyWarnings": [
-        "Pastikan diagnosis infeksi bakteri dan indikasi penggunaan.",
-        "Periksa alergi kloramfenikol serta petunjuk usia pada informasi produk.",
-        "Jangan gunakan sediaan tetes telinga sebagai pengganti tetes mata."
-      ]
-    },
-    "Erlamycetin Tetes Telinga": {
-      "activeIngredient": "chloramphenicol",
-      "dosageForms": [
-        "tetes telinga"
-      ],
-      "route": [
-        "otic"
-      ],
-      "formulationNote": "Konsentrasi tidak dipatok dalam database ini; verifikasi label dan nomor registrasi produk yang tersedia.",
-      "prescriptionStatus": "verify_local_label",
-      "doseEngineFunction": null,
-      "keyWarnings": [
-        "Pastikan sediaan memang berlabel untuk telinga; jangan substitusi dengan tetes mata tanpa instruksi klinis.",
-        "Evaluasi kondisi membran timpani, diagnosis, dan kemungkinan otore/komplikasi sebelum terapi.",
-        "Konsentrasi dan aturan pakai wajib mengikuti informasi produk yang benar."
-      ]
-    },
-    "Erlamycetin Salep Mata": {
-      "activeIngredient": "chloramphenicol",
-      "dosageForms": [
-        "salep mata"
-      ],
-      "route": [
-        "ophthalmic"
-      ],
-      "strength": "1% (produk yang tercantum pada formularium rujukan)",
-      "prescriptionStatus": "verify_local_label",
-      "doseEngineFunction": null,
-      "keyWarnings": [
-        "Pastikan diagnosis infeksi bakteri dan indikasi penggunaan.",
-        "Periksa alergi kloramfenikol serta petunjuk usia pada informasi produk.",
-        "Jangan tertukar dengan konsentrasi tetes mata."
-      ]
+    verificationPolicy: "Each profile field carries provenance status and sourceRefs. Unlinked fields remain explicitly pending product-specific verification; verify the actual stocked pack and current package insert.",
+    sources: {
+      bpom_cendo_xitrol_drop: {
+        url: "https://cekbpom.pom.go.id/produk/EREG100213VR12100053/05/detail",
+        title: "BPOM Cek Produk: Cendo Xitrol tetes mata",
+        sourceType: "official_product_registration"
+      },
+      halodoc_cendo_xitrol_drop: {
+        url: "https://www.halodoc.com/obat-dan-vitamin/cendo-xitrol-eye-drop-5-ml",
+        title: "Halodoc: Cendo Xitrol Eye Drop 5 ml",
+        sourceType: "product_information_reference"
+      },
+      halodoc_cendo_xitrol_ointment: {
+        url: "https://www.halodoc.com/obat-dan-vitamin/cendo-xitrol-salep-mata-3-5-g",
+        title: "Halodoc: Cendo Xitrol Salep Mata 3.5 g",
+        sourceType: "product_information_reference"
+      },
+      ygi_oralit: {
+        url: "https://ygi.or.id/hal-hal-yang-perlu-diperhatikan-saat-membuat-dan-konsumsi-oralit/",
+        title: "Yayasan Gastroenterologi Indonesia: pembuatan oralit",
+        sourceType: "clinical_education_reference"
+      }
     }
   };
+  root.MEDORA_DATABASE.medicineProfiles = {
+  "CTM (Chlorpheniramine)": {
+    "activeIngredient": "chlorpheniramine maleate",
+    "dosageForms": [
+      "sirup oral",
+      "tablet oral"
+    ],
+    "route": [
+      "oral"
+    ],
+    "formulationNote": "Konsentrasi sirup dan kekuatan tablet berbeda antarproduk; wajib cocokkan etiket sebelum menghitung volume.",
+    "prescriptionStatus": "varies_by_product",
+    "doseEngineFunction": "chlorpheniramine",
+    "keyWarnings": [
+      "Dapat menyebabkan kantuk dan efek antikolinergik.",
+      "Hindari duplikasi dengan obat flu kombinasi yang juga mengandung antihistamin.",
+      "Gunakan sediaan immediate-release; jangan samakan dengan sediaan lepas lambat."
+    ],
+    "provenance": {
+      "activeIngredient": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "dosageForms": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "route": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "formulationNote": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "strength": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "prescriptionStatus": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "keyWarnings": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "doseEngineFunction": {
+        "status": "verified_by_local_regression_test",
+        "sourceRefs": []
+      }
+    }
+  },
+  "Oralit": {
+    "activeIngredient": "glukosa anhidrat, natrium klorida, kalium klorida, trisodium sitrat dihidrat",
+    "dosageForms": [
+      "serbuk sachet untuk larutan oral"
+    ],
+    "route": [
+      "oral"
+    ],
+    "formulationNote": "Volume pelarut mengikuti label sachet; produk 200 mL tidak boleh diasumsikan sama dengan sachet untuk volume lain.",
+    "prescriptionStatus": "non_prescription",
+    "doseEngineFunction": "oralit",
+    "keyWarnings": [
+      "Larutkan seluruh sachet tepat pada volume air matang sesuai kemasan.",
+      "Jangan menambahkan gula atau garam dan jangan membagi serbuk sachet secara perkiraan.",
+      "Dehidrasi berat atau syok memerlukan tata laksana segera, bukan oralit oral saja."
+    ],
+    "provenance": {
+      "activeIngredient": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "ygi_oralit"
+        ]
+      },
+      "dosageForms": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "ygi_oralit"
+        ]
+      },
+      "route": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "ygi_oralit"
+        ]
+      },
+      "formulationNote": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "ygi_oralit"
+        ]
+      },
+      "strength": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "prescriptionStatus": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "keyWarnings": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "ygi_oralit"
+        ]
+      },
+      "doseEngineFunction": {
+        "status": "verified_by_local_regression_test",
+        "sourceRefs": []
+      }
+    }
+  },
+  "Ceftriaxone": {
+    "activeIngredient": "ceftriaxone sodium",
+    "dosageForms": [
+      "serbuk injeksi vial"
+    ],
+    "route": [
+      "IV",
+      "IM"
+    ],
+    "formulationNote": "Kekuatan vial, pelarut, konsentrasi setelah rekonstitusi, dan kompatibilitas bergantung produk serta rute.",
+    "prescriptionStatus": "prescription_only",
+    "doseEngineFunction": "ceftriaxoneInjection",
+    "keyWarnings": [
+      "Verifikasi alergi beta-laktam dan riwayat reaksi berat.",
+      "Jangan gunakan pelarut yang mengandung kalsium untuk rekonstitusi atau pengenceran IV.",
+      "Neonatus memerlukan pemeriksaan kontraindikasi khusus, termasuk hiperbilirubinemia dan cairan IV berkalsium."
+    ],
+    "provenance": {
+      "activeIngredient": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "dosageForms": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "route": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "formulationNote": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "strength": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "prescriptionStatus": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "keyWarnings": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "doseEngineFunction": {
+        "status": "verified_by_local_regression_test",
+        "sourceRefs": []
+      }
+    }
+  },
+  "Cefotaxime": {
+    "activeIngredient": "cefotaxime sodium",
+    "dosageForms": [
+      "serbuk injeksi vial"
+    ],
+    "route": [
+      "IV",
+      "IM"
+    ],
+    "formulationNote": "Kekuatan vial dan konsentrasi setelah rekonstitusi bergantung produk serta rute.",
+    "prescriptionStatus": "prescription_only",
+    "doseEngineFunction": "cefotaximeInjection",
+    "keyWarnings": [
+      "Verifikasi alergi beta-laktam.",
+      "Periksa fungsi ginjal untuk penyesuaian regimen pada gangguan ginjal.",
+      "Pastikan pengencer, konsentrasi, stabilitas, dan kecepatan pemberian sesuai informasi produk."
+    ],
+    "provenance": {
+      "activeIngredient": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "dosageForms": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "route": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "formulationNote": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "strength": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "prescriptionStatus": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "keyWarnings": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "doseEngineFunction": {
+        "status": "verified_by_local_regression_test",
+        "sourceRefs": []
+      }
+    }
+  },
+  "Gentamicin": {
+    "activeIngredient": "gentamicin sulfate",
+    "dosageForms": [
+      "larutan injeksi"
+    ],
+    "route": [
+      "IV",
+      "IM"
+    ],
+    "formulationNote": "Konsentrasi ampul berbeda antarproduk; hitung dosis berdasarkan mg dan volume aktual setelah memeriksa label.",
+    "prescriptionStatus": "prescription_only",
+    "doseEngineFunction": "gentamicinInitial",
+    "keyWarnings": [
+      "Risiko nefrotoksisitas dan ototoksisitas; evaluasi fungsi ginjal.",
+      "Regimen dan interval perlu mempertimbangkan usia gestasi/neonatal, fungsi ginjal, indikasi, dan pemantauan kadar bila tersedia.",
+      "Jangan mengasumsikan dosis awal tunggal sebagai regimen lengkap."
+    ],
+    "provenance": {
+      "activeIngredient": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "dosageForms": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "route": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "formulationNote": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "strength": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "prescriptionStatus": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "keyWarnings": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "doseEngineFunction": {
+        "status": "verified_by_local_regression_test",
+        "sourceRefs": []
+      }
+    }
+  },
+  "Cendo Xitrol Tetes Mata": {
+    "activeIngredient": "dexamethasone, neomycin sulfate, polymyxin B sulfate",
+    "dosageForms": [
+      "suspensi tetes mata"
+    ],
+    "route": [
+      "ophthalmic"
+    ],
+    "formulationNote": "Komposisi dan satuan kekuatan harus dicocokkan dengan nomor registrasi serta etiket produk yang digunakan.",
+    "prescriptionStatus": "prescription_only",
+    "doseEngineFunction": null,
+    "keyWarnings": [
+      "Mengandung kortikosteroid mata; bukan terapi empiris untuk semua mata merah.",
+      "Hindari pada dugaan keratitis herpes simpleks, infeksi jamur, atau infeksi mata yang belum dievaluasi.",
+      "Steroid dapat meningkatkan tekanan intraokular, memperburuk infeksi, dan menunda penyembuhan; perlu evaluasi dokter mata."
+    ],
+    "provenance": {
+      "activeIngredient": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "bpom_cendo_xitrol_drop",
+          "halodoc_cendo_xitrol_drop"
+        ]
+      },
+      "dosageForms": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "bpom_cendo_xitrol_drop",
+          "halodoc_cendo_xitrol_drop"
+        ]
+      },
+      "route": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "bpom_cendo_xitrol_drop",
+          "halodoc_cendo_xitrol_drop"
+        ]
+      },
+      "formulationNote": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "strength": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "prescriptionStatus": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "halodoc_cendo_xitrol_drop"
+        ]
+      },
+      "keyWarnings": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "halodoc_cendo_xitrol_drop"
+        ]
+      },
+      "doseEngineFunction": {
+        "status": "verified_by_local_regression_test",
+        "sourceRefs": []
+      }
+    }
+  },
+  "Cendo Xitrol Salep Mata": {
+    "activeIngredient": "dexamethasone, neomycin sulfate, polymyxin B sulfate",
+    "dosageForms": [
+      "salep mata"
+    ],
+    "route": [
+      "ophthalmic"
+    ],
+    "formulationNote": "Kekuatan per gram dan kemasan harus dicocokkan dengan etiket produk; jangan menyalin komposisi tetes mata.",
+    "prescriptionStatus": "prescription_only",
+    "doseEngineFunction": null,
+    "keyWarnings": [
+      "Mengandung kortikosteroid mata; bukan terapi empiris untuk semua mata merah.",
+      "Hindari pada dugaan keratitis herpes simpleks, infeksi jamur, atau infeksi mata yang belum dievaluasi.",
+      "Steroid dapat meningkatkan tekanan intraokular, memperburuk infeksi, dan menunda penyembuhan; perlu evaluasi dokter mata."
+    ],
+    "provenance": {
+      "activeIngredient": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "halodoc_cendo_xitrol_ointment"
+        ]
+      },
+      "dosageForms": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "halodoc_cendo_xitrol_ointment"
+        ]
+      },
+      "route": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "halodoc_cendo_xitrol_ointment"
+        ]
+      },
+      "formulationNote": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "strength": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "prescriptionStatus": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "halodoc_cendo_xitrol_ointment"
+        ]
+      },
+      "keyWarnings": {
+        "status": "source_linked_reference",
+        "sourceRefs": [
+          "halodoc_cendo_xitrol_ointment"
+        ]
+      },
+      "doseEngineFunction": {
+        "status": "verified_by_local_regression_test",
+        "sourceRefs": []
+      }
+    }
+  },
+  "Erlamycetin Tetes Mata": {
+    "activeIngredient": "chloramphenicol",
+    "dosageForms": [
+      "tetes mata"
+    ],
+    "route": [
+      "ophthalmic"
+    ],
+    "strength": "0.5% (produk yang tercantum pada referensi)",
+    "prescriptionStatus": "verify_local_label",
+    "doseEngineFunction": null,
+    "keyWarnings": [
+      "Pastikan diagnosis infeksi bakteri dan indikasi penggunaan.",
+      "Periksa alergi kloramfenikol serta petunjuk usia pada informasi produk.",
+      "Jangan gunakan sediaan tetes telinga sebagai pengganti tetes mata."
+    ],
+    "provenance": {
+      "activeIngredient": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "dosageForms": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "route": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "formulationNote": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "strength": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "prescriptionStatus": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "keyWarnings": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "doseEngineFunction": {
+        "status": "verified_by_local_regression_test",
+        "sourceRefs": []
+      }
+    }
+  },
+  "Erlamycetin Tetes Telinga": {
+    "activeIngredient": "chloramphenicol",
+    "dosageForms": [
+      "tetes telinga"
+    ],
+    "route": [
+      "otic"
+    ],
+    "formulationNote": "Konsentrasi tidak dipatok dalam database ini; verifikasi label dan nomor registrasi produk yang tersedia.",
+    "prescriptionStatus": "verify_local_label",
+    "doseEngineFunction": null,
+    "keyWarnings": [
+      "Pastikan sediaan memang berlabel untuk telinga; jangan substitusi dengan tetes mata tanpa instruksi klinis.",
+      "Evaluasi kondisi membran timpani, diagnosis, dan kemungkinan otore/komplikasi sebelum terapi.",
+      "Konsentrasi dan aturan pakai wajib mengikuti informasi produk yang benar."
+    ],
+    "provenance": {
+      "activeIngredient": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "dosageForms": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "route": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "formulationNote": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "strength": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "prescriptionStatus": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "keyWarnings": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "doseEngineFunction": {
+        "status": "verified_by_local_regression_test",
+        "sourceRefs": []
+      }
+    }
+  },
+  "Erlamycetin Salep Mata": {
+    "activeIngredient": "chloramphenicol",
+    "dosageForms": [
+      "salep mata"
+    ],
+    "route": [
+      "ophthalmic"
+    ],
+    "strength": "1% (produk yang tercantum pada formularium rujukan)",
+    "prescriptionStatus": "verify_local_label",
+    "doseEngineFunction": null,
+    "keyWarnings": [
+      "Pastikan diagnosis infeksi bakteri dan indikasi penggunaan.",
+      "Periksa alergi kloramfenikol serta petunjuk usia pada informasi produk.",
+      "Jangan tertukar dengan konsentrasi tetes mata."
+    ],
+    "provenance": {
+      "activeIngredient": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "dosageForms": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "route": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "formulationNote": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "strength": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "prescriptionStatus": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "keyWarnings": {
+        "status": "pending_product_specific_verification",
+        "sourceRefs": []
+      },
+      "doseEngineFunction": {
+        "status": "verified_by_local_regression_test",
+        "sourceRefs": []
+      }
+    }
+  }
+};
 })(window);

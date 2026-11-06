@@ -186,6 +186,36 @@ def main():
     if drug_status.get("Domperidone") != "excluded":
         raise SystemExit("ERROR: Domperidone must remain excluded from pediatric dose calculator")
 
+    # Structured medicine profiles are reference/safety metadata, not dose instructions.
+    profile_marker = "root.MEDORA_DATABASE.medicineProfiles = "
+    profile_start = database_javascript.find(profile_marker)
+    profile_end = database_javascript.find(";\\n})(window);", profile_start)
+    if profile_start < 0 or profile_end < 0:
+        raise SystemExit("ERROR: structured medicine profiles not found")
+    profile_json = database_javascript[profile_start + len(profile_marker):profile_end]
+    try:
+        medicine_profiles = json.loads(profile_json)
+    except json.JSONDecodeError as error:
+        raise SystemExit("ERROR: malformed structured medicine profiles: " + str(error))
+    required_profiles = {
+        "CTM (Chlorpheniramine)", "Oralit", "Ceftriaxone", "Cefotaxime", "Gentamicin",
+        "Cendo Xitrol Tetes Mata", "Cendo Xitrol Salep Mata",
+        "Erlamycetin Tetes Mata", "Erlamycetin Tetes Telinga", "Erlamycetin Salep Mata"
+    }
+    missing_profiles = sorted(required_profiles - set(medicine_profiles))
+    if missing_profiles:
+        raise SystemExit("ERROR: structured medicine profiles missing: " + ", ".join(missing_profiles))
+    for name, profile in medicine_profiles.items():
+        if not profile.get("activeIngredient") or not profile.get("dosageForms") or not profile.get("route"):
+            raise SystemExit("ERROR: incomplete medicine profile: " + name)
+        if not profile.get("keyWarnings") or not profile.get("prescriptionStatus"):
+            raise SystemExit("ERROR: medicine profile lacks safety metadata: " + name)
+    for name in required_profiles:
+        if medicine_profiles[name].get("doseEngineFunction") is not None and name.startswith(("Cendo Xitrol", "Erlamycetin")):
+            raise SystemExit("ERROR: topical ophthalmic/otic product must not expose a pediatric dose calculator: " + name)
+    if not medicine_profiles.get("Oralit", {}).get("formulationNote"):
+        raise SystemExit("ERROR: Oralit must retain product-specific dilution guidance")
+
     # Bottom-navigation handlers must be registered exactly once. Duplicate
     # listeners can make a single tap trigger multiple navigation actions.
     navigation_ids = {"navHome", "navSearch", "navFavorites", "navHistory", "navSettings"}

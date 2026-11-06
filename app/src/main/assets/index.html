@@ -77,7 +77,7 @@ body.home-mode main> :not(#homeDashboard):not(#publicDashboard){display:none}
 #homeDashboard{display:none;margin:0 auto 18px}
 body.home-mode #homeDashboard{display:block}
 header .brand{justify-content:center}header .brandMain{gap:12px}
-header .medora-symbol{width:54px;height:54px}
+header .medora-symbol{width:60px;height:60px}
 header .brandName{font-size:30px;letter-spacing:1.8px}
 header .brandSub{font-size:12px}
 header .heroLine{text-align:center;font-size:11px;margin-top:12px}
@@ -206,7 +206,7 @@ body:before{display:none}
 header.medoraHero{min-height:224px;padding:25px 18px 30px;background:linear-gradient(135deg,#e4f3f2 0%,#f8fbfb 60%,#e7f0f7 100%);border-radius:0 0 30px 30px;border-bottom:1px solid #deebeb}
 header.medoraHero:before{background:radial-gradient(circle at 12% 18%,#fff 0,transparent 35%),radial-gradient(circle at 90% 0%,#d6e9ee 0,transparent 38%)}
 header.medoraHero:after{background:#cce8e477;box-shadow:-390px -5px 0 0 #d9e9ee66}
-header.medoraHero .heroLogo{width:76px;height:70px;filter:none}
+header.medoraHero .heroLogo{width:76px;height:76px;filter:drop-shadow(0 5px 10px #164e6350)}
 header.medoraHero .brandName{font-size:36px;letter-spacing:1.2px;color:#123b49}
 header.medoraHero .brandSub{font-size:12px;color:#607987}
 header.medoraHero .heroLine{margin-top:13px;background:transparent;color:#47717a;box-shadow:none;font-size:12px;font-weight:700;letter-spacing:.2px}
@@ -279,14 +279,16 @@ label{color:#425c68;font-size:12px;font-weight:750;letter-spacing:.01em}
 <header class="medoraHero">
 <div class="brand">
  <div class="brandMain">
-  <svg class="medora-symbol heroLogo" viewBox="0 0 180 150" role="img" aria-label="MEDORA">
-   <defs><linearGradient id="mblue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#42d8ff"/><stop offset=".55" stop-color="#087bdc"/><stop offset="1" stop-color="#123d91"/></linearGradient><linearGradient id="mgreen" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#37e8bd"/><stop offset="1" stop-color="#00a58e"/></linearGradient></defs>
-   <path d="M24 118V43Q24 23 43 23h10l36 48 35-48h10q19 0 19 20v75h-34V70L89 104 58 70v48z" fill="url(#mblue)"/>
-   <path d="M117 8h15v17h17v15h-17v17h-15V40h-17V25h17z" fill="url(#mgreen)" stroke="#fff" stroke-width="3"/>
-   <path d="M8 97h28l12-18 13 34 13-25h23" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-   <path d="M9 97h23" stroke="#ffad25" stroke-width="6" stroke-linecap="round"/>
-   <path d="M20 23C-1 31 3 65 22 73" fill="none" stroke="#123d91" stroke-width="7" stroke-linecap="round"/>
-   <circle cx="23" cy="77" r="11" fill="#e8f8ff" stroke="#123d91" stroke-width="5"/>
+  <svg class="medora-symbol heroLogo" viewBox="0 0 96 96" role="img" aria-label="Logo MEDORA">
+   <defs>
+    <linearGradient id="medoraMark" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0D9B9A"/><stop offset="1" stop-color="#155E75"/></linearGradient>
+    <linearGradient id="medoraAccent" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7BE0CF"/><stop offset="1" stop-color="#32B8AD"/></linearGradient>
+   </defs>
+   <rect x="4" y="4" width="88" height="88" rx="27" fill="url(#medoraMark)"/>
+   <path d="M23 69V29c0-3 4-4 6-1l19 25 19-25c2-3 6-2 6 1v40" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+   <path d="M73 15v15M65.5 22.5h15" stroke="url(#medoraAccent)" stroke-width="5" stroke-linecap="round"/>
+   <circle cx="23" cy="69" r="4" fill="#7BE0CF"/>
+   <circle cx="73" cy="69" r="4" fill="#7BE0CF"/>
   </svg>
   <div><div class="brandName">MEDORA</div><span class="brandSub">by Dokter Tege</span></div>
  </div>

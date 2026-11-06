@@ -25,6 +25,8 @@ EXPECTED_DYNAMIC_IDS = {
     "cefixResult", "cetiStrength", "cetiResult",
     "zincRegimen", "zincResult",
     "orsPlan", "orsResult", "ctmStrength", "ctmResult",
+    "ceftriaxoneRegimen", "ceftriaxoneResult", "cefotaximeRegimen",
+    "cefotaximeDivisions", "cefotaximeResult", "gentamicinStrength", "gentamicinResult",
 }
 
 

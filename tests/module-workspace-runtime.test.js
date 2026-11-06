@@ -32,6 +32,10 @@ function makeElement() {
     textContent: "",
     value: "",
     checked: false,
+    children: [],
+    append(...nodes) { this.children.push(...nodes); this.textContent = this.children.map(node => node.textContent || "").join(""); },
+    replaceChildren(...nodes) { this.children = []; this.textContent = ""; this.append(...nodes); },
+    setAttribute(name, value) { this[name] = value; },
     matches(selector) { return selector === ".checkRow input[type=checkbox]"; }
   };
 }
@@ -41,6 +45,7 @@ function createHarness() {
   const emergencyCheckboxes = Array.from({ length: 7 }, () => makeElement());
   const document = {
     body: { classList: { add() {}, remove() {} } },
+    createElement() { return makeElement(); },
     getElementById(id) {
       if (!elements.has(id)) {
         const element = makeElement();

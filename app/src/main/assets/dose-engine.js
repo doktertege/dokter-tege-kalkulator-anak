@@ -373,7 +373,37 @@
     };
   }
 
-  const api = Object.freeze({ diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+
+  // Oral metronidazole regimens for selected protozoal infections only.
+  // Neonates and IV/anaerobic indications require separate protocols.
+  function metronidazole(weightKg, ageMonths, regimen, strengthMgPer5Ml) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 1 || ageMonths > 216) {
+      throw new RangeError("oral metronidazole calculator is restricted to age 1 month through 18 years");
+    }
+    requirePositive(strengthMgPer5Ml, "strengthMgPer5Ml");
+    let doseMg, maxDoseMg, durationMinDays, durationMaxDays;
+    if (regimen === "amoebiasis") {
+      doseMg = Math.min(weightKg * 15, 800);
+      maxDoseMg = 800;
+      durationMinDays = 7;
+      durationMaxDays = 10;
+    } else if (regimen === "giardiasis") {
+      doseMg = Math.min(weightKg * 10, 400);
+      maxDoseMg = 400;
+      durationMinDays = 5;
+      durationMaxDays = 7;
+    } else {
+      throw new RangeError("regimen must be amoebiasis or giardiasis");
+    }
+    return {
+      regimen, doseMg, volumeMl: doseMg / (strengthMgPer5Ml / 5),
+      frequencyPerDay: 3, intervalHours: 8, maxDoseMg,
+      dailyMg: doseMg * 3, durationMinDays, durationMaxDays
+    };
+  }
+
+  const api = Object.freeze({ metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

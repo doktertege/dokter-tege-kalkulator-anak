@@ -77,6 +77,14 @@ test("header has no offline badge and workspace visibility CSS is valid", () => 
   assert.ok(html.includes("body.module-workspace-mode #moduleWorkspace{display:block}"));
 });
 
+test("opening a workspace hides both dashboards and the audience chooser", () => {
+  const workspace = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/module-workspace.js"), "utf8");
+  assert.match(workspace, /classList\.remove\("home-mode", "medical-mode", "icd-mode", "medicine-database-mode", "public-mode"\)/);
+  assert.match(workspace, /clinicalDashboard\.style\.display = "none"/);
+  assert.match(workspace, /publicDashboard\.style\.display = "none"/);
+  assert.match(workspace, /modeChooser\.style\.display = "none"/);
+});
+
 test("all four clinical workspace modules contain visible content", () => {
   const workspace = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/module-workspace.js"), "utf8");
   for (const [key, heading] of [

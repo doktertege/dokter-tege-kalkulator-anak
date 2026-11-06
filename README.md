@@ -27,4 +27,7 @@ Aplikasi tidak memerlukan koneksi internet untuk fitur lokal. Favorit disimpan d
 - Curated ICD-10 quick-reference data is stored in `app/src/main/assets/database.js`, separate from the interface code.
 - The database is loaded locally by the Android WebView; no network request is needed at runtime.
 - Current ICD-10 metadata identifies WHO ICD-10 version 2010. The 99-entry list is a curated subset, not the complete WHO tabular list or alphabetic index.
-- Future medicine catalog data can be added to the same `MEDORA_DATABASE` namespace with its own source, version, formulation, and safety metadata.
+- The 32-item medication catalog is also stored in `database.js`; product labels and status are separated from dosing algorithms.
+- Requested products are retained: CTM, oralit, ceftriaxone, cefotaxime, gentamicin, Cendo Xitrol eye drops/ointment, and Erlamycetin eye/ear products.
+- Domperidone remains explicitly excluded from pediatric dose calculation because of QT/arrhythmia risk.
+- Dose calculations and indication-specific instructions remain in their dedicated logic/guidance; moving the product index did not change medication regimens.

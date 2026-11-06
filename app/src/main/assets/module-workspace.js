@@ -215,7 +215,10 @@
     }
     if (id === "restoreLocalBackup") {
       try {
-        const backup = JSON.parse($("restoreBackup").value.trim());
+        const rawBackup = $("restoreBackup").value.trim();
+        if (!rawBackup) throw new Error("Tempel isi backup terlebih dahulu.");
+        if (rawBackup.length > 100000) throw new Error("Ukuran backup melebihi batas 100 KB.");
+        const backup = JSON.parse(rawBackup);
         if (backup.app !== "MEDORA" || backup.version !== 1 || !Array.isArray(backup.favorites) || !Array.isArray(backup.doseHistory)) throw new Error("Format backup tidak dikenali.");
         const catalogNames = new Set((window.MEDORA_DATABASE?.drugs || []).map(item => item[0]));
         if (backup.favorites.length > catalogNames.size || backup.favorites.some(item => typeof item !== "string" || !catalogNames.has(item))) throw new Error("Daftar favorit berisi nama obat yang tidak dikenal.");

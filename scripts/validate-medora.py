@@ -235,7 +235,7 @@ def main():
         check=False,
     )
     if database_check.returncode:
-        raise SystemExit("ERROR: offline database syntax check failed:\\n" + database_check.stderr)
+        raise SystemExit("ERROR: offline database syntax check failed:\n" + database_check.stderr)
 
     engine_check = subprocess.run(
         ["node", "--check", str(DOSE_ENGINE_FILE)],
@@ -244,101 +244,7 @@ def main():
         check=False,
     )
     if engine_check.returncode:
-        raise SystemExit("ERROR: dose engine syntax check failed:\\n" + engine_check.stderr)
-
-    print(
-        "MEDORA validation passed: "
-        f"{len(parser.ids)} HTML IDs, {len(EXPECTED_DYNAMIC_IDS)} documented dynamic dose controls, "
-        f"{len(javascript)} JavaScript characters; all static and dynamic element references resolved."
-    )
-
-
-if __name__ == "__main__":
-    main()
-,
-        drug_match.group(1),
-        re.M,
-    )
-    raw_drug_rows = re.findall(r'^\\s*\\["', drug_match.group(1), re.M)
-    if len(drug_entries) != len(raw_drug_rows) or len(drug_entries) != 32:
-        raise SystemExit(f"ERROR: medication catalog malformed or unexpected size: {len(drug_entries)} entries")
-    drug_names = [entry[0] for entry in drug_entries]
-    duplicate_drugs = sorted(name for name, count in Counter(drug_names).items() if count > 1)
-    if duplicate_drugs:
-        raise SystemExit("ERROR: duplicate medication catalog names: " + ", ".join(duplicate_drugs))
-    if "const data = window.MEDORA_DATABASE.drugs;" not in javascript:
-        raise SystemExit("ERROR: UI is not reading medication catalog from offline database")
-    drug_status = {entry[0]: entry[4] for entry in drug_entries}
-    required_products = {
-        "CTM (Chlorpheniramine)", "Oralit", "Ceftriaxone", "Cefotaxime", "Gentamicin",
-        "Cendo Xitrol Tetes Mata", "Cendo Xitrol Salep Mata",
-        "Erlamycetin Tetes Mata", "Erlamycetin Tetes Telinga", "Erlamycetin Salep Mata"
-    }
-    missing_products = sorted(required_products - set(drug_names))
-    if missing_products:
-        raise SystemExit("ERROR: required medication products missing: " + ", ".join(missing_products))
-    if drug_status.get("Domperidone") != "excluded":
-        raise SystemExit("ERROR: Domperidone must remain excluded from pediatric dose calculator")
-
-    # Bottom-navigation handlers must be registered exactly once. Duplicate
-    # listeners can make a single tap trigger multiple navigation actions.
-    navigation_ids = {"navHome", "navSearch", "navFavorites", "navHistory", "navSettings"}
-    click_handlers = Counter(re.findall(r'\$\("([^"]+)"\)\.addEventListener\("click"', javascript))
-    duplicate_navigation = sorted(item for item in navigation_ids if click_handlers[item] > 1)
-    missing_navigation = sorted(item for item in navigation_ids if click_handlers[item] != 1)
-    if duplicate_navigation or missing_navigation:
-        details = []
-        if duplicate_navigation:
-            details.append("duplicate click handlers: " + ", ".join(duplicate_navigation))
-        if missing_navigation:
-            details.append("navigation handlers must occur exactly once: " + ", ".join(missing_navigation))
-        raise SystemExit("ERROR: " + "; ".join(details))
-
-    referenced_ids = set(re.findall(r'\$\("([^"]+)"\)', javascript))
-    missing_references = sorted(referenced_ids - set(parser.ids) - EXPECTED_DYNAMIC_IDS)
-    missing_dynamic_controls = sorted(
-        item for item in EXPECTED_DYNAMIC_IDS if item not in javascript
-    )
-    if missing_references:
-        raise SystemExit(
-            "ERROR: JavaScript references missing HTML elements: "
-            + ", ".join(missing_references)
-        )
-    if missing_dynamic_controls:
-        raise SystemExit(
-            "ERROR: expected dynamic dose controls are not present in JavaScript: "
-            + ", ".join(missing_dynamic_controls)
-        )
-
-    with tempfile.NamedTemporaryFile("w", suffix=".js", encoding="utf-8") as js_file:
-        js_file.write(parser.inline_scripts[0])
-        js_file.flush()
-        result = subprocess.run(
-            ["node", "--check", js_file.name],
-            text=True,
-            capture_output=True,
-            check=False,
-        )
-    if result.returncode:
-        raise SystemExit("ERROR: JavaScript syntax check failed:\n" + result.stderr)
-
-    database_check = subprocess.run(
-        ["node", "--check", str(DATABASE_FILE)],
-        text=True,
-        capture_output=True,
-        check=False,
-    )
-    if database_check.returncode:
-        raise SystemExit("ERROR: offline database syntax check failed:\\n" + database_check.stderr)
-
-    engine_check = subprocess.run(
-        ["node", "--check", str(DOSE_ENGINE_FILE)],
-        text=True,
-        capture_output=True,
-        check=False,
-    )
-    if engine_check.returncode:
-        raise SystemExit("ERROR: dose engine syntax check failed:\\n" + engine_check.stderr)
+        raise SystemExit("ERROR: dose engine syntax check failed:\n" + engine_check.stderr)
 
     print(
         "MEDORA validation passed: "

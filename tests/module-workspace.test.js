@@ -93,7 +93,8 @@ test("public health area exposes searchable, filterable articles with working de
   assert.match(html, /id="publicArticles"/);
   assert.match(html, /id="publicDetailBack"/);
   assert.match(html, /body\.public-mode \.bottomNav\{display:none\}/);
-  assert.match(html, /function showPublicHome\(\)/);\n  assert.match(html, /document\.body\.classList\.add\("public-mode"\)/);
+  assert.match(html, /function showPublicHome\(\)/);
+  assert.match(html, /document\.body\.classList\.add\("public-mode"\)/);
   assert.match(html, /\$\("publicSearch"\)\.addEventListener\("input",drawPublicArticles\)/);
   assert.match(html, /openPublicArticle\(b\.dataset\.article\)/);
   assert.match(html, /drawPublicArticles\(\)/);

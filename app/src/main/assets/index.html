@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#eaf3ff"><title>MEDORA | by Dokter Tege</title>
+<meta name="theme-color" content="#10243b"><title>MEDORA | by Dokter Tege</title>
 <style>
 :root{--ink:#102653;--muted:#52627d;--blue:#1769df;--line:#dce7f6;--bg:#eef4ff;--green:#16834b;--red:#b51f2a}
 *{box-sizing:border-box}
@@ -464,6 +464,137 @@ button.active{background:#1d6d70;border-color:#1d6d70;box-shadow:0 4px 12px #1d6
 .moduleFavoriteToggle[aria-pressed="true"]{background:#f5efdf;border-color:#e8dcc0;color:#a17d3e}
 .moduleCard .moduleText{padding-right:17px}
 .favoriteModules .recentModuleChip{background:#f5f0e4;border-color:#e9dfc8;color:#705b35}
+
+
+/* MEDORA Signature UI — calm clinical luxury */
+:root{
+  --ink:#14243b;--muted:#68778b;--blue:#176b70;--line:#e5e8e5;
+  --medora-navy:#10243b;--medora-teal:#2c7775;--medora-gold:#c4a66a;
+  --medora-paper:#f5f4ef;--medora-white:#fffefa;
+}
+html{scroll-behavior:smooth}
+body{
+  color:var(--ink);
+  background:
+    radial-gradient(ellipse at 92% 0%,rgba(196,166,106,.10),transparent 30%),
+    var(--medora-paper);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  letter-spacing:.005em;
+}
+body:before{display:none}
+header.medoraHero{
+  min-height:260px;padding:24px 20px 38px;
+  background:linear-gradient(135deg,#10243b 0%,#173b4b 58%,#286c6c 100%);
+  border-radius:0 0 34px 34px;
+  box-shadow:0 14px 34px rgba(16,36,59,.18);
+}
+header.medoraHero:before{
+  background:
+   radial-gradient(circle at 16% 20%,rgba(255,255,255,.12),transparent 25%),
+   radial-gradient(circle at 88% 8%,rgba(196,166,106,.22),transparent 30%);
+}
+header.medoraHero:after{
+  width:260px;height:260px;right:-100px;bottom:-170px;
+  background:rgba(196,166,106,.13);box-shadow:-380px -15px 0 0 rgba(255,255,255,.035);
+}
+header.medoraHero .heroLogo{filter:drop-shadow(0 6px 12px #06152580)}
+header.medoraHero .brandName{color:#fffefa;letter-spacing:2.4px}
+header.medoraHero .brandSub{color:#d8e4df}
+header.medoraHero .tag{
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);
+  color:#f1dfb9;box-shadow:none;backdrop-filter:blur(12px);
+}
+header.medoraHero .heroLine{
+  color:#f5e7c9;background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.15);box-shadow:none;
+  letter-spacing:.15px;font-weight:650;
+}
+main{max-width:820px;padding-left:16px;padding-right:16px;margin-top:16px}
+#homeDashboard .welcome{color:#68778b;font-size:13px;font-weight:550}
+#homeDashboard h2,.panel h2{color:#172c43;letter-spacing:-.25px}
+.moduleGroupLabel{
+  color:#7d6a49!important;font-size:10px!important;font-weight:850!important;
+  letter-spacing:1.35px!important;text-transform:uppercase;
+  margin:22px 2px 10px!important;
+}
+.moduleGrid{gap:12px}
+.moduleCard{
+  min-height:142px;border-radius:21px;padding:15px 12px;gap:11px;
+  background:linear-gradient(145deg,#fffefa,#f4f6f2);
+  border:1px solid #e7e9e2;
+  box-shadow:0 5px 16px rgba(24,43,58,.055),inset 0 1px 0 #fff;
+  color:#182d43;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.moduleCard:active{transform:scale(.985)}
+.moduleCard:hover{border-color:#c8d9d3;box-shadow:0 9px 22px rgba(24,43,58,.09)}
+.moduleIcon{
+  width:58px;height:58px;border-radius:18px;font-size:31px;
+  background:linear-gradient(145deg,#e5efeb,#f8f8f2);
+  box-shadow:inset 0 1px 0 #fff;border:1px solid #e3ebe5;
+}
+.moduleText .miniBrand{color:#8b754e;font-size:9px;letter-spacing:1px}
+.moduleText strong{color:#172d43;font-size:14px;font-weight:800;letter-spacing:-.15px}
+.moduleText small{color:#718092;font-size:10px;line-height:1.35}
+.moduleArrow{color:#9a865f;font-weight:500}
+.moduleFavoriteToggle{
+  position:absolute;right:10px;top:9px;width:28px;height:28px;
+  display:grid;place-items:center;border-radius:50%;
+  background:#f7f3e9;border:1px solid #eee4d1;color:#9b7d43;
+  font-size:17px;line-height:1;cursor:pointer;
+}
+.moduleFavoriteToggle[aria-pressed="true"]{background:#f1e5c9;color:#8b6727;border-color:#dfc58f}
+.quickAction,.recentModuleChip{
+  border:1px solid #e4e8e2;background:#fffefa;color:#29445a;
+  box-shadow:0 3px 10px rgba(24,43,58,.045);border-radius:14px;
+}
+.recentModuleChip{border-color:#dce6df;background:#edf3ef;color:#315d58}
+.homeNote{
+  background:linear-gradient(120deg,#eaf1ec,#f8f5ec);border:1px solid #e2e9e1;
+  color:#526b66;border-radius:17px;padding:14px 15px;
+}
+.panel,.drug,.guideCard,.medicalResult,.medicineDbCard{
+  border:1px solid #e8eae4;background:#fffefa;
+  box-shadow:0 5px 18px rgba(24,43,58,.045);
+}
+input,select,textarea{
+  border:1px solid #dfe5df!important;border-radius:13px!important;
+  background:#fffefa!important;color:#1c3045!important;
+}
+input:focus,select:focus,textarea:focus{
+  outline:2px solid rgba(44,119,117,.16);border-color:#6c9b91!important;
+}
+button{transition:transform .16s ease,box-shadow .16s ease}
+button:active{transform:scale(.98)}
+button.active,.bottomNav a.active{
+  background:linear-gradient(135deg,#245e64,#17434e)!important;
+  border-color:#245e64!important;color:#fff!important;
+  box-shadow:0 5px 13px rgba(23,67,78,.18)!important;
+}
+.bottomNav{
+  background:rgba(255,254,250,.94);border-top:1px solid #e5e8e2;
+  box-shadow:0 -6px 22px rgba(16,36,59,.08);backdrop-filter:blur(18px);
+}
+.bottomNav a{color:#68778b}
+.bottomNav a span{filter:saturate(.72)}
+.bottomNav a small{color:#8b754e}
+.bottomNav a.active small{color:#f5e7c9}
+.emptyState,.moduleSearchEmpty{
+  border:1px dashed #d5ddd6;background:#fbfcf8;color:#738174;border-radius:18px;
+}
+.notice,.warn,.articleAlert{
+  background:#fbf5e8;border-color:#eadbb8;color:#725b32;
+}
+.result,.medicalResult,.medicineDbDose{
+  background:#edf4f0;border-color:#d6e5dc;color:#294f4b;
+}
+@media(max-width:390px){
+  header.medoraHero{min-height:242px;padding-top:21px}
+  .moduleCard{min-height:128px;padding:12px 9px}
+  .moduleIcon{width:50px;height:50px;font-size:28px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
 
 </style></head><body>
 <header class="medoraHero">

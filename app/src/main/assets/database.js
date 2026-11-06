@@ -183,7 +183,7 @@
       "sourceType": "clinical_education_reference"
     }
   }
-}
+};
   root.MEDORA_DATABASE.medicineProfiles = {
   "CTM (Chlorpheniramine)": {
     "activeIngredient": "chlorpheniramine maleate",

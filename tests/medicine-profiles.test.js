@@ -15,7 +15,7 @@ const engine = require(path.join(assets, "dose-engine.js"));
 test("requested medicines have structured profiles with traceable source metadata", () => {
   assert.equal(database.metadata.medicineProfiles.schemaVersion, "1.1");
   assert.equal(database.metadata.medicineProfiles.reviewedOn, "2026-11-06");
-  assert.equal(Object.keys(database.metadata.medicineProfiles.sources).length, 14);
+  assert.equal(Object.keys(database.metadata.medicineProfiles.sources).length, 15);
   for (const name of [
     "CTM (Chlorpheniramine)", "Oralit", "Ceftriaxone", "Cefotaxime", "Gentamicin",
     "Cendo Xitrol Tetes Mata", "Cendo Xitrol Salep Mata",
@@ -107,8 +107,8 @@ test("medicine profile coverage metadata matches the expanded structured profile
   const coverage = database.metadata.medicineProfiles.coverage;
   assert.equal(coverage.Paracetamol, "structured_profile");
   assert.equal(coverage.Ibuprofen, "structured_profile");
-  assert.equal(Object.values(coverage).filter(value => value === "structured_profile").length, 15);
-  assert.equal(Object.keys(database.medicineProfiles).length, 15);
+  assert.equal(Object.values(coverage).filter(value => value === "structured_profile").length, 16);
+  assert.equal(Object.keys(database.medicineProfiles).length, 16);
 });
 
 
@@ -148,10 +148,24 @@ test("cefixime profile uses BPOM-approved Cefspan product information and cefixi
   assert.match(profile.formulationNote, /spesifik produk/);
 });
 
+
+test("cefadroxil profile uses Indonesian manufacturer formulation data and existing dose engine", () => {
+  const profile = database.medicineProfiles.Cefadroxil;
+  assert.ok(profile);
+  assert.equal(profile.doseEngineFunction, "cefadroxil");
+  assert.equal(typeof engine.cefadroxil, "function");
+  for (const field of ["activeIngredient", "dosageForms", "route", "formulationNote", "strength", "prescriptionStatus"]) {
+    assert.equal(profile.provenance[field].status, "source_linked_reference", "Cefadroxil." + field);
+    assert.ok(profile.provenance[field].sourceRefs.includes("novapharin_cefadroxil"));
+  }
+  assert.match(profile.strength, /125 mg\/5 mL/);
+  assert.equal(profile.provenance.keyWarnings.status, "pending_product_specific_verification");
+});
+
 test("structured medicine profiles and coverage metadata remain in one-to-one parity", () => {
   const coverage = database.metadata.medicineProfiles.coverage;
   const structuredNames = Object.keys(coverage).filter(name => coverage[name] === "structured_profile");
-  assert.equal(structuredNames.length, 15);
+  assert.equal(structuredNames.length, 16);
   assert.equal(Object.keys(database.medicineProfiles).length, 15);
   for (const name of structuredNames) assert.ok(database.medicineProfiles[name], name);
 });

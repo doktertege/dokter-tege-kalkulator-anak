@@ -107,7 +107,7 @@ test("medicine profile coverage metadata matches the expanded structured profile
   const coverage = database.metadata.medicineProfiles.coverage;
   assert.equal(coverage.Paracetamol, "structured_profile");
   assert.equal(coverage.Ibuprofen, "structured_profile");
-  assert.equal(Object.values(coverage).filter(value => value === "structured_profile").length, 14);
+  assert.equal(Object.values(coverage).filter(value => value === "structured_profile").length, 15);
   assert.equal(Object.keys(database.medicineProfiles).length, 15);
 });
 
@@ -152,6 +152,6 @@ test("structured medicine profiles and coverage metadata remain in one-to-one pa
   const coverage = database.metadata.medicineProfiles.coverage;
   const structuredNames = Object.keys(coverage).filter(name => coverage[name] === "structured_profile");
   assert.equal(structuredNames.length, 15);
-  assert.equal(Object.keys(database.medicineProfiles).length, 14);
+  assert.equal(Object.keys(database.medicineProfiles).length, 15);
   for (const name of structuredNames) assert.ok(database.medicineProfiles[name], name);
 });

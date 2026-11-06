@@ -151,14 +151,30 @@
     }
     if (id === "clearLocalHistory") {
       if (!confirm("Hapus seluruh riwayat kalkulasi lokal?")) return;
-      doseHistory = []; persistDoseHistory(); renderDoseHistory(); updateLocalDataSummary();
-      $("settingsStatus").textContent = "Riwayat lokal dihapus.";
+      const previous = doseHistory;
+      doseHistory = [];
+      if (persistDoseHistory()) {
+        renderDoseHistory();
+        updateLocalDataSummary();
+        $("settingsStatus").textContent = "Riwayat lokal berhasil dihapus.";
+      } else {
+        doseHistory = previous;
+        $("settingsStatus").textContent = "Gagal menghapus riwayat. Data sebelumnya dipertahankan.";
+      }
       return;
     }
     if (id === "clearLocalFavorites") {
       if (!confirm("Hapus seluruh daftar favorit lokal?")) return;
-      favorites.clear(); saveFavorites(); draw(); updateLocalDataSummary();
-      $("settingsStatus").textContent = "Daftar favorit dihapus.";
+      const previous = new Set(favorites);
+      favorites.clear();
+      if (saveFavorites()) {
+        draw();
+        updateLocalDataSummary();
+        $("settingsStatus").textContent = "Daftar favorit berhasil dihapus.";
+      } else {
+        favorites = previous;
+        $("settingsStatus").textContent = "Gagal menghapus favorit. Daftar sebelumnya dipertahankan.";
+      }
       return;
     }
     if (id === "restoreLocalBackup") {

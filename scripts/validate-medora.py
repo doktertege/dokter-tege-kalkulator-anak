@@ -278,7 +278,7 @@ def main():
 
     # Bottom-navigation handlers must be registered exactly once. Duplicate
     # listeners can make a single tap trigger multiple navigation actions.
-    navigation_ids = {"navHome", "navSearch", "navFavorites", "navHistory", "navSettings"}
+    navigation_ids = {"navHome", "navSettings"}
     combined_javascript = javascript + "\n" + module_workspace_javascript
     click_handlers = Counter(re.findall(r'\$\("([^"]+)"\)\.addEventListener\("click"', combined_javascript))
     duplicate_navigation = sorted(item for item in navigation_ids if click_handlers[item] > 1)

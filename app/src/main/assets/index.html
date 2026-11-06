@@ -197,6 +197,55 @@ body.module-workspace-mode #moduleWorkspace{display:block}
 .moduleWorkspaceContent .workspaceActions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 .moduleWorkspaceContent .workspaceOutput{white-space:pre-wrap;background:#f3f7fd;border:1px solid #dce7f6;border-radius:12px;padding:12px;font-size:13px;min-height:40px}
 .moduleWorkspaceContent .sourceLink{display:block;padding:10px 0;border-bottom:1px solid #e5edf7;color:#0758a9;font-size:13px;text-decoration:none}
+
+/* 2026 refresh: calm clinical surfaces, consistent iconography and accessible controls */
+:root{color-scheme:light;--ink:#142b3b;--muted:#617487;--blue:#087f8c;--line:#e1e9ed;--bg:#f4f8f9;--green:#168b68;--surface:#fff;--accent-soft:#e7f5f4}
+html{background:var(--bg)}
+body{background:linear-gradient(180deg,#edf5f5 0,#f7f9fa 300px,#f4f7f8 100%);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.01em}
+body:before{display:none}
+header.medoraHero{min-height:224px;padding:25px 18px 30px;background:linear-gradient(135deg,#e4f3f2 0%,#f8fbfb 60%,#e7f0f7 100%);border-radius:0 0 30px 30px;border-bottom:1px solid #deebeb}
+header.medoraHero:before{background:radial-gradient(circle at 12% 18%,#fff 0,transparent 35%),radial-gradient(circle at 90% 0%,#d6e9ee 0,transparent 38%)}
+header.medoraHero:after{background:#cce8e477;box-shadow:-390px -5px 0 0 #d9e9ee66}
+header.medoraHero .heroLogo{width:76px;height:70px;filter:none}
+header.medoraHero .brandName{font-size:36px;letter-spacing:1.2px;color:#123b49}
+header.medoraHero .brandSub{font-size:12px;color:#607987}
+header.medoraHero .heroLine{margin-top:13px;background:transparent;color:#47717a;box-shadow:none;font-size:12px;font-weight:700;letter-spacing:.2px}
+header.medoraHero .tag{background:#e1f3ed;color:#167354;box-shadow:none}
+main{max-width:780px;padding:0 16px 30px}
+#homeDashboard .welcome{color:#526b78;font-weight:650;text-align:left;margin:12px 2px 16px}
+.modeGrid,.moduleGrid{gap:12px}
+.modeCard,.modeCard.publicMode{min-height:166px;border:1px solid #e2ebed;border-radius:22px;background:#fff;color:var(--ink);box-shadow:0 5px 18px #203b4b0b;transition:transform .18s ease,box-shadow .18s ease}
+.modeCard:active,.moduleCard:active{transform:scale(.985)}
+.modeIcon{width:58px;height:58px;border-radius:18px;background:#e9f5f4;color:#087f8c;box-shadow:none;font-size:0}
+.publicMode .modeIcon{background:#edf2fb;color:#5576aa}
+.moduleCard{min-height:126px;border:1px solid #e4ecef;border-radius:20px;padding:14px 12px;background:#fff;color:var(--ink);box-shadow:0 4px 16px #1b39490b;gap:11px}
+.moduleCard:nth-child(n){background:#fff}
+.moduleIcon{width:52px;height:52px;border-radius:16px;background:#eaf5f4;color:#087f8c;box-shadow:none;font-size:0}
+.moduleCard:nth-child(3n+2) .moduleIcon{background:#edf2fb;color:#5475a8}
+.moduleCard:nth-child(3n) .moduleIcon{background:#f1effa;color:#7766a8}
+.iconSvg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.modeIcon .iconSvg{width:28px;height:28px}
+.moduleText .miniBrand{color:#68828b;font-size:9px;letter-spacing:.7px}
+.moduleText strong{font-size:14px;line-height:1.25;color:#183747;font-weight:780}
+.moduleText small{font-size:11px;color:#687d88;line-height:1.35}
+.moduleArrow{font-size:0;width:26px;height:26px;border-radius:50%;background:#f0f5f6;position:relative;flex:none}
+.moduleArrow:after{content:"";position:absolute;width:7px;height:7px;border-right:1.8px solid #53717b;border-top:1.8px solid #53717b;transform:rotate(45deg);left:8px;top:9px}
+.homeNote{background:#edf6f5;border:1px solid #e0eeeb;border-radius:16px;color:#47656c}
+.bottomNav{background:#fffffff2;border-top:1px solid #e4ecee;box-shadow:0 -5px 24px #233f4c0b;padding:8px 12px max(10px,env(safe-area-inset-bottom))}
+.bottomNav a{color:#73838b;font-size:11px;font-weight:700;border-radius:15px;transition:background .15s ease}
+.bottomNav a span{display:grid;place-items:center;margin:0 auto 3px}
+.navSvg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bottomNav a.active{background:#e8f4f3;color:#087f8c;box-shadow:none}
+.bottomNav a.active small{color:#087f8c}
+.bottomNav a small{color:#9aa8ad;font-size:8px;letter-spacing:.7px}
+.panel,.drug,.guideCard,.medicineDbCard,.icdItem{border:1px solid #e3ebee;box-shadow:0 4px 16px #203b4b09;border-radius:18px}
+input,select,textarea{border:1px solid #dce7e9;background:#fbfdfd;border-radius:13px;color:var(--ink)}
+button{border:1px solid #dce7e9;box-shadow:none;border-radius:14px}
+button.active{background:#087f8c;border-color:#087f8c;box-shadow:0 4px 10px #087f8c25}
+.search{border:1px solid #e3ebee;box-shadow:0 3px 12px #203b4b08}
+@media(max-width:390px){header.medoraHero{min-height:205px;padding:20px 14px 24px}.moduleCard{min-height:116px;padding:10px 8px;gap:8px}.moduleIcon{width:46px;height:46px}.moduleText strong{font-size:12px}.modeCard{min-height:150px}.modeIcon{width:52px;height:52px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">
@@ -221,22 +270,22 @@ body.module-workspace-mode #moduleWorkspace{display:block}
 <div id="modeChooser">
 <p class="welcome">Selamat datang di MEDORA. Pilih area sesuai kebutuhan Anda.</p>
 <div class="modeGrid">
-<button class="modeCard" id="chooseClinical"><span class="modeIcon">⚕</span><strong>TENAGA MEDIS</strong><small>Clinical tools, kalkulator, dosis obat, ICD-10, dan panduan klinis.</small></button>
-<button class="modeCard publicMode" id="choosePublic"><span class="modeIcon">♥</span><strong>UNTUK UMUM</strong><small>Edukasi kesehatan, informasi penyakit, obat, dan gaya hidup sehat.</small></button>
+<button class="modeCard" id="chooseClinical"><span class="modeIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></span><strong>TENAGA MEDIS</strong><small>Clinical tools, kalkulator, dosis obat, ICD-10, dan panduan klinis.</small></button>
+<button class="modeCard publicMode" id="choosePublic"><span class="modeIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.7c0 5.1-8.8 11-8.8 11s-8.8-5.9-8.8-11A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.5Z"/></svg></span><strong>UNTUK UMUM</strong><small>Edukasi kesehatan, informasi penyakit, obat, dan gaya hidup sehat.</small></button>
 </div>
 </div>
 <div id="clinicalDashboard" style="display:none">
 <button class="medicalBack" id="modeBack">‹ Pilih area lain</button>
 <p class="welcome">Modul untuk tenaga medis</p>
 <div class="moduleGrid">
-<button class="moduleCard" data-module="calculator"><span class="moduleIcon">🧴</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Kalkulator Dosis Obat</strong><small>Anak dan dewasa</small></span><span class="moduleArrow">›</span></button>
-<button class="moduleCard" data-module="medical"><span class="moduleIcon">▦</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Kalkulator Medis</strong><small>BMI, eGFR, GCS, MAP, dan lainnya</small></span><span class="moduleArrow">›</span></button>
-<button class="moduleCard" data-module="icd"><span class="moduleIcon">📋</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>ICD-10 & Diagnosis</strong><small>Kode, diagnosis, dan rujukan</small></span><span class="moduleArrow">›</span></button>
-<button class="moduleCard" data-module="guides"><span class="moduleIcon">📖</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Panduan Klinis</strong><small>Algoritma, protokol, dan terapi</small></span><span class="moduleArrow">›</span></button>
-<button class="moduleCard" data-module="emergency"><span class="moduleIcon">🚨</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>IGD & Emergency</strong><small>Tatalaksana gawat darurat</small></span><span class="moduleArrow">›</span></button>
-<button class="moduleCard" data-module="drugs"><span class="moduleIcon">💊</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Database Obat</strong><small>Informasi, dosis, interaksi, peringatan</small></span><span class="moduleArrow">›</span></button>
-<button class="moduleCard" data-module="ai"><span class="moduleIcon">🤖</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Asisten Klinis Offline</strong><small>Penyusun catatan SOAP dan ringkasan kasus</small></span><span class="moduleArrow">›</span></button>
-<button class="moduleCard" data-module="references"><span class="moduleIcon">📚</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Referensi Medis</strong><small>Buku, jurnal, dan regulasi</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="calculator"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v4l-3 3v10h10V10l-3-3V3M7 13h10M12 13v4m-2-2h4"/></svg></span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Kalkulator Dosis Obat</strong><small>Anak dan dewasa</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="medical"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 8h3v3H8zM14 8h3M14 11h3M8 15h9"/></svg></span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Kalkulator Medis</strong><small>BMI, eGFR, GCS, MAP, dan lainnya</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="icd"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5h6M8 10h8M8 14h8M8 18h5"/></svg></span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>ICD-10 & Diagnosis</strong><small>Kode, diagnosis, dan rujukan</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="guides"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H20v17H7.5A3.5 3.5 0 0 0 4 22zM4 5.5V22M8 6h8M8 10h8"/></svg></span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Panduan Klinis</strong><small>Algoritma, protokol, dan terapi</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="emergency"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17h14l-1.5-8a5.5 5.5 0 0 0-11 0zM3 21h18M12 7v4m0 3h.01M4 3 2 5m18-2 2 2"/></svg></span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>IGD & Emergency</strong><small>Tatalaksana gawat darurat</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="drugs"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 20a5 5 0 0 1-3.5-8.5l7-7a5 5 0 0 1 7 7l-7 7A5 5 0 0 1 8 20Z"/><path d="m8 8 8 8"/></svg></span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Database Obat</strong><small>Informasi, dosis, interaksi, peringatan</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="ai"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="4"/><path d="M12 3v4M8 12h.01M16 12h.01M9 16h6"/></svg></span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Asisten Klinis Offline</strong><small>Penyusun catatan SOAP dan ringkasan kasus</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="references"><span class="moduleIcon"><svg class="iconSvg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h5v16H4zM10 4h5v16h-5zM16 5l4-1v15l-4 1z"/></svg></span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Referensi Medis</strong><small>Buku, jurnal, dan regulasi</small></span><span class="moduleArrow">›</span></button>
 </div><div class="homeNote"><b>MEDORA by Dokter Tege</b><br>Modul klinis offline tersedia tanpa koneksi internet. Tetap verifikasi keputusan klinis dengan pedoman dan kondisi pasien.</div>
 </div>
 <div id="publicDashboard" style="display:none">
@@ -331,7 +380,7 @@ body.module-workspace-mode #moduleWorkspace{display:block}
 <section class="panel modal" id="historyPanel"><div style="display:flex;justify-content:space-between;align-items:center"><h2>Riwayat Perhitungan</h2><button id="closeHistory">Tutup</button></div><div id="doseHistoryList"></div><button type="button" id="clearHistory" class="historyClear">Hapus semua riwayat</button></section>
 <div class="notice" id="safety"><b>Catatan keselamatan:</b> Kalkulasi aktif untuk diazepam rektal (rescue kejang berkepanjangan, dosis tunggal), ondansetron (dosis oral tunggal terpilih pada gastroenteritis), paracetamol, ibuprofen, amoxicillin, cefadroxil, cefixime (suspensi, usia 6 bulan–<12 tahun), salbutamol nebulisasi (usia ≥1 tahun, untuk bronkospasme/asma sesuai penilaian klinis), cetirizine, ambroxol (usia 2–<12 tahun), dan zinc sebagai terapi tambahan diare. Hasil adalah alat bantu hitung, bukan pengganti penilaian klinis. Periksa indikasi, kondisi pasien, alergi, fungsi organ, obat kombinasi, konsentrasi pada kemasan, dan dosis yang sudah diberikan. Obat lain masih berupa katalog dan belum boleh dipakai untuk menentukan dosis.</div>
 <p class="summary">Versi 0.2 • Database tersimpan di perangkat • Tidak memerlukan internet.</p>
-</main><nav class="bottomNav"><a href="#homeDashboard" id="navHome" class="active"><span>⌂</span><small>MEDORA</small>Beranda</a><a href="#settings" id="navSettings"><span>⚙</span><small>MEDORA</small>Pengaturan</a></nav>
+</main><nav class="bottomNav"><a href="#homeDashboard" id="navHome" class="active"><span><svg class="navSvg" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/></svg></span><small>MEDORA</small>Beranda</a><a href="#settings" id="navSettings"><span><svg class="navSvg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.5.9l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.5-.9l-1.7.7-1.4-2.4 1.4-1.1a7 7 0 0 1 0-1.8l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.5-.9l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.5.9l1.7-.7 1.4 2.4-1.4 1.1a7 7 0 0 1 0 1.8Z"/></svg></span><small>MEDORA</small>Pengaturan</a></nav>
 <script src="dose-engine.js"></script>
 <script src="database.js"></script>
 <script src="medical-calculations.js"></script>

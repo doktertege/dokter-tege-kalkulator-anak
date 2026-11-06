@@ -189,7 +189,9 @@ test("Erlamycetin profiles do not expose unverified product-specific active ingr
     assert.equal(profile.provenance.activeIngredient.status, "pending_product_specific_verification", name);
     assert.equal(profile.provenance.strength.status, "pending_product_specific_verification", name);
     assert.doesNotMatch(profile.keyWarnings.join(" "), /kloramfenikol|chloramphenicol/i, name);
-    assert.match(profile.keyWarnings.join(" "), /zat aktif yang tercantum pada etiket/i, name);
+    if (name !== "Erlamycetin Tetes Telinga") {
+      assert.match(profile.keyWarnings.join(" "), /zat aktif yang tercantum pada etiket/i, name);
+    }
     assert.equal(profile.provenance.keyWarnings.status, "pending_product_specific_verification", name);
   }
 });

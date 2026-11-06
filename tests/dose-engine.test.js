@@ -81,3 +81,203 @@ test("invalid weight, concentration, and unsupported regimen are rejected", () =
   assert.throws(() => dose.cefixime(10, 100, 3), RangeError);
   assert.throws(() => dose.amoxicillin(10, 250, "unknown"), RangeError);
 });
+
+test("furosemide oral edema calculator enforces age and tablet-weight boundaries", () => {
+  const standard = dose.furosemidePediatricOralEdema(10, 12);
+  assert.equal(standard.dailyDoseMg, 10);
+  assert.equal(standard.doseMgPerKgPerDay, 1);
+  assert.equal(standard.tabletEquivalentPerDay, 0.25);
+  assert.equal(standard.formulation, "tablet 40 mg");
+
+  const capped = dose.furosemidePediatricOralEdema(50, 120);
+  assert.equal(capped.dailyDoseMg, 40);
+  assert.equal(capped.maximumDailyDoseMg, 40);
+  assert.equal(capped.doseMgPerKgPerDay, 0.8);
+  assert.equal(capped.tabletEquivalentPerDay, 1);
+
+  assert.throws(() => dose.furosemidePediatricOralEdema(9.9, 12), RangeError);
+  assert.throws(() => dose.furosemidePediatricOralEdema(10, 0), RangeError);
+  assert.throws(() => dose.furosemidePediatricOralEdema(10, 216), RangeError);
+});
+
+test("metamizole oral calculator enforces pediatric age and weight limits", () => {
+  const result = dose.metamizolePediatricOral(10, 36);
+  assert.equal(result.doseMg, 100);
+  assert.equal(result.volumeMl, 2);
+  assert.equal(result.concentrationMgPerMl, 50);
+  assert.equal(result.maxDailyMg, 400);
+  assert.equal(result.maxDosesPer24Hours, 4);
+
+  assert.throws(() => dose.metamizolePediatricOral(5, 36), RangeError);
+  assert.throws(() => dose.metamizolePediatricOral(10, 2), RangeError);
+  assert.throws(() => dose.metamizolePediatricOral(10, 169), RangeError);
+});
+
+test("ceftriaxone injection enforces age, weight, regimen, and daily ceiling", () => {
+  const standard = dose.ceftriaxoneInjection(10, 24, "standard");
+  assert.equal(standard.dailyMinMg, 500);
+  assert.equal(standard.dailyMaxMg, 800);
+  assert.equal(standard.divisions, 1);
+  assert.equal(standard.intervalHours, 24);
+  const meningitis = dose.ceftriaxoneInjection(10, 24, "meningitis");
+  assert.equal(meningitis.dailyMaxMg, 1000);
+  assert.equal(meningitis.divisions, 2);
+  assert.equal(meningitis.intervalHours, 12);
+  assert.equal(dose.ceftriaxoneInjection(49, 24, "meningitis").dailyMaxMg, 4000);
+  assert.throws(() => dose.ceftriaxoneInjection(10, 1, "standard"), RangeError);
+  assert.throws(() => dose.ceftriaxoneInjection(50, 24, "standard"), RangeError);
+  assert.throws(() => dose.ceftriaxoneInjection(10, 24, "unknown"), RangeError);
+});
+
+test("cefotaxime injection enforces frequency and per-dose limits", () => {
+  const standard = dose.cefotaximeInjection(10, 24, "standard");
+  assert.equal(standard.dailyMinMg, 500);
+  assert.equal(standard.dailyMaxMg, 1800);
+  assert.equal(standard.divisions, 4);
+  assert.equal(standard.intervalHours, 6);
+  const meningitis = dose.cefotaximeInjection(10, 24, "meningitis", 6);
+  assert.equal(meningitis.dailyMinMg, 2000);
+  assert.equal(meningitis.dailyMaxMg, 3000);
+  assert.equal(meningitis.divisions, 6);
+  assert.equal(meningitis.intervalHours, 4);
+  assert.throws(() => dose.cefotaximeInjection(49, 24, "meningitis", 4), RangeError);
+  assert.throws(() => dose.cefotaximeInjection(10, 1, "standard"), RangeError);
+  assert.throws(() => dose.cefotaximeInjection(50, 24, "standard"), RangeError);
+});
+
+test("gentamicin calculator is explicitly an initial dose only", () => {
+  const result = dose.gentamicinInitial(10, 24, 40);
+  assert.equal(result.doseMg, 70);
+  assert.equal(result.volumeMl, 1.75);
+  assert.equal(result.intervalHours, null);
+  assert.match(result.frequency, /initial dose only/);
+  assert.match(result.monitoring, /therapeutic drug monitoring/);
+  assert.throws(() => dose.gentamicinInitial(10, 2, 40), RangeError);
+  assert.throws(() => dose.gentamicinInitial(50, 24, 40), RangeError);
+});
+
+test("rectal diazepam is a single rescue dose with a hard single-dose ceiling", () => {
+  const result = dose.diazepamRectal(10, 60, 5);
+  assert.equal(result.doseMg, 5);
+  assert.equal(result.volumeMl, 1);
+  assert.equal(result.frequency, "single rescue dose; reassess immediately");
+  assert.equal(result.maxSingleDoseMg, 10);
+  assert.throws(() => dose.diazepamRectal(10, 0, 5), RangeError);
+  assert.throws(() => dose.diazepamRectal(10, 217, 5), RangeError);
+  assert.throws(() => dose.diazepamRectal(10, 60, 0), RangeError);
+});
+
+test("ondansetron gastroenteritis calculator is single-dose and enforces age and weight", () => {
+  const result = dose.ondansetronGastroenteritis(10, 24, 4);
+  assert.equal(result.doseMg, 1.5);
+  assert.equal(result.volumeMl, 1.875);
+  assert.equal(result.frequency, "single oral dose only");
+  assert.equal(result.maxDoseMg, 8);
+  assert.equal(result.rehydrationDelayMin, 15);
+  assert.equal(result.rehydrationDelayMax, 30);
+  assert.throws(() => dose.ondansetronGastroenteritis(7.9, 24, 4), RangeError);
+  assert.throws(() => dose.ondansetronGastroenteritis(10, 5, 4), RangeError);
+  assert.throws(() => dose.ondansetronGastroenteritis(10, 24, 0), RangeError);
+});
+
+test("dexamethasone croup calculator enforces age, severity, and single-dose use", () => {
+  const mild = dose.dexamethasoneCroup(10, 24, "mildModerate", "tablet");
+  assert.equal(mild.doseMg, 1.5);
+  assert.equal(mild.tabletCount, 3);
+  assert.equal(mild.frequency, "single dose only");
+  const severe = dose.dexamethasoneCroup(30, 60, "severe", "injection");
+  assert.equal(severe.doseMg, 12);
+  assert.equal(severe.injectionVolumeMl, 2.4);
+  assert.equal(severe.maxDoseMg, 12);
+  assert.throws(() => dose.dexamethasoneCroup(10, 5, "mildModerate", "tablet"), RangeError);
+  assert.throws(() => dose.dexamethasoneCroup(10, 24, "unknown", "tablet"), RangeError);
+  assert.throws(() => dose.dexamethasoneCroup(10, 24, "mildModerate", "syrup"), RangeError);
+});
+
+test("lansoprazole capsule calculator enforces age, weight, and indication duration", () => {
+  const result = dose.lansoprazolePediatricGerd(35, 120, "typicalGERD", 4);
+  assert.equal(result.dailyDoseMg, 30);
+  assert.equal(result.totalCapsules, 28);
+  assert.throws(() => dose.lansoprazolePediatricGerd(30, 120, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(35, 180, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(35, 120, "typicalGERD", 8), RangeError);
+});
+
+test("omeprazole capsule calculator enforces weight and course duration", () => {
+  const result = dose.omeprazolePediatricGerd(25, 120, "typicalGERD", 4);
+  assert.equal(result.dailyDoseMg, 20);
+  assert.equal(result.totalCapsules, 28);
+  assert.throws(() => dose.omeprazolePediatricGerd(19.9, 120, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.omeprazolePediatricGerd(25, 120, "typicalGERD", 8), RangeError);
+  assert.throws(() => dose.omeprazolePediatricGerd(25, 204, "erosiveEsophagitis", 8), RangeError);
+});
+
+test("oral prednisone asthma course enforces dose, duration, and tablet strength", () => {
+  const result = dose.prednisoneAsthmaOral(20, 60, 1, 3, 5);
+  assert.equal(result.dailyDoseMg, 20);
+  assert.equal(result.totalCourseMg, 60);
+  assert.equal(result.tabletsPerDayEquivalent, 4);
+  assert.throws(() => dose.prednisoneAsthmaOral(20, 60, 3, 3, 5), RangeError);
+  assert.throws(() => dose.prednisoneAsthmaOral(20, 60, 1, 2, 5), RangeError);
+  assert.throws(() => dose.prednisoneAsthmaOral(20, 60, 1, 3, 10), RangeError);
+});
+
+test("IV methylprednisolone asthma calculator applies its single-dose ceiling", () => {
+  const result = dose.methylprednisoloneAsthmaIV(20, 60);
+  assert.equal(result.doseMg, 20);
+  assert.equal(result.maxDoseMg, 60);
+  assert.equal(result.route, "IV");
+  assert.equal(dose.methylprednisoloneAsthmaIV(80, 60).doseMg, 60);
+  assert.throws(() => dose.methylprednisoloneAsthmaIV(20, 11), RangeError);
+});
+
+test("metronidazole distinguishes amoebiasis and giardiasis regimens", () => {
+  const result = dose.metronidazole(20, 60, "giardiasis", 125);
+  assert.equal(result.doseMg, 200);
+  assert.equal(result.volumeMl, 8);
+  assert.equal(result.frequencyPerDay, 3);
+  assert.equal(result.durationMinDays, 5);
+  assert.throws(() => dose.metronidazole(20, 60, "unspecified", 125), RangeError);
+  assert.throws(() => dose.metronidazole(20, 0, "giardiasis", 125), RangeError);
+});
+
+test("loratadine uses age and weight bands with a daily ceiling", () => {
+  const result = dose.loratadine(25, 120, 5);
+  assert.equal(result.dailyMg, 5);
+  assert.equal(result.volumeMl, 5);
+  assert.equal(result.frequencyPerDay, 1);
+  assert.equal(dose.loratadine(35, 180, 5).dailyMg, 10);
+  assert.throws(() => dose.loratadine(25, 23, 5), RangeError);
+});
+
+test("ambroxol syrup calculator enforces age and converts concentration to volume", () => {
+  const result = dose.ambroxol(60, 15);
+  assert.equal(result.doseMg, 7.5);
+  assert.equal(result.volumeMl, 2.5);
+  assert.equal(result.frequencyMinPerDay, 3);
+  assert.throws(() => dose.ambroxol(23, 15), RangeError);
+  assert.throws(() => dose.ambroxol(60, 0), RangeError);
+});
+
+test("zinc diarrhea regimens enforce age and distinguish local and WHO schedules", () => {
+  assert.deepEqual(dose.zinc(5, "indonesia"), {
+    dailyMg: 10, durationMinDays: 10, durationMaxDays: 10
+  });
+  assert.deepEqual(dose.zinc(6, "indonesia"), {
+    dailyMg: 20, durationMinDays: 10, durationMaxDays: 10
+  });
+  assert.deepEqual(dose.zinc(72, "who2024"), {
+    dailyMg: 5, durationMinDays: 10, durationMaxDays: 14
+  });
+  assert.throws(() => dose.zinc(61, "indonesia"), RangeError);
+  assert.throws(() => dose.zinc(121, "who2024"), RangeError);
+});
+
+test("chlorpheniramine syrup enforces minimum age and age-banded daily limits", () => {
+  const result = dose.chlorpheniramine(60, 2);
+  assert.equal(result.doseMg, 1);
+  assert.equal(result.volumeMl, 2.5);
+  assert.equal(result.maxDailyMg, 6);
+  assert.equal(result.maxDosesPerDay, 6);
+  assert.throws(() => dose.chlorpheniramine(23, 2), RangeError);
+});

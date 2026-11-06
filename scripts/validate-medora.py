@@ -92,6 +92,54 @@ def main():
 
     javascript = parser.inline_scripts[0]
 
+    # Every active catalog entry must resolve to a calculator or an explicit
+    # product guide. This prevents selectable drugs from opening an empty detail.
+    catalog_match = re.search(r"const data=\[(.*?)\n\];", javascript, re.S)
+    if not catalog_match:
+        raise SystemExit("ERROR: medication catalog declaration not found")
+    catalog_entries = re.findall(
+        r'^\["([^"]+)",.*,"(active|excluded)"\],?$',
+        catalog_match.group(1),
+        re.M,
+    )
+    active_names = {name for name, status in catalog_entries if status == "active"}
+    detail_match = re.search(
+        r"function openDrug\(name\)\{(.*?)function fmt\(",
+        javascript,
+        re.S | re.M,
+    )
+    if not detail_match:
+        raise SystemExit("ERROR: medication detail handler not found")
+    detail_script = detail_match.group(1)
+    handled_names = set(re.findall(r'name===["\']([^"\']+)["\']', detail_script))
+    handled_names.update(re.findall(r'^"([^"]+)":', detail_script, re.M))
+    unhandled_active = sorted(active_names - handled_names)
+    if unhandled_active:
+        raise SystemExit(
+            "ERROR: active catalog entries lack a detail handler or product guide: "
+            + ", ".join(unhandled_active)
+        )
+
+    # Regression guard: list preview and detail calculator must use identical
+    # age/weight eligibility. A mismatch can advertise a dose that detail rejects.
+    furosemide_preview = re.search(
+        r'else if\(d\[0\]===["\']Furosemide["\']&&p\.a>=(\d+)&&p\.a<(\d+)&&p\.w>=(\d+)\)',
+        javascript,
+    )
+    furosemide_detail = re.search(
+        r'if\(p\.a<(\d+)\|\|p\.a>=(\d+)\|\|p\.w<(\d+)\)',
+        detail_script,
+    )
+    if not furosemide_preview:
+        raise SystemExit("ERROR: active Furosemide catalog preview is missing")
+    if not furosemide_detail:
+        raise SystemExit("ERROR: Furosemide detail eligibility guard is missing")
+    if furosemide_preview.groups() != furosemide_detail.groups():
+        raise SystemExit(
+            "ERROR: Furosemide preview/detail eligibility mismatch: "
+            f"preview={furosemide_preview.groups()}, detail={furosemide_detail.groups()}"
+        )
+
     # Bottom-navigation handlers must be registered exactly once. Duplicate
     # listeners can make a single tap trigger multiple navigation actions.
     navigation_ids = {"navHome", "navSearch", "navFavorites", "navHistory", "navSettings"}

@@ -10,6 +10,7 @@ import tempfile
 
 HTML_FILE = Path("app/src/main/assets/index.html")
 DOSE_ENGINE_FILE = Path("app/src/main/assets/dose-engine.js")
+DATABASE_FILE = Path("app/src/main/assets/database.js")
 REQUIRED_IDS = {
     "homeDashboard", "clinicalDashboard", "publicDashboard",
     "patientPanel", "bb", "th", "bl", "list", "detail",
@@ -70,10 +71,14 @@ def main():
 
     if not DOSE_ENGINE_FILE.is_file():
         raise SystemExit(f"ERROR: dose engine file not found: {DOSE_ENGINE_FILE}")
+    if not DATABASE_FILE.is_file():
+        raise SystemExit(f"ERROR: offline database file not found: {DATABASE_FILE}")
 
     html = HTML_FILE.read_text(encoding="utf-8")
     if '<script src="dose-engine.js"></script>' not in html:
         raise SystemExit("ERROR: MEDORA dose engine is not loaded before the inline application script")
+    if '<script src="database.js"></script>' not in html:
+        raise SystemExit("ERROR: MEDORA offline database is not loaded before the inline application script")
 
     parser = DocumentInspector()
     parser.feed(html)
@@ -92,9 +97,14 @@ def main():
 
     javascript = parser.inline_scripts[0]
 
-    # ICD-10 reference catalog integrity: unique, well-formed codes and
-    # every category must have a visible filter in the interface.
-    icd_match = re.search(r"const icdData=\[(.*?)\n\];", javascript, re.S)
+    # ICD-10 reference catalog integrity: data lives in the offline database file,
+    # not in the UI bundle. Check metadata, unique codes and visible category filters.
+    database_javascript = DATABASE_FILE.read_text(encoding="utf-8")
+    if 'version: "2010"' not in database_javascript or 'system: "WHO ICD-10"' not in database_javascript:
+        raise SystemExit("ERROR: ICD-10 source/version metadata missing from offline database")
+    if "const icdData = window.MEDORA_DATABASE.icd10;" not in javascript:
+        raise SystemExit("ERROR: UI is not reading ICD-10 entries from the offline database")
+    icd_match = re.search(r"root\.MEDORA_DATABASE\.icd10 = \[(.*?)\n  \];", database_javascript, re.S)
     if not icd_match:
         raise SystemExit("ERROR: ICD-10 reference catalog not found")
     icd_entries = re.findall(
@@ -180,6 +190,15 @@ def main():
         )
     if result.returncode:
         raise SystemExit("ERROR: JavaScript syntax check failed:\n" + result.stderr)
+
+    database_check = subprocess.run(
+        ["node", "--check", str(DATABASE_FILE)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if database_check.returncode:
+        raise SystemExit("ERROR: offline database syntax check failed:\\n" + database_check.stderr)
 
     engine_check = subprocess.run(
         ["node", "--check", str(DOSE_ENGINE_FILE)],

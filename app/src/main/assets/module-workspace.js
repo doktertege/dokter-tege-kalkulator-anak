@@ -262,6 +262,10 @@
       if (status) status.textContent = "Checklist diperbarui untuk sesi ini saja.";
     }
   });
+  document.getElementById("moduleWorkspaceContent").addEventListener("change", event => {
+    if (event.target && /^soap/.test(event.target.id)) updateSoapCompleteness();
+  });
+
   document.getElementById("moduleWorkspaceContent").addEventListener("input", event => {
     if (event.target && /^soap/.test(event.target.id)) updateSoapCompleteness();
     if (event.target && event.target.id === "referenceSearch") {

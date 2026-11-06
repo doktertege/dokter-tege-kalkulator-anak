@@ -288,3 +288,12 @@ test("emergency checklist changes remain session-only and are not persisted", ()
   assert.equal(storage.has("medora_emergency_checklist_v1"), false);
   assert.match(elements.get("emergencyChecklistStatus").textContent, /sesi ini saja/);
 });
+
+test("settings explains sensitive details contained in exported backups", () => {
+  const { elements } = createHarness();
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "settings" } }) }
+  });
+  assert.match(elements.get("moduleWorkspaceContent").innerHTML, /nama obat, usia, berat badan, hasil, dan tanggal/);
+  assert.match(elements.get("moduleWorkspaceContent").innerHTML, /informasi kesehatan yang sensitif/);
+});

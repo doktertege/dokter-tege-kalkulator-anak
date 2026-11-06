@@ -193,3 +193,91 @@ test("dexamethasone croup calculator enforces age, severity, and single-dose use
   assert.throws(() => dose.dexamethasoneCroup(10, 24, "unknown", "tablet"), RangeError);
   assert.throws(() => dose.dexamethasoneCroup(10, 24, "mildModerate", "syrup"), RangeError);
 });
+
+test("lansoprazole capsule calculator enforces age, weight, and indication duration", () => {
+  const result = dose.lansoprazolePediatricGerd(35, 120, "typicalGERD", 4);
+  assert.equal(result.dailyDoseMg, 30);
+  assert.equal(result.totalCapsules, 28);
+  assert.throws(() => dose.lansoprazolePediatricGerd(30, 120, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(35, 180, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.lansoprazolePediatricGerd(35, 120, "typicalGERD", 8), RangeError);
+});
+
+test("omeprazole capsule calculator enforces weight and course duration", () => {
+  const result = dose.omeprazolePediatricGerd(25, 120, "typicalGERD", 4);
+  assert.equal(result.dailyDoseMg, 20);
+  assert.equal(result.totalCapsules, 28);
+  assert.throws(() => dose.omeprazolePediatricGerd(19.9, 120, "typicalGERD", 4), RangeError);
+  assert.throws(() => dose.omeprazolePediatricGerd(25, 120, "typicalGERD", 8), RangeError);
+  assert.throws(() => dose.omeprazolePediatricGerd(25, 204, "erosiveEsophagitis", 8), RangeError);
+});
+
+test("oral prednisone asthma course enforces dose, duration, and tablet strength", () => {
+  const result = dose.prednisoneAsthmaOral(20, 60, 1, 3, 5);
+  assert.equal(result.dailyDoseMg, 20);
+  assert.equal(result.totalCourseMg, 60);
+  assert.equal(result.tabletsPerDayEquivalent, 4);
+  assert.throws(() => dose.prednisoneAsthmaOral(20, 60, 3, 3, 5), RangeError);
+  assert.throws(() => dose.prednisoneAsthmaOral(20, 60, 1, 2, 5), RangeError);
+  assert.throws(() => dose.prednisoneAsthmaOral(20, 60, 1, 3, 10), RangeError);
+});
+
+test("IV methylprednisolone asthma calculator applies its single-dose ceiling", () => {
+  const result = dose.methylprednisoloneAsthmaIV(20, 60);
+  assert.equal(result.doseMg, 20);
+  assert.equal(result.maxDoseMg, 60);
+  assert.equal(result.route, "IV");
+  assert.equal(dose.methylprednisoloneAsthmaIV(80, 60).doseMg, 60);
+  assert.throws(() => dose.methylprednisoloneAsthmaIV(20, 11), RangeError);
+});
+
+test("metronidazole distinguishes amoebiasis and giardiasis regimens", () => {
+  const result = dose.metronidazole(20, 60, "giardiasis", 125);
+  assert.equal(result.doseMg, 200);
+  assert.equal(result.volumeMl, 8);
+  assert.equal(result.frequencyPerDay, 3);
+  assert.equal(result.durationMinDays, 5);
+  assert.throws(() => dose.metronidazole(20, 60, "unspecified", 125), RangeError);
+  assert.throws(() => dose.metronidazole(20, 0, "giardiasis", 125), RangeError);
+});
+
+test("loratadine uses age and weight bands with a daily ceiling", () => {
+  const result = dose.loratadine(25, 120, 5);
+  assert.equal(result.dailyMg, 5);
+  assert.equal(result.volumeMl, 5);
+  assert.equal(result.frequencyPerDay, 1);
+  assert.equal(dose.loratadine(35, 180, 5).dailyMg, 10);
+  assert.throws(() => dose.loratadine(25, 23, 5), RangeError);
+});
+
+test("ambroxol syrup calculator enforces age and converts concentration to volume", () => {
+  const result = dose.ambroxol(60, 15);
+  assert.equal(result.doseMg, 7.5);
+  assert.equal(result.volumeMl, 2.5);
+  assert.equal(result.frequencyMinPerDay, 3);
+  assert.throws(() => dose.ambroxol(23, 15), RangeError);
+  assert.throws(() => dose.ambroxol(60, 0), RangeError);
+});
+
+test("zinc diarrhea regimens enforce age and distinguish local and WHO schedules", () => {
+  assert.deepEqual(dose.zinc(5, "indonesia"), {
+    dailyMg: 10, durationMinDays: 10, durationMaxDays: 10
+  });
+  assert.deepEqual(dose.zinc(6, "indonesia"), {
+    dailyMg: 20, durationMinDays: 10, durationMaxDays: 10
+  });
+  assert.deepEqual(dose.zinc(72, "who2024"), {
+    dailyMg: 5, durationMinDays: 10, durationMaxDays: 14
+  });
+  assert.throws(() => dose.zinc(61, "indonesia"), RangeError);
+  assert.throws(() => dose.zinc(121, "who2024"), RangeError);
+});
+
+test("chlorpheniramine syrup enforces minimum age and age-banded daily limits", () => {
+  const result = dose.chlorpheniramine(60, 2);
+  assert.equal(result.doseMg, 1);
+  assert.equal(result.volumeMl, 2.5);
+  assert.equal(result.maxDailyMg, 6);
+  assert.equal(result.maxDosesPerDay, 6);
+  assert.throws(() => dose.chlorpheniramine(23, 2), RangeError);
+});

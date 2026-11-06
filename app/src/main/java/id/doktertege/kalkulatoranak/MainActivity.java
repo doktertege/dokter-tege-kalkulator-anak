@@ -9,6 +9,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
+import android.webkit.WebChromeClient;
 import android.view.View;
 
 public class MainActivity extends Activity {
@@ -50,6 +51,7 @@ public class MainActivity extends Activity {
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);
         s.setAllowFileAccess(true);
+        web.setWebChromeClient(new WebChromeClient());
         web.setWebViewClient(new WebViewClient() {
             // Legacy overload is required for Android API 23 (minimum supported version).
             @Override

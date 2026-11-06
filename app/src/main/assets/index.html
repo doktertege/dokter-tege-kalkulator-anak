@@ -333,6 +333,7 @@ body.module-workspace-mode #moduleWorkspace{display:block}
 </main><nav class="bottomNav"><a href="#homeDashboard" id="navHome" class="active"><span>⌂</span><small>MEDORA</small>Beranda</a><a href="#list" id="navSearch"><span>⌕</span><small>MEDORA</small>Cari</a><a href="#favorites" id="navFavorites"><span>☆</span><small>MEDORA</small>Favorit</a><a href="#history" id="navHistory"><span>◷</span><small>MEDORA</small>Riwayat</a><a href="#settings" id="navSettings"><span>⚙</span><small>MEDORA</small>Pengaturan</a></nav>
 <script src="dose-engine.js"></script>
 <script src="database.js"></script>
+<script src="medical-calculations.js"></script>
 <script>
 const data = window.MEDORA_DATABASE.drugs;
 let cat="Semua",showFavorites=false;const $=id=>document.getElementById(id);const validDrugNames=new Set(data.map(item=>item[0]));let favorites=new Set();try{const savedFavorites=JSON.parse(localStorage.getItem("dt_favorites")||"[]");favorites=new Set(Array.isArray(savedFavorites)?savedFavorites.filter(name=>typeof name==="string"&&validDrugNames.has(name)).slice(0,validDrugNames.size):[])}catch(e){favorites=new Set()} function saveFavorites(){try{localStorage.setItem("dt_favorites",JSON.stringify([...favorites]))}catch(e){}}
@@ -655,14 +656,16 @@ $("icdFilters").addEventListener("click",e=>{const b=e.target.closest("[data-icd
 
 $("medicalBack").addEventListener("click",showHome);
 $("calcMedical").addEventListener("click",()=>{
- const age=Number($("medAge").value),sex=$("medSex").value,w=Number($("medWeight").value),ht=Number($("medHeight").value),scr=Number($("medScr").value),sbp=Number($("medSbp").value),dbp=Number($("medDbp").value),hr=Number($("medHr").value);
- let out=[];
- if(w>0&&ht>0){const hm=ht/100,bmi=w/(hm*hm),bsa=Math.sqrt(ht*w/3600);out.push(["BMI",fmt(bmi)+" kg/m²"],["BSA (Mosteller)",fmt(bsa)+" m²"])}
- if(age>=18&&age<=120&&scr>0){const k=sex==="female"?.7:.9,alpha=sex==="female"?-.241:-.302,ratio=scr/k,egfr=142*Math.pow(Math.min(ratio,1),alpha)*Math.pow(Math.max(ratio,1),-1.2)*Math.pow(.9938,age)*(sex==="female"?1.012:1),g=egfr>=90?"G1 (≥90)":egfr>=60?"G2 (60–89)":egfr>=45?"G3a (45–59)":egfr>=30?"G3b (30–44)":egfr>=15?"G4 (15–29)":"G5 (<15)";out.push(["eGFR CKD-EPI 2021",Math.round(egfr)+" mL/min/1.73 m²"],["Kategori GFR",g])}
- if(sbp>0&&dbp>0&&sbp>=dbp){const map=(sbp+2*dbp)/3;out.push(["MAP",fmt(map)+" mmHg"],["Tekanan nadi",fmt(sbp-dbp)+" mmHg"])}
- if(hr>0&&hr<=300&&sbp>0&&sbp<=300){const si=hr/sbp;out.push(["Shock Index",fmt(si)+(si>=1?" (meningkat)":"")])}
- if(!out.length){$("medicalOutput").innerHTML='<span class="medicalHint">Masukkan data BB + TB, kreatinin + usia, tekanan darah yang valid, atau nadi + sistolik untuk menghitung Shock Index.</span>';return}
- $("medicalOutput").innerHTML='<div class="resultgrid">'+out.map(x=>'<div class="metric"><small>'+x[0]+'</small><strong>'+x[1]+'</strong></div>').join("")+'</div>';
+ try {
+  const metrics=window.MEDORA_MEDICAL_CALCULATIONS.calculateMedicalMetrics({
+   age:$("medAge").value,sex:$("medSex").value,weight:$("medWeight").value,
+   height:$("medHeight").value,creatinine:$("medScr").value,
+   systolic:$("medSbp").value,diastolic:$("medDbp").value,heartRate:$("medHr").value
+  });
+  $("medicalOutput").innerHTML='<div class="resultgrid">'+metrics.map(x=>'<div class="metric"><small>'+escapeHTML(x[0])+'</small><strong>'+escapeHTML(x[1])+'</strong></div>').join("")+'</div>';
+ } catch(error) {
+  $("medicalOutput").innerHTML='<span class="medicalHint" role="alert">'+escapeHTML(error.message)+'</span>';
+ }
 });
 function updateGcs(){const e=Number($("gcsEye").value),v=Number($("gcsVerbal").value),m=Number($("gcsMotor").value),total=e+v+m;$("gcsOutput").innerHTML='<b>GCS '+total+'/15</b><br><small>E'+e+' V'+v+' M'+m+'</small>'}
 ["gcsEye","gcsVerbal","gcsMotor"].forEach(id=>$(id).addEventListener("change",updateGcs));

@@ -222,6 +222,11 @@
       "title": "Produsen: amoxicillin trihydrate 125 mg/5 mL dan 250 mg/5 mL",
       "sourceType": "manufacturer_product_information"
     },
+    "novapharin_cefadroxil": {
+      "url": "https://www.novapharin.co.id/product-detail/28/contact",
+      "title": "Novapharin: Cefadroxil 125 mg/5 mL dry syrup, product registration GKL 1734011238A1",
+      "sourceType": "manufacturer_product_information"
+    },
     "bpom_cefspan_cefixime": {
       "url": "https://registrasiobat.pom.go.id/files/assesment-reports/01731558565.pdf",
       "title": "BPOM: informasi produk Cefspan cefixime kapsul 100 mg, kaplet 200 mg, dan suspensi 100 mg/5 mL",
@@ -238,7 +243,7 @@
     "Ibuprofen": "structured_profile",
     "Metamizole": "pending_profile_review",
     "Amoxicillin": "structured_profile",
-    "Cefadroxil": "pending_profile_review",
+    "Cefadroxil": "structured_profile",
     "Cefixime": "structured_profile",
     "Ceftriaxone": "structured_profile",
     "Cefotaxime": "structured_profile",
@@ -906,6 +911,31 @@
       "formulationNote": {"status": "source_linked_reference", "sourceRefs": ["bpom_amoxsan", "sidomuncul_amoxicillin"]},
       "strength": {"status": "source_linked_reference", "sourceRefs": ["bpom_amoxsan", "sidomuncul_amoxicillin"]},
       "prescriptionStatus": {"status": "source_linked_reference", "sourceRefs": ["kemkes_antibiotic_prescription"]},
+      "keyWarnings": {"status": "pending_product_specific_verification", "sourceRefs": []},
+      "doseEngineFunction": {"status": "verified_by_local_regression_test", "sourceRefs": []}
+    }
+  },
+  "Cefadroxil": {
+    "activeIngredient": "cefadroxil (sebagai cefadroxil monohydrate)",
+    "dosageForms": ["sirup kering untuk suspensi oral"],
+    "route": ["oral"],
+    "strength": "Contoh produk Novapharin terdaftar: 125 mg/5 mL (GKL 1734011238A1). Produk cefadroxil lain tersedia dengan konsentrasi berbeda; cocokkan label aktual.",
+    "formulationNote": "Informasi produsen Novapharin mencantumkan cefadroxil 125 mg per 5 mL setelah rekonstitusi. Volume air rekonstitusi, masa simpan, dan konsentrasi produk lain harus mengikuti etiket masing-masing; jangan menyalin instruksi antar-merek.",
+    "prescriptionStatus": "prescription_only",
+    "doseEngineFunction": "cefadroxil",
+    "keyWarnings": [
+      "Periksa riwayat alergi sefalosporin dan reaksi silang terhadap penisilin.",
+      "Evaluasi fungsi ginjal; regimen dapat memerlukan penyesuaian pada gangguan ginjal dan kalkulator tidak menggantikannya.",
+      "Hentikan dan evaluasi segera bila timbul reaksi alergi berat atau diare berat/berdarah.",
+      "Gunakan hanya untuk infeksi bakteri yang sesuai; pemilihan regimen harus mengikuti diagnosis dan pedoman lokal."
+    ],
+    "provenance": {
+      "activeIngredient": {"status": "source_linked_reference", "sourceRefs": ["novapharin_cefadroxil"]},
+      "dosageForms": {"status": "source_linked_reference", "sourceRefs": ["novapharin_cefadroxil"]},
+      "route": {"status": "source_linked_reference", "sourceRefs": ["novapharin_cefadroxil"]},
+      "formulationNote": {"status": "source_linked_reference", "sourceRefs": ["novapharin_cefadroxil"]},
+      "strength": {"status": "source_linked_reference", "sourceRefs": ["novapharin_cefadroxil"]},
+      "prescriptionStatus": {"status": "source_linked_reference", "sourceRefs": ["novapharin_cefadroxil"]},
       "keyWarnings": {"status": "pending_product_specific_verification", "sourceRefs": []},
       "doseEngineFunction": {"status": "verified_by_local_regression_test", "sourceRefs": []}
     }

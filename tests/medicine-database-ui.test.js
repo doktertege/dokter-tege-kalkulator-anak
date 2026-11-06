@@ -28,7 +28,7 @@ test("medicine database renders all catalog entries and searches profile metadat
   assert.match(html, /const medicineProfiles = window\.MEDORA_DATABASE\.medicineProfiles/);
   assert.match(html, /profile\.activeIngredient/);
   assert.match(html, /profile\.dosageForms/);
-  assert.match(html, /profile\.keyWarnings/);
+  assert.match(html, /p\\.keyWarnings/);
   assert.match(html, /medicineCatalog\.filter/);
   assert.equal(database.drugs.length, 32);
   assert.equal(Object.keys(database.medicineProfiles).length, 10);

@@ -4,6 +4,7 @@ from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
 import re
+import json
 import subprocess
 import tempfile
 
@@ -149,12 +150,42 @@ def main():
             + ", ".join(missing_categories)
         )
 
-    # Medication catalog integrity: keep product labels separate from dose algorithms.
-    drug_match = re.search(r"root\\.MEDORA_DATABASE\\.drugs = \\[(.*?)\\n  \\];", database_javascript, re.S)
-    if not drug_match:
+    # Medication catalog integrity: parse JSON-shaped rows from the offline database.
+    drug_start = database_javascript.find("root.MEDORA_DATABASE.drugs = [")
+    drug_end = database_javascript.find("\\n  ];", drug_start)
+    if drug_start < 0 or drug_end < 0:
         raise SystemExit("ERROR: medication catalog not found in offline database")
-    drug_entries = re.findall(
-        r'^\\s*\\["([^"]+)","([^"]+)","([^"]+)","([^"]+)","(active|excluded)"\\],?
+    drug_block = database_javascript[drug_start + len("root.MEDORA_DATABASE.drugs = ["):drug_end]
+    drug_lines = [line.strip().rstrip(",") for line in drug_block.splitlines() if line.strip()]
+    try:
+        drug_entries = [json.loads(line) for line in drug_lines]
+    except json.JSONDecodeError as error:
+        raise SystemExit("ERROR: malformed medication catalog row: " + str(error))
+    if len(drug_entries) != 32 or any(
+        not isinstance(entry, list) or len(entry) != 5
+        or not all(isinstance(value, str) and value.strip() for value in entry)
+        or entry[4] not in {"active", "excluded"}
+        for entry in drug_entries
+    ):
+        raise SystemExit(f"ERROR: medication catalog malformed or unexpected size: {len(drug_entries)} entries")
+    drug_names = [entry[0] for entry in drug_entries]
+    duplicate_drugs = sorted(name for name, count in Counter(drug_names).items() if count > 1)
+    if duplicate_drugs:
+        raise SystemExit("ERROR: duplicate medication catalog names: " + ", ".join(duplicate_drugs))
+    if "const data = window.MEDORA_DATABASE.drugs;" not in javascript:
+        raise SystemExit("ERROR: UI is not reading medication catalog from offline database")
+    drug_status = {entry[0]: entry[4] for entry in drug_entries}
+    required_products = {
+        "CTM (Chlorpheniramine)", "Oralit", "Ceftriaxone", "Cefotaxime", "Gentamicin",
+        "Cendo Xitrol Tetes Mata", "Cendo Xitrol Salep Mata",
+        "Erlamycetin Tetes Mata", "Erlamycetin Tetes Telinga", "Erlamycetin Salep Mata"
+    }
+    missing_products = sorted(required_products - set(drug_names))
+    if missing_products:
+        raise SystemExit("ERROR: required medication products missing: " + ", ".join(missing_products))
+    if drug_status.get("Domperidone") != "excluded":
+        raise SystemExit("ERROR: Domperidone must remain excluded from pediatric dose calculator")
+
     # Bottom-navigation handlers must be registered exactly once. Duplicate
     # listeners can make a single tap trigger multiple navigation actions.
     navigation_ids = {"navHome", "navSearch", "navFavorites", "navHistory", "navSettings"}

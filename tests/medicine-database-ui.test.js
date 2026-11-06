@@ -51,3 +51,10 @@ test("database UI does not fabricate dosing for profiles without a dose-engine f
     assert.equal(database.medicineProfiles[name].doseEngineFunction, null, name);
   }
 });
+
+test("medicine detail displays field-level source provenance and pending verification labels", () => {
+  assert.match(html, /p\.provenance\|\|\{\}/);
+  assert.match(html, /Asal data & status verifikasi/);
+  assert.match(html, /Perlu verifikasi produk/);
+  assert.match(html, /sourceRegistry\[id\]/);
+});

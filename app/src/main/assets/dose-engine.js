@@ -600,7 +600,30 @@
     };
   }
 
-  const api = Object.freeze({ metamizolePediatricOral, adrenalineAnaphylaxisIM, lansoprazolePediatricGerd, omeprazolePediatricGerd, prednisoneAsthmaOral, methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+
+  // Oral furosemide starting regimen for selected pediatric edema; no neonatal or acute IV protocols.
+  function furosemidePediatricOralEdema(weightKg, ageMonths) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 1 || ageMonths >= 216) {
+      throw new RangeError("furosemide oral edema calculator is restricted to age 1 month through under 18 years");
+    }
+    if (weightKg < 10) {
+      throw new RangeError("oral tablet calculator requires weight at least 10 kg; no verified pediatric liquid formulation is enabled");
+    }
+    const dailyDoseMg = Math.min(weightKg, 40);
+    return {
+      doseMgPerKgPerDay: dailyDoseMg / weightKg,
+      dailyDoseMg,
+      maximumDailyDoseMg: 40,
+      tabletStrengthMg: 40,
+      tabletEquivalentPerDay: dailyDoseMg / 40,
+      frequency: "once daily",
+      route: "oral",
+      formulation: "tablet 40 mg"
+    };
+  }
+
+  const api = Object.freeze({ furosemidePediatricOralEdema, metamizolePediatricOral, adrenalineAnaphylaxisIM, lansoprazolePediatricGerd, omeprazolePediatricGerd, prednisoneAsthmaOral, methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

@@ -151,7 +151,31 @@
     };
   }
 
-  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, ambroxol });
+  function zinc(ageMonths, regimen) {
+    if (!Number.isFinite(ageMonths) || ageMonths < 0 || ageMonths > 120) {
+      throw new RangeError("ageMonths must be between 0 and 120 months");
+    }
+    if (regimen === "indonesia") {
+      if (ageMonths > 60) {
+        throw new RangeError("Indonesian under-five regimen applies through 60 months");
+      }
+      return {
+        dailyMg: ageMonths < 6 ? 10 : 20,
+        durationMinDays: 10,
+        durationMaxDays: 10
+      };
+    }
+    if (regimen === "who2024") {
+      return {
+        dailyMg: 5,
+        durationMinDays: 10,
+        durationMaxDays: 14
+      };
+    }
+    throw new RangeError("regimen must be indonesia or who2024");
+  }
+
+  const api = Object.freeze({ paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, ambroxol, zinc });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

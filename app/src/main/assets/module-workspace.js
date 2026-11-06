@@ -8,6 +8,11 @@
       subtitle: "Ruang kerja kunjungan untuk menyusun ringkasan pasien, tanda vital, SOAP, dan rencana tindak lanjut dalam satu layar.",
       html: '<div class="patientWorkspace"><div class="patientWorkspaceIntro"><span class="workspaceEyebrow">CLINICAL ENCOUNTER</span><h3>Ringkasan kunjungan</h3><p>Isi data seperlunya. Gunakan inisial atau kode internal, bukan identitas langsung pasien.</p></div><div class="patientFormGrid"><div class="patientField"><label for="pwCode">Kode / inisial pasien</label><input id="pwCode" maxlength="32" placeholder="Contoh: PX-001"></div><div class="patientField"><label for="pwAge">Usia</label><input id="pwAge" maxlength="32" placeholder="Contoh: 45 tahun"></div><div class="patientField"><label for="pwSex">Jenis kelamin</label><select id="pwSex"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select></div><div class="patientField"><label for="pwVisit">Jenis kunjungan</label><select id="pwVisit"><option>IGD</option><option>Rawat jalan</option><option>Rawat inap</option><option>Kontrol</option></select></div></div><div class="patientSectionHead"><span>01</span><div><b>Tanda vital</b><small>Catat angka, satuan, dan waktu pengukuran sesuai kebutuhan.</small></div></div><div class="patientVitalsGrid"><div class="patientField"><label for="pwBp">Tekanan darah</label><input id="pwBp" placeholder="120/80 mmHg"></div><div class="patientField"><label for="pwHr">Nadi</label><input id="pwHr" placeholder="x/menit"></div><div class="patientField"><label for="pwRr">Frekuensi napas</label><input id="pwRr" placeholder="x/menit"></div><div class="patientField"><label for="pwTemp">Suhu</label><input id="pwTemp" placeholder="°C"></div><div class="patientField"><label for="pwSpo2">SpO₂</label><input id="pwSpo2" placeholder="%"></div><div class="patientField"><label for="pwWeight">Berat badan</label><input id="pwWeight" placeholder="kg"></div></div><div class="patientSectionHead"><span>02</span><div><b>Catatan klinis SOAP</b><small>Susun temuan dan keputusan klinis secara terstruktur.</small></div></div><div class="patientClinicalFields"><div class="patientField"><label for="pwSubjective">S · Subjektif</label><textarea id="pwSubjective" placeholder="Keluhan utama, onset, perjalanan penyakit, riwayat relevan..."></textarea></div><div class="patientField"><label for="pwObjective">O · Objektif</label><textarea id="pwObjective" placeholder="Pemeriksaan fisik, temuan penunjang, dan kondisi umum..."></textarea></div><div class="patientField"><label for="pwAssessment">A · Asesmen</label><textarea id="pwAssessment" placeholder="Diagnosis kerja, masalah aktif, dan diagnosis banding..."></textarea></div><div class="patientField"><label for="pwPlan">P · Rencana</label><textarea id="pwPlan" placeholder="Pemeriksaan, terapi, monitoring, edukasi, disposisi..."></textarea></div></div><div class="patientWorkspaceActions"><button type="button" class="active" id="pwGenerate">Buat ringkasan kunjungan</button><button type="button" id="pwClear">Bersihkan formulir</button></div><div class="patientSummaryPanel"><div class="patientSummaryTop"><div><span class="workspaceEyebrow">MEDORA NOTE</span><h3>Hasil dokumentasi</h3></div><span class="patientDraftTag">DRAF</span></div><pre id="pwOutput" aria-live="polite">Ringkasan kunjungan akan muncul di sini.</pre><div class="patientWorkspaceActions"><button type="button" id="pwCopy">Salin ringkasan</button></div><p id="pwStatus" class="medicalHint" aria-live="polite">Data hanya diproses di sesi ini dan tidak disimpan oleh Patient Workspace.</p></div><p class="notice">Patient Workspace adalah alat bantu penyusunan catatan, bukan rekam medis elektronik resmi. Verifikasi semua data, diagnosis, dosis, dan rencana sebelum dipindahkan ke sistem rekam medis fasilitas. Hindari identitas langsung pasien.</p></div>'
     },
+    shiftboard: {
+      title: "Shift Board",
+      subtitle: "Papan kendali tugas klinis selama satu shift. Atur prioritas, pantau progres, dan jangan biarkan tindak lanjut tercecer.",
+      html: '<div class="shiftBoard"><section class="shiftBoardHero"><div><span class="workspaceEyebrow">SHIFT COMMAND CENTER</span><h3>Fokus pada hal yang harus dituntaskan</h3><p>Catat tugas tanpa identitas pasien. Semua item hanya berada di memori sesi dan otomatis hilang saat aplikasi dimuat ulang.</p></div><div class="shiftBoardStats"><div><strong id="shiftTotal">0</strong><span>Total tugas</span></div><div><strong id="shiftActive">0</strong><span>Berjalan</span></div><div><strong id="shiftDone">0</strong><span>Selesai</span></div></div></section><section class="shiftComposer"><div class="shiftSectionTitle"><span>01</span><div><b>Tambahkan tugas</b><small>Masukkan tindakan atau tindak lanjut yang perlu dikerjakan.</small></div></div><label for="shiftTaskTitle">Nama tugas</label><input id="shiftTaskTitle" maxlength="100" placeholder="Contoh: Evaluasi ulang tanda vital"><div class="shiftComposerGrid"><div><label for="shiftTaskCategory">Kategori</label><select id="shiftTaskCategory"><option value="Monitoring">Monitoring</option><option value="Pemeriksaan">Pemeriksaan</option><option value="Terapi">Terapi</option><option value="Konsultasi">Konsultasi</option><option value="Rujukan">Rujukan</option><option value="Administrasi">Administrasi</option><option value="Lainnya">Lainnya</option></select></div><div><label for="shiftTaskPriority">Prioritas</label><select id="shiftTaskPriority"><option value="Segera">Segera</option><option value="Tinggi">Tinggi</option><option value="Rutin" selected>Rutin</option></select></div></div><button type="button" class="active shiftAddButton" id="shiftTaskAdd">＋ Tambahkan ke shift</button><p id="shiftBoardStatus" class="medicalHint" aria-live="polite">Belum ada tugas. Mulai dengan satu tindak lanjut yang paling penting.</p></section><section class="shiftTaskSection"><div class="shiftSectionTitle"><span>02</span><div><b>Daftar tugas shift</b><small>Pindahkan status saat tugas mulai dikerjakan atau selesai.</small></div><button type="button" id="shiftClearDone" class="shiftClearButton">Bersihkan selesai</button></div><div id="shiftTaskList" class="shiftTaskList"><div class="shiftBoardEmpty"><span>✦</span><b>Shift masih bersih</b><small>Tugas yang ditambahkan akan muncul di sini.</small></div></div></section><p class="notice">Shift Board bukan rekam medis atau sistem patient tracking. Jangan masukkan nama, nomor rekam medis, tanggal lahir, diagnosis yang dapat mengidentifikasi pasien, atau data sensitif. Pastikan instruksi klinis tetap dikomunikasikan dan didokumentasikan pada sistem resmi.</p></div>'
+    },
     handover: {
       title: "Clinical Handover",
       subtitle: "Ruang serah terima pasien dengan format SBAR yang ringkas, terstruktur, dan siap disalin.",
@@ -69,6 +74,43 @@
       html: '<div class="guideCard"><h3>Penyimpanan perangkat</h3><p id="localDataSummary"></p><div class="workspaceActions"><button type="button" id="copyLocalBackup" class="active">Salin backup data</button><button type="button" id="clearLocalHistory">Hapus riwayat</button><button type="button" id="clearLocalFavorites">Hapus favorit</button></div><label for="restoreBackup">Pulihkan backup JSON</label><textarea id="restoreBackup" placeholder="Tempel isi backup MEDORA di sini..."></textarea><div class="workspaceActions"><button type="button" id="restoreLocalBackup">Pulihkan data</button></div><p id="settingsStatus" class="medicalHint" aria-live="polite"></p></div><p class="notice">Backup memuat daftar obat favorit serta riwayat kalkulasi, termasuk nama obat, usia, berat badan, hasil, dan tanggal. Data dapat menjadi informasi kesehatan yang sensitif. Simpan secara pribadi, jangan tempelkan ke layanan publik, dan hapus salinan clipboard bila perangkat digunakan bersama.</p>'
     }
   };
+
+  let shiftTasks = [];
+  let nextShiftTaskId = 1;
+  function renderShiftTasks() {
+    const host = document.getElementById("shiftTaskList");
+    if (!host) return;
+    const total = shiftTasks.length;
+    const active = shiftTasks.filter(task => task.status === "progress").length;
+    const done = shiftTasks.filter(task => task.status === "done").length;
+    const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = String(value); };
+    set("shiftTotal", total); set("shiftActive", active); set("shiftDone", done);
+    host.replaceChildren();
+    if (!total) {
+      const empty = document.createElement("div");
+      empty.className = "shiftBoardEmpty";
+      const symbol = document.createElement("span"); symbol.textContent = "✦";
+      const title = document.createElement("b"); title.textContent = "Shift masih bersih";
+      const hint = document.createElement("small"); hint.textContent = "Tugas yang ditambahkan akan muncul di sini.";
+      empty.append(symbol, title, hint); host.appendChild(empty); return;
+    }
+    const labels = { todo: "Menunggu", progress: "Dikerjakan", done: "Selesai" };
+    shiftTasks.forEach(task => {
+      const card = document.createElement("article"); card.className = "shiftTaskCard status-" + task.status;
+      const top = document.createElement("div"); top.className = "shiftTaskTop";
+      const category = document.createElement("span"); category.className = "shiftTaskCategory"; category.textContent = task.category;
+      const priority = document.createElement("span"); priority.className = "shiftTaskPriority priority-" + task.priority.toLowerCase(); priority.textContent = task.priority;
+      top.append(category, priority);
+      const title = document.createElement("h4"); title.textContent = task.title;
+      const footer = document.createElement("div"); footer.className = "shiftTaskFooter";
+      const status = document.createElement("span"); status.className = "shiftTaskStatus"; status.textContent = labels[task.status];
+      const actions = document.createElement("div"); actions.className = "shiftTaskActions";
+      const advance = document.createElement("button"); advance.type = "button"; advance.dataset.shiftAction = "advance"; advance.dataset.shiftId = String(task.id);
+      advance.textContent = task.status === "todo" ? "Mulai" : task.status === "progress" ? "Selesaikan" : "Buka lagi";
+      const remove = document.createElement("button"); remove.type = "button"; remove.dataset.shiftAction = "remove"; remove.dataset.shiftId = String(task.id); remove.setAttribute("aria-label", "Hapus tugas"); remove.textContent = "×";
+      actions.append(advance, remove); footer.append(status, actions); card.append(top, title, footer); host.appendChild(card);
+    });
+  }
 
   function updateLocalDataSummary() {
     const el = document.getElementById("localDataSummary");
@@ -153,7 +195,7 @@
 
   const recentModuleKey = "medora_recent_modules_v1";
   const recentModuleCatalog = {
-    patient: "Patient Workspace", handover: "Clinical Handover", calculator: "Kalkulator dosis", emergency: "IGD & Emergency", icd: "ICD-10",
+    patient: "Patient Workspace", shiftboard: "Shift Board", handover: "Clinical Handover", calculator: "Kalkulator dosis", emergency: "IGD & Emergency", icd: "ICD-10",
     drugs: "Database obat", medical: "Kalkulator medis", guides: "Panduan klinis",
     ai: "Asisten klinis", references: "Referensi medis", integrated: "Kasus terpadu",
     ultrasound: "USG kandungan", laboratory: "Interpretasi lab", records: "Rekam medis",
@@ -261,6 +303,38 @@
     const actionButton = typeof event.target.closest === "function" ? event.target.closest("button") : null;
     const id = actionButton ? actionButton.id : event.target.id;
     const $ = value => document.getElementById(value);
+    if (id === "shiftTaskAdd") {
+      const title = $("shiftTaskTitle");
+      const status = $("shiftBoardStatus");
+      const value = title ? title.value.trim() : "";
+      if (!value) { if (status) status.textContent = "Tulis nama tugas terlebih dahulu."; if (title) title.focus(); return; }
+      if (value.length > 100) { if (status) status.textContent = "Nama tugas maksimal 100 karakter."; return; }
+      if (shiftTasks.length >= 30) { if (status) status.textContent = "Batas 30 tugas per sesi tercapai. Selesaikan atau hapus tugas lama."; return; }
+      shiftTasks.unshift({ id: nextShiftTaskId++, title: value, category: $("shiftTaskCategory").value, priority: $("shiftTaskPriority").value, status: "todo" });
+      title.value = ""; renderShiftTasks();
+      if (status) status.textContent = "Tugas ditambahkan ke papan shift.";
+      return;
+    }
+    if (id === "shiftClearDone") {
+      const before = shiftTasks.length;
+      shiftTasks = shiftTasks.filter(task => task.status !== "done");
+      renderShiftTasks();
+      const status = $("shiftBoardStatus");
+      if (status) status.textContent = before === shiftTasks.length ? "Belum ada tugas selesai untuk dibersihkan." : (before - shiftTasks.length) + " tugas selesai dibersihkan.";
+      return;
+    }
+    const shiftAction = event.target && typeof event.target.closest === "function" ? event.target.closest("[data-shift-action]") : null;
+    if (shiftAction) {
+      const taskId = Number(shiftAction.dataset.shiftId);
+      const task = shiftTasks.find(item => item.id === taskId);
+      if (!task) return;
+      if (shiftAction.dataset.shiftAction === "remove") shiftTasks = shiftTasks.filter(item => item.id !== taskId);
+      else task.status = task.status === "todo" ? "progress" : task.status === "progress" ? "done" : "todo";
+      renderShiftTasks();
+      const status = $("shiftBoardStatus");
+      if (status) status.textContent = shiftAction.dataset.shiftAction === "remove" ? "Tugas dihapus dari papan." : "Status tugas diperbarui.";
+      return;
+    }
     if (id === "sbarGenerate") {
       const sections = [["S", "SITUATION", "sbarSituation"], ["B", "BACKGROUND", "sbarBackground"], ["A", "ASSESSMENT", "sbarAssessment"], ["R", "RECOMMENDATION", "sbarRecommendation"]];
       const missing = [];

@@ -6,6 +6,8 @@ Prototype Android offline untuk membantu perhitungan dosis pediatrik.
 
 ## Fitur
 - Antarmuka responsif dan dapat digunakan offline.
+- Area **Untuk Umum** menyediakan pencarian, filter kategori, dan halaman detail untuk 11 topik edukasi kesehatan; navigasi klinis disembunyikan saat area umum dibuka.
+- Navigasi bawah pada area tenaga medis diarahkan ulang agar Beranda, Cari, Favorit, Riwayat, dan Pengaturan tetap membuka panel yang terlihat dari modul mana pun.
 - Input berat badan dan usia anak.
 - Katalog obat dengan pencarian dan kategori.
 - Referensi pencarian 99 kode ICD-10 umum (WHO 2010) dengan filter kategori; daftar ini bukan database lengkap dan kode harus diverifikasi terhadap indeks/tabular serta aturan coding yang berlaku.

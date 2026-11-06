@@ -41,7 +41,25 @@
     };
   }
 
-  const api = Object.freeze({ paracetamol, ibuprofen });
+  function cefixime(weightKg, strengthMgPer5Ml, divisions) {
+    requirePositive(weightKg, "weightKg");
+    requirePositive(strengthMgPer5Ml, "strengthMgPer5Ml");
+    const dosesPerDay = divisions === undefined ? 2 : divisions;
+    if (dosesPerDay !== 1 && dosesPerDay !== 2) {
+      throw new RangeError("divisions must be 1 or 2");
+    }
+    const dailyMg = Math.min(weightKg * 8, 400);
+    const perDoseMg = dailyMg / dosesPerDay;
+    const mgPerMl = strengthMgPer5Ml / 5;
+    return {
+      dailyMg,
+      perDoseMg,
+      volumeMl: perDoseMg / mgPerMl,
+      divisions: dosesPerDay
+    };
+  }
+
+  const api = Object.freeze({ paracetamol, ibuprofen, cefixime });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

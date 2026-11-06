@@ -38,4 +38,8 @@ test("high-yield WHO ICD-10 codes and corrected chest-pain code are present", ()
     assert.equal(codes.has(code), true, code + " should be present");
   }
   assert.equal(codes.has("R07.9"), false);
+  assert.equal(codes.has("R11"), true);
+  assert.equal(codes.has("R11.2"), false);
+  const nausea = database.icd10.find((entry) => entry[0] === "R11");
+  assert.equal(nausea[1], "Mual dan muntah");
 });

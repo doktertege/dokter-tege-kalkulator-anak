@@ -169,10 +169,65 @@
     catch (error) { /* Quick access remains usable when storage is unavailable. */ }
     renderRecentModules();
   }
+
+  const favoriteModuleKey = "medora_favorite_modules_v1";
+  function readFavoriteModules() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(favoriteModuleKey) || "[]");
+      return Array.isArray(saved) ? [...new Set(saved.filter(key => Object.prototype.hasOwnProperty.call(recentModuleCatalog, key)))].slice(0, 8) : [];
+    } catch (error) { return []; }
+  }
+  function renderFavoriteModules() {
+    const host = document.getElementById("favoriteModuleList");
+    const count = document.getElementById("favoriteModuleCount");
+    const favorites = readFavoriteModules();
+    if (count) count.textContent = favorites.length + " TERSIMPAN";
+    if (host) host.innerHTML = favorites.length
+      ? favorites.map(key => '<button type="button" class="recentModuleChip" data-module="' + key + '">' + recentModuleCatalog[key] + ' ↗</button>').join("")
+      : '<p class="recentEmpty">Tandai modul dengan ikon bintang untuk akses pribadi.</p>';
+    document.querySelectorAll(".moduleFavoriteToggle").forEach(toggle => {
+      const active = favorites.includes(toggle.dataset.favorite);
+      toggle.setAttribute("aria-pressed", String(active));
+      toggle.setAttribute("aria-label", (active ? "Hapus dari" : "Tambahkan ke") + " favorit: " + (recentModuleCatalog[toggle.dataset.favorite] || "modul"));
+      toggle.textContent = active ? "★" : "☆";
+    });
+  }
+  function toggleFavoriteModule(key) {
+    if (!Object.prototype.hasOwnProperty.call(recentModuleCatalog, key)) return;
+    const favorites = readFavoriteModules();
+    const next = favorites.includes(key) ? favorites.filter(item => item !== key) : [key].concat(favorites).slice(0, 8);
+    try { localStorage.setItem(favoriteModuleKey, JSON.stringify(next)); }
+    catch (error) { return; }
+    renderFavoriteModules();
+  }
+  function installFavoriteToggles() {
+    document.querySelectorAll("#clinicalDashboard .moduleCard[data-module]").forEach(card => {
+      if (card.querySelector(".moduleFavoriteToggle")) return;
+      const key = card.dataset.module;
+      if (!Object.prototype.hasOwnProperty.call(recentModuleCatalog, key)) return;
+      const toggle = document.createElement("span");
+      toggle.className = "moduleFavoriteToggle";
+      toggle.dataset.favorite = key;
+      toggle.setAttribute("role", "button");
+      toggle.setAttribute("tabindex", "0");
+      toggle.setAttribute("aria-pressed", "false");
+      toggle.textContent = "☆";
+      card.appendChild(toggle);
+    });
+    renderFavoriteModules();
+  }
   renderRecentModules();
+  installFavoriteToggles();
 
   document.getElementById("moduleBack").addEventListener("click", showClinicalHome);
   document.getElementById("homeDashboard").addEventListener("click", event => {
+    const favoriteToggle = event.target.closest("[data-favorite]");
+    if (favoriteToggle) {
+      event.preventDefault();
+      event.stopPropagation();
+      toggleFavoriteModule(favoriteToggle.dataset.favorite);
+      return;
+    }
     const button = event.target.closest("[data-module]");
     if (!button) return;
     const key = button.dataset.module;

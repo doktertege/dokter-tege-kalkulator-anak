@@ -30,17 +30,23 @@ function makeElement() {
     },
     innerHTML: "",
     textContent: "",
-    value: ""
+    value: "",
+    checked: false,
+    matches(selector) { return selector === ".checkRow input[type=checkbox]"; }
   };
 }
 
 function createHarness() {
   const elements = new Map();
+  const emergencyCheckboxes = Array.from({ length: 7 }, () => makeElement());
   const document = {
     body: { classList: { add() {}, remove() {} } },
     getElementById(id) {
       if (!elements.has(id)) elements.set(id, makeElement());
       return elements.get(id);
+    },
+    querySelectorAll(selector) {
+      return selector === "#moduleWorkspaceContent .checkRow input[type=checkbox]" ? emergencyCheckboxes : [];
     }
   };
   const calls = [];
@@ -75,7 +81,7 @@ function createHarness() {
     "soapExam", "soapAssessment", "soapPlan", "soapOutput", "soapStatus",
     "restoreBackup", "settingsStatus", "localDataSummary"
   ].forEach(id => document.getElementById(id));
-  return { elements, calls, window, get copiedText() { return copiedText; } };
+  return { elements, calls, window, emergencyCheckboxes, get copiedText() { return copiedText; } };
 }
 
 test("clinical dashboard click routing invokes every destination", () => {
@@ -202,4 +208,21 @@ test("settings clear actions require confirmation and update local data", async 
   assert.equal(calls.filter(x => x === "clinical").length, 0);
   assert.match(elements.get("settingsStatus").textContent, /Daftar favorit dihapus/);
   assert.match(elements.get("localDataSummary").textContent, /0 obat favorit dan 0 catatan riwayat/);
+});
+
+
+test("emergency checklist tracks completion and can be reset", () => {
+  const { elements, emergencyCheckboxes } = createHarness();
+  elements.get("homeDashboard").click({
+    target: { closest: () => ({ dataset: { module: "emergency" } }) }
+  });
+  assert.equal(elements.get("emergencyChecklistProgress").textContent, "0 dari 7 langkah ditandai.");
+  emergencyCheckboxes[0].checked = true;
+  elements.get("moduleWorkspaceContent").listeners.change({
+    target: { matches: selector => selector === ".checkRow input[type=checkbox]" }
+  });
+  assert.equal(elements.get("emergencyChecklistProgress").textContent, "1 dari 7 langkah ditandai.");
+  elements.get("moduleWorkspaceContent").click({ target: { id: "resetEmergencyChecklist" } });
+  assert.ok(emergencyCheckboxes.every(input => input.checked === false));
+  assert.equal(elements.get("emergencyChecklistProgress").textContent, "0 dari 7 langkah ditandai.");
 });

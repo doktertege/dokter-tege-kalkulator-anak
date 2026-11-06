@@ -54,6 +54,7 @@ function createHarness() {
     }
   };
   const calls = [];
+  const confirmationMessages = [];
   const storage = new Map();
   let failNextSetKey = null;
   const localStorage = { getItem(key) { return storage.has(key) ? storage.get(key) : null; }, setItem(key, value) { if (failNextSetKey === key) { failNextSetKey = null; throw new Error("quota exceeded"); } storage.set(key, String(value)); }, removeItem(key) { storage.delete(key); } };
@@ -81,7 +82,7 @@ function createHarness() {
     persistDoseHistory: () => true,
     renderDoseHistory: () => {},
     copyTextToClipboard: async text => { copiedText = text; },
-    confirm: () => true
+    confirm: message => { confirmationMessages.push(message); return true; }
   };
   vm.runInNewContext(source, context);
   [
@@ -89,7 +90,7 @@ function createHarness() {
     "soapExam", "soapAssessment", "soapPlan", "soapOutput", "soapStatus",
     "restoreBackup", "settingsStatus", "localDataSummary"
   ].forEach(id => document.getElementById(id));
-  return { elements, calls, window, emergencyCheckboxes, storage, failNextSet(key) { failNextSetKey = key; }, get copiedText() { return copiedText; } };
+  return { elements, calls, window, emergencyCheckboxes, storage, confirmationMessages, failNextSet(key) { failNextSetKey = key; }, get copiedText() { return copiedText; } };
 }
 
 test("clinical dashboard click routing invokes every destination", () => {
@@ -196,7 +197,7 @@ test("settings backup exports local favorites and dose history", async () => {
 });
 
 test("settings restore accepts valid backup and rejects unknown medication names", async () => {
-  const { elements, calls } = createHarness();
+  const { elements, calls, confirmationMessages } = createHarness();
   elements.get("homeDashboard").click({
     target: { closest: () => ({ dataset: { module: "settings" } }) }
   });
@@ -205,6 +206,7 @@ test("settings restore accepts valid backup and rejects unknown medication names
   });
   await elements.get("moduleWorkspaceContent").click({ target: { id: "restoreLocalBackup" } });
   assert.match(elements.get("settingsStatus").textContent, /Backup berhasil dipulihkan/);
+  assert.match(confirmationMessages[0], /akan diganti/);
   assert.equal(elements.get("localDataSummary").textContent,
     "1 obat favorit dan 0 catatan riwayat tersimpan di perangkat ini.");
 

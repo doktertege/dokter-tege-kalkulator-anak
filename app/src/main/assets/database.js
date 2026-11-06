@@ -221,6 +221,11 @@
       "url": "https://www.sidomuncul.co.id/id/product/amoxicillin_trihydrate.html",
       "title": "Produsen: amoxicillin trihydrate 125 mg/5 mL dan 250 mg/5 mL",
       "sourceType": "manufacturer_product_information"
+    },
+    "kemkes_antibiotic_prescription": {
+      "url": "https://keslan.kemkes.go.id/view_artikel/2157/masyarakat-cerdas-bijak-gunakan-antibiotik",
+      "title": "Kemenkes: antibiotik termasuk obat keras dan harus dengan resep dokter",
+      "sourceType": "official_government_guidance"
     }
   },
   "coverage": {
@@ -895,7 +900,7 @@
       "route": {"status": "source_linked_reference", "sourceRefs": ["bpom_amoxsan", "sidomuncul_amoxicillin"]},
       "formulationNote": {"status": "source_linked_reference", "sourceRefs": ["bpom_amoxsan", "sidomuncul_amoxicillin"]},
       "strength": {"status": "source_linked_reference", "sourceRefs": ["bpom_amoxsan", "sidomuncul_amoxicillin"]},
-      "prescriptionStatus": {"status": "pending_product_specific_verification", "sourceRefs": []},
+      "prescriptionStatus": {"status": "source_linked_reference", "sourceRefs": ["kemkes_antibiotic_prescription"]},
       "keyWarnings": {"status": "pending_product_specific_verification", "sourceRefs": []},
       "doseEngineFunction": {"status": "verified_by_local_regression_test", "sourceRefs": []}
     }

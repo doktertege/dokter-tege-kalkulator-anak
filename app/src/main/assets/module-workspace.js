@@ -49,9 +49,9 @@
       html: '<div class="guideCard"><h3>Prinsip interpretasi</h3><ol><li>Pastikan identitas sampel, satuan, waktu pengambilan, dan rentang rujukan laboratorium.</li><li>Periksa kualitas sampel dan kemungkinan hemolisis, kontaminasi, atau keterlambatan pemrosesan.</li><li>Bandingkan dengan nilai sebelumnya dan kondisi klinis saat pemeriksaan.</li><li>Nilai pola beberapa parameter, bukan satu angka secara terpisah.</li></ol></div><div class="guideCard"><h3>Kelompok pemeriksaan</h3><ul><li><b>Darah lengkap:</b> Hb, hematokrit, leukosit/diferensial, trombosit, indeks eritrosit.</li><li><b>Fungsi ginjal:</b> kreatinin, ureum, eGFR, elektrolit, urinalisis.</li><li><b>Fungsi hati:</b> AST/ALT, bilirubin, albumin, ALP sesuai indikasi.</li><li><b>Metabolik:</b> glukosa, HbA1c, profil lipid dan elektrolit.</li><li><b>Infeksi/inflamasi:</b> interpretasikan CRP, kultur, antigen/antibodi sesuai waktu penyakit dan probabilitas pretes.</li></ul></div><div class="guideCard"><h3>Hasil kritis</h3><p>Ikuti daftar nilai kritis dan prosedur komunikasi laboratorium fasilitas. Verifikasi hasil, hubungi klinisi penanggung jawab, dokumentasikan waktu dan read-back bila diwajibkan.</p></div><p class="notice">Rentang rujukan berbeda menurut laboratorium, metode, usia, jenis kelamin, dan kehamilan. Modul ini tidak memberikan diagnosis otomatis.</p>'
     },
     records: {
-      title: "Rekam Medis",
-      subtitle: "Checklist kelengkapan dokumentasi kunjungan tanpa menyimpan identitas pasien di modul ini.",
-      html: '<div class="guideCard"><h3>Komponen rekam medis</h3><ul><li>Keluhan utama, riwayat penyakit sekarang, riwayat dahulu/keluarga, obat, dan alergi.</li><li>Pemeriksaan fisik relevan dan tanda vital dengan waktu pengukuran.</li><li>Diagnosis kerja, diagnosis banding, dan dasar penetapan.</li><li>Hasil pemeriksaan penunjang dan interpretasinya.</li><li>Terapi: nama obat, dosis, rute, frekuensi, durasi, serta respons.</li><li>Edukasi, informed consent bila diperlukan, rencana kontrol, dan disposisi.</li></ul></div><div class="guideCard"><h3>Mutu dokumentasi</h3><p>Catat secara kronologis, objektif, terbaca, tepat waktu, dan dapat ditelusuri. Koreksi mengikuti kebijakan fasilitas; jangan menghapus jejak perubahan.</p></div><div class="guideCard"><h3>Privasi</h3><p>Gunakan sistem rekam medis resmi fasilitas. Batasi akses sesuai kewenangan, hindari berbagi tangkapan layar, dan jangan memasukkan identitas langsung ke alat bantu yang tidak disetujui fasilitas.</p></div><p class="notice">Menu ini adalah checklist edukatif, bukan sistem rekam medis elektronik dan tidak menyimpan data kunjungan pasien.</p>'
+      title: "Rekam Medis Pasien",
+      subtitle: "Simpan kunjungan pasien secara lokal, telusuri riwayat, dan buat backup untuk dipulihkan setelah instalasi ulang.",
+      html: '<div class="medicalRecords"><section class="recordsHero"><span class="workspaceEyebrow">PATIENT RECORDS</span><h3>Rekam medis dalam satu tempat</h3><p>Setiap kunjungan disimpan sebagai catatan terpisah dan dapat ditelusuri berdasarkan nomor RM atau nama pasien.</p><div class="recordsStats"><div><strong id="rmPatientCount">0</strong><span>Pasien</span></div><div><strong id="rmVisitCount">0</strong><span>Kunjungan</span></div></div></section><section class="recordsPanel"><h3 id="rmFormTitle">Daftarkan pasien / kunjungan baru</h3><input type="hidden" id="rmEditId"><div class="recordsGrid"><div><label for="rmNumber">Nomor rekam medis *</label><input id="rmNumber" maxlength="40" placeholder="Contoh: RM-0001"></div><div><label for="rmName">Nama / inisial pasien *</label><input id="rmName" maxlength="100" placeholder="Nama sesuai kebijakan fasilitas"></div><div><label for="rmBirth">Tanggal lahir</label><input id="rmBirth" type="date"></div><div><label for="rmSex">Jenis kelamin</label><select id="rmSex"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select></div><div><label for="rmDate">Tanggal kunjungan *</label><input id="rmDate" type="date"></div><div><label for="rmType">Jenis kunjungan</label><select id="rmType"><option>IGD</option><option>Rawat jalan</option><option>Rawat inap</option><option>Kontrol</option></select></div><div><label for="rmBp">Tekanan darah</label><input id="rmBp" placeholder="120/80 mmHg"></div><div><label for="rmHr">Nadi (x/menit)</label><input id="rmHr" inputmode="numeric"></div><div><label for="rmRr">RR (x/menit)</label><input id="rmRr" inputmode="numeric"></div><div><label for="rmTemp">Suhu (°C)</label><input id="rmTemp" inputmode="decimal"></div><div><label for="rmSpo2">SpO₂ (%)</label><input id="rmSpo2" inputmode="numeric"></div><div><label for="rmWeight">BB (kg)</label><input id="rmWeight" inputmode="decimal"></div></div><label for="rmAllergy">Alergi / reaksi obat</label><textarea id="rmAllergy" rows="2" placeholder="Tuliskan alergi atau tidak diketahui"></textarea><label for="rmSubjective">S · Anamnesis / subjektif</label><textarea id="rmSubjective" rows="3" placeholder="Keluhan utama, RPS, RPD, RPK, obat rutin..."></textarea><label for="rmObjective">O · Pemeriksaan / objektif</label><textarea id="rmObjective" rows="3" placeholder="Keadaan umum, pemeriksaan fisik, penunjang..."></textarea><label for="rmAssessment">A · Diagnosis / asesmen</label><textarea id="rmAssessment" rows="2" placeholder="Diagnosis kerja dan diagnosis banding"></textarea><div class="recordsGrid"><div><label for="rmIcd">Kode ICD-10</label><input id="rmIcd" maxlength="20" placeholder="Contoh: J06.9"></div><div><label for="rmDisposition">Disposisi</label><select id="rmDisposition"><option value="">Pilih</option><option>Pulang</option><option>Rawat inap</option><option>Rujuk</option><option>Observasi</option><option>Kontrol</option></select></div></div><label for="rmPlan">P · Terapi, resep, edukasi, dan rencana</label><textarea id="rmPlan" rows="4" placeholder="Nama obat, dosis, rute, frekuensi, durasi, monitoring, edukasi..."></textarea><div class="recordsActions"><button type="button" class="active" id="rmSave">Simpan kunjungan</button><button type="button" id="rmReset">Kosongkan</button></div><p id="rmStatus" class="medicalHint" aria-live="polite">Kolom bertanda * wajib diisi.</p></section><section class="recordsPanel"><h3>Daftar pasien & riwayat kunjungan</h3><input id="rmSearch" type="search" placeholder="Cari nomor RM atau nama pasien..."><div id="rmList" class="rmList"><p class="medicalHint">Belum ada rekam medis tersimpan.</p></div></section><section class="recordsPanel"><h3>Backup & pemulihan rekam medis</h3><p>Salin seluruh database menjadi teks JSON, lalu simpan sebagai file pribadi di luar MEDORA. Setelah instalasi ulang, tempel backup di bawah dan pulihkan.</p><div class="recordsActions"><button type="button" class="active" id="rmBackup">Buat & salin backup</button></div><textarea id="rmBackupText" rows="5" placeholder="Backup MEDORA akan muncul di sini. Simpan salinannya di tempat aman."></textarea><div class="recordsActions"><button type="button" id="rmRestore">Pulihkan dari backup</button></div><p id="rmBackupStatus" class="medicalHint" aria-live="polite"></p></section><p class="notice"><b>Penting:</b> data tersimpan lokal pada perangkat dan dapat ikut terhapus saat aplikasi di-uninstall atau data aplikasi dibersihkan. Backup wajib disimpan di luar aplikasi dan dipulihkan setelah instalasi ulang. Backup saat ini berupa JSON yang belum dienkripsi: simpan secara privat, jangan kirim melalui chat publik. Gunakan hanya pada perangkat yang dilindungi PIN/biometrik dan sesuai kebijakan fasilitas. Ini belum menggantikan RME resmi fasilitas atau memenuhi seluruh persyaratan interoperabilitas/regulasi.</p></div>'
     },
     anthropometry: {
       title: "IMT & Lingkar Tubuh",
@@ -112,6 +112,57 @@
     });
   }
 
+  const patientRecordsKey = "medora_patient_records_v1";
+  function readPatientRecords() {
+    try { const data = JSON.parse(localStorage.getItem(patientRecordsKey) || "[]"); return Array.isArray(data) ? data.filter(item => item && typeof item.id === "string" && typeof item.mrn === "string" && typeof item.name === "string") : []; }
+    catch (error) { return []; }
+  }
+  let patientRecords = readPatientRecords();
+  function persistPatientRecords(next) {
+    try { localStorage.setItem(patientRecordsKey, JSON.stringify(next)); patientRecords = next; return true; }
+    catch (error) { return false; }
+  }
+  function rmEscape(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+  }
+  function renderPatientRecords(query) {
+    const host = document.getElementById("rmList"); if (!host) return;
+    const patients = new Map();
+    patientRecords.forEach(item => { const key = item.mrn.toLocaleLowerCase("id"); if (!patients.has(key)) patients.set(key, {mrn:item.mrn,name:item.name,visits:[]}); patients.get(key).visits.push(item); });
+    const term = String(query || "").trim().toLocaleLowerCase("id");
+    const rows = [...patients.values()].filter(p => !term || (p.mrn+" "+p.name).toLocaleLowerCase("id").includes(term));
+    const patientCount = document.getElementById("rmPatientCount"), visitCount = document.getElementById("rmVisitCount");
+    if (patientCount) patientCount.textContent = String(patients.size);
+    if (visitCount) visitCount.textContent = String(patientRecords.length);
+    if (!rows.length) { host.innerHTML = '<p class="medicalHint">'+(term ? "Tidak ada pasien yang cocok." : "Belum ada rekam medis tersimpan.")+'</p>'; return; }
+    host.innerHTML = rows.map(p => '<article class="rmPatientCard"><div class="rmPatientHead"><div><b>'+rmEscape(p.name)+'</b><small>No. RM: '+rmEscape(p.mrn)+'</small></div><span>'+p.visits.length+' kunjungan</span></div>'+p.visits.sort((a,b)=>String(b.date).localeCompare(String(a.date))).map(v => '<div class="rmVisitRow"><div><b>'+rmEscape(v.date)+' · '+rmEscape(v.type || "Kunjungan")+'</b><small>'+rmEscape(v.assessment || "Belum ada asesmen")+'</small></div><div class="rmVisitActions"><button type="button" data-rm-action="view" data-rm-id="'+rmEscape(v.id)+'">Lihat</button><button type="button" data-rm-action="edit" data-rm-id="'+rmEscape(v.id)+'">Edit</button><button type="button" data-rm-action="delete" data-rm-id="'+rmEscape(v.id)+'">Hapus</button></div></div>').join("")+'</article>').join("");
+  }
+  const rmFields = ["rmNumber","rmName","rmBirth","rmSex","rmDate","rmType","rmBp","rmHr","rmRr","rmTemp","rmSpo2","rmWeight","rmAllergy","rmSubjective","rmObjective","rmAssessment","rmIcd","rmDisposition","rmPlan"];
+  function clearRmForm() {
+    rmFields.forEach(id => { const el=document.getElementById(id); if(el) el.value = id==="rmDate" ? new Date().toISOString().slice(0,10) : ""; });
+    const edit=document.getElementById("rmEditId"); if(edit) edit.value="";
+    const title=document.getElementById("rmFormTitle"); if(title) title.textContent="Daftarkan pasien / kunjungan baru";
+    const save=document.getElementById("rmSave"); if(save) save.textContent="Simpan kunjungan";
+  }
+  function fillRmForm(record) {
+    const map={rmNumber:"mrn",rmName:"name",rmBirth:"birth",rmSex:"sex",rmDate:"date",rmType:"type",rmBp:"bp",rmHr:"hr",rmRr:"rr",rmTemp:"temp",rmSpo2:"spo2",rmWeight:"weight",rmAllergy:"allergy",rmSubjective:"subjective",rmObjective:"objective",rmAssessment:"assessment",rmIcd:"icd",rmDisposition:"disposition",rmPlan:"plan"};
+    Object.keys(map).forEach(id=>{const el=document.getElementById(id);if(el)el.value=record[map[id]]||"";});
+    document.getElementById("rmEditId").value=record.id;
+    document.getElementById("rmFormTitle").textContent="Edit kunjungan · "+record.mrn;
+    document.getElementById("rmSave").textContent="Simpan perubahan";
+    document.getElementById("rmFormTitle").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  function validPatientRecord(item) {
+    return item && typeof item.id==="string" && typeof item.mrn==="string" && item.mrn.length<=40 && typeof item.name==="string" && item.name.length<=100 &&
+      ["birth","sex","date","type","bp","hr","rr","temp","spo2","weight","allergy","subjective","objective","assessment","icd","disposition","plan"].every(k=>typeof (item[k]||"")==="string" && String(item[k]||"").length<=5000);
+  }
+  function renderPatientRecordDetail(item) {
+    const labels=[["Nomor RM","mrn"],["Nama","name"],["Tanggal lahir","birth"],["Jenis kelamin","sex"],["Tanggal kunjungan","date"],["Jenis kunjungan","type"],["Tekanan darah","bp"],["Nadi","hr"],["RR","rr"],["Suhu","temp"],["SpO₂","spo2"],["Berat badan","weight"],["Alergi","allergy"],["S · Anamnesis","subjective"],["O · Pemeriksaan","objective"],["A · Diagnosis","assessment"],["ICD-10","icd"],["Disposisi","disposition"],["P · Terapi & rencana","plan"]];
+    const text=labels.map(([label,key])=>label+": "+(item[key]||"-")).join("\n");
+    const status=document.getElementById("rmStatus");
+    if(status)status.textContent=text;
+    const panel=document.getElementById("rmFormTitle"); if(panel)panel.textContent="Detail kunjungan · "+item.mrn;
+  }
   function updateLocalDataSummary() {
     const el = document.getElementById("localDataSummary");
     if (el) el.textContent = favorites.size + " obat favorit dan " + doseHistory.length + " catatan riwayat tersimpan di perangkat ini.";
@@ -134,6 +185,7 @@
     setNavActive(key === "settings" ? "navSettings" : "navHome");
     window.scrollTo(0, 0);
     if (key === "settings") updateLocalDataSummary();
+    if (key === "records") { patientRecords = readPatientRecords(); clearRmForm(); renderPatientRecords(); }
     if (key === "emergency") { resetEmergencyChecklistForNewSession(); updateEmergencyChecklistProgress(); }
     if (key === "ai") updateSoapCompleteness();
   }
@@ -410,6 +462,65 @@
       catch (error) { $("soapStatus").textContent = "Gagal menyalin otomatis. Salin teks secara manual."; }
       return;
     }
+    if (id === "rmSave") {
+      const val = key => { const el=$(key); return el ? String(el.value||"").trim() : ""; };
+      const mrn=val("rmNumber"), name=val("rmName"), date=val("rmDate");
+      if(!mrn || !name || !date){ $("rmStatus").textContent="Nomor RM, nama/inisial, dan tanggal kunjungan wajib diisi."; return; }
+      const id=val("rmEditId") || ("rm_"+Date.now()+"_"+Math.random().toString(36).slice(2,8));
+      const map={rmNumber:"mrn",rmName:"name",rmBirth:"birth",rmSex:"sex",rmDate:"date",rmType:"type",rmBp:"bp",rmHr:"hr",rmRr:"rr",rmTemp:"temp",rmSpo2:"spo2",rmWeight:"weight",rmAllergy:"allergy",rmSubjective:"subjective",rmObjective:"objective",rmAssessment:"assessment",rmIcd:"icd",rmDisposition:"disposition",rmPlan:"plan"};
+      const item={id,createdAt:new Date().toISOString()};
+      Object.keys(map).forEach(field=>item[map[field]]=val(field));
+      if(!validPatientRecord(item)){ $("rmStatus").textContent="Data tidak valid atau ada kolom yang melebihi batas."; return; }
+      const next=patientRecords.filter(x=>x.id!==id);
+      next.unshift(item);
+      if(!persistPatientRecords(next)){ $("rmStatus").textContent="Penyimpanan gagal. Ruang penyimpanan perangkat mungkin penuh."; return; }
+      clearRmForm(); renderPatientRecords($("rmSearch").value);
+      $("rmStatus").textContent="Kunjungan berhasil disimpan di perangkat.";
+      return;
+    }
+    if (id === "rmReset") { clearRmForm(); $("rmStatus").textContent="Formulir dikosongkan."; return; }
+    if (id === "rmBackup") {
+      const backup={app:"MEDORA",version:2,createdAt:new Date().toISOString(),patientRecords, favorites:[...favorites],doseHistory};
+      const raw=JSON.stringify(backup,null,2); $("rmBackupText").value=raw;
+      try { await copyTextToClipboard(raw); $("rmBackupStatus").textContent="Backup berhasil dibuat dan disalin. Simpan teks ini di file pribadi di luar aplikasi."; }
+      catch(error){ $("rmBackupStatus").textContent="Backup dibuat di kotak teks. Salin manual lalu simpan di luar aplikasi."; }
+      return;
+    }
+    if (id === "rmRestore") {
+      try {
+        const raw=$("rmBackupText").value.trim();
+        if(!raw || raw.length>5000000) throw new Error("Backup kosong atau melebihi batas 5 MB.");
+        const data=JSON.parse(raw);
+        if(data.app!=="MEDORA" || ![1,2].includes(data.version) || !Array.isArray(data.favorites) || !Array.isArray(data.doseHistory)) throw new Error("Format backup tidak dikenali.");
+        const restored=data.version===2 ? data.patientRecords : [];
+        if(!Array.isArray(restored) || restored.length>5000 || restored.some(item=>!validPatientRecord(item))) throw new Error("Data rekam medis tidak valid atau melebihi batas.");
+        const catalogNames=new Set((window.MEDORA_DATABASE?.drugs||[]).map(item=>item[0]));
+        if(data.favorites.length>catalogNames.size || data.favorites.some(x=>typeof x!=="string"||!catalogNames.has(x))) throw new Error("Daftar favorit tidak valid.");
+        if(data.doseHistory.length>50 || data.doseHistory.some(x=>!x||typeof x.drug!=="string"||!catalogNames.has(x.drug)||!Number.isFinite(Number(x.weight))||Number(x.weight)<=0||Number(x.weight)>100||typeof x.age!=="string"||typeof x.date!=="string"||typeof x.result!=="string")) throw new Error("Riwayat kalkulasi tidak valid.");
+        if(!confirm("Pulihkan backup? Data rekam medis, favorit, dan riwayat yang ada akan diganti.")){ $("rmBackupStatus").textContent="Pemulihan dibatalkan."; return; }
+        const keys=["dt_favorites","medora_dose_history",patientRecordsKey], values=[JSON.stringify(data.favorites),JSON.stringify(data.doseHistory),JSON.stringify(restored)];
+        const previous=keys.map(k=>localStorage.getItem(k));
+        try{keys.forEach((k,i)=>localStorage.setItem(k,values[i]));}
+        catch(storageError){keys.forEach((k,i)=>{try{if(previous[i]===null)localStorage.removeItem(k);else localStorage.setItem(k,previous[i]);}catch(ignore){}});throw new Error("Penyimpanan gagal. Data lama dipertahankan.");}
+        favorites=new Set(data.favorites); doseHistory=data.doseHistory; patientRecords=restored;
+        draw();renderDoseHistory();renderPatientRecords($("rmSearch").value);updateLocalDataSummary();
+        $("rmBackupStatus").textContent="Backup berhasil dipulihkan. "+restored.length+" kunjungan tersedia.";
+      }catch(error){$("rmBackupStatus").textContent="Pemulihan gagal: "+error.message;}
+      return;
+    }
+    const rmAction=event.target && typeof event.target.closest==="function" ? event.target.closest("[data-rm-action]") : null;
+    if(rmAction){
+      const item=patientRecords.find(x=>x.id===rmAction.dataset.rmId); if(!item)return;
+      if(rmAction.dataset.rmAction==="view"){renderPatientRecordDetail(item);return;}
+      if(rmAction.dataset.rmAction==="edit"){fillRmForm(item);return;}
+      if(rmAction.dataset.rmAction==="delete"){
+        if(!confirm("Hapus catatan kunjungan ini? Tindakan ini tidak dapat dibatalkan."))return;
+        const next=patientRecords.filter(x=>x.id!==item.id);
+        if(persistPatientRecords(next)){renderPatientRecords($("rmSearch").value);$("rmStatus").textContent="Kunjungan dihapus.";}
+        else $("rmStatus").textContent="Gagal menghapus data.";
+        return;
+      }
+    }
     if (id === "copyLocalBackup") {
       const backup = { app: "MEDORA", version: 1, favorites: [...favorites], doseHistory };
       try { await copyTextToClipboard(JSON.stringify(backup, null, 2)); $("settingsStatus").textContent = "Backup berhasil disalin. Simpan di tempat aman."; }
@@ -503,6 +614,8 @@
   });
 
   document.getElementById("moduleWorkspaceContent").addEventListener("input", event => {
+    if (event.target && event.target.id === "rmSearch") renderPatientRecords(event.target.value);
+
     if (event.target && /^soap/.test(event.target.id)) updateSoapCompleteness();
     if (event.target && event.target.id === "referenceSearch") {
       const query = event.target.value.trim().toLocaleLowerCase("id");

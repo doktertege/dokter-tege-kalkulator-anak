@@ -167,3 +167,8 @@ test("public dashboard isolates general mode from pediatric calculator and clini
   assert.match(html, /body\.public-mode #publicDashboard\{display:block\}/);
   assert.match(html, /function showPublicHome\(\)[\s\S]*?classList\.add\("public-mode"\)[\s\S]*?\$\("clinicalDashboard"\)\.style\.display="none"[\s\S]*?\$\("publicDashboard"\)\.style\.display="block"/);
 });
+
+test("medicine database back button returns to the clinical dashboard", () => {
+  const html = fs.readFileSync(path.join(__dirname, "../app/src/main/assets/index.html"), "utf8");
+  assert.match(html, /\$\("medicineDbBack"\)\.addEventListener\("click",\s*\(\)\s*=>\s*\{\s*showClinicalHome\(\)\s*\}\)/);
+});

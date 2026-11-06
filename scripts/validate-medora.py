@@ -91,6 +91,21 @@ def main():
         )
 
     javascript = parser.inline_scripts[0]
+
+    # Bottom-navigation handlers must be registered exactly once. Duplicate
+    # listeners can make a single tap trigger multiple navigation actions.
+    navigation_ids = {"navHome", "navSearch", "navFavorites", "navHistory", "navSettings"}
+    click_handlers = Counter(re.findall(r'\$\("([^"]+)"\)\.addEventListener\("click"', javascript))
+    duplicate_navigation = sorted(item for item in navigation_ids if click_handlers[item] > 1)
+    missing_navigation = sorted(item for item in navigation_ids if click_handlers[item] != 1)
+    if duplicate_navigation or missing_navigation:
+        details = []
+        if duplicate_navigation:
+            details.append("duplicate click handlers: " + ", ".join(duplicate_navigation))
+        if missing_navigation:
+            details.append("navigation handlers must occur exactly once: " + ", ".join(missing_navigation))
+        raise SystemExit("ERROR: " + "; ".join(details))
+
     referenced_ids = set(re.findall(r'\$\("([^"]+)"\)', javascript))
     missing_references = sorted(referenced_ids - set(parser.ids) - EXPECTED_DYNAMIC_IDS)
     missing_dynamic_controls = sorted(

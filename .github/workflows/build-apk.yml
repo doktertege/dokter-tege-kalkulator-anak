@@ -43,7 +43,7 @@ jobs:
           echo "$MEDORA_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/medora-release.jks"
           echo "MEDORA_KEYSTORE_FILE=$RUNNER_TEMP/medora-release.jks" >> "$GITHUB_ENV"
       - name: Build signed release APK
-        if: ${{ secrets.MEDORA_KEYSTORE_BASE64 != '' }}
+        if: ${{ env.MEDORA_SIGNING_CONFIGURED == 'true' }}
         run: gradle --no-daemon assembleRelease
       - name: Build debug APK (temporary until signing key is configured)
         if: ${{ env.MEDORA_SIGNING_CONFIGURED != 'true' }}

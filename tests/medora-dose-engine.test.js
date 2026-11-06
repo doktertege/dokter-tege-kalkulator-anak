@@ -325,7 +325,7 @@ test("chlorpheniramine blocks under 2 years and rejects invalid strengths", () =
   assert.throws(() => dose.chlorpheniramine(Number.NaN, 2), RangeError);
   assert.throws(() => dose.chlorpheniramine(24, 0), RangeError);
 });
-\n
+
 test("ceftriaxone injection calculates standard and meningitis regimens after neonatal period", () => {
   assert.deepEqual(dose.ceftriaxoneInjection(10, 24, "standard"), {
     regimen: "standard", dailyMinMg: 500, dailyMaxMg: 800,

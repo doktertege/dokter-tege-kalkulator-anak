@@ -585,7 +585,7 @@ let medicineDbCategory = "Semua";
 function showMedicineDatabase(){
  document.body.classList.remove("home-mode","medical-mode","icd-mode","module-workspace-mode","public-mode");
  document.body.classList.add("medicine-database-mode");
- setNavActive("navSearch");
+ setNavActive("navHome");
  drawMedicineDatabase();
  window.scrollTo(0,0);
 }
@@ -645,7 +645,7 @@ function showCalculator(){document.body.classList.remove("home-mode","medical-mo
 
 const icdData = window.MEDORA_DATABASE.icd10;
 let icdCategory="Semua";
-const searchIcdRows=window.MEDORA_ICD_SEARCH.searchIcdRows;
+const searchIcdRows=query=>window.MEDORA_ICD_SEARCH.searchIcdRows(query,icdData);
 function drawIcd(){
  const q=$("icdSearch").value||"";
  const matches=searchIcdRows(q).filter(x=>icdCategory==="Semua"||x.row[2]===icdCategory);

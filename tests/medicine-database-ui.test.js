@@ -31,7 +31,7 @@ test("medicine database renders all catalog entries and searches profile metadat
   assert.match(html, /p\.keyWarnings/);
   assert.match(html, /medicineCatalog\.filter/);
   assert.equal(database.drugs.length, 32);
-  assert.equal(Object.keys(database.medicineProfiles).length, 15);
+  assert.equal(Object.keys(database.medicineProfiles).length, 16);
 });
 
 test("medicine detail escapes dynamic catalog and profile text before rendering", () => {

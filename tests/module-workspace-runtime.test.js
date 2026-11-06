@@ -158,7 +158,8 @@ test("SOAP workspace builds, clears, and copies a structured note", async () => 
 });
 
 test("settings backup exports local favorites and dose history", async () => {
-  const { elements, copiedText } = createHarness();
+  const harness = createHarness();
+  const { elements } = harness;
   elements.get("homeDashboard").click({
     target: { closest: () => ({ dataset: { module: "settings" } }) }
   });

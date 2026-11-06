@@ -218,7 +218,7 @@ test("settings clear actions require confirmation and update local data", async 
   await elements.get("moduleWorkspaceContent").click({ target: { id: "clearLocalHistory" } });
   await elements.get("moduleWorkspaceContent").click({ target: { id: "clearLocalFavorites" } });
   assert.equal(calls.filter(x => x === "clinical").length, 0);
-  assert.match(elements.get("settingsStatus").textContent, /Daftar favorit dihapus/);
+  assert.match(elements.get("settingsStatus").textContent, /Daftar favorit berhasil dihapus/);
   assert.match(elements.get("localDataSummary").textContent, /0 obat favorit dan 0 catatan riwayat/);
 });
 

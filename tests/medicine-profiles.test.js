@@ -166,6 +166,6 @@ test("structured medicine profiles and coverage metadata remain in one-to-one pa
   const coverage = database.metadata.medicineProfiles.coverage;
   const structuredNames = Object.keys(coverage).filter(name => coverage[name] === "structured_profile");
   assert.equal(structuredNames.length, 16);
-  assert.equal(Object.keys(database.medicineProfiles).length, 15);
+  assert.equal(Object.keys(database.medicineProfiles).length, 16);
   for (const name of structuredNames) assert.ok(database.medicineProfiles[name], name);
 });

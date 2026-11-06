@@ -73,8 +73,22 @@ public class MainActivity extends Activity {
                     body.write(("\r\n--" + boundary + "\r\nContent-Type: application/octet-stream\r\n\r\n").getBytes(StandardCharsets.UTF_8));
                     body.write(encryptedPayload.getBytes(StandardCharsets.UTF_8));
                     body.write(("\r\n--" + boundary + "--").getBytes(StandardCharsets.UTF_8));
-                    HttpURLConnection connection = (HttpURLConnection) new URL("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name").openConnection();
-                    connection.setRequestMethod("POST");
+                    // Keep exactly one app-private backup: update the existing file when present.
+                    String query = URLEncoder.encode("name='" + BACKUP_NAME + "' and trashed=false", "UTF-8");
+                    HttpURLConnection lookup = (HttpURLConnection) new URL("https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&pageSize=10&orderBy=createdTime%20desc&fields=files(id)&q=" + query).openConnection();
+                    lookup.setRequestProperty("Authorization", "Bearer " + token);
+                    lookup.setConnectTimeout(20000); lookup.setReadTimeout(20000);
+                    int lookupCode = lookup.getResponseCode();
+                    String lookupBody = readResponse(lookup, lookupCode);
+                    lookup.disconnect();
+                    if (lookupCode < 200 || lookupCode >= 300) throw new Exception("Gagal memeriksa backup lama di Drive (" + lookupCode + ").");
+                    JSONArray existing = new JSONObject(lookupBody).optJSONArray("files");
+                    String fileId = existing != null && existing.length() > 0 ? existing.getJSONObject(0).optString("id", "") : "";
+                    String uploadUrl = "https://www.googleapis.com/upload/drive/v3/files" +
+                        (fileId.isEmpty() ? "" : "/" + URLEncoder.encode(fileId, "UTF-8")) +
+                        "?uploadType=multipart&fields=id,name";
+                    HttpURLConnection connection = (HttpURLConnection) new URL(uploadUrl).openConnection();
+                    connection.setRequestMethod(fileId.isEmpty() ? "POST" : "PATCH");
                     connection.setConnectTimeout(20000); connection.setReadTimeout(30000);
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Authorization", "Bearer " + token);
@@ -84,7 +98,9 @@ public class MainActivity extends Activity {
                     String response = readResponse(connection, code);
                     connection.disconnect();
                     if (code < 200 || code >= 300) throw new Exception("Google Drive menolak backup (" + code + "). " + response);
-                    cloudCallback("window.medoraCloudBackupResult", true, "Backup terenkripsi berhasil disimpan ke Google Drive.");
+                    cloudCallback("window.medoraCloudBackupResult", true, fileId.isEmpty()
+                        ? "Backup terenkripsi berhasil dibuat di Google Drive."
+                        : "Backup terenkripsi berhasil diperbarui di Google Drive.");
                 } catch (Exception error) { cloudCallback("window.medoraCloudBackupResult", false, friendly(error)); }
             });
         }

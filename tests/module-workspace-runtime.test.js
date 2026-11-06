@@ -160,6 +160,31 @@ test("quick-launch modules are remembered locally in most-recent-first order", (
   assert.doesNotMatch(recentHtml, /Kalkulator medis/);
 });
 
+test("Clinical Handover builds, clears, and copies a structured SBAR note", async () => {
+  const harness = createHarness();
+  const { elements } = harness;
+  elements.get("homeDashboard").click({
+    target: { closest: selector => selector === "[data-favorite]" ? null : ({ dataset: { module: "handover" } }) }
+  });
+  assert.equal(elements.get("moduleTitle").textContent, "Clinical Handover");
+  assert.match(elements.get("moduleWorkspaceContent").innerHTML, /sbarSituation/);
+  elements.get("sbarSituation").value = "Pasien sesak, kondisi saat ini stabil dengan oksigen.";
+  elements.get("sbarBackground").value = "Riwayat asma, alergi obat disangkal.";
+  elements.get("sbarAssessment").value = "RR 24/menit, SpO2 96% dengan O2.";
+  elements.get("sbarRecommendation").value = "Lanjutkan monitoring dan evaluasi respons terapi.";
+  elements.get("moduleWorkspaceContent").click({ target: { id: "sbarGenerate" } });
+  const note = elements.get("sbarOutput").textContent;
+  assert.match(note, /MEDORA · CLINICAL HANDOVER/);
+  assert.match(note, /S · SITUATION[\s\S]*Pasien sesak/);
+  assert.match(note, /R · RECOMMENDATION[\s\S]*Lanjutkan monitoring/);
+  assert.match(elements.get("sbarStatus").textContent, /Empat bagian SBAR sudah terisi/);
+  await elements.get("moduleWorkspaceContent").click({ target: { id: "sbarCopy" } });
+  assert.match(harness.copiedText, /Pasien sesak/);
+  elements.get("moduleWorkspaceContent").click({ target: { id: "sbarClear" } });
+  assert.equal(elements.get("sbarSituation").value, "");
+  assert.equal(elements.get("sbarOutput").textContent, "Ringkasan SBAR akan muncul di sini.");
+});
+
 test("module back button returns to the clinical dashboard", () => {
   const { elements, calls } = createHarness();
   elements.get("moduleBack").click();

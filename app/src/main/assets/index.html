@@ -180,6 +180,22 @@ body.medicine-database-mode #medicineDatabasePanel{display:block}
 .medicineDbWarning{background:#fff4e8;border:1px solid #ffd7aa;border-radius:14px;padding:12px;margin:10px 0;color:#743d08;font-size:12px;line-height:1.5}
 .medicineDbDose{background:#e8f7ef;border:1px solid #bfe8d0;border-radius:14px;padding:12px;margin:10px 0;color:#155b38;font-size:12px;line-height:1.5}
 @media(max-width:390px){.medicineDbCard{grid-template-columns:44px minmax(0,1fr) auto;padding:10px}.medicineDbIcon{width:42px;height:42px}}
+
+body.module-workspace-mode main> :not(#moduleWorkspace){display:none}
+body.module-workspace-mode #moduleWorkspace{display:block}
+.moduleWorkspaceContent{line-height:1.55;color:#18345e}
+.moduleWorkspaceContent h3{margin:18px 0 7px;color:#0b3978;font-size:16px}
+.moduleWorkspaceContent p,.moduleWorkspaceContent li{font-size:13px}
+.moduleWorkspaceContent ul,.moduleWorkspaceContent ol{padding-left:21px}
+.moduleWorkspaceContent .guideCard{border:1px solid #dce7f6;border-radius:15px;padding:12px;margin:10px 0;background:#fff}
+.moduleWorkspaceContent .checkRow{display:flex;gap:9px;align-items:flex-start;margin:9px 0;font-size:13px}
+.moduleWorkspaceContent .checkRow input{margin-top:3px}
+.moduleWorkspaceContent label{display:block;font-size:12px;font-weight:700;color:#425777;margin:9px 0 4px}
+.moduleWorkspaceContent input,.moduleWorkspaceContent select,.moduleWorkspaceContent textarea{width:100%;border:1px solid #cbd8e9;border-radius:11px;padding:10px;background:#fff;color:#102653;font:inherit;font-size:13px;box-sizing:border-box}
+.moduleWorkspaceContent textarea{min-height:76px;resize:vertical}
+.moduleWorkspaceContent .workspaceActions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.moduleWorkspaceContent .workspaceOutput{white-space:pre-wrap;background:#f3f7fd;border:1px solid #dce7f6;border-radius:12px;padding:12px;font-size:13px;min-height:40px}
+.moduleWorkspaceContent .sourceLink{display:block;padding:10px 0;border-bottom:1px solid #e5edf7;color:#0758a9;font-size:13px;text-decoration:none}
 </style></head><body>
 <header class="medoraHero">
 <div class="brand">
@@ -218,9 +234,9 @@ body.medicine-database-mode #medicineDatabasePanel{display:block}
 <button class="moduleCard" data-module="guides"><span class="moduleIcon">📖</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Panduan Klinis</strong><small>Algoritma, protokol, dan terapi</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="emergency"><span class="moduleIcon">🚨</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>IGD & Emergency</strong><small>Tatalaksana gawat darurat</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="drugs"><span class="moduleIcon">💊</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Database Obat</strong><small>Informasi, dosis, interaksi, peringatan</small></span><span class="moduleArrow">›</span></button>
-<button class="moduleCard" data-module="ai"><span class="moduleIcon">🤖</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Asisten Medis AI</strong><small>Tanya klinis berbasis evidence</small></span><span class="moduleArrow">›</span></button>
+<button class="moduleCard" data-module="ai"><span class="moduleIcon">🤖</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Asisten Klinis Offline</strong><small>Penyusun catatan SOAP dan ringkasan kasus</small></span><span class="moduleArrow">›</span></button>
 <button class="moduleCard" data-module="references"><span class="moduleIcon">📚</span><span class="moduleText"><span class="miniBrand">✚ MEDORA</span><strong>Referensi Medis</strong><small>Buku, jurnal, dan regulasi</small></span><span class="moduleArrow">›</span></button>
-</div><div class="homeNote"><b>MEDORA by Dokter Tege</b><br>Modul yang belum tersedia masih dalam tahap pengembangan dan validasi klinis.</div>
+</div><div class="homeNote"><b>MEDORA by Dokter Tege</b><br>Modul klinis offline tersedia tanpa koneksi internet. Tetap verifikasi keputusan klinis dengan pedoman dan kondisi pasien.</div>
 </div>
 <div id="publicDashboard" style="display:none">
 <button class="medicalBack" id="publicBack">‹ Pilih area lain</button>
@@ -239,6 +255,7 @@ body.medicine-database-mode #medicineDatabasePanel{display:block}
 </div>
 </section>
 
+<section class="panel" id="moduleWorkspace" style="display:none"><button class="medicalBack" id="moduleBack">‹ Kembali ke menu klinis</button><h2 id="moduleTitle">Modul MEDORA</h2><p class="medicalHint" id="moduleSubtitle"></p><div id="moduleWorkspaceContent" class="moduleWorkspaceContent"></div></section>
 <section class="panel" id="medicineDatabasePanel">
 <button class="medicalBack" id="medicineDbBack">‹ Kembali ke Beranda</button>
 <h2>Database Obat</h2>
@@ -517,8 +534,8 @@ $("close").addEventListener("click",()=>$("detail").classList.remove("open"));
 ["bb","th","bl"].forEach(id=>$(id).addEventListener("input",()=>{updateSummary();if($("detail").classList.contains("open"))openDrug($("drugName").textContent)}));
 $("q").addEventListener("input",draw);$("navHistory").addEventListener("click",e=>{e.preventDefault();renderDoseHistory();$("historyPanel").classList.add("open");window.scrollTo(0,0)});$("navFavorites").addEventListener("click",e=>{e.preventDefault();showFavorites=!showFavorites;cat="Semua";document.querySelectorAll("#filters button").forEach(b=>b.classList.toggle("active",b.dataset.c==="Semua"));draw();setNavActive("navFavorites");window.scrollTo(0,0)});$("filters").addEventListener("click",e=>{if(e.target.dataset.c){cat=e.target.dataset.c;document.querySelectorAll(".filters button").forEach(b=>b.classList.toggle("active",b===e.target));draw()}});$("editPatient").addEventListener("click",()=> $("patientFields").classList.toggle("open"));
 function setNavActive(id){document.querySelectorAll(".bottomNav a").forEach(a=>a.classList.toggle("active",a.id===id))}
-function showHome(){document.body.classList.remove("medical-mode","icd-mode","medicine-database-mode");document.body.classList.add("home-mode");$("modeChooser").style.display="block";$("clinicalDashboard").style.display="none";$("publicDashboard").style.display="none";setNavActive("navHome");window.scrollTo(0,0)}
-function showClinicalHome(){$("modeChooser").style.display="none";$("clinicalDashboard").style.display="block";$("publicDashboard").style.display="none";window.scrollTo(0,0)}
+function showHome(){document.body.classList.remove("medical-mode","icd-mode","medicine-database-mode","module-workspace-mode");document.body.classList.add("home-mode");$("modeChooser").style.display="block";$("clinicalDashboard").style.display="none";$("publicDashboard").style.display="none";setNavActive("navHome");window.scrollTo(0,0)}
+function showClinicalHome(){document.body.classList.remove("module-workspace-mode","medical-mode","icd-mode","medicine-database-mode");$("modeChooser").style.display="none";$("clinicalDashboard").style.display="block";$("publicDashboard").style.display="none";window.scrollTo(0,0)}
 function showPublicHome(){$("modeChooser").style.display="none";$("clinicalDashboard").style.display="none";$("publicDashboard").style.display="block";window.scrollTo(0,0)}
 $("chooseClinical").addEventListener("click",showClinicalHome);
 $("choosePublic").addEventListener("click",showPublicHome);
@@ -621,7 +638,7 @@ $("medicineDbBack").addEventListener("click",()=>{showHome()});
 function showMedical(){document.body.classList.remove("home-mode","icd-mode");document.body.classList.add("medical-mode");setNavActive("navSearch");window.scrollTo(0,0)}
 function showIcd(){document.body.classList.remove("home-mode","medical-mode");document.body.classList.add("icd-mode");setNavActive("navSearch");drawIcd();window.scrollTo(0,0)}
 function showCalculator(){document.body.classList.remove("home-mode");setNavActive("navSearch");showFavorites=false;draw();window.scrollTo(0,0)}
-$("homeDashboard").addEventListener("click",e=>{const b=e.target.closest("[data-module]");if(!b)return;const key=b.dataset.module;if(key==="calculator"){showCalculator();$("patientFields").classList.add("open");return}if(key==="medical"){showMedical();return}if(key==="icd"){showIcd();return}if(key==="drugs"){showMedicineDatabase();return}const names={guides:"Panduan Klinis",emergency:"IGD & Emergency",drugs:"Database Obat",ai:"Asisten Medis AI",references:"Referensi Medis"};alert(names[key]+" sedang dalam tahap pengembangan dan validasi klinis.")});
+
 
 
 const icdData = window.MEDORA_DATABASE.icd10;
@@ -651,6 +668,6 @@ function updateGcs(){const e=Number($("gcsEye").value),v=Number($("gcsVerbal").v
 ["gcsEye","gcsVerbal","gcsMotor"].forEach(id=>$(id).addEventListener("change",updateGcs));
 $("navHome").addEventListener("click",e=>{e.preventDefault();showHome()});
 $("navSearch").addEventListener("click",e=>{e.preventDefault();showCalculator();$("q").focus()});
-$("navSettings").addEventListener("click",e=>{e.preventDefault();alert("Pengaturan MEDORA sedang dalam tahap pengembangan.")});
+
 draw();updateSummary();document.body.classList.add("home-mode");
-</script></body></html>
+</script><script src="module-workspace.js"></script></body></html>

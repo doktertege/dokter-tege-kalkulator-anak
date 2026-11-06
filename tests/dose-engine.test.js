@@ -112,3 +112,46 @@ test("metamizole oral calculator enforces pediatric age and weight limits", () =
   assert.throws(() => dose.metamizolePediatricOral(10, 2), RangeError);
   assert.throws(() => dose.metamizolePediatricOral(10, 169), RangeError);
 });
+
+test("ceftriaxone injection enforces age, weight, regimen, and daily ceiling", () => {
+  const standard = dose.ceftriaxoneInjection(10, 24, "standard");
+  assert.equal(standard.dailyMinMg, 500);
+  assert.equal(standard.dailyMaxMg, 800);
+  assert.equal(standard.divisions, 1);
+  assert.equal(standard.intervalHours, 24);
+  const meningitis = dose.ceftriaxoneInjection(10, 24, "meningitis");
+  assert.equal(meningitis.dailyMaxMg, 1000);
+  assert.equal(meningitis.divisions, 2);
+  assert.equal(meningitis.intervalHours, 12);
+  assert.equal(dose.ceftriaxoneInjection(60, 24, "meningitis").dailyMaxMg, 4000);
+  assert.throws(() => dose.ceftriaxoneInjection(10, 1, "standard"), RangeError);
+  assert.throws(() => dose.ceftriaxoneInjection(50, 24, "standard"), RangeError);
+  assert.throws(() => dose.ceftriaxoneInjection(10, 24, "unknown"), RangeError);
+});
+
+test("cefotaxime injection enforces frequency and per-dose limits", () => {
+  const standard = dose.cefotaximeInjection(10, 24, "standard");
+  assert.equal(standard.dailyMinMg, 500);
+  assert.equal(standard.dailyMaxMg, 1800);
+  assert.equal(standard.divisions, 4);
+  assert.equal(standard.intervalHours, 6);
+  const meningitis = dose.cefotaximeInjection(10, 24, "meningitis", 6);
+  assert.equal(meningitis.dailyMinMg, 2000);
+  assert.equal(meningitis.dailyMaxMg, 3000);
+  assert.equal(meningitis.divisions, 6);
+  assert.equal(meningitis.intervalHours, 4);
+  assert.throws(() => dose.cefotaximeInjection(10, 24, "meningitis", 4), RangeError);
+  assert.throws(() => dose.cefotaximeInjection(10, 1, "standard"), RangeError);
+  assert.throws(() => dose.cefotaximeInjection(50, 24, "standard"), RangeError);
+});
+
+test("gentamicin calculator is explicitly an initial dose only", () => {
+  const result = dose.gentamicinInitial(10, 24, 40);
+  assert.equal(result.doseMg, 70);
+  assert.equal(result.volumeMl, 1.75);
+  assert.equal(result.intervalHours, null);
+  assert.match(result.frequency, /initial dose only/);
+  assert.match(result.monitoring, /therapeutic drug monitoring/);
+  assert.throws(() => dose.gentamicinInitial(10, 2, 40), RangeError);
+  assert.throws(() => dose.gentamicinInitial(50, 24, 40), RangeError);
+});

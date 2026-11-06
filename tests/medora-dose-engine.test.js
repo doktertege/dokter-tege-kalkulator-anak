@@ -56,3 +56,30 @@ test("dose engine rejects invalid weights and concentrations", () => {
   assert.throws(() => dose.paracetamol(10, 0), RangeError);
   assert.throws(() => dose.ibuprofen(10, Number.NaN), RangeError);
 });
+
+test("cefixime calculates 8 mg/kg/day divided twice daily", () => {
+  const r = dose.cefixime(10, 100);
+  assert.equal(r.dailyMg, 80);
+  assert.equal(r.perDoseMg, 40);
+  assert.equal(r.volumeMl, 2);
+  assert.equal(r.divisions, 2);
+});
+
+test("cefixime supports once-daily dosing and 200 mg/5 mL suspension", () => {
+  const r = dose.cefixime(10, 200, 1);
+  assert.equal(r.dailyMg, 80);
+  assert.equal(r.perDoseMg, 80);
+  assert.equal(r.volumeMl, 2);
+  assert.equal(r.divisions, 1);
+});
+
+test("cefixime applies 400 mg daily maximum", () => {
+  const r = dose.cefixime(60, 100, 2);
+  assert.equal(r.dailyMg, 400);
+  assert.equal(r.perDoseMg, 200);
+  assert.equal(r.volumeMl, 10);
+});
+
+test("cefixime rejects unsupported dose divisions", () => {
+  assert.throws(() => dose.cefixime(10, 100, 3), RangeError);
+});

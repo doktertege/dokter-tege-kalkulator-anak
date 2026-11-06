@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+<defs><linearGradient id="heart" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00b9b2"/><stop offset="1" stop-color="#087eaa"/></linearGradient><linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#153d9a"/><stop offset="1" stop-color="#0877bd"/></linearGradient></defs>
+<path d="M64 21c-13-13-34-5-34 13 0 19 27 39 34 45 8-7 35-27 35-46 0-18-22-26-35-12Z" fill="url(#heart)"/>
+<path d="M57 23c-5-12-20-15-29-6-6 6-6 15-2 22l12 22c6 11 18 12 25 5" fill="none" stroke="url(#blue)" stroke-width="8" stroke-linecap="round"/>
+<path d="M24 18c-4-8-13-7-16 0-2 5 0 11 5 14l13 8" fill="none" stroke="#152b70" stroke-width="5" stroke-linecap="round"/>
+<circle cx="8" cy="17" r="5" fill="#152b70"/><circle cx="28" cy="11" r="5" fill="#152b70"/>
+<path d="M80 9v23M68.5 20.5h23" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+<path d="M9 81h20l8-12 10 24 11-16 8 4h38" fill="none" stroke="#087fae" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

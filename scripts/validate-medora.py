@@ -24,6 +24,7 @@ EXPECTED_DYNAMIC_IDS = {
     "cefaStrength", "cefaResult", "cefixRegimen", "cefixStrength",
     "cefixResult", "cetiStrength", "cetiResult",
     "zincRegimen", "zincResult",
+    "orsPlan", "orsResult", "ctmStrength", "ctmResult",
 }
 
 

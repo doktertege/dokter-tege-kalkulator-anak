@@ -26,7 +26,7 @@ test("ICD-10 quick-reference catalog contains 99 well-formed unique entries", ()
   assert.equal(new Set(codes).size, codes.length);
   for (const entry of database.icd10) {
     assert.equal(entry.length, 3);
-    assert.match(entry[0], /^[A-Z][0-9]{2}(?:\.[0-9A-Z]{1,2})?$/);
+    assert.match(entry[0], /^[A-Z][0-9]{2}(?:\.[0-9A-Z])?$/);
     assert.ok(entry[1].trim().length > 0);
     assert.ok(entry[2].trim().length > 0);
   }

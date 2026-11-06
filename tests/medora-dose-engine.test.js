@@ -433,3 +433,20 @@ test("ondansetron gastroenteritis blocks under-6-months, under-8-kg and invalid 
   assert.throws(() => dose.ondansetronGastroenteritis(10, 24, 0), RangeError);
   assert.throws(() => dose.ondansetronGastroenteritis(10, Number.NaN, 4), RangeError);
 });
+
+
+test("rectal diazepam calculates 0.5 mg/kg with 10 mg single-dose ceiling", () => {
+  const r = dose.diazepamRectal(10, 24, 5);
+  assert.deepEqual(r, { doseMg: 5, volumeMl: 1, frequency: "single rescue dose; reassess immediately", maxSingleDoseMg: 10, doseMgPerKg: 0.5 });
+  const capped = dose.diazepamRectal(30, 144, 4);
+  assert.equal(capped.doseMg, 10);
+  assert.equal(capped.volumeMl, 2.5);
+});
+
+test("rectal diazepam rejects neonatal age, adult age and invalid inputs", () => {
+  assert.throws(() => dose.diazepamRectal(3, 0, 5), RangeError);
+  assert.throws(() => dose.diazepamRectal(10, 217, 5), RangeError);
+  assert.throws(() => dose.diazepamRectal(0, 24, 5), RangeError);
+  assert.throws(() => dose.diazepamRectal(10, 24, 0), RangeError);
+  assert.throws(() => dose.diazepamRectal(10, Number.NaN, 5), RangeError);
+});

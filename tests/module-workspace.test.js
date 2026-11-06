@@ -58,6 +58,18 @@ test("settings can back up, restore and clear local favorites and dose history",
   assert.match(workspace, /updateLocalDataSummary/);
 });
 
+test("backup restore rejects unknown medicines, invalid weights, and oversized history payloads", () => {
+  assert.match(workspace, /const catalogNames = new Set\(\(window\.MEDORA_DATABASE\?\.drugs \|\| \[\]\)\.map\(item => item\[0\]\)\)/);
+  assert.match(workspace, /catalogNames\.has\(item\)/);
+  assert.match(workspace, /Number\(item\.weight\) <= 0 \|\| Number\(item\.weight\) > 100/);
+  assert.match(workspace, /backup\.doseHistory\.length > 50/);
+  assert.match(workspace, /item\.age\.length > 40/);
+  assert.match(workspace, /item\.date\.length > 80/);
+  assert.match(workspace, /item\.result\.length > 1200/);
+  assert.match(workspace, /Daftar favorit berisi nama obat yang tidak dikenal/);
+  assert.match(workspace, /Isi riwayat backup tidak valid atau di luar batas MEDORA/);
+});
+
 test("settings navigation opens the workspace instead of a development alert", () => {
   assert.match(workspace, /\$\("navSettings"\)\.addEventListener/);
   assert.match(workspace, /showWorkspace\("settings"\)/);

@@ -1,7 +1,11 @@
 package id.doktertege.kalkulatoranak;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
@@ -20,7 +24,24 @@ public class MainActivity extends Activity {
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);
         s.setAllowFileAccess(true);
-        web.setWebViewClient(new WebViewClient());
+        web.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Uri uri = request.getUrl();
+                String scheme = uri.getScheme();
+                if ("file".equalsIgnoreCase(scheme)) return false;
+                if ("https".equalsIgnoreCase(scheme)) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException error) {
+                        view.loadUrl(uri.toString());
+                    }
+                    return true;
+                }
+                return true;
+            }
+        });
         setContentView(web);
         web.loadUrl("file:///android_asset/index.html");
     }

@@ -282,7 +282,7 @@ body.icd-mode #icdPanel{display:block}
 const data=[
 ["Paracetamol","Demam & nyeri","Antipiretik / analgesik","🧴","active"],
 ["Ibuprofen","Demam & nyeri","Antipiretik / antiinflamasi","🧴","active"],
-["Metamizole","Demam & nyeri","Tablet • sirup • injeksi","💊","pending"],
+["Metamizole","Nyeri berat terpilih","Suspensi oral 250 mg/5 mL • resep dokter","🧴","active"],
 ["Amoxicillin","Antibiotik","Suspensi oral 125/250 mg per 5 mL • kapsul • tablet","💊","active"],
 ["Cefadroxil","Antibiotik","Suspensi oral 125/250 mg per 5 mL","💊","active"],
 ["Cefixime","Antibiotik","Suspensi oral 100/200 mg per 5 mL • kapsul","💊","active"],
@@ -371,6 +371,13 @@ if(name==="Prednisone"){
 
 
 
+
+if(name==="Metamizole"){
+ if(p.a<3||p.a>168||p.w<=5){$("doseArea").innerHTML='<div class="warn">Kalkulator oral dibatasi untuk usia 3 bulan–14 tahun dan BB &gt;5 kg. Kontraindikasi pada bayi usia &lt;3 bulan atau BB &lt;5 kg. Gunakan penilaian dan protokol khusus di luar rentang ini.</div>';return}
+ $("doseArea").innerHTML='<span class="pill">Metamizole sodium • suspensi oral 250 mg/5 mL</span><p><b>Dosis konservatif: 10 mg/kgBB per dosis.</b></p><div class="result"><div id="metaResult"></div></div><div class="warn"><b>Penggunaan terbatas:</b> obat keras, hanya atas resep dokter. Pertimbangkan untuk nyeri berat atau kondisi terpilih setelah penilaian klinis, bukan antipiretik rutin lini pertama untuk demam ringan. Dosis 10 mg/kgBB per dosis, interval 6–8 jam bila diperlukan, maksimal 4 dosis/24 jam. Batas dosis tunggal 500 mg dan batas harian adalah nilai terendah antara 40 mg/kgBB atau 2.000 mg. Sediaan yang dihitung hanya suspensi 250 mg/5 mL; kocok dahulu dan ukur dengan oral syringe.</div><div class="warn"><b>Risiko penting:</b> metamizole dapat menyebabkan agranulositosis yang jarang tetapi serius/fatal, dapat terjadi kapan saja, tidak bergantung dosis, dan pernah terjadi meski penggunaan sebelumnya tanpa masalah. Hentikan segera dan lakukan evaluasi darah bila muncul demam baru/memburuk, menggigil, nyeri tenggorokan, atau ulkus mulut. Hindari pada riwayat agranulositosis/gangguan sumsum tulang atau hematopoiesis, alergi metamizole/pyrazolone, G6PD deficiency, porfiria hepatik akut, atau riwayat reaksi anafilaktoid/bronchospasm terhadap analgesik. Waspadai hipotensi, terutama pada dehidrasi/hipovolemia. Jangan gunakan untuk menutupi demam yang belum terdiagnosis.</div><div class="warn"><b>Bukan untuk injeksi:</b> kalkulator ini hanya menghitung suspensi oral 250 mg/5 mL. Tidak menghitung dosis atau volume IV/IM maupun tablet.</div>';
+ const r=MedoraDoseEngine.metamizolePediatricOral(p.w,p.a);
+ $("metaResult").innerHTML='<div class="resultgrid"><div class="metric"><small>Dosis per kali</small><strong>'+fmt(r.doseMg)+' mg</strong><small>'+fmt(r.doseMgPerKg)+' mg/kg</small></div><div class="metric"><small>Volume suspensi</small><strong>'+fmt(r.volumeMl)+' mL</strong><small>250 mg/5 mL</small></div><div class="metric"><small>Maksimum harian</small><strong>'+fmt(r.maxDailyMg)+' mg</strong><small>maksimal 4 dosis</small></div><div class="metric"><small>Interval</small><strong>6–8 jam</strong><small>sesuai kebutuhan klinis</small></div></div>';return
+}
 if(name==="Adrenaline"){
  $("doseArea").innerHTML='<span class="pill">Adrenaline 1 mg/mL (1:1000) • anafilaksis • IM</span><p><b>Dosis awal: 0,01 mg/kg IM pada paha anterolateral.</b></p><div class="result"><div id="adrResult"></div></div><div class="warn"><b>Hanya untuk anafilaksis:</b> segera berikan IM pada paha anterolateral. Maksimum 0,3 mg per dosis pada usia &lt;14 tahun dan 0,5 mg pada usia ≥14 tahun. Bila gejala menetap, dosis IM dapat diulang setiap 5 menit dengan penilaian ulang klinis. Jangan menunda adrenaline untuk memasang akses IV atau memberikan antihistamin/kortikosteroid.</div><div class="warn"><b>Keselamatan kritis:</b> hasil ini khusus larutan 1 mg/mL (1:1000) untuk IM. <b>JANGAN berikan hasil volume ini secara IV.</b> Tidak menghitung bolus IV, infus IV, atau nebulisasi. IV adrenaline hanya berdasarkan protokol resusitasi/infus tersendiri dengan tenaga terlatih dan monitoring kontinu. Panggil bantuan resusitasi, evaluasi ABC, berikan oksigen, posisikan pasien terlentang dengan tungkai ditinggikan bila dapat ditoleransi, monitor tanda vital, dan berikan kristaloid IV bila syok. Adrenaline adalah terapi lini pertama, bukan antihistamin atau steroid.</div>';
  const r=MedoraDoseEngine.adrenalineAnaphylaxisIM(p.w,p.a,1);

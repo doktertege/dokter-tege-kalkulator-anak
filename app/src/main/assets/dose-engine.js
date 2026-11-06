@@ -574,7 +574,33 @@
     };
   }
 
-  const api = Object.freeze({ adrenalineAnaphylaxisIM, lansoprazolePediatricGerd, omeprazolePediatricGerd, prednisoneAsthmaOral, methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
+
+  // Oral metamizole suspension 250 mg/5 mL; restricted pediatric prescription use.
+  function metamizolePediatricOral(weightKg, ageMonths) {
+    requirePositive(weightKg, "weightKg");
+    if (!Number.isFinite(ageMonths) || ageMonths < 3 || ageMonths > 168) {
+      throw new RangeError("metamizole oral calculator is restricted to age 3 months through 14 years");
+    }
+    if (weightKg <= 5) {
+      throw new RangeError("metamizole is contraindicated below 5 kg");
+    }
+    const doseMg = Math.min(weightKg * 10, 500);
+    const maxDailyMg = Math.min(weightKg * 40, 2000);
+    return {
+      doseMg,
+      doseMgPerKg: doseMg / weightKg,
+      concentrationMgPerMl: 50,
+      volumeMl: doseMg / 50,
+      maxSingleDoseMg: 500,
+      maxDailyMg,
+      maxDosesPer24Hours: 4,
+      intervalHours: "6–8",
+      route: "oral",
+      strength: "250 mg/5 mL"
+    };
+  }
+
+  const api = Object.freeze({ metamizolePediatricOral, adrenalineAnaphylaxisIM, lansoprazolePediatricGerd, omeprazolePediatricGerd, prednisoneAsthmaOral, methylprednisoloneAsthmaIV, dexamethasoneCroup, metronidazole, diazepamRectal, ondansetronGastroenteritis, paracetamol, ibuprofen, cefixime, amoxicillin, cefadroxil, cetirizine, loratadine, ambroxol, zinc, salbutamolNebulized, oralit, chlorpheniramine, ceftriaxoneInjection, cefotaximeInjection, gentamicinInitial });
   root.MedoraDoseEngine = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof globalThis !== "undefined" ? globalThis : this);

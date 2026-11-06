@@ -33,7 +33,7 @@ EXPECTED_DYNAMIC_IDS = {
     "predDose", "predDuration", "predResult",
     "omepIndication", "omepDuration", "omepResult",
     "lansoIndication", "lansoDuration", "lansoResult",
-    "adrResult",
+    "adrResult", "metaResult",
 }
 
 

@@ -10,12 +10,12 @@
     emergency: {
       title: "IGD & Emergency",
       subtitle: "Checklist kesiapan dan serah terima pasien gawat darurat.",
-      html: '<div class="guideCard"><h3>Checklist respons awal</h3><p id="emergencyChecklistProgress" class="medicalHint" aria-live="polite">0 dari 7 langkah ditandai.</p><div class="workspaceActions"><button type="button" id="resetEmergencyChecklist">Reset checklist</button></div><label class="checkRow"><input type="checkbox"> Pastikan keamanan lokasi, gunakan APD sesuai risiko, dan panggil bantuan/tim resusitasi.</label><label class="checkRow"><input type="checkbox"> Lakukan penilaian ABCDE dan tangani ancaman nyawa segera.</label><label class="checkRow"><input type="checkbox"> Monitor tanda vital, SpO₂, irama jantung, kesadaran, dan respons intervensi sesuai kondisi.</label><label class="checkRow"><input type="checkbox"> Periksa glukosa darah pada penurunan kesadaran/kejang atau indikasi klinis.</label><label class="checkRow"><input type="checkbox"> Identifikasi alergi, obat rutin, komorbid, waktu onset, dan riwayat penting.</label><label class="checkRow"><input type="checkbox"> Dokumentasikan intervensi, dosis, rute, waktu pemberian, dan respons.</label><label class="checkRow"><input type="checkbox"> Tentukan kebutuhan konsultasi, rujukan, transportasi, dan pendampingan.</label></div><div class="guideCard"><h3>Serah terima SBAR</h3><p><b>S · Situation:</b> identitas ringkas, lokasi, masalah utama, dan kondisi saat ini.</p><p><b>B · Background:</b> riwayat relevan, komorbid, alergi, obat, dan kronologi.</p><p><b>A · Assessment:</b> temuan ABCDE, tanda vital, pemeriksaan, tindakan, dan respons.</p><p><b>R · Recommendation:</b> kebutuhan tindakan berikut, monitoring, konsultasi, dan tujuan rujukan.</p></div><div class="guideCard"><h3>Dokumentasi rujukan</h3><ul><li>Alasan dan urgensi rujukan.</li><li>Kondisi hemodinamik dan status jalan napas sebelum berangkat.</li><li>Terapi/tindakan beserta waktu dan respons.</li><li>Hasil pemeriksaan yang menyertai.</li><li>Komunikasi dengan fasilitas penerima dan moda transportasi.</li></ul></div><p class="notice">Menu ini tidak menggantikan algoritma resusitasi resmi, SOP IGD, atau instruksi klinis setempat. Tidak ada dosis obat darurat yang ditampilkan pada checklist ini.</p>'
+      html: '<div class="guideCard"><h3>Checklist respons awal</h3><p id="emergencyChecklistProgress" class="medicalHint" aria-live="polite">0 dari 7 langkah ditandai.</p><p class="medicalHint">Status checklist tersimpan lokal pada perangkat ini. Tidak ada data identitas pasien yang disimpan.</p><div class="workspaceActions"><button type="button" id="resetEmergencyChecklist">Reset checklist</button></div><label class="checkRow"><input type="checkbox"> Pastikan keamanan lokasi, gunakan APD sesuai risiko, dan panggil bantuan/tim resusitasi.</label><label class="checkRow"><input type="checkbox"> Lakukan penilaian ABCDE dan tangani ancaman nyawa segera.</label><label class="checkRow"><input type="checkbox"> Monitor tanda vital, SpO₂, irama jantung, kesadaran, dan respons intervensi sesuai kondisi.</label><label class="checkRow"><input type="checkbox"> Periksa glukosa darah pada penurunan kesadaran/kejang atau indikasi klinis.</label><label class="checkRow"><input type="checkbox"> Identifikasi alergi, obat rutin, komorbid, waktu onset, dan riwayat penting.</label><label class="checkRow"><input type="checkbox"> Dokumentasikan intervensi, dosis, rute, waktu pemberian, dan respons.</label><label class="checkRow"><input type="checkbox"> Tentukan kebutuhan konsultasi, rujukan, transportasi, dan pendampingan.</label></div><div class="guideCard"><h3>Serah terima SBAR</h3><p><b>S · Situation:</b> identitas ringkas, lokasi, masalah utama, dan kondisi saat ini.</p><p><b>B · Background:</b> riwayat relevan, komorbid, alergi, obat, dan kronologi.</p><p><b>A · Assessment:</b> temuan ABCDE, tanda vital, pemeriksaan, tindakan, dan respons.</p><p><b>R · Recommendation:</b> kebutuhan tindakan berikut, monitoring, konsultasi, dan tujuan rujukan.</p></div><div class="guideCard"><h3>Dokumentasi rujukan</h3><ul><li>Alasan dan urgensi rujukan.</li><li>Kondisi hemodinamik dan status jalan napas sebelum berangkat.</li><li>Terapi/tindakan beserta waktu dan respons.</li><li>Hasil pemeriksaan yang menyertai.</li><li>Komunikasi dengan fasilitas penerima dan moda transportasi.</li></ul></div><p class="notice">Menu ini tidak menggantikan algoritma resusitasi resmi, SOP IGD, atau instruksi klinis setempat. Tidak ada dosis obat darurat yang ditampilkan pada checklist ini.</p>'
     },
     ai: {
       title: "Asisten Klinis Offline",
       subtitle: "Susun catatan SOAP dari data yang dimasukkan. Data tidak dikirim ke server dan tidak disimpan oleh fitur ini.",
-      html: '<div class="guideCard"><h3>Input ringkasan kasus</h3><label for="soapAge">Usia</label><input id="soapAge" placeholder="Contoh: 4 tahun 2 bulan"><label for="soapSex">Jenis kelamin</label><select id="soapSex"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select><label for="soapComplaint">Keluhan utama</label><textarea id="soapComplaint" placeholder="Keluhan, onset, durasi..."></textarea><label for="soapHistory">Riwayat dan gejala penyerta</label><textarea id="soapHistory" placeholder="Riwayat penyakit, obat, alergi, gejala penyerta..."></textarea><label for="soapVitals">Tanda vital</label><textarea id="soapVitals" placeholder="TD, HR, RR, suhu, SpO₂, BB..."></textarea><label for="soapExam">Pemeriksaan fisik/penunjang</label><textarea id="soapExam" placeholder="Temuan objektif..."></textarea><label for="soapAssessment">Assessment/diagnosis kerja</label><textarea id="soapAssessment" placeholder="Masalah klinis dan diagnosis banding..."></textarea><label for="soapPlan">Plan</label><textarea id="soapPlan" placeholder="Pemeriksaan, terapi, monitoring, edukasi, disposisi..."></textarea><div class="workspaceActions"><button type="button" id="buildSoap" class="active">Buat catatan SOAP</button><button type="button" id="clearSoap">Kosongkan</button></div><div id="soapOutput" class="workspaceOutput">Hasil catatan akan tampil di sini.</div><div class="workspaceActions"><button type="button" id="copySoap">Salin catatan</button></div><p id="soapStatus" class="medicalHint" aria-live="polite"></p></div><p class="notice">Asisten ini hanya menyusun teks dari input pengguna. Tidak menganalisis diagnosis, tidak memverifikasi dosis, dan tidak menggantikan penilaian dokter. Hindari memasukkan nama lengkap, NIK, alamat, atau identitas langsung pasien.</p>'
+      html: '<div class="guideCard"><h3>Input ringkasan kasus</h3><p id="soapCompleteness" class="medicalHint" aria-live="polite">0 dari 7 bagian klinis terisi.</p><label for="soapAge">Usia</label><input id="soapAge" placeholder="Contoh: 4 tahun 2 bulan"><label for="soapSex">Jenis kelamin</label><select id="soapSex"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select><label for="soapComplaint">Keluhan utama</label><textarea id="soapComplaint" placeholder="Keluhan, onset, durasi..."></textarea><label for="soapHistory">Riwayat dan gejala penyerta</label><textarea id="soapHistory" placeholder="Riwayat penyakit, obat, alergi, gejala penyerta..."></textarea><label for="soapVitals">Tanda vital</label><textarea id="soapVitals" placeholder="TD, HR, RR, suhu, SpO₂, BB..."></textarea><label for="soapExam">Pemeriksaan fisik/penunjang</label><textarea id="soapExam" placeholder="Temuan objektif..."></textarea><label for="soapAssessment">Assessment/diagnosis kerja</label><textarea id="soapAssessment" placeholder="Masalah klinis dan diagnosis banding..."></textarea><label for="soapPlan">Plan</label><textarea id="soapPlan" placeholder="Pemeriksaan, terapi, monitoring, edukasi, disposisi..."></textarea><div class="workspaceActions"><button type="button" id="buildSoap" class="active">Buat catatan SOAP</button><button type="button" id="clearSoap">Kosongkan</button></div><div id="soapOutput" class="workspaceOutput">Hasil catatan akan tampil di sini.</div><p id="soapOutputCount" class="medicalHint">0 karakter.</p><div class="workspaceActions"><button type="button" id="copySoap">Salin catatan</button></div><p id="soapStatus" class="medicalHint" aria-live="polite"></p></div><p class="notice">Asisten ini hanya menyusun teks dari input pengguna. Tidak menganalisis diagnosis, tidak memverifikasi dosis, dan tidak menggantikan penilaian dokter. Hindari memasukkan nama lengkap, NIK, alamat, atau identitas langsung pasien.</p>'
     },
     references: {
       title: "Referensi Medis",
@@ -51,14 +51,44 @@
     setNavActive(key === "settings" ? "navSettings" : "navHome");
     window.scrollTo(0, 0);
     if (key === "settings") updateLocalDataSummary();
-    if (key === "emergency") updateEmergencyChecklistProgress();
+    if (key === "emergency") { restoreEmergencyChecklist(); updateEmergencyChecklistProgress(); }
+    if (key === "ai") updateSoapCompleteness();
   }
 
   function updateEmergencyChecklistProgress() {
     const inputs = document.querySelectorAll("#moduleWorkspaceContent .checkRow input[type=checkbox]");
     const done = Array.from(inputs).filter(input => input.checked).length;
     const progress = document.getElementById("emergencyChecklistProgress");
-    if (progress) progress.textContent = done + " dari " + inputs.length + " langkah ditandai.";
+    if (progress) progress.textContent = done + " dari " + inputs.length + " langkah ditandai (" + Math.round(done / Math.max(inputs.length, 1) * 100) + "%).";
+  }
+
+  const emergencyChecklistKey = "medora_emergency_checklist_v1";
+  function restoreEmergencyChecklist() {
+    let saved = [];
+    try {
+      const value = JSON.parse(localStorage.getItem(emergencyChecklistKey) || "[]");
+      if (Array.isArray(value)) saved = value.slice(0, 7);
+    } catch (error) { saved = []; }
+    document.querySelectorAll("#moduleWorkspaceContent .checkRow input[type=checkbox]").forEach((input, index) => {
+      input.checked = saved[index] === true;
+    });
+  }
+  function saveEmergencyChecklist() {
+    const values = Array.from(document.querySelectorAll("#moduleWorkspaceContent .checkRow input[type=checkbox]")).map(input => input.checked);
+    try { localStorage.setItem(emergencyChecklistKey, JSON.stringify(values)); }
+    catch (error) {
+      const progress = document.getElementById("emergencyChecklistProgress");
+      if (progress) progress.textContent = "Penyimpanan lokal gagal. Checklist hanya aktif selama halaman terbuka.";
+    }
+  }
+  function updateSoapCompleteness() {
+    const ids = ["soapComplaint", "soapHistory", "soapVitals", "soapExam", "soapAssessment", "soapPlan", "soapAge"];
+    const filled = ids.filter(id => { const el = document.getElementById(id); return el && el.value.trim(); }).length;
+    const status = document.getElementById("soapCompleteness");
+    if (status) status.textContent = filled + " dari " + ids.length + " bagian terisi. Lengkapi sesuai kebutuhan klinis.";
+    const output = document.getElementById("soapOutput");
+    const count = document.getElementById("soapOutputCount");
+    if (output && count) count.textContent = output.textContent.length + " karakter.";
   }
 
   function buildSoapNote() {
@@ -73,6 +103,7 @@
     });
     $("soapOutput").textContent = out.trim();
     $("soapStatus").textContent = "Catatan dibuat. Periksa kembali kelengkapan dan akurasi sebelum dimasukkan ke rekam medis.";
+    updateSoapCompleteness();
   }
 
   document.getElementById("moduleBack").addEventListener("click", showClinicalHome);
@@ -93,6 +124,7 @@
     const $ = value => document.getElementById(value);
     if (id === "resetEmergencyChecklist") {
       document.querySelectorAll("#moduleWorkspaceContent .checkRow input[type=checkbox]").forEach(input => { input.checked = false; });
+      saveEmergencyChecklist();
       updateEmergencyChecklistProgress();
       return;
     }
@@ -101,6 +133,7 @@
       ["soapAge", "soapSex", "soapComplaint", "soapHistory", "soapVitals", "soapExam", "soapAssessment", "soapPlan"].forEach(key => { const el = $(key); if (el) el.value = ""; });
       $("soapOutput").textContent = "Hasil catatan akan tampil di sini.";
       $("soapStatus").textContent = "Form dikosongkan.";
+      updateSoapCompleteness();
       return;
     }
     if (id === "copySoap") {
@@ -171,7 +204,13 @@
   });
 
   document.getElementById("moduleWorkspaceContent").addEventListener("change", event => {
-    if (event.target && event.target.matches && event.target.matches(".checkRow input[type=checkbox]")) updateEmergencyChecklistProgress();
+    if (event.target && event.target.matches && event.target.matches(".checkRow input[type=checkbox]")) {
+      saveEmergencyChecklist();
+      updateEmergencyChecklistProgress();
+    }
+  });
+  document.getElementById("moduleWorkspaceContent").addEventListener("input", event => {
+    if (event.target && /^soap/.test(event.target.id)) updateSoapCompleteness();
   });
 
   $("navSettings").addEventListener("click", event => {
